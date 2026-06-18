@@ -1,0 +1,25 @@
+# ──────────────────────────────────────────────────────────────────
+# PRIVATE-BY-DEFAULT
+# Nothing in this repo is tracked unless explicitly allow-listed below.
+# To promote a file/folder to shareable: place it under shared/, or add
+# a `!` un-ignore rule here. Be deliberate — anything tracked becomes
+# visible to the design team when this repo is shared.
+# ──────────────────────────────────────────────────────────────────
+
+# 1. Ignore everything by default.
+*
+
+# 2. Keep these meta files visible.
+!.gitignore
+!README.md
+
+# 3. Shareable zone — anything placed here is tracked.
+!shared/
+!shared/**
+
+# 4. OS / editor noise — stays ignored even inside shared/.
+.DS_Store
+**/.DS_Store
+*.swp
+.idea/
+.vscode/
