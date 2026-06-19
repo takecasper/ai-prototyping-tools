@@ -81,6 +81,21 @@ export function FirstScreen() {
 - Plain wrapper elements (`<div className="flow-row">`, `<p className="proto__text">`)
   are allowed for layout and spacing only, never for colour or design tokens.
 
+## Enforcement (the hard gate)
+
+These rules are not just documented, they are linted. Run `npm run lint` (or
+`npm run check` for lint plus build). It fails on any prototype that reaches past
+the canonical pieces: raw `<button>`/`<img>`/`<a>`/`<h1>`..., inline `style={...}`,
+hex colour literals, or a `className` outside the `proto`/`flow` layout
+namespaces. A failing lint is the gate, so a violating prototype does not pass.
+
+The rules live in `eslint-plugin-canonical/`. Their allowlists (which raw
+wrappers and class prefixes are legal) are SPIKE-SCOPED and provisional: they
+encode the throwaway low-fi primitives, not the real per-system components, which
+do not exist yet. When real design-system components land, those allowlists must
+be revisited. See the `REVISIT WHEN REAL COMPONENTS LAND` banner in
+`eslint-plugin-canonical/index.js`.
+
 ## Navigation and shared state
 
 - `goTo(screenId)` pushes a screen, `back()` pops, `reset()` returns to the start
