@@ -17,9 +17,19 @@
 !shared/
 !shared/**
 
+# 3b. Promoted to shareable: the prototyping spike (source only;
+#     installed deps and build output stay ignored).
+!spike/
+!spike/**
+spike/node_modules/
+spike/dist/
+
 # 4. OS / editor noise — stays ignored even inside shared/.
 .DS_Store
 **/.DS_Store
 *.swp
 .idea/
 .vscode/
+
+# AI codex index files (regenerated on session start and pre-commit)
+ai-codex/

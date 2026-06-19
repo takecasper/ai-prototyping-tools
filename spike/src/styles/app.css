@@ -1,0 +1,579 @@
+/* app.css — generic token-driven component skins + spike chrome (bar, overlay,
+ * notes, bridge markers). Components read tokens.css vars only, so they follow
+ * the active system. */
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: var(--ds-font);
+  color: var(--ds-fg);
+  background: var(--ds-bg);
+}
+
+/* ---- canonical skins (token-driven) ---- */
+.sk-btn {
+  font: inherit;
+  cursor: pointer;
+  padding: 0.55rem 1rem;
+  color: var(--ds-accent-fg);
+  background: var(--ds-accent);
+  border: var(--ds-border-width) var(--ds-border-style) var(--ds-border-color);
+  border-radius: var(--ds-radius);
+  box-shadow: var(--ds-shadow);
+}
+.sk-card {
+  background: var(--ds-surface);
+  border: var(--ds-border-width) var(--ds-border-style) var(--ds-border-color);
+  border-radius: var(--ds-radius);
+  box-shadow: var(--ds-shadow);
+  padding: 1.25rem;
+  max-width: 30rem;
+  transform: rotate(var(--ds-card-rotate));
+}
+.sk-card__title {
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+}
+.sk-badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.8rem;
+  color: var(--ds-badge-fg);
+  background: var(--ds-badge-bg);
+  border-radius: 999px;
+  border: var(--ds-border-width) var(--ds-border-style) var(--ds-border-color);
+}
+.sk-img {
+  display: block;
+  max-width: 100%;
+  border-radius: var(--ds-radius);
+  margin-bottom: 0.75rem;
+}
+.sk-img--lowfi {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  font-size: 0.85rem;
+  border: 2px dashed var(--ds-border-color);
+  background-image:
+    linear-gradient(
+      to top right,
+      transparent calc(50% - 1px),
+      var(--ds-border-color) 50%,
+      transparent calc(50% + 1px)
+    ),
+    linear-gradient(
+      to top left,
+      transparent calc(50% - 1px),
+      var(--ds-border-color) 50%,
+      transparent calc(50% + 1px)
+    );
+}
+.sk-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 5px;
+  font-size: 0.72rem;
+  flex: 0 0 auto;
+}
+.sk-icon--modern {
+  background: var(--ds-accent);
+  color: var(--ds-accent-fg);
+  font-weight: 600;
+}
+.sk-icon--lowfi {
+  border: 1.5px dashed var(--ds-border-color);
+  background: #f0f0f0;
+}
+
+/* ---- app chrome ---- */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.app__bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 1rem;
+  background: #14161a;
+  color: #fff;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+.app__title {
+  font-size: 0.95rem;
+}
+.app__sys {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+.app__btn {
+  margin-left: auto;
+  font: inherit;
+  font-size: 0.8rem;
+  color: #fff;
+  background: #2a2d34;
+  border: 1px solid #3a3d44;
+  border-radius: 6px;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+}
+.app__main {
+  flex: 1;
+  padding: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* ---- prototype ---- */
+.proto__text {
+  margin-top: 0;
+  line-height: 1.5;
+}
+.proto__row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.proto__actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+/* ---- flow screens ---- */
+.flow-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+.flow-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border: var(--ds-border-width) var(--ds-border-style) var(--ds-border-color);
+  border-radius: var(--ds-radius);
+}
+.flow-row__id {
+  flex: 1;
+}
+.flow-row__name {
+  font-weight: 600;
+}
+.flow-row__meta {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* ---- flow nav in the / panel ---- */
+.ov__flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.6rem;
+}
+.ov__step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font: inherit;
+  font-size: 0.8rem;
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  background: #fff;
+  cursor: pointer;
+}
+.ov__step.is-active {
+  border-color: #111827;
+  background: #111827;
+  color: #fff;
+}
+.ov__step-n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: #374151;
+  font-size: 0.7rem;
+}
+.ov__step.is-active .ov__step-n {
+  background: #374151;
+  color: #fff;
+}
+.ov__restart {
+  font-size: 0.76rem;
+}
+
+/* ---- bridge markers (resolver.tsx) ---- */
+.res {
+  position: relative;
+  display: inline-block;
+}
+.res__tag {
+  position: absolute;
+  top: -0.7rem;
+  right: -0.3rem;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.6rem;
+  line-height: 1;
+  padding: 0.15rem 0.3rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.res--map .res__tag {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+.res--ai {
+  outline: 2px dashed #d6409f;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.res--ai .res__tag {
+  background: #d6409f;
+  color: #fff;
+}
+.res--unmapped {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.85rem;
+  color: #9a3412;
+  background: #fff7ed;
+  border: 1px dashed #fb923c;
+  border-radius: 6px;
+  padding: 0.3rem 0.55rem;
+}
+
+/* ---- design notes (now inside the System Divergence section) ---- */
+.notes {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+.notes__sub {
+  font-size: 0.78rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+.notes__prompt {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0;
+}
+.ov__select--compare {
+  margin-bottom: 0.85rem;
+}
+.notes__counts {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+.c {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+.c--native {
+  background: #ecfdf5;
+  color: #065f46;
+}
+.c--map {
+  background: #eef2ff;
+  color: #3730a3;
+}
+.c--ai {
+  background: #fdf2f8;
+  color: #9d174d;
+}
+.c--unmapped {
+  background: #fff7ed;
+  color: #9a3412;
+}
+.notes__list {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+.nrow {
+  font-size: 0.78rem;
+  color: #4b5563;
+}
+.nrow--ok {
+  list-style: none;
+  margin-left: -1.1rem;
+  color: #065f46;
+}
+
+/* ---- library panel (left) ---- */
+.lib {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 23rem;
+  max-width: 92vw;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  box-shadow: 8px 0 24px rgba(0, 0, 0, 0.08);
+  padding: 1rem 1.1rem;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+.lib__head {
+  flex: 0 0 auto;
+  margin-bottom: 1rem;
+}
+/* The table is capped at half the panel and scrolls, so the flow steps below
+ * stay visible even with a long list of prototypes. */
+.lib__table-wrap {
+  flex: 0 1 auto;
+  max-height: 50%;
+  overflow-y: auto;
+}
+.lib__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+.lib__table th {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  padding: 0.35rem 0.4rem;
+  border-bottom: 1px solid #e5e7eb;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+.lib__table th:hover {
+  color: #111827;
+}
+.lib__table td {
+  padding: 0.45rem 0.4rem;
+  border-bottom: 1px solid #f1f2f4;
+  color: #4b5563;
+}
+.lib__table tbody tr {
+  cursor: pointer;
+}
+.lib__table tbody tr:hover {
+  background: #f8fafc;
+}
+.lib__table tbody tr.is-active {
+  background: #eef2ff;
+}
+.lib__table tbody tr.is-active td:first-child {
+  font-weight: 600;
+  color: #111827;
+}
+.lib__steps {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  margin-top: 1.5rem;
+}
+.lib__steps-h {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #111827;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid #ececf1;
+  margin-bottom: 0.6rem;
+}
+
+/* ---- control overlay ---- */
+.ov {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 24rem;
+  max-width: 92vw;
+  background: #fff;
+  border-left: 1px solid #e5e7eb;
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.08);
+  padding: 1rem 1.1rem;
+  overflow-y: auto;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+.ov__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.ov__x {
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  padding: 0.2rem 0.45rem;
+}
+.ov__sec {
+  margin-bottom: 1.5rem;
+}
+.ov__h {
+  margin: 0 0 0.6rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid #ececf1;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #111827;
+}
+.ov__select {
+  width: 100%;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  background: #fff;
+  cursor: pointer;
+}
+.ov__label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+.ov__systems {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.ov__sys {
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+}
+.ov__sys.is-active {
+  background: #111827;
+  color: #fff;
+  border-color: #111827;
+}
+.ov__blurb {
+  font-size: 0.74rem;
+  color: #6b7280;
+  margin: 0.5rem 0 0;
+}
+.ov__toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+  color: #374151;
+  cursor: pointer;
+}
+.ov__toggle {
+  margin-bottom: 0.85rem;
+}
+.ov__toggle input {
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+.ov__ok {
+  font-size: 0.8rem;
+  color: #065f46;
+}
+.ov__row {
+  border: 1px solid #eceef1;
+  border-radius: 8px;
+  padding: 0.55rem 0.65rem;
+  margin-bottom: 0.5rem;
+}
+.ov__name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.ov__pill {
+  font-size: 0.66rem;
+  font-weight: 500;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+}
+.ov__pill.is-map {
+  background: #eef2ff;
+  color: #3730a3;
+}
+.ov__pill.is-ai {
+  background: #d6409f;
+  color: #fff;
+}
+.ov__pill.is-unmapped {
+  background: #fff7ed;
+  color: #9a3412;
+}
+.ov__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+.ov__map {
+  font-size: 0.76rem;
+  color: #4b5563;
+}
+.ov__map select,
+.ov__ai,
+.ov__clear {
+  font: inherit;
+  font-size: 0.76rem;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  padding: 0.25rem 0.45rem;
+}
+.ov__ai {
+  background: #fdf2f8;
+  border-color: #f5c2e0;
+  color: #9d174d;
+}
+.ov__foot {
+  font-size: 0.72rem;
+  color: #6b7280;
+  line-height: 1.5;
+  border-top: 1px solid #eee;
+  padding-top: 0.75rem;
+}
+
+kbd {
+  font-family: ui-monospace, monospace;
+  font-size: 0.85em;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  padding: 0 0.3em;
+}

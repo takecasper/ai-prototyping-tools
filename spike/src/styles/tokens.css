@@ -1,0 +1,63 @@
+/* tokens.css — per-system design tokens, switched by the root data-ds attribute.
+ *
+ * This is the core mechanism: ONE prototype, N systems. The active system is set
+ * on <html data-ds="…"> (see store.tsx). Every component reads these vars, so a
+ * toggle re-skins everything with zero prototype edits.
+ *
+ * In the real tool these are generated from each system's token source (and,
+ * for One45-legacy, reverse-engineered from the staging site). Here they're
+ * hand-authored to give a vivid low-fi vs modern contrast. */
+
+:root {
+  --ds-font: system-ui, sans-serif;
+  --ds-bg: #ffffff;
+  --ds-fg: #1a1a1a;
+  --ds-surface: #f7f7f8;
+  --ds-border-color: #d0d0d5;
+  --ds-border-width: 1px;
+  --ds-border-style: solid;
+  --ds-radius: 8px;
+  --ds-accent: #2563eb;
+  --ds-accent-fg: #ffffff;
+  --ds-badge-bg: #e0e7ff;
+  --ds-badge-fg: #3730a3;
+  --ds-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  --ds-card-rotate: 0deg;
+}
+
+/* Modern — clean hi-fi (stands in for One45-legacy until reverse-engineered). */
+:root[data-ds="modern"] {
+  --ds-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --ds-bg: #ffffff;
+  --ds-fg: #0f172a;
+  --ds-surface: #f8fafc;
+  --ds-border-color: #e2e8f0;
+  --ds-border-width: 1px;
+  --ds-border-style: solid;
+  --ds-radius: 10px;
+  --ds-accent: #0ea5a4;
+  --ds-accent-fg: #ffffff;
+  --ds-badge-bg: #ccfbf1;
+  --ds-badge-fg: #0f766e;
+  --ds-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+  --ds-card-rotate: 0deg;
+}
+
+/* Low-fi — Balsamiq-style sketch. Greyscale, dashed, marker font, no shadow,
+ * slight tilt. Unmistakably "not production." */
+:root[data-ds="lowfi"] {
+  --ds-font: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Bradley Hand", cursive;
+  --ds-bg: #ffffff;
+  --ds-fg: #3a3a3a;
+  --ds-surface: #fbfbfb;
+  --ds-border-color: #8a8a8a;
+  --ds-border-width: 2px;
+  --ds-border-style: dashed;
+  --ds-radius: 2px;
+  --ds-accent: #ececec;
+  --ds-accent-fg: #333333;
+  --ds-badge-bg: #ededed;
+  --ds-badge-fg: #333333;
+  --ds-shadow: none;
+  --ds-card-rotate: -0.4deg;
+}
