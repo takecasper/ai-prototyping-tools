@@ -8,6 +8,7 @@
 body {
   margin: 0;
   font-family: var(--ds-font);
+  letter-spacing: var(--ds-letter-spacing, normal);
   color: var(--ds-fg);
   background: var(--ds-bg);
 }
@@ -46,6 +47,27 @@ body {
   border-radius: 999px;
   border: var(--ds-border-width) var(--ds-border-style) var(--ds-border-color);
 }
+/* Alert — acuity-only canonical piece (token-driven). Accent left-border banner
+ * over the system surface; the bridge fills it for one45-legacy. */
+.sk-alert {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.7rem 0.9rem;
+  margin: 0.75rem 0;
+  background: var(--ds-surface);
+  border: var(--ds-border-width) var(--ds-border-style) var(--ds-border-color);
+  border-left: 4px solid var(--ds-accent);
+  border-radius: var(--ds-radius);
+  color: var(--ds-fg);
+}
+.sk-alert__title {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.sk-alert__body {
+  font-size: 0.85rem;
+}
 .sk-img {
   display: block;
   max-width: 100%;
@@ -83,7 +105,7 @@ body {
   font-size: 0.72rem;
   flex: 0 0 auto;
 }
-.sk-icon--modern {
+.sk-icon--brand {
   background: var(--ds-accent);
   color: var(--ds-accent-fg);
   font-weight: 600;
@@ -91,6 +113,290 @@ body {
 .sk-icon--lowfi {
   border: 1.5px dashed var(--ds-border-color);
   background: #f0f0f0;
+}
+
+/* ---- canonical form controls (Inputs & controls slice, token-driven) ----
+ * One canonical API per piece, re-skinned by the control tokens in tokens.css.
+ * This is the architecture's claim made concrete: text inputs / select / textarea
+ * / checkbox / radio / toggle survive a single component + token swap across all
+ * three systems (the anatomy divergence stays with Alert). */
+.sk-btn--secondary {
+  color: var(--ds-fg);
+  background: var(--ds-bg);
+  border-color: var(--ds-input-border);
+}
+.sk-btn--danger {
+  color: #ffffff;
+  background: var(--ds-state-error);
+  border-color: var(--ds-state-error);
+}
+.sk-btn--inline {
+  color: var(--ds-accent);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  padding: 0.55rem 0.4rem;
+  text-decoration: underline;
+}
+
+.sk-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.9rem;
+  max-width: 24rem;
+}
+.sk-field__label {
+  font-size: 0.9rem;
+  font-weight: var(--ds-label-weight);
+  color: var(--ds-label-fg);
+}
+.sk-field__opt {
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--ds-input-border);
+  margin-left: 0.3rem;
+}
+.sk-control {
+  font: inherit;
+  font-size: var(--ds-input-font-size);
+  color: var(--ds-input-fg);
+  background: var(--ds-input-bg);
+  border: var(--ds-border-width) var(--ds-border-style) var(--ds-input-border);
+  border-radius: var(--ds-input-radius);
+  padding: var(--ds-input-pad-y) var(--ds-input-pad-x);
+  width: 100%;
+}
+.sk-control:focus-visible {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 1px;
+  border-color: var(--ds-focus-ring);
+}
+.sk-textarea {
+  min-height: 4rem;
+  resize: vertical;
+}
+.sk-field--error .sk-control {
+  border-color: var(--ds-state-error);
+}
+.sk-field--success .sk-control {
+  border-color: var(--ds-state-success);
+}
+.sk-field__msg {
+  font-size: 0.8rem;
+  color: var(--ds-state-error-fg);
+}
+.sk-field--success .sk-field__msg {
+  color: var(--ds-state-success);
+}
+.sk-field__help {
+  font-size: 0.78rem;
+  color: var(--ds-label-fg);
+}
+/* checkbox / radio rows — accent-color tints the native control with the brand */
+.sk-choice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--ds-fg);
+  cursor: pointer;
+  margin-bottom: 0.35rem;
+}
+.sk-choice__box {
+  width: var(--ds-control-size);
+  height: var(--ds-control-size);
+  accent-color: var(--ds-accent);
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+/* toggle / switch — token-driven track + knob */
+.sk-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--ds-fg);
+  cursor: pointer;
+  margin-bottom: 0.35rem;
+}
+.sk-switch__track {
+  position: relative;
+  width: 2.4rem;
+  height: 1.3rem;
+  border-radius: 999px;
+  background: var(--ds-input-border);
+  border: var(--ds-border-width) var(--ds-border-style) var(--ds-input-border);
+  transition: background 0.12s;
+  flex: 0 0 auto;
+}
+.sk-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.sk-switch__knob {
+  position: absolute;
+  top: 50%;
+  left: 0.15rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+  background: var(--ds-bg);
+  transform: translateY(-50%);
+  transition: left 0.12s;
+}
+.sk-switch input:checked + .sk-switch__track {
+  background: var(--ds-accent);
+  border-color: var(--ds-accent);
+}
+.sk-switch input:checked + .sk-switch__track .sk-switch__knob {
+  left: calc(100% - 1.15rem);
+}
+.sk-switch input:focus-visible + .sk-switch__track {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 2px;
+}
+/* search field — leading icon + pill input */
+.sk-search {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--ds-input-bg);
+  border: var(--ds-border-width) var(--ds-border-style) var(--ds-input-border);
+  border-radius: 999px;
+  padding: 0 0.7rem;
+  max-width: 24rem;
+}
+.sk-search:focus-within {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 1px;
+}
+.sk-search input {
+  font: inherit;
+  font-size: var(--ds-input-font-size);
+  color: var(--ds-input-fg);
+  background: transparent;
+  border: 0;
+  outline: none;
+  padding: var(--ds-input-pad-y) 0;
+  width: 100%;
+}
+
+/* ---- canonical navigation (Navigation slice, token-driven) ----
+ * Tabs / Link / Pagination share one skin per piece, re-skinned by the nav tokens
+ * in tokens.css. Tabs reproduce the real DS strip: a bottom rule, an active-tab
+ * underline indicator (acuity-green on Acuity, purple on legacy), label text in the
+ * active/inactive tab colour. */
+.sk-tabs {
+  max-width: 40rem;
+}
+.sk-tabs__strip {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: var(--ds-border-width) var(--ds-border-style) var(--ds-tab-strip-border);
+}
+.sk-tab {
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.8rem;
+  color: var(--ds-tab-fg);
+  background: transparent;
+  border: 0;
+  /* the active underline sits on the strip's bottom rule; transparent by default */
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.sk-tab:hover {
+  color: var(--ds-tab-active-fg);
+}
+.sk-tab.is-active {
+  color: var(--ds-tab-active-fg);
+  border-bottom-color: var(--ds-tab-active-indicator);
+  font-weight: 600;
+}
+.sk-tab__badge {
+  font-size: 0.7rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  color: var(--ds-badge-fg);
+  background: var(--ds-badge-bg);
+}
+.sk-tabs__panel {
+  padding: 0.9rem 0.2rem;
+}
+.sk-link {
+  color: var(--ds-link-fg);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.sk-link:hover {
+  color: var(--ds-link-hover);
+  text-decoration: none;
+}
+.sk-link--inline {
+  text-decoration: none;
+  font-weight: 600;
+}
+.sk-link--inline:hover {
+  text-decoration: underline;
+}
+/* breadcrumb — flat "/"-separated trail (the legacy chevron geometry is simplified) */
+.sk-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.1rem;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+.sk-crumbs__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1rem;
+}
+.sk-crumbs__link {
+  color: var(--ds-crumb-fg);
+  text-decoration: none;
+}
+.sk-crumbs__link:hover {
+  text-decoration: underline;
+}
+.sk-crumbs__current {
+  color: var(--ds-crumb-current);
+  font-weight: 600;
+}
+.sk-crumbs__sep {
+  color: var(--ds-crumb-sep);
+  padding: 0 0.4rem;
+}
+.sk-tab:focus-visible {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 1px;
+}
+
+/* Per-system tab MODEL. The default (above) is Acuity's underline-indicator tab. Legacy
+ * one45 tabs are Bootstrap nav-tabs — BOX folder tabs — a genuinely different visual
+ * structure that does NOT token-swap, so it is rendered faithfully here rather than
+ * flattened into the underline model. [D] themes/one45.scss:759-775, styles_overwrite.scss:32-40. */
+:root[data-ds="one45-legacy"] .sk-tab {
+  border: var(--ds-border-width) var(--ds-border-style) transparent;
+  border-radius: var(--ds-radius) var(--ds-radius) 0 0;
+}
+:root[data-ds="one45-legacy"] .sk-tab:hover:not(.is-active) {
+  border-color: #eeeeee #eeeeee var(--ds-tab-strip-border);
+}
+:root[data-ds="one45-legacy"] .sk-tab.is-active {
+  background: var(--ds-bg);
+  /* active folder tab: grey top+sides, bottom edge merges with the strip rule */
+  border-color: var(--ds-tab-strip-border) var(--ds-tab-strip-border) var(--ds-bg);
+  border-bottom-width: var(--ds-border-width);
+  /* legacy distinguishes the active tab by box + colour, not weight */
+  font-weight: 400;
 }
 
 /* ---- app chrome ---- */

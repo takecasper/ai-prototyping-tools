@@ -1,0 +1,79 @@
+{
+  "$meta": {
+    "system": "one45-legacy",
+    "label": "one45 legacy",
+    "layer": "documented intent [D]",
+    "source": "symfony/src/One45/PageBundle/Resources/public/css/src/includes/_colors.scss:1-35 (palette) + new_branding.scss:1-... (Cabin font, body type).",
+    "note": "The older 'one45' brand, LIVE on auth / password / self-send / React-shell pages (design_system_style = 'one45' | 'none'). No structured shade scale like Acuity; flat named brand colours plus an 8-step grey ramp. No radius / shadow / spacing / type-scale tokens are defined — type comes from new_branding.scss rules, not tokens.",
+    "font": "Cabin (Google Fonts @import, new_branding.scss:1), letter-spacing 0.4px, h1 text-transform capitalize"
+  },
+  "fontFamily": {
+    "sans": ["Cabin", "Verdana", "Arial", "Helvetica", "sans-serif"]
+  },
+  "type": { "base": "16px", "bodyLetterSpacing": "0.4px", "note": "no named type scale; sizes are per-rule in new_branding.scss" },
+  "radius": null,
+  "shadow": null,
+  "spacing": null,
+  "colors": {
+    "brand": {
+      "one45_black": "#27304B",
+      "one45_grey": "#F2F3F8",
+      "menu_header": "#EEE5E9",
+      "link_color": "#0a6cbd",
+      "link_hover_color": "#064e89"
+    },
+    "primary_red":    { "dark": "#C0254E", "DEFAULT": "#F12F62", "light": "#F9ABC0", "pale": "#FDF3F6" },
+    "primary_yellow": { "dark": "#C0681C", "DEFAULT": "#F8B223", "light": "#FCE0A7", "pale": "#FFF9ED" },
+    "primary_teal":   { "dark": "#2FAEA1", "DEFAULT": "#3BDACA", "light": "#B0F0E9", "pale": "#E9FDFF" },
+    "primary_purple": { "dark": "#344064", "DEFAULT": "#42507D", "light": "#B3B9CB", "pale": "#F2F3F8" },
+    "grey": {
+      "black": "#000000",
+      "dark_3": "#535356", "dark_2": "#7D7D82", "dark_1": "#A6A6AD",
+      "DEFAULT": "#D1D1D9", "light_1": "#DADAE0", "light_2": "#E3E3E8", "light_3": "#ECECEF"
+    }
+  },
+  "formControls": {
+    "$meta": "[D] from the legacy CSS skin (PageBundle/.../css/src/). Legacy has NO React form-control library — Bootstrap/Twig markup re-skinned by SCSS. Two-speed: text inputs kept the old grey one45 look; buttons converged to the Acuity DS.",
+    "input": {
+      "$source": "_forms.scss:114-127, _constants.scss:24-28",
+      "bg": "#FEFEFE", "fg": "#333333", "border": "#DDD",
+      "radius": null, "padding": null, "focus": null,
+      "note": "NO radius/padding/:focus declared (Bootstrap default falls through). border #DDD fails 3:1 UI (1.36). select height 32px (_bootstrap.scss:14-18)."
+    },
+    "label": { "$source": "_forms.scss:26-46,193-199", "checkbox-radio": "#555555", "selected": "#364699", "required": "bold", "error": "#B94A48" },
+    "checkboxRadio": { "value": null, "note": "no element styling — browser default; only label colour set" },
+    "button": {
+      "$source": "new_branding.scss:206-318, _actions.scss:233-330 — re-skinned to the Acuity DS",
+      "default": { "bg": "#FFFFFF", "fg": "#000000", "border": "#8C8C8C" },
+      "primary": { "bg": "#364699", "hover": "#253170", "active": "#161E4A", "note": "acuity-blue — converged" },
+      "success": { "bg": "#00A59B" },
+      "danger":  { "bg": "#E40A0A" },
+      "radius": "3px", "padding": "12px 16px", "weight": "600"
+    },
+    "datepicker": { "$source": "_forms.scss:47-110", "accent": "#42507D", "note": "$primary_purple — where legacy purple still renders" }
+  },
+  "navigation": {
+    "$meta": "[D] from the legacy CSS skin. Tabs are Bootstrap nav-tabs — BOX folder tabs, a real structural divergence from Acuity's underline tabs (rendered per-system, not token-swapped). The legacy app has a bespoke chevron .breadcrumb-widget the Acuity DS never built (legacy-only piece → bridge fills acuity). NO pagination skin and NO stepper/wizard CSS exist (steps render via webeval tags only) — recorded gaps; pagination is NOT enshrined in either system.",
+    "tabs": {
+      "$source": "styles_overwrite.scss:32-40 (React-page override), themes/one45.scss:759-775",
+      "model": "bootstrap-box",
+      "labelFg": "#42507D", "labelFgToken": "$primary_purple",
+      "activeFg": "#27304B", "activeFgToken": "$one45_black",
+      "activeBoxBorder": "#AAAAAA", "stripBorder": "#AAAAAA",
+      "note": "active tab is a box (border #AAAAAA top+sides, bottom merges with strip), NOT an underline; older Bootstrap tabs used active link #0088CC, current React-page override is purple/black. strip/box rule #AAAAAA fails 3:1 UI (2.32) — flagged."
+    },
+    "link": {
+      "$source": "_colors.scss:34-35, styles_overwrite.scss:57-63",
+      "fg": "#0a6cbd", "fgToken": "$link_color", "hover": "#064e89", "hoverToken": "$link_hover_color",
+      "note": "legacy body link is #888; .ltsk (learning-task) link is $primary_purple #42507D bold (new_branding.scss:27-37)"
+    },
+    "breadcrumb": {
+      "$source": "themes/one45.scss:317-421",
+      "linkFg": "#364699", "currentFg": "#27304B", "separator": "#888888",
+      "note": "real legacy widget is a CSS-triangle chevron trail on the dark page-header (segment colours #B0B1D7 / #666 / #cccccc); the spike flattens it to a '/'-separated trail — geometry simplification flagged."
+    },
+    "pagination": null,
+    "stepper": null,
+    "$gaps": "pagination + stepper/wizard exist in NEITHER system as a styled component — not enshrined; to be sourced from a real list/wizard page later before any enshrining."
+  }
+}

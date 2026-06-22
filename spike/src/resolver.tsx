@@ -12,7 +12,7 @@
 // store's `annotations` toggle — on for working, off for a clean demo view.
 
 import { useEffect } from "react";
-import { SYSTEMS, interimTarget, type CanonicalName } from "./systems";
+import { SYSTEMS, interimTarget, INTERIM_BUILDS, type CanonicalName } from "./systems";
 import { useStore } from "./store";
 
 export function Canonical({
@@ -44,7 +44,23 @@ export function Canonical({
     );
   }
 
-  // 3. AI interim — Claude Code fills the gap, auto-flagged.
+  // 3a. AI interim — preferred: build THIS piece in the active system's language.
+  //     A token-driven generic build (INTERIM_BUILDS) re-skins to the active system,
+  //     flagged AI. This is how Alert fills legacy and Breadcrumb fills acuity, instead
+  //     of substituting an unrelated component.
+  const Build = INTERIM_BUILDS[name];
+  if (Build) {
+    if (!annotations) return <Build {...props} />;
+    return (
+      <span className="res res--ai">
+        <Build {...props} />
+        <span className="res__tag">AI approx</span>
+      </span>
+    );
+  }
+
+  // 3b. AI interim — crude fallback for pieces without a generic build: substitute
+  //     the first native piece, auto-flagged.
   const interim = interimTarget(systemId);
   if (interim && system.skins[interim]) {
     const Target = system.skins[interim]!;

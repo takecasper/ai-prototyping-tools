@@ -1,21 +1,53 @@
 // systems.tsx — the "puzzle pieces."
 //
 // Canonical components are the named pieces a prototype is authored against
-// (Button, Card, Badge). Each design system provides a SKIN for the canonical
-// pieces it supports. A system may NOT implement every canonical piece — that
-// gap is the whole point of the bridge / graceful-degradation work.
+// (Button, Card, Badge, ...). Each design system provides a SKIN for the
+// canonical pieces it supports. A system may NOT implement every canonical
+// piece — that gap is the whole point of the bridge / graceful-degradation work.
 //
-// SPIKE SIMPLIFICATION: the skins here are shared, generic, token-driven
-// components (their look comes entirely from the active system's CSS vars, see
-// tokens.css). Real systems would ship genuinely distinct implementations. What
-// the spike proves is the *mechanism*: toggle re-skins + per-system availability
-// + bridge resolution — not the visual fidelity of any one system.
+// THREE systems now ship:
+//   lowfi          a zero-dependency Balsamiq-style wireframe baseline.
+//   acuity         One45's modern, deliberate "Acuity" design system, rebuilt
+//                  from its real token set (Lato, the acuity-* colour families).
+//   one45-legacy   One45's older "one45" brand still live on auth / self-send /
+//                  React-shell pages (Cabin, the $primary_purple palette).
+//
+// The acuity / one45-legacy tokens are reverse-engineered from the One45 staging
+// repo and documented under shared/one45-design-systems/. The values here are the
+// single source of truth the spike renders from; the reports cite this file.
+//
+// Component divergence is REAL, not cosmetic: Acuity ships a dedicated Alert
+// component (react-scanner: 14 uses) that the legacy one45 brand never had — it
+// used WidgetBundle Twig Error/* partials instead ( §2.5). So Alert is
+// acuity-only here, and toggling a screen that uses Alert to one45-legacy makes
+// the bridge fill the gap. This is the anatomy-divergence question from the build
+// plan, exercised on two real systems rather than toy ones.
 
 import type { ComponentType, ReactNode } from "react";
 import { placeholderImage } from "./placeholder";
 
-export type CanonicalName = "Button" | "Card" | "Badge" | "Image" | "Icon";
-export type SystemId = "lowfi" | "modern";
+export type CanonicalName =
+  | "Button"
+  | "Card"
+  | "Badge"
+  | "Alert"
+  | "Image"
+  | "Icon"
+  // Inputs & controls slice — token-driven, shared across all systems.
+  | "TextField"
+  | "Textarea"
+  | "Select"
+  | "Checkbox"
+  | "Radio"
+  | "Toggle"
+  | "SearchField"
+  // Navigation slice — token-driven. Tabs/Link/Pagination are shared across all
+  // systems; Breadcrumb is legacy-only (the Acuity DS ships none → bridge fills it,
+  // the mirror of acuity-only Alert).
+  | "Tabs"
+  | "Link"
+  | "Breadcrumb";
+export type SystemId = "lowfi" | "acuity" | "one45-legacy";
 
 export interface CanonicalDef {
   name: CanonicalName;
@@ -28,18 +60,39 @@ export const CANONICAL: CanonicalDef[] = [
   { name: "Button", label: "Button", description: "Primary action control" },
   { name: "Card", label: "Card", description: "Content container with optional title" },
   { name: "Badge", label: "Badge", description: "Small inline status label" },
+  { name: "Alert", label: "Alert", description: "Inline message banner (info, success, warning)" },
+  { name: "TextField", label: "Text field", description: "Labelled text input with validation state" },
+  { name: "Textarea", label: "Textarea", description: "Multi-line text input with validation state" },
+  { name: "Select", label: "Select", description: "Labelled dropdown (native options)" },
+  { name: "Checkbox", label: "Checkbox", description: "Single checkbox with label" },
+  { name: "Radio", label: "Radio", description: "Radio option (grouped by name)" },
+  { name: "Toggle", label: "Toggle", description: "On/off switch with label" },
+  { name: "SearchField", label: "Search field", description: "Pill search input with leading icon" },
+  { name: "Tabs", label: "Tabs", description: "Tabbed navigation (id-based active tab)" },
+  { name: "Link", label: "Link", description: "Hyperlink (default / inline variant)" },
+  { name: "Breadcrumb", label: "Breadcrumb", description: "Trail of ancestor links; legacy-only (bridge fills acuity)" },
   { name: "Image", label: "Image", description: "Placeholder image (placehold.co)" },
   { name: "Icon", label: "Icon", description: "Placeholder icon" },
 ];
 
 export type Skin = ComponentType<Record<string, any> & { children?: ReactNode; title?: string }>;
 
-// Shared, token-driven pieces (their look comes from the active system's tokens).
-const Button: Skin = ({ children, ...rest }) => (
-  <button className="sk-btn" {...rest}>
-    {children}
-  </button>
-);
+// Token-driven pieces. Their look comes entirely from the active system's CSS
+// vars (styles/tokens.css), so the same component renders as Acuity blue/Lato or
+// one45 purple/Cabin depending on the active system — the real app's own brand
+// mechanism (a root data attribute switching token sets) generalised to N systems.
+// Button carries the real DS variant surface (statefulButton.jsx PropTypes:
+// primary | secondary | danger | inline). Variant is a token/skin class, not a
+// structural change, so it is shared across systems like the base Button.
+const Button: Skin = ({ children, variant, ...rest }) => {
+  const v = typeof variant === "string" ? variant : "primary";
+  const cls = v === "primary" ? "sk-btn" : `sk-btn sk-btn--${v}`;
+  return (
+    <button className={cls} {...rest}>
+      {children}
+    </button>
+  );
+};
 
 const Card: Skin = ({ children, title }) => (
   <div className="sk-card">
@@ -50,11 +103,242 @@ const Card: Skin = ({ children, title }) => (
 
 const Badge: Skin = ({ children }) => <span className="sk-badge">{children}</span>;
 
-// Image and Icon DO differ structurally per system, so each system ships its own.
-// Modern pulls a placehold.co image; low-fi draws a sketch box with no network
-// request. Icons are placeholders in both systems until Acuity's real icon set
-// is chosen.
-const ModernImage: Skin = ({ w = 320, h = 160, label }) => (
+// Acuity-only. Legacy one45 had no Alert component (Twig Error/* partials filled
+// the role), so it is deliberately absent from one45-legacy's skins below.
+const Alert: Skin = ({ children, title }) => (
+  <div className="sk-alert" role="status">
+    {title ? <div className="sk-alert__title">{title}</div> : null}
+    <div className="sk-alert__body">{children}</div>
+  </div>
+);
+
+// ---- Inputs & controls (token-driven, shared across all three systems) ----
+// These mirror the Acuity DS form API recovered from the React islands: the
+// validation surface is `state` ∈ default|error|success + `message` + `helpText`
+// (NOT an `error` boolean and NOT `placeholder` in the real DS) — see
+// shared/one45-design-systems/01-acuity-modern.md L "Inputs". Legacy renders the
+// same markup re-skinned by tokens (the old grey input look), which is why one
+// canonical API holds for the whole group.
+
+const fieldClass = (state?: string) =>
+  state === "error"
+    ? "sk-field sk-field--error"
+    : state === "success"
+      ? "sk-field sk-field--success"
+      : "sk-field";
+
+const helpToText = (helpText: unknown) =>
+  Array.isArray(helpText) ? helpText.join(" ") : helpText ? String(helpText) : "";
+
+const TextField: Skin = ({ label, state, message, helpText, optionalityLabel, id, ...rest }) => {
+  const help = helpToText(helpText);
+  return (
+    <label className={fieldClass(state as string)} htmlFor={id ? String(id) : undefined}>
+      {label ? (
+        <span className="sk-field__label">
+          {String(label)}
+          {optionalityLabel ? <span className="sk-field__opt">{String(optionalityLabel)}</span> : null}
+        </span>
+      ) : null}
+      <input className="sk-control" id={id ? String(id) : undefined} {...rest} />
+      {help ? <span className="sk-field__help">{help}</span> : null}
+      {message ? <span className="sk-field__msg">{String(message)}</span> : null}
+    </label>
+  );
+};
+
+const Textarea: Skin = ({ label, state, message, helpText, optionalityLabel, id, ...rest }) => {
+  const help = helpToText(helpText);
+  return (
+    <label className={fieldClass(state as string)} htmlFor={id ? String(id) : undefined}>
+      {label ? (
+        <span className="sk-field__label">
+          {String(label)}
+          {optionalityLabel ? <span className="sk-field__opt">{String(optionalityLabel)}</span> : null}
+        </span>
+      ) : null}
+      <textarea className="sk-control sk-textarea" id={id ? String(id) : undefined} {...rest} />
+      {help ? <span className="sk-field__help">{help}</span> : null}
+      {message ? <span className="sk-field__msg">{String(message)}</span> : null}
+    </label>
+  );
+};
+
+// Options pass as an `options` prop (array of strings, or {value,label} objects)
+// so prototypes never hand-author raw <option> markup (the lint gate forbids it);
+// the skin emits the <option>s. `children` is still accepted as an escape hatch.
+const Select: Skin = ({ label, state, message, optionalityLabel, id, options, children, ...rest }) => {
+  const opts = Array.isArray(options) ? options : null;
+  return (
+    <label className={fieldClass(state as string)} htmlFor={id ? String(id) : undefined}>
+      {label ? (
+        <span className="sk-field__label">
+          {String(label)}
+          {optionalityLabel ? <span className="sk-field__opt">{String(optionalityLabel)}</span> : null}
+        </span>
+      ) : null}
+      <select className="sk-control" id={id ? String(id) : undefined} {...rest}>
+        {opts
+          ? opts.map((o: any) => {
+              const value = typeof o === "object" ? o.value : o;
+              const text = typeof o === "object" ? o.label : o;
+              return (
+                <option key={String(value)} value={value}>
+                  {String(text)}
+                </option>
+              );
+            })
+          : children}
+      </select>
+      {message ? <span className="sk-field__msg">{String(message)}</span> : null}
+    </label>
+  );
+};
+
+const Checkbox: Skin = ({ label, children, ...rest }) => (
+  <label className="sk-choice">
+    <input type="checkbox" className="sk-choice__box" {...rest} />
+    <span>{label ? String(label) : children}</span>
+  </label>
+);
+
+// `group` maps to the input's `name` (radios group by shared name). It cannot be
+// passed as `name` because that prop selects the canonical piece in <Canonical>.
+const Radio: Skin = ({ label, group, children, ...rest }) => (
+  <label className="sk-choice">
+    <input type="radio" name={group ? String(group) : undefined} className="sk-choice__box" {...rest} />
+    <span>{label ? String(label) : children}</span>
+  </label>
+);
+
+const Toggle: Skin = ({ label, children, ...rest }) => (
+  <label className="sk-switch">
+    <input type="checkbox" role="switch" {...rest} />
+    <span className="sk-switch__track">
+      <span className="sk-switch__knob" />
+    </span>
+    <span>{label ? String(label) : children}</span>
+  </label>
+);
+
+const SearchField: Skin = ({ placeholder, ...rest }) => (
+  <div className="sk-search">
+    <span className="sk-icon sk-icon--brand" aria-hidden="true">
+      S
+    </span>
+    <input type="search" placeholder={placeholder ? String(placeholder) : "Search"} aria-label="Search" {...rest} />
+  </div>
+);
+
+// ---- Navigation ----
+// Recovered from the Acuity DS islands + the legacy skin (see
+// shared/one45-design-systems/01/02 L "Navigation"). Two real divergences this group
+// surfaces, both honoured rather than flattened:
+//   1. API vs SKIN — the canonical id-based Tabs API absorbs both Acuity's index-based
+//      API (activeTabIndex/handleTabChange, designSystemTest/main.jsx:935) AND legacy's
+//      key-based .nav-tabs, so the API survives. But the VISUAL model does NOT token-swap:
+//      Acuity tabs are an underline indicator (acuity-green) while legacy tabs are
+//      Bootstrap BOX folder tabs. That structural difference is rendered per-system in
+//      app.css (:root[data-ds="one45-legacy"] .sk-tab), not faked with one shared skin —
+//      this is the first piece where pure token-swap stops being enough.
+//   2. INVENTORY — the Acuity DS package ships no Breadcrumb component (zero island
+//      usages), while legacy has a real chevron breadcrumb. So Breadcrumb is legacy-only
+//      and the bridge fills acuity (the mirror of acuity-only Alert). Pagination is NOT
+//      enshrined: neither system defines one, so fabricating it would misrepresent both.
+
+// `tabs` is an array of strings or {id,label,badge}. The Acuity Tab `badgeText`
+// (e.g. "CA"/"FR" on the live gallery) maps to `badge`. Active tab is by id, with
+// onSelect(id) — index vs key is an implementation detail the canonical API hides.
+const Tabs: Skin = ({ tabs, active, onSelect, children }) => {
+  const list = Array.isArray(tabs) ? tabs : [];
+  return (
+    <div className="sk-tabs">
+      <div className="sk-tabs__strip" role="tablist">
+        {list.map((t: any) => {
+          const id = typeof t === "object" ? t.id : t;
+          const label = typeof t === "object" ? t.label : t;
+          const badge = typeof t === "object" ? t.badge : undefined;
+          const isActive = String(active) === String(id);
+          return (
+            <button
+              key={String(id)}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              className={isActive ? "sk-tab is-active" : "sk-tab"}
+              onClick={onSelect ? () => onSelect(id) : undefined}
+            >
+              {String(label)}
+              {badge ? <span className="sk-tab__badge">{String(badge)}</span> : null}
+            </button>
+          );
+        })}
+      </div>
+      {children ? (
+        <div className="sk-tabs__panel" role="tabpanel">
+          {children}
+        </div>
+      ) : null}
+    </div>
+  );
+};
+
+// Acuity Link API: `text` + `type` (default|inline) + `href`/`target`. The canonical
+// piece accepts children OR `text`, and maps `type` → `variant`. `external` opens a
+// new tab (the real DS pairs target=_blank with iconName="linkNewTab").
+const Link: Skin = ({ children, text, href, variant, external, ...rest }) => {
+  const cls = variant === "inline" ? "sk-link sk-link--inline" : "sk-link";
+  return (
+    <a
+      className={cls}
+      href={href ? String(href) : undefined}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noreferrer" : undefined}
+      {...rest}
+    >
+      {children ?? (text ? String(text) : null)}
+    </a>
+  );
+};
+
+// `items` is an array of strings or {label,href}. The last item is the current page
+// (not a link). Legacy renders a bespoke CSS-triangle chevron widget; the spike uses
+// a flat "/"-separated trail (the chevron geometry is a recorded simplification).
+const Breadcrumb: Skin = ({ items }) => {
+  const list = Array.isArray(items) ? items : [];
+  return (
+    <nav className="sk-crumbs" aria-label="Breadcrumb">
+      {list.map((it: any, i: number) => {
+        const label = typeof it === "object" ? it.label : it;
+        const href = typeof it === "object" ? it.href : undefined;
+        const last = i === list.length - 1;
+        return (
+          <span className="sk-crumbs__item" key={String(label) + i}>
+            {last || !href ? (
+              <span className="sk-crumbs__current" aria-current={last ? "page" : undefined}>
+                {String(label)}
+              </span>
+            ) : (
+              <a className="sk-crumbs__link" href={String(href)}>
+                {String(label)}
+              </a>
+            )}
+            {last ? null : (
+              <span className="sk-crumbs__sep" aria-hidden="true">
+                /
+              </span>
+            )}
+          </span>
+        );
+      })}
+    </nav>
+  );
+};
+
+// Image and Icon differ structurally per system. The brand systems pull a
+// placehold.co image / draw a token-coloured glyph; low-fi draws a sketch box and
+// an outline glyph with no network request.
+const BrandImage: Skin = ({ w = 320, h = 160, label }) => (
   <img
     className="sk-img"
     width={Number(w)}
@@ -75,8 +359,8 @@ const LowfiImage: Skin = ({ w = 320, h = 160, label }) => (
   </div>
 );
 
-const ModernIcon: Skin = ({ icon }) => (
-  <span className="sk-icon sk-icon--modern" title={String(icon ?? "")}>
+const BrandIcon: Skin = ({ icon }) => (
+  <span className="sk-icon sk-icon--brand" title={String(icon ?? "")}>
     {String(icon ?? "?").charAt(0).toUpperCase()}
   </span>
 );
@@ -97,30 +381,73 @@ export interface DesignSystem {
   skins: Partial<Record<CanonicalName, Skin>>;
 }
 
+// The Inputs & controls group is token-driven and shared by every system: the
+// reverse-engineering found inputs are the SAME markup re-skinned by tokens (the
+// genuine divergence is colour/border/radius, not anatomy), so one component set
+// holds. This is the slice's headline result — the single-canonical-API model
+// survives the whole inputs group; the anatomy divergence stays with Alert.
+const FORM_CONTROLS = { TextField, Textarea, Select, Checkbox, Radio, Toggle, SearchField };
+
+// Navigation pieces present in every system. Link re-skins purely by tokens; Tabs shares
+// one API but renders a per-system VISUAL model (Acuity underline vs legacy box tabs, in
+// app.css) — accurate to each system, not a flattened shared skin. Breadcrumb is NOT here:
+// it is legacy-only (acuity has no breadcrumb component), added to legacy + lowfi below so
+// acuity exercises the bridge.
+const NAV_CONTROLS = { Tabs, Link };
+
 export const SYSTEMS: Record<SystemId, DesignSystem> = {
   lowfi: {
     id: "lowfi",
     label: "Low-fi wireframe",
-    blurb: "A rough wireframe in the Balsamiq style. It looks deliberately unfinished, the way a draft should. No setup needed.",
-    // Badge is INTENTIONALLY absent → exercises graceful degradation.
-    skins: { Button, Card, Image: LowfiImage, Icon: LowfiIcon },
-  },
-  modern: {
-    id: "modern",
-    label: "Modern (One45-legacy stand-in)",
     blurb:
-      "A clean placeholder system. Swap it for the real One45-legacy once we reverse-engineer it from staging.",
-    skins: { Button, Card, Badge, Image: ModernImage, Icon: ModernIcon },
+      "A rough wireframe in the Balsamiq style. It looks deliberately unfinished, the way a draft should. No setup needed.",
+    // Badge and Alert are INTENTIONALLY absent → exercises graceful degradation.
+    // (Alert now resolves to a flagged token-driven build via the bridge; Badge still
+    // demonstrates the older first-native-piece fallback.) Breadcrumb IS present — it
+    // is legacy-era and renders fine in the sketch skin.
+    skins: { Button, Card, ...FORM_CONTROLS, ...NAV_CONTROLS, Breadcrumb, Image: LowfiImage, Icon: LowfiIcon },
+  },
+  acuity: {
+    id: "acuity",
+    label: "Acuity (One45 modern)",
+    blurb:
+      "One45's modern design system, rebuilt from its real token set: Lato, the acuity-blue family, an 8-family colour scale. The deliberate system worth carrying forward.",
+    // Breadcrumb is deliberately absent: the Acuity DS package ships no Breadcrumb
+    // component (zero usages recovered from the islands), so it resolves through the
+    // bridge to a flagged AI build — the mirror of legacy lacking Alert.
+    skins: { Button, Card, Badge, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, Image: BrandImage, Icon: BrandIcon },
+  },
+  "one45-legacy": {
+    id: "one45-legacy",
+    label: "one45 legacy",
+    blurb:
+      "One45's older brand, still live on auth, self-send and React-shell pages: Cabin, the primary-purple palette. No dedicated Alert piece, so the bridge fills that gap.",
+    // No Alert → the real, sourced divergence against Acuity (bridge fills it). But
+    // Breadcrumb IS native here — the legacy app has a real (bespoke chevron) breadcrumb
+    // the Acuity DS never built. Form + nav controls re-skin cleanly to the legacy look.
+    skins: { Button, Card, Badge, ...FORM_CONTROLS, ...NAV_CONTROLS, Breadcrumb, Image: BrandImage, Icon: BrandIcon },
   },
 };
 
 export const SYSTEM_IDS = Object.keys(SYSTEMS) as SystemId[];
 
-// The interim Claude Code would stand in when a piece has no equivalent in the
-// active system. SPIKE: a heuristic — substitute the first native piece. The
-// REAL tool would have Claude Code build a new component in this system's own
-// language from its primitives, not reuse an unrelated piece. Either way it is
-// flagged as an AI interim, never passed off as a real component.
+// Bridge interim builds — the evolution of the old first-native-piece heuristic.
+// When the active system has no native version of a DIVERGENT piece, the bridge
+// builds THAT piece in the active system's own token language instead of substituting
+// an unrelated component. These skins are token-driven, so they re-skin to whatever
+// system is active (acuity-blue/Lato, one45 purple/Cabin, or the sketch) — but the
+// resolver flags them as AI-built interims, never passed off as the system's real
+// component. The two real divergences each have a build here:
+//   Alert       acuity-only DS component → built (flagged) for legacy + lowfi.
+//   Breadcrumb  legacy-only piece        → built (flagged) for acuity.
+// A piece NOT listed here (e.g. Badge in lowfi) still falls back to the cruder
+// first-native substitution below, so both bridge behaviours stay observable.
+export const INTERIM_BUILDS: Partial<Record<CanonicalName, Skin>> = { Alert, Breadcrumb };
+
+// The crude fallback the bridge uses ONLY when a missing piece has no INTERIM_BUILDS
+// entry: substitute the first native piece. The real tool would always build the
+// piece in this system's language (as INTERIM_BUILDS now does for the divergent
+// pieces); this remains for pieces without a generic build, flagged as an AI interim.
 export function interimTarget(systemId: SystemId): CanonicalName | null {
   const skins = SYSTEMS[systemId].skins;
   return CANONICAL.map((c) => c.name).find((n) => skins[n]) ?? null;

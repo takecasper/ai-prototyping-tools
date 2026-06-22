@@ -4,9 +4,14 @@
  * on <html data-ds="…"> (see store.tsx). Every component reads these vars, so a
  * toggle re-skins everything with zero prototype edits.
  *
- * In the real tool these are generated from each system's token source (and,
- * for One45-legacy, reverse-engineered from the staging site). Here they're
- * hand-authored to give a vivid low-fi vs modern contrast. */
+ * The acuity and one45-legacy values are REVERSE-ENGINEERED from the One45
+ * staging repo (documented under shared/one45-design-systems/), lifted verbatim
+ * from the token sources:
+ *   acuity        symfony/tailwind_acuity_theme.js (Lato; acuity-* families)
+ *   one45-legacy  _colors.scss:1-35 + new_branding.scss (Cabin; $primary_purple)
+ * Faithful choices and known weaknesses (Acuity defines no radius/shadow token;
+ * neutrals-light borders fail WCAG 1.4.11) are explained in the per-system
+ * reports. The lowfi values stay hand-authored — it is a deliberate sketch. */
 
 :root {
   --ds-font: system-ui, sans-serif;
@@ -23,24 +28,179 @@
   --ds-badge-fg: #3730a3;
   --ds-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
   --ds-card-rotate: 0deg;
+  --ds-letter-spacing: normal;
+
+  /* ---- form-control foundation (the Inputs & controls slice) ----
+   * Generic fallbacks; each system overrides below from its real, sourced values.
+   * See shared/one45-design-systems/01-acuity-modern.md / 02-one45-legacy.md L "Inputs". */
+  --ds-input-bg: #ffffff;
+  --ds-input-fg: #1a1a1a;
+  --ds-input-border: #767676;
+  --ds-input-radius: 6px;
+  --ds-input-pad-y: 0.5rem;
+  --ds-input-pad-x: 0.7rem;
+  --ds-input-font-size: 1rem;
+  --ds-focus-ring: #2563eb; /* visible keyboard focus */
+  --ds-state-error: #c62828; /* error border */
+  --ds-state-error-fg: #8a1414; /* error text/message */
+  --ds-state-success: #2e7d32; /* success border */
+  --ds-label-fg: #1a1a1a;
+  --ds-label-weight: 600;
+  --ds-control-size: 1.1rem; /* checkbox / radio box size */
+
+  /* ---- navigation foundation (the Navigation slice) ----
+   * Generic fallbacks; each system overrides below from its real, sourced values.
+   * See shared/one45-design-systems/01-acuity-modern.md / 02-one45-legacy.md L "Navigation". */
+  --ds-tab-fg: #444444; /* inactive tab label */
+  --ds-tab-active-fg: #1a1a1a; /* active tab label */
+  --ds-tab-active-indicator: #2563eb; /* active-tab underline */
+  --ds-tab-strip-border: #d0d0d5; /* strip bottom rule */
+  --ds-link-fg: #2563eb; /* hyperlink */
+  --ds-link-hover: #1d4ed8; /* hyperlink hover/active */
+  --ds-crumb-fg: #2563eb; /* breadcrumb link */
+  --ds-crumb-current: #1a1a1a; /* current (last) crumb */
+  --ds-crumb-sep: #9aa0a6; /* crumb separator */
 }
 
-/* Modern — clean hi-fi (stands in for One45-legacy until reverse-engineered). */
-:root[data-ds="modern"] {
-  --ds-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --ds-bg: #ffffff;
-  --ds-fg: #0f172a;
-  --ds-surface: #f8fafc;
-  --ds-border-color: #e2e8f0;
+/* Acuity (One45 modern) — real token set from tailwind_acuity_theme.js.
+ * Primary text is neutrals-darker #333 (12.63:1), NOT neutrals DEFAULT #8C8C8C
+ * (3.36:1, fails AA) — a faithful choice for body text; the muted-grey failure is
+ * documented in the contrast-fix map. Accent acuity-blue #364699 (white-on-it
+ * 8.42:1). radius and shadow are NOT Acuity tokens (the set covers colour / type
+ * / spacing / weight only) — values below are spike defaults, flagged in the
+ * report, not invented Acuity tokens. */
+:root[data-ds="acuity"] {
+  --ds-font: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ds-bg: #ffffff; /* neutrals-white */
+  --ds-fg: #333333; /* neutrals-darker */
+  --ds-surface: #f5f5f5; /* neutrals-lighter */
+  --ds-border-color: #b8b8b8; /* neutrals-light — real token; fails 1.4.11 (1.98), flagged */
   --ds-border-width: 1px;
   --ds-border-style: solid;
-  --ds-radius: 10px;
-  --ds-accent: #0ea5a4;
+  --ds-radius: 6px; /* NOT an Acuity token — spike default */
+  --ds-accent: #364699; /* acuity-blue DEFAULT */
   --ds-accent-fg: #ffffff;
-  --ds-badge-bg: #ccfbf1;
-  --ds-badge-fg: #0f766e;
-  --ds-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+  --ds-badge-bg: #e9ecf6; /* acuity-blue-lightest */
+  --ds-badge-fg: #253170; /* acuity-blue-dark */
+  --ds-shadow: 0 1px 2px rgba(0, 0, 0, 0.08); /* NOT an Acuity token — spike default */
   --ds-card-rotate: 0deg;
+  --ds-letter-spacing: normal;
+
+  /* Form controls — [R] from the live DS gallery (/test/designSystem, 2026-06-22):
+   * .ds-form-input / .ds-form-select render border 1px #949494, radius 4px, pad 8px,
+   * height 40px, Lato 16px, text neutrals-darker #333. Error → border danger-red
+   * #E40A0A + text danger-red-darkest #720202. Success → border success-green #4DA81F.
+   * Note the input border is neutrals-light-but-accessible #949494 (3.0:1), NOT the
+   * failing #B8B8B8 — the DS already uses the accessible grey here. Focus ring is
+   * :focus-visible-gated (keyboard only); spike uses acuity-blue for a visible, branded,
+   * AA ring (8.42:1). */
+  --ds-input-bg: #ffffff; /* neutrals-white */
+  --ds-input-fg: #333333; /* neutrals-darker */
+  --ds-input-border: #949494; /* real DS form-control border [R] */
+  --ds-input-radius: 4px; /* real DS form-control radius [R] */
+  --ds-input-pad-y: 0.5rem; /* 8px [R] */
+  --ds-input-pad-x: 0.5rem; /* 8px [R] */
+  --ds-input-font-size: 1rem; /* 16px [R] */
+  --ds-focus-ring: #364699; /* acuity-blue — branded AA keyboard ring */
+  --ds-state-error: #e40a0a; /* danger-red [R] */
+  --ds-state-error-fg: #720202; /* danger-red-darkest [R] */
+  --ds-state-success: #4da81f; /* success-green [R] */
+  --ds-label-fg: #333333; /* neutrals-darker */
+  --ds-label-weight: 600; /* DS labels semibold */
+  --ds-control-size: 1.1rem;
+
+  /* Navigation — [R] /test/designSystem 2026-06-22 + [D] tailwind_acuity_theme.js.
+   * Acuity Tabs render label text #000 (black), 16px, weight 400, pad 8px; the ACTIVE
+   * underline is acuity-green #00A59B (tailwind_acuity_theme.js:42 / _colors.scss:46),
+   * 2px [R] — NOT acuity-blue; inactive underline is transparent. Strip rule neutrals
+   * #949494. Link is acuity-blue #364699 underlined, hover removes the underline,
+   * active → acuity-blue-darkest #161E4A [R] (class ds-text-acuity-blue active:…darkest).
+   * INVENTORY GAP: the Acuity DS package ships NO Breadcrumb component (recovered: zero
+   * usages in the React islands) — so Breadcrumb is absent from acuity's skins and the
+   * bridge builds it, the mirror of legacy lacking Alert. The acuity --ds-crumb-* values
+   * below are NOT a status-quo Acuity component; they only style the bridge's flagged
+   * interim build so it reads on-brand. Pagination is NOT enshrined: neither DS ships one. */
+  --ds-tab-fg: #000000; /* tab label black [R] */
+  --ds-tab-active-fg: #000000; /* active label also black [R] */
+  --ds-tab-active-indicator: #00a59b; /* acuity-green underline [R + D] */
+  --ds-tab-strip-border: #949494; /* neutrals strip rule [R] */
+  --ds-link-fg: #364699; /* acuity-blue [R] */
+  --ds-link-hover: #161e4a; /* acuity-blue-darkest [R] */
+  --ds-crumb-fg: #364699; /* bridge interim only (no Acuity breadcrumb) — acuity-blue */
+  --ds-crumb-current: #333333; /* neutrals-darker */
+  --ds-crumb-sep: #949494; /* neutrals */
+}
+
+/* one45 legacy — older brand from _colors.scss:1-35 + new_branding.scss.
+ * Cabin font, primary-purple #42507D accent (white-on-it 7.85:1), one45_black
+ * #27304B body text (13.04:1). The 0.4px letter-spacing is a real new_branding
+ * detail. */
+:root[data-ds="one45-legacy"] {
+  --ds-font: "Cabin", Verdana, Arial, Helvetica, sans-serif;
+  --ds-bg: #ffffff;
+  --ds-fg: #27304b; /* $one45_black */
+  --ds-surface: #f2f3f8; /* $one45_grey / $primary_purple_pale */
+  --ds-border-color: #d1d1d9; /* $grey */
+  --ds-border-width: 1px;
+  --ds-border-style: solid;
+  --ds-radius: 4px;
+  --ds-accent: #42507d; /* $primary_purple */
+  --ds-accent-fg: #ffffff;
+  --ds-badge-bg: #eee5e9; /* $menu_header */
+  --ds-badge-fg: #42507d; /* $primary_purple */
+  --ds-shadow: 0 1px 2px rgba(39, 48, 75, 0.1);
+  --ds-card-rotate: 0deg;
+  --ds-letter-spacing: 0.4px; /* new_branding.scss body letter-spacing */
+
+  /* Form controls — [D] from the legacy skin (_forms.scss:114-127, _constants.scss:24-28,
+   * _bootstrap.scss:14-18). The legacy text-input/select/textarea base is the OLD grey
+   * one45 look: bg #FEFEFE, border 1px #DDD, text #333. The skin declares NO radius, NO
+   * padding, and NO :focus rule on these (browser/Bootstrap default falls through) — so
+   * radius/pad/focus below are flagged spike defaults, not legacy tokens. select height
+   * is a real 32px (_bootstrap.scss). Labels: checkbox/radio label colour neutrals-dark
+   * #555 (_forms.scss:42-45); required labels are bold. Error label colour #B94A48
+   * (_forms.scss:193-199); the skin has no success input state (spike borrows acuity-green,
+   * flagged). Focus ring uses $primary_purple — the legacy brand colour, still live on the
+   * datepicker. INTENT-VS-REALITY: legacy .btn-primary actually renders acuity-blue #364699
+   * in prod (new_branding.scss:299-316) — buttons converged to Acuity while text inputs did
+   * not. The spike keeps purple as the legacy brand token so the toggle stays legible; the
+   * button convergence is recorded in 03-reconciliation-gap-map.md. */
+  --ds-input-bg: #fefefe; /* $form_input_background_color [D] */
+  --ds-input-fg: #333333; /* $form_input_text_color [D] */
+  --ds-input-border: #dddddd; /* $form_input_border_color [D] — fails 1.4.11 as a border (flagged) */
+  --ds-input-radius: 2px; /* NO legacy radius token — spike default, flagged */
+  --ds-input-pad-y: 0.4rem; /* NO legacy padding token — spike default, flagged */
+  --ds-input-pad-x: 0.55rem; /* spike default, flagged */
+  --ds-input-font-size: 1rem; /* 16px (_bootstrap.scss:7-12) [D] */
+  --ds-focus-ring: #42507d; /* $primary_purple — legacy brand focus */
+  --ds-state-error: #b94a48; /* .alert-error label colour [D] */
+  --ds-state-error-fg: #b94a48; /* [D] */
+  --ds-state-success: #4da81f; /* NO legacy success state — spike borrows acuity success-green, flagged */
+  --ds-label-fg: #555555; /* checkbox/radio label, neutrals-dark [D] */
+  --ds-label-weight: 700; /* required labels bold [D] */
+  --ds-control-size: 1.05rem;
+
+  /* Navigation — [D] legacy skin. Tabs are Bootstrap nav-tabs: BOX folder tabs, NOT an
+   * underline indicator (this is a real structural divergence from Acuity's underline
+   * tabs — the legacy skin renders the box model via per-system CSS in app.css). The
+   * React-page override only recolours the link: .nav-link $primary_purple #42507D,
+   * active/.show $one45_black #27304B (styles_overwrite.scss:32-40); the strip + active
+   * box border is #AAAAAA (themes/one45.scss:762-771). Links on React pages are
+   * $link_color #0a6cbd, hover #064e89 (_colors.scss:34-35, styles_overwrite.scss:57-63).
+   * Breadcrumb: the legacy app has a bespoke chevron .breadcrumb-widget (NOT Bootstrap)
+   * with link colour acuity-blue #364699 (themes/one45.scss:339-345); the spike renders a
+   * flat trail (CSS-triangle chevron geometry simplified — flagged), purple crumb link,
+   * one45_black current. Pagination is NOT enshrined: legacy defines no pagination skin
+   * (only a margin reset, themes/one45.scss:553-559) and neither does Acuity. */
+  --ds-tab-fg: #42507d; /* .nav-link $primary_purple [D] */
+  --ds-tab-active-fg: #27304b; /* active .nav-link $one45_black [D] */
+  --ds-tab-active-indicator: transparent; /* legacy box tabs use no underline indicator [D] */
+  --ds-tab-strip-border: #aaaaaa; /* .nav-tabs border-bottom + active box border [D] */
+  --ds-link-fg: #0a6cbd; /* $link_color [D] */
+  --ds-link-hover: #064e89; /* $link_hover_color [D] */
+  --ds-crumb-fg: #42507d; /* $primary_purple (legacy crumb link, flattened) */
+  --ds-crumb-current: #27304b; /* $one45_black current crumb */
+  --ds-crumb-sep: #888888; /* legacy body-link grey as separator */
 }
 
 /* Low-fi — Balsamiq-style sketch. Greyscale, dashed, marker font, no shadow,
@@ -60,4 +220,35 @@
   --ds-badge-fg: #333333;
   --ds-shadow: none;
   --ds-card-rotate: -0.4deg;
+
+  /* Form controls — deliberate greyscale sketch. Dashed borders come from
+   * --ds-border-style; no brand colour, no validation hues (a wireframe doesn't
+   * assert state colour). */
+  --ds-input-bg: #ffffff;
+  --ds-input-fg: #3a3a3a;
+  --ds-input-border: #8a8a8a;
+  --ds-input-radius: 2px;
+  --ds-input-pad-y: 0.4rem;
+  --ds-input-pad-x: 0.55rem;
+  --ds-input-font-size: 1rem;
+  --ds-focus-ring: #3a3a3a;
+  --ds-state-error: #6a6a6a;
+  --ds-state-error-fg: #3a3a3a;
+  --ds-state-success: #6a6a6a;
+  --ds-label-fg: #3a3a3a;
+  --ds-label-weight: 700;
+  --ds-control-size: 1.05rem;
+
+  /* Navigation — deliberate greyscale sketch. No brand colour; the active tab reads by
+   * weight/ink, not hue (a wireframe doesn't assert brand). lowfi is not a status-quo
+   * system, so its tab model is the generic underline sketch, not the legacy box model. */
+  --ds-tab-fg: #6a6a6a;
+  --ds-tab-active-fg: #1a1a1a;
+  --ds-tab-active-indicator: #3a3a3a;
+  --ds-tab-strip-border: #8a8a8a;
+  --ds-link-fg: #3a3a3a;
+  --ds-link-hover: #1a1a1a;
+  --ds-crumb-fg: #3a3a3a;
+  --ds-crumb-current: #1a1a1a;
+  --ds-crumb-sep: #8a8a8a;
 }

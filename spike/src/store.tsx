@@ -55,7 +55,7 @@ export function useStore(): Store {
 }
 
 export function StoreProvider({ children }: { children: ReactNode }) {
-  const [systemId, setSystemIdRaw] = useState<SystemId>("modern");
+  const [systemId, setSystemIdRaw] = useState<SystemId>("acuity");
   const [compareId, setCompareId] = useState<SystemId | null>(null);
   const [maps, setMaps] = useState<MapRegistry>(() => loadMaps());
 

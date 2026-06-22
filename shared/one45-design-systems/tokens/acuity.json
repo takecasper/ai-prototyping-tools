@@ -1,0 +1,62 @@
+{
+  "$meta": {
+    "system": "acuity",
+    "label": "Acuity (One45 modern)",
+    "layer": "documented intent [D]",
+    "source": "symfony/tailwind_acuity_theme.js (== web/vendor/webeval_ss/acuity_branding.css --ds-*; == _colors.scss $acuity-* 49 of them; == tailwind_final.css subset). Four hand-synced copies, no single source — see reconciliation map.",
+    "note": "This is the full DOCUMENTED token set. The spike renders a curated --ds-* subset of it (spike/src/styles/tokens.css). The set covers colour / type / spacing / weight; it defines NO radius or shadow token.",
+    "font": "Lato (web font, acuity_branding.css @import lato-fonts.css)"
+  },
+  "fontFamily": {
+    "sans": ["Lato", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+    "serif": ["Georgia", "Times New Roman", "serif"]
+  },
+  "fontSize": {
+    "sm":   { "size": "0.875rem", "lineHeight": "1.25rem", "use": "body/small (14/20)" },
+    "base": { "size": "1rem",     "lineHeight": "1.5rem",  "use": "body/default, buttons (16/24)" },
+    "lg":   { "size": "1.125rem", "lineHeight": "1.5rem",  "use": "subtitle (18/24)" },
+    "xl":   { "size": "1.25rem",  "lineHeight": "1.75rem", "use": "header/small (20/28)" },
+    "2xl":  { "size": "1.4375rem","lineHeight": "2rem",    "use": "header/medium (23/32)" },
+    "3xl":  { "size": "1.625rem", "lineHeight": "2.25rem", "use": "header/large (26/36)" },
+    "4xl":  { "size": "2.25rem",  "lineHeight": "3rem",    "use": "extra-large (36/48)" }
+  },
+  "fontWeight": { "normal": "400", "semibold": "600", "bold": "700" },
+  "spacing": { "0": "0px", "1": "0.25rem", "2": "0.5rem", "3": "0.75rem", "4": "1rem", "5": "1.5rem", "6": "2rem", "7": "3rem" },
+  "radius": null,
+  "shadow": null,
+  "colors": {
+    "acuity-blue":      { "darkest": "#161E4A", "dark": "#253170", "DEFAULT": "#364699", "light": "#7779B8", "lighter": "#B0B1D7", "lightest": "#E9ECF6" },
+    "acuity-green":     { "darkest": "#00514B", "dark": "#007A72", "DEFAULT": "#00A59B", "light": "#70C0B8", "lighter": "#B0DBD6", "lightest": "#EBF6F5" },
+    "acuity-red":       { "darkest": "#5C0924", "dark": "#8A1339", "DEFAULT": "#BA1E50", "light": "#D66D80", "lighter": "#ECACB5", "lightest": "#FBEAEC" },
+    "secondary-blue":   { "darkest": "#15436E", "dark": "#205C94", "DEFAULT": "#2C76BC", "light": "#799DD1", "lighter": "#B3C6E5", "lightest": "#EAF1F9" },
+    "information-blue":  { "darkest": "#0D556D", "dark": "#157393", "DEFAULT": "#1E93BA", "light": "#76B2CF", "lighter": "#B2D3E3", "lightest": "#EBF4F8" },
+    "success-green":    { "darkest": "#24590A", "dark": "#387F14", "DEFAULT": "#4DA81F", "light": "#89C368", "lighter": "#BCDEA9", "lightest": "#EEF8EB" },
+    "warning-yellow":   { "darkest": "#816E09", "dark": "#E0CA01", "DEFAULT": "#FCE833", "light": "#FFEE7A", "lighter": "#FFF5B1", "lightest": "#FEFBE0" },
+    "danger-red":       { "darkest": "#720202", "dark": "#A90508", "DEFAULT": "#E40A0A", "light": "#F97054", "lighter": "#FFB19E", "lightest": "#FFECE8" },
+    "neutrals": {
+      "black": "#000000", "darker": "#333333", "dark": "#555555", "DEFAULT": "#8C8C8C", "light": "#B8B8B8", "lighter": "#F5F5F5", "white": "#FFFFFF",
+      "transparent-medium": "rgba(0, 0, 0, .25)", "transparent-light": "rgba(0, 0, 0, .05)"
+    }
+  },
+  "formControls": {
+    "$meta": "[R] from the live DS gallery /test/designSystem (2026-06-22), getComputedStyle on .ds-form-input / .ds-form-select / ds-btn. These are RENDERED reality, not theme-file tokens (the DS form CSS is not in tailwind_acuity_theme.js). Spike renders these in spike/src/styles/tokens.css.",
+    "input": { "bg": "#FFFFFF", "fg": "#333333", "border": "#949494", "radius": "4px", "padding": "8px", "height": "40px", "fontSize": "16px" },
+    "state": { "error-border": "#E40A0A", "error-fg": "#720202", "success-border": "#4DA81F" },
+    "focusRing": { "value": "#364699", "note": "DS input ring is :focus-visible-gated (keyboard); spike uses acuity-blue for a visible branded AA ring" },
+    "button": {
+      "primary":   { "bg": "#364699", "fg": "#FFFFFF" },
+      "secondary": { "bg": "#FFFFFF", "fg": "#000000", "border": "#949494" },
+      "danger":    { "bg": "#E40A0A", "fg": "#FFFFFF" },
+      "radius": "4px", "padding": "12px 16px", "height": "50px", "weight": "600",
+      "variants": ["primary", "secondary", "danger", "inline"]
+    },
+    "shellSearch": { "$meta": "[R] top-bar Find-a-person field — note the purple", "bg": "#EBEDF2", "fg": "#42507D", "radius": "80px", "height": "38px" }
+  },
+  "navigation": {
+    "$meta": "[R] from the live DS gallery /test/designSystem (2026-06-22), getComputedStyle on Tabs/Link, cross-checked to tailwind_acuity_theme.js. INVENTORY GAP: the Acuity DS package ships NO Breadcrumb component (zero usages recovered from the React islands) — it is filled by the bridge for acuity. NO Pagination is enshrined (neither DS defines one). Spike renders these in spike/src/styles/tokens.css.",
+    "tabs": { "model": "underline-indicator", "labelFg": "#000000", "activeFg": "#000000", "activeIndicator": "#00A59B", "activeIndicatorToken": "acuity-green DEFAULT", "stripBorder": "#949494", "fontSize": "16px", "weight": "400", "padding": "8px", "note": "active underline is acuity-green 2px (3.06:1 UI), NOT acuity-blue; nested tabs are a boxed variant (#949494 1px + white bg). Visual model differs from legacy's Bootstrap box tabs — rendered per-system, not token-swapped." },
+    "link": { "fg": "#364699", "fgToken": "acuity-blue", "active": "#161E4A", "activeToken": "acuity-blue-darkest", "decoration": "underline; hover removes underline", "variants": ["default", "inline"], "note": "Acuity Link API is text + type(default|inline) + href/target; iconName=linkNewTab pairs with target=_blank" },
+    "breadcrumb": null,
+    "pagination": null
+  }
+}

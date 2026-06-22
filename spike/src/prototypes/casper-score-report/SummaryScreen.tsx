@@ -9,6 +9,9 @@ export function SummaryScreen() {
   return (
     <Canonical name="Card" title="Your Casper results">
       <Canonical name="Image" w={300} h={120} label="Score overview" />
+      <Canonical name="Alert" title="Preliminary">
+        These results are not final until the cycle closes.
+      </Canonical>
       <p className="proto__row">
         Overall: <Canonical name="Badge">Third quartile</Canonical>
       </p>

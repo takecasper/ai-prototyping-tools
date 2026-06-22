@@ -61,13 +61,37 @@ export function FirstScreen() {
 
 ## Canonical components (the only pieces you may use)
 
-| name   | props              | notes                                          |
-| ------ | ------------------ | ---------------------------------------------- |
-| Button | children, onClick  | action control                                 |
-| Card   | title?, children   | content container                              |
-| Badge  | children           | small status label                             |
-| Image  | w, h, label?       | placeholder via placehold.co; never add assets |
-| Icon   | icon (name string) | placeholder until Acuity's real icons land     |
+| name        | props                                                      | notes                                                  |
+| ----------- | ---------------------------------------------------------- | ------------------------------------------------------ |
+| Button      | children, variant?, onClick                                | variant: primary (default) / secondary / danger / inline |
+| Card        | title?, children                                           | content container                                      |
+| Badge       | children                                                   | small status label                                     |
+| Alert       | title?, children                                           | inline message banner; acuity-only (bridge fills legacy) |
+| TextField   | label, type?, value, onChange, state?, message?, helpText?, optionalityLabel? | labelled text input; state: default/error/success |
+| Textarea    | label, value, onChange, state?, message?, rows?            | multi-line; same validation surface as TextField       |
+| Select      | label, value, onChange, state?, message?, children         | children are `<option>`s                               |
+| Checkbox    | label, checked, onChange                                   | single checkbox; brand-tinted via accent-color         |
+| Radio       | label, name, value, checked, onChange                      | group by shared name                                   |
+| Toggle      | label, checked, onChange                                   | on/off switch                                          |
+| SearchField | value, onChange, placeholder?                              | pill search input with leading icon                    |
+| Tabs        | tabs (string[] or {id,label,badge?}[]), active, onSelect, children | tabbed nav; active by id; children are the panel; per-system visual model (acuity underline / legacy box tabs) |
+| Link        | children (or text), href?, variant?, external?            | variant: default / inline; external opens a new tab    |
+| Breadcrumb  | items (string[] or {label,href?}[])                       | trail; last item is the current page; legacy-only (bridge fills acuity) |
+| Image       | w, h, label?                                               | placeholder via placehold.co; never add assets         |
+| Icon        | icon (name string)                                         | placeholder until Acuity's real icons land             |
+
+The Inputs & controls pieces (TextField … SearchField) are token-driven and present
+in all three systems — they re-skin by tokens, not by structure. Their look is
+reverse-engineered from the real Acuity DS form API + the live DS gallery
+(`/test/designSystem`) and the legacy skin; see
+`shared/one45-design-systems/01-acuity-modern.md` / `02-one45-legacy.md`.
+
+The Navigation pieces Tabs and Link are present in all three systems. Link re-skins purely
+by tokens; **Tabs shares one API but renders a per-system visual model** (Acuity's underline
+indicator vs legacy's Bootstrap box tabs) — accurate to each system, not a flattened shared
+skin. **Breadcrumb is legacy-only** (the Acuity DS ships none): in `acuity` it resolves
+through the bridge to a flagged AI build — the mirror of `Alert` being acuity-only. There is
+**no Pagination piece**: neither One45 system defines one, so the tool does not fabricate it.
 
 ## Rules
 
