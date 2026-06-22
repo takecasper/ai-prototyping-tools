@@ -4,7 +4,7 @@
     "label": "Acuity (One45 modern)",
     "layer": "documented intent [D]",
     "source": "symfony/tailwind_acuity_theme.js (== web/vendor/webeval_ss/acuity_branding.css --ds-*; == _colors.scss $acuity-* 49 of them; == tailwind_final.css subset). Four hand-synced copies, no single source — see reconciliation map.",
-    "note": "This is the full DOCUMENTED token set. The spike renders a curated --ds-* subset of it (spike/src/styles/tokens.css). The set covers colour / type / spacing / weight; it defines NO radius or shadow token.",
+    "note": "This is the full DOCUMENTED token set. The tool renders a curated --ds-* subset of it (acuity-insights-prototype/src/styles/tokens.css). The set covers colour / type / spacing / weight; it defines NO radius or shadow token.",
     "font": "Lato (web font, acuity_branding.css @import lato-fonts.css)"
   },
   "fontFamily": {
@@ -39,10 +39,10 @@
     }
   },
   "formControls": {
-    "$meta": "[R] from the live DS gallery /test/designSystem (2026-06-22), getComputedStyle on .ds-form-input / .ds-form-select / ds-btn. These are RENDERED reality, not theme-file tokens (the DS form CSS is not in tailwind_acuity_theme.js). Spike renders these in spike/src/styles/tokens.css.",
+    "$meta": "[R] from the live DS gallery /test/designSystem (2026-06-22), getComputedStyle on .ds-form-input / .ds-form-select / ds-btn. These are RENDERED reality, not theme-file tokens (the DS form CSS is not in tailwind_acuity_theme.js). The tool renders these in acuity-insights-prototype/src/styles/tokens.css.",
     "input": { "bg": "#FFFFFF", "fg": "#333333", "border": "#949494", "radius": "4px", "padding": "8px", "height": "40px", "fontSize": "16px" },
     "state": { "error-border": "#E40A0A", "error-fg": "#720202", "success-border": "#4DA81F" },
-    "focusRing": { "value": "#364699", "note": "DS input ring is :focus-visible-gated (keyboard); spike uses acuity-blue for a visible branded AA ring" },
+    "focusRing": { "value": "#364699", "note": "DS input ring is :focus-visible-gated (keyboard); the tool uses acuity-blue for a visible branded AA ring" },
     "button": {
       "primary":   { "bg": "#364699", "fg": "#FFFFFF" },
       "secondary": { "bg": "#FFFFFF", "fg": "#000000", "border": "#949494" },
@@ -53,14 +53,14 @@
     "shellSearch": { "$meta": "[R] top-bar Find-a-person field — note the purple", "bg": "#EBEDF2", "fg": "#42507D", "radius": "80px", "height": "38px" }
   },
   "navigation": {
-    "$meta": "[R] from the live DS gallery /test/designSystem (2026-06-22), getComputedStyle on Tabs/Link, cross-checked to tailwind_acuity_theme.js. INVENTORY GAP: the Acuity DS package ships NO Breadcrumb component (zero usages recovered from the React islands) — it is filled by the bridge for acuity. NO Pagination is enshrined (neither DS defines one). Spike renders these in spike/src/styles/tokens.css.",
+    "$meta": "[R] from the live DS gallery /test/designSystem (2026-06-22), getComputedStyle on Tabs/Link, cross-checked to tailwind_acuity_theme.js. INVENTORY GAP: the Acuity DS package ships NO Breadcrumb component (zero usages recovered from the React islands) — it is filled by the bridge for acuity. NO Pagination is enshrined (neither DS defines one). The tool renders these in acuity-insights-prototype/src/styles/tokens.css.",
     "tabs": { "model": "underline-indicator", "labelFg": "#000000", "activeFg": "#000000", "activeIndicator": "#00A59B", "activeIndicatorToken": "acuity-green DEFAULT", "stripBorder": "#949494", "fontSize": "16px", "weight": "400", "padding": "8px", "note": "active underline is acuity-green 2px (3.06:1 UI), NOT acuity-blue; nested tabs are a boxed variant (#949494 1px + white bg). Visual model differs from legacy's Bootstrap box tabs — rendered per-system, not token-swapped." },
     "link": { "fg": "#364699", "fgToken": "acuity-blue", "active": "#161E4A", "activeToken": "acuity-blue-darkest", "decoration": "underline; hover removes underline", "variants": ["default", "inline"], "note": "Acuity Link API is text + type(default|inline) + href/target; iconName=linkNewTab pairs with target=_blank" },
     "breadcrumb": null,
     "pagination": null
   },
   "feedback": {
-    "$meta": "[R] from the live DS gallery /test/designSystem (2026-06-22, getComputedStyle on the headlessui Modal/Dialog) + API [D] from the islands. The Feedback & status slice enshrines Modal first. Of the requested set the acuity package imports only Alert/Modal/Badge/ProgressBar/Spinner — and only Alert+Modal are used in PRODUCTION islands (Badge/ProgressBar/Spinner appear on the demo page only). Toast/tooltip/popover/tag/empty-state are NOT in the package (zero usages). Spike renders Modal in spike/src/styles/tokens.css.",
+    "$meta": "[R] from the live DS gallery /test/designSystem (2026-06-22, getComputedStyle on the headlessui Modal/Dialog) + API [D] from the islands. The Feedback & status slice enshrines Modal first. Of the requested set the acuity package imports only Alert/Modal/Badge/ProgressBar/Spinner — and only Alert+Modal are used in PRODUCTION islands (Badge/ProgressBar/Spinner appear on the demo page only). Toast/tooltip/popover/tag/empty-state are NOT in the package (zero usages). The tool renders Modal in acuity-insights-prototype/src/styles/tokens.css.",
     "modal": {
       "panelBg": "#FFFFFF", "radius": "8px", "shadow": "0 2px 8px rgba(0,0,0,.12)",
       "scrim": "rgba(0,0,0,.25)", "scrimToken": "neutrals-transparent-medium",
@@ -72,12 +72,12 @@
       "$status": "imported + used in 8 production islands",
       "variants": ["info", "success", "warning", "error"],
       "props": ["variant", "title", "titleSize(none|small|large)", "description|content", "showIcon", "isDismissible", "handleClose"],
-      "note": "acuity-only in the spike TODAY, but legacy ships a real alert too (.one45-alert + 154 Error/* Twig uses) — a both-native rework is recommended; see reconciliation §4d."
+      "note": "acuity-only in the tool TODAY, but legacy ships a real alert too (.one45-alert + 154 Error/* Twig uses) — a both-native rework is recommended; see reconciliation §4d."
     },
     "badge": {
       "$status": "imported, demo-page only (zero production islands)",
       "props": ["label", "color(default|red|gray|blue|yellow|green)", "type(regular|small)", "dismissible", "onDismiss"],
-      "note": "the spike's Badge predates sourcing; the real Badge is acuity-DS only (legacy has no status badge) — correct to acuity-only next slice."
+      "note": "the tool's Badge predates sourcing; the real Badge is acuity-DS only (legacy has no status badge) — correct to acuity-only next slice."
     },
     "progressBar": {
       "$status": "imported, demo-page only",

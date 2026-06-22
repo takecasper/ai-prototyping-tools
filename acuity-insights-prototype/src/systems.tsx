@@ -14,7 +14,7 @@
 //
 // The acuity / one45-legacy tokens are reverse-engineered from the One45 staging
 // repo and documented under shared/one45-design-systems/. The values here are the
-// single source of truth the spike renders from; the reports cite this file.
+// single source of truth the tool renders from; the reports cite this file.
 //
 // Component divergence is REAL, not cosmetic: Acuity ships a dedicated Alert
 // component (react-scanner: 14 uses) that the legacy one45 brand never had — it
@@ -305,7 +305,7 @@ const Link: Skin = ({ children, text, href, variant, external, ...rest }) => {
 };
 
 // `items` is an array of strings or {label,href}. The last item is the current page
-// (not a link). Legacy renders a bespoke CSS-triangle chevron widget; the spike uses
+// (not a link). Legacy renders a bespoke CSS-triangle chevron widget; the tool uses
 // a flat "/"-separated trail (the chevron geometry is a recorded simplification).
 const Breadcrumb: Skin = ({ items }) => {
   const list = Array.isArray(items) ? items : [];

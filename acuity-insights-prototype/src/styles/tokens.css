@@ -81,7 +81,7 @@
  * (3.36:1, fails AA) — a faithful choice for body text; the muted-grey failure is
  * documented in the contrast-fix map. Accent acuity-blue #364699 (white-on-it
  * 8.42:1). radius and shadow are NOT Acuity tokens (the set covers colour / type
- * / spacing / weight only) — values below are spike defaults, flagged in the
+ * / spacing / weight only) — values below are tool defaults, flagged in the
  * report, not invented Acuity tokens. */
 :root[data-ds="acuity"] {
   --ds-font: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -91,12 +91,12 @@
   --ds-border-color: #b8b8b8; /* neutrals-light — real token; fails 1.4.11 (1.98), flagged */
   --ds-border-width: 1px;
   --ds-border-style: solid;
-  --ds-radius: 6px; /* NOT an Acuity token — spike default */
+  --ds-radius: 6px; /* NOT an Acuity token — tool default */
   --ds-accent: #364699; /* acuity-blue DEFAULT */
   --ds-accent-fg: #ffffff;
   --ds-badge-bg: #e9ecf6; /* acuity-blue-lightest */
   --ds-badge-fg: #253170; /* acuity-blue-dark */
-  --ds-shadow: 0 1px 2px rgba(0, 0, 0, 0.08); /* NOT an Acuity token — spike default */
+  --ds-shadow: 0 1px 2px rgba(0, 0, 0, 0.08); /* NOT an Acuity token — tool default */
   --ds-card-rotate: 0deg;
   --ds-letter-spacing: normal;
 
@@ -106,7 +106,7 @@
    * #E40A0A + text danger-red-darkest #720202. Success → border success-green #4DA81F.
    * Note the input border is neutrals-light-but-accessible #949494 (3.0:1), NOT the
    * failing #B8B8B8 — the DS already uses the accessible grey here. Focus ring is
-   * :focus-visible-gated (keyboard only); spike uses acuity-blue for a visible, branded,
+   * :focus-visible-gated (keyboard only); the tool uses acuity-blue for a visible, branded,
    * AA ring (8.42:1). */
   --ds-input-bg: #ffffff; /* neutrals-white */
   --ds-input-fg: #333333; /* neutrals-darker */
@@ -186,26 +186,26 @@
    * _bootstrap.scss:14-18). The legacy text-input/select/textarea base is the OLD grey
    * one45 look: bg #FEFEFE, border 1px #DDD, text #333. The skin declares NO radius, NO
    * padding, and NO :focus rule on these (browser/Bootstrap default falls through) — so
-   * radius/pad/focus below are flagged spike defaults, not legacy tokens. select height
+   * radius/pad/focus below are flagged tool defaults, not legacy tokens. select height
    * is a real 32px (_bootstrap.scss). Labels: checkbox/radio label colour neutrals-dark
    * #555 (_forms.scss:42-45); required labels are bold. Error label colour #B94A48
-   * (_forms.scss:193-199); the skin has no success input state (spike borrows acuity-green,
+   * (_forms.scss:193-199); the skin has no success input state (the tool borrows acuity-green,
    * flagged). Focus ring uses $primary_purple — the legacy brand colour, still live on the
    * datepicker. INTENT-VS-REALITY: legacy .btn-primary actually renders acuity-blue #364699
    * in prod (new_branding.scss:299-316) — buttons converged to Acuity while text inputs did
-   * not. The spike keeps purple as the legacy brand token so the toggle stays legible; the
+   * not. The tool keeps purple as the legacy brand token so the toggle stays legible; the
    * button convergence is recorded in 03-reconciliation-gap-map.md. */
   --ds-input-bg: #fefefe; /* $form_input_background_color [D] */
   --ds-input-fg: #333333; /* $form_input_text_color [D] */
   --ds-input-border: #dddddd; /* $form_input_border_color [D] — fails 1.4.11 as a border (flagged) */
-  --ds-input-radius: 2px; /* NO legacy radius token — spike default, flagged */
-  --ds-input-pad-y: 0.4rem; /* NO legacy padding token — spike default, flagged */
-  --ds-input-pad-x: 0.55rem; /* spike default, flagged */
+  --ds-input-radius: 2px; /* NO legacy radius token — tool default, flagged */
+  --ds-input-pad-y: 0.4rem; /* NO legacy padding token — tool default, flagged */
+  --ds-input-pad-x: 0.55rem; /* tool default, flagged */
   --ds-input-font-size: 1rem; /* 16px (_bootstrap.scss:7-12) [D] */
   --ds-focus-ring: #42507d; /* $primary_purple — legacy brand focus */
   --ds-state-error: #b94a48; /* .alert-error label colour [D] */
   --ds-state-error-fg: #b94a48; /* [D] */
-  --ds-state-success: #4da81f; /* NO legacy success state — spike borrows acuity success-green, flagged */
+  --ds-state-success: #4da81f; /* NO legacy success state — the tool borrows acuity success-green, flagged */
   --ds-label-fg: #555555; /* checkbox/radio label, neutrals-dark [D] */
   --ds-label-weight: 700; /* required labels bold [D] */
   --ds-control-size: 1.05rem;
@@ -218,7 +218,7 @@
    * box border is #AAAAAA (themes/one45.scss:762-771). Links on React pages are
    * $link_color #0a6cbd, hover #064e89 (_colors.scss:34-35, styles_overwrite.scss:57-63).
    * Breadcrumb: the legacy app has a bespoke chevron .breadcrumb-widget (NOT Bootstrap)
-   * with link colour acuity-blue #364699 (themes/one45.scss:339-345); the spike renders a
+   * with link colour acuity-blue #364699 (themes/one45.scss:339-345); the tool renders a
    * flat trail (CSS-triangle chevron geometry simplified — flagged), purple crumb link,
    * one45_black current. Pagination is NOT enshrined: legacy defines no pagination skin
    * (only a margin reset, themes/one45.scss:553-559) and neither does Acuity. */

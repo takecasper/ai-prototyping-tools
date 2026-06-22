@@ -10,19 +10,19 @@
 //   restrict-classnames  className tokens must be layout-only (allowed prefixes)
 //
 // ─────────────────────────────────────────────────────────────────────────────
-// REVISIT WHEN REAL COMPONENTS LAND  (spike-scoped, provisional)
+// REVISIT WHEN REAL COMPONENTS LAND  (provisional primitives, not the real DS)
 // ─────────────────────────────────────────────────────────────────────────────
-// Everything in CONFIG below encodes the THROWAWAY spike's primitives, not real
+// Everything in CONFIG below encodes the tool's CURRENT low-fi primitives, not real
 // design-system components (which do not exist yet). Each real Acuity design
 // system the tool toggles between will ship its OWN component set. When those
 // arrive, these lists must be re-derived against them:
 //
 //   - ALLOWED_RAW_ELEMENTS  the layout wrappers a prototype may still write raw.
-//     Today: div/p, the spike's only layout primitives. Real systems may expose
+//     Today: div/p, the tool's only layout primitives. Real systems may expose
 //     their own layout components, shrinking or replacing this list.
-//   - ALLOWED_CLASS_PREFIXES  the spike's layout class namespaces (proto__/flow-).
+//   - ALLOWED_CLASS_PREFIXES  the tool's layout class namespaces (proto__/flow-).
 //     Real token/utility conventions will change what a legal className looks like.
-//   - CANONICAL_HINTS  the spike's canonical names (Button/Image/Icon/...). The
+//   - CANONICAL_HINTS  the tool's canonical names (Button/Image/Icon/...). The
 //     real canonical set is per design system and not yet known.
 //
 // The rule logic itself does NOT hardcode canonical component names: any
@@ -38,11 +38,11 @@ const CONFIG = {
   ALLOWED_RAW_ELEMENTS: new Set(["div", "p"]),
 
   // className tokens must start with one of these. Blocks Tailwind-style utility
-  // classes and arbitrary design classes; permits the spike's layout namespaces.
+  // classes and arbitrary design classes; permits the tool's layout namespaces.
   ALLOWED_CLASS_PREFIXES: ["proto", "flow"],
 
   // Lowercase element -> the canonical piece that replaces it. Drives the error
-  // message. Spike-scoped names; see banner above.
+  // message. Tool-scoped names; see banner above.
   CANONICAL_HINTS: {
     button: 'Canonical name="Button"',
     a: 'Canonical name="Link" (or Button for in-app actions)',

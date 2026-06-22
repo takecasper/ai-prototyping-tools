@@ -33,7 +33,7 @@ function Shell() {
     <div className="app">
       {panelsOpen && (
         <header className="app__bar">
-          <h1 className="app__title">Acuity Prototype Spike</h1>
+          <h1 className="app__title">Acuity Insights Prototype</h1>
           <span className="app__sys">
             {active.name} · {SYSTEMS[systemId].label}
           </span>

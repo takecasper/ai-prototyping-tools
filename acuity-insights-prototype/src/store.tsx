@@ -1,4 +1,4 @@
-// store.tsx — spike state: active system, manual MAPS (persisted), the
+// store.tsx — app state: active system, manual MAPS (persisted), the
 // annotation toggle, and which canonical pieces the prototype uses.
 //
 // Model (corrected): a component missing in the active system is NEVER left
@@ -22,11 +22,16 @@ import { type CanonicalName, type SystemId } from "./systems";
 // systemId → (missing canonical → manual map target)
 type MapRegistry = Record<string, Partial<Record<CanonicalName, CanonicalName>>>;
 
-const LS_KEY = "acuity-spike-maps-v2";
+const LS_KEY = "acuity-insights-prototype-maps-v2";
+// Original key from before the tool was renamed off "spike". Read it once as a
+// fallback so a returning user's saved overrides survive the rename rather than
+// silently resetting; the next maps write persists them under the new key.
+const LEGACY_LS_KEY = "acuity-spike-maps-v2";
 
 function loadMaps(): MapRegistry {
   try {
-    return JSON.parse(localStorage.getItem(LS_KEY) || "{}") as MapRegistry;
+    const raw = localStorage.getItem(LS_KEY) ?? localStorage.getItem(LEGACY_LS_KEY);
+    return JSON.parse(raw || "{}") as MapRegistry;
   } catch {
     return {};
   }

@@ -7,7 +7,7 @@ verified: true
 # One45 design systems — documented
 
 Two of One45's real, currently-live design systems, reverse-engineered from the
-staging repo so the [prototyping tool](../../spike/) can toggle between them and
+staging repo so the [prototyping tool](../../acuity-insights-prototype/) can toggle between them and
 surface their divergence. Built **on top of** the existing 8-phase internal analysis
 (` analysis — this folder does **not**
 re-derive the audit; it extracts the two systems the audit identified and turns
@@ -66,10 +66,10 @@ Headline facts it carries (all [D] unless marked):
 
 ## In the prototyping tool
 
-These are **live, usable skinned systems** in the spike, not just docs:
+These are **live, usable skinned systems** in the tool, not just docs:
 
-- `spike/src/systems.tsx` — `acuity`, `one45-legacy`, `lowfi` as real skins.
-- `spike/src/styles/tokens.css` — the rendered token blocks (single source of
+- `acuity-insights-prototype/src/systems.tsx` — `acuity`, `one45-legacy`, `lowfi` as real skins.
+- `acuity-insights-prototype/src/styles/tokens.css` — the rendered token blocks (single source of
   truth; the reports cite it). Real values, with faithful choices and known
   weaknesses commented inline.
 - **Real, sourced divergence:** Acuity ships `Alert` (DS component, 14 uses);
@@ -111,12 +111,12 @@ API absorbs the Acuity headlessui Dialog and the legacy Bootstrap modal, and the
 difference (legacy grey header band vs Acuity headerless title) is two tokens, no structural
 override. `learner-withdrawal` prototype (confirm-modal over a roster). Sourcing also found
 **Alert is NOT acuity-only** — legacy ships a real alert (`.one45-alert` + 154 `Error/*` Twig
-uses), so the spike's acuity-only Alert is owed a native-both rework. Toast / tag-chip /
+uses), so the tool's acuity-only Alert is owed a native-both rework. Toast / tag-chip /
 empty-state are gaps in **both** systems (not enshrined). Gap map §4d.
 
 **Honest scope:** between `acuity` and `one45-legacy`, most pieces are the **same
 component re-skinned by tokens**, not structurally different — so a single
-canonical API + token swap is the right model at the brand level (and the spike
+canonical API + token swap is the right model at the brand level (and the tool
 proves it). The genuine anatomy divergences are narrower and named in the gap map
 §5. The broader 7-system reality is structurally divergent, but six of seven die in
 the rebuild, so the convergence target is Acuity.

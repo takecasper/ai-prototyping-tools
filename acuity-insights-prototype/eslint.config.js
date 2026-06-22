@@ -1,6 +1,6 @@
 // eslint.config.js — flat config (ESLint 9). The hard lint gate for the
 // puzzle-piece rule. Scoped to prototypes only: this gate exists to keep
-// prototype screens building from <Canonical> pieces. The spike's own infra
+// prototype screens building from <Canonical> pieces. The tool's own infra
 // (resolver, store, overlay, systems) is intentionally NOT linted by it.
 //
 // Run with `npm run lint`. A violation exits non-zero, which is the gate.

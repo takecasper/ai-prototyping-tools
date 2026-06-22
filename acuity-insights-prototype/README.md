@@ -1,12 +1,12 @@
 ---
-title: Acuity Prototype Spike — README
-tags: spike, prototyping, multi-design-system, design-systems
+title: Acuity Insights Prototype — README
+tags: prototyping, multi-design-system, design-systems
 ---
 
-# Acuity Prototype Spike
+# Acuity Insights Prototype
 
-A working spike for the Acuity prototyping tool
-([plan](../ It proves the two
+A working multi-design-system prototyping tool for Acuity
+([plan](../ It delivers the two
 no-prior-art pieces:
 
 1. **Multi-system toggle** — one prototype, switched between design systems via a
@@ -30,14 +30,14 @@ against [`AGENTS.md`](AGENTS.md); raw markup is blocked by a hard lint gate
 Prerequisites: **Node 20+** and a package manager (`npm` ships with Node).
 
 ```bash
-cd spike
+cd acuity-insights-prototype
 npm install      # done when it prints "added N packages"
 npm run dev      # opens http://localhost:5173
 ```
 
 `npm run check` runs the lint gate plus the build.
 
-## Try the spike
+## Try it
 
 The canvas with controls closed is **only the prototype** — no chrome. Press `/`
 to open both panels (left: Prototypes; right: Controls — system switch, divergence,
@@ -66,7 +66,7 @@ bridge, annotation toggle).
    Divergence** → it counts shared / only-in-A / only-in-B / in-neither for the
    pieces the active screen uses — the convergence signal.
 
-Reset saved maps: clear the `acuity-spike-maps-v2` key in localStorage (or use each
+Reset saved maps: clear the `acuity-insights-prototype-maps-v2` key in localStorage (or use each
 row's **Revert to interim** button).
 
 ## What's stubbed / out of scope

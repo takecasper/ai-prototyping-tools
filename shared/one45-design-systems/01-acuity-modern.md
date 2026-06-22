@@ -18,7 +18,7 @@ Counts trace to the audit's `internal analysis` / `internal analysis` (re-run th
 session, reproduce to the digit) and `path:line`.
 
 Live in the prototyping tool as system id **`acuity`**
-(`spike/src/systems.tsx`, `spike/src/styles/tokens.css`). Portable token export:
+(`acuity-insights-prototype/src/systems.tsx`, `acuity-insights-prototype/src/styles/tokens.css`). Portable token export:
 [`tokens/acuity.json`](tokens/acuity.json).
 
 ---
@@ -62,8 +62,8 @@ each with a paired line-height); 3 weights `normal/semibold/bold` (400/600/700).
 **Spacing** [D] (`:2-11`): 8 keys `0`–`7` (0, 4, 8, 12, 16, 24, 32, 48 px).
 
 **What is NOT tokenized** [D][I]: **no radius, no shadow** token anywhere in the
-theme file — the set covers colour / type / spacing / weight only. The spike uses
-spike-default radius/shadow for `acuity` and flags them as non-tokens
+theme file — the set covers colour / type / spacing / weight only. The tool uses
+tool-default radius/shadow for `acuity` and flags them as non-tokens
 (`tokens.css` comments). Any "Acuity radius/shadow" is a per-component CSS
 decision, not a governed token. Runtime token adoption app-wide is **~nil outside
 the Tailwind layer** — Semantic UI ships 0 custom props, source SCSS/CSS 0; only
@@ -105,7 +105,7 @@ JSX, and `ds-` Tailwind utilities appear only **402** times app-wide against
 `../../../../../../` chains (` §2.6, §local`).
 
 **In the prototyping tool:** `acuity` skins Button, Card, Badge, **Alert**, Image,
-Icon (`spike/src/systems.tsx`). Alert is modelled as a first-class Acuity piece
+Icon (`acuity-insights-prototype/src/systems.tsx`). Alert is modelled as a first-class Acuity piece
 (DS Alert, 14 uses) — and is the **sourced divergence** against legacy, which has
 no Alert (Layer 2 of `02-one45-legacy.md`).
 
@@ -152,7 +152,7 @@ the border-grey weakness (`tokens.css`).
 
 The first deliverable to enshrine the **full** component surface (the rest of the
 checklist is tracked in `internal notes Inputs are
-now live canonical pieces in the spike (`TextField, Textarea, Select, Checkbox,
+now live canonical pieces in the tool (`TextField, Textarea, Select, Checkbox,
 Radio, Toggle, SearchField` + `Button` variants), token-driven and browser-verified
 across all three systems 2026-06-22.
 
@@ -184,7 +184,7 @@ across all three systems 2026-06-22.
 1. The DS input border is **`#949494` (3.03:1, passes 1.4.11)** — the accessible grey
    the contrast-fix map recommended, **not** the failing neutrals-light `#B8B8B8`. The
    DS already got this right; the failing grey is elsewhere.
-2. The DS input focus ring is **`:focus-visible`-gated (keyboard only)**; the spike
+2. The DS input focus ring is **`:focus-visible`-gated (keyboard only)**; the tool
    uses acuity-blue `#364699` (8.42:1) for a visible, branded ring.
 3. The Acuity **shell** search paints **purple `#42507D`** (legacy `$primary_purple`)
    for text and focus — purple is not purely a legacy colour; it persists in the Acuity
@@ -206,7 +206,7 @@ for inputs, recorded as data, not assumed.
 
 ## Navigation — enshrined slice [D][R]
 
-Second component group enshrined (2026-06-22). New canonical pieces in the spike:
+Second component group enshrined (2026-06-22). New canonical pieces in the tool:
 **`Tabs`, `Link`** (all three systems) + **`Breadcrumb`** (legacy-only — see below).
 **No `Pagination`** is enshrined: neither DS defines one, so fabricating it would
 misrepresent both systems. Browser-verified across acuity / one45-legacy / lowfi.
@@ -215,7 +215,7 @@ misrepresent both systems. Browser-verified across acuity / one45-legacy / lowfi
 
 - **Tabs** is index-based: `activeTabIndex` (number) + `handleTabChange(index)` +
   `isNested` (bool); child **`Tab`** carries `title`, `id`, `badgeText`
-  (`designSystemTest/main.jsx:935-994`). The canonical spike piece exposes one
+  (`designSystemTest/main.jsx:935-994`). The canonical tool piece exposes one
   **id-based** contract (`tabs[]`, `active`, `onSelect(id)`) — index-vs-key is hidden
   behind it. `badgeText` (e.g. "CA"/"FR" on the gallery) maps to `badge`.
 - **Link**: `text` + `type` ∈ `default | inline` + `href`/`target`; `iconName`
@@ -240,11 +240,11 @@ misrepresent both systems. Browser-verified across acuity / one45-legacy / lowfi
 1. The active-tab indicator is **acuity-green `#00A59B`**, sourced to
    `tailwind_acuity_theme.js:42` / `_colors.scss:46` — easy to assume acuity-blue; the
    render proves otherwise. Computed **3.06:1** (UI PASS, 1.4.11), but a thin 2px hue cue.
-2. Acuity has **no breadcrumb component** at all. In the spike, `Breadcrumb` is absent
+2. Acuity has **no breadcrumb component** at all. In the tool, `Breadcrumb` is absent
    from acuity's skins so it resolves through the **bridge** to a flagged, token-driven
    AI build (the mirror of legacy lacking `Alert`). `Pagination` is enshrined in neither
    system (it exists in neither's real DS), so it is not added at all — not fabricated as
-   a spike build.
+   a tool build.
 
 **Computed contrast** (`scripts/contrast.mjs`, "Acuity navigation" section): active-tab
 indicator `#00A59B` **3.06** (UI PASS), tab strip `#949494` **3.03** (UI PASS), link
@@ -254,7 +254,7 @@ indicator `#00A59B` **3.06** (UI PASS), tab strip `#949494` **3.03** (UI PASS), 
 and legacy's key-tabs both absorb into one id-based `Tabs` contract), but the **pure
 token-swap skin does NOT**. Acuity tabs are an **underline-indicator** model (acuity-green
 underline); legacy tabs are **Bootstrap box folder tabs** — a genuinely different visual
-structure. The spike renders each faithfully via a per-system skin
+structure. The tool renders each faithfully via a per-system skin
 (`:root[data-ds="one45-legacy"] .sk-tab` in `app.css`), rather than flattening legacy into
 the underline model. This is the first piece where "one component, tokens only" stops being
 enough; it is recorded as data, not forced. On top of that the **inventory diverges both
@@ -272,7 +272,7 @@ three systems). Browser-verified across acuity / one45-legacy / lowfi.
 DS `Modal` is a headlessui Dialog: `open`, `onClose`, `title`, `content`, `footer`,
 `backdrop` ∈ `static | dismissible`, `icon` + `iconName` ∈ `warning | infoCircle`,
 `dismissible`, `horizontalRule` (`common/confirmModal.jsx:34`, `pronounsModal.jsx:68`,
-`designSystemTest/main.jsx:541-576`). The canonical spike piece exposes one contract
+`designSystemTest/main.jsx:541-576`). The canonical tool piece exposes one contract
 (`open`, `title`, `onClose`, `dismissible`, `icon`, `footer`, children = body).
 
 **Import-list reality** [D]: of the feedback set, the acuity package imports only
@@ -301,9 +301,9 @@ headlessui Dialog and the legacy Bootstrap modal. And unlike Tabs, the visual di
 single-canonical-API model holds and token-swap holds: the cleanest result yet. The first
 true API break is still expected at the data grid / wizard, not here.
 
-**Adjacent findings recorded (not reworked this slice):** the spike's `Alert` is modelled
+**Adjacent findings recorded (not reworked this slice):** the tool's `Alert` is modelled
 acuity-only, but legacy ships a **real** alert (`.one45-alert` + 154 `Error/*` Twig uses) —
-both-native rework recommended (reconciliation §4d). The spike's `Badge` is the real
+both-native rework recommended (reconciliation §4d). The tool's `Badge` is the real
 acuity-DS Badge but is mis-shared to legacy (legacy has **no** status badge). Toast,
 tag/chip and empty-state are absent from **both** systems → not enshrined.
 

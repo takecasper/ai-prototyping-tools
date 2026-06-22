@@ -1,7 +1,7 @@
 // contrast.mjs — deterministic WCAG 2.x contrast computation for the two One45
 // design systems. Ratios are COMPUTED here (sRGB relative luminance, WCAG 1.4.3
 // formula), never hand-written into the reports. Same method as the internal analysis
-//  §3.3 Python block; reproduced in JS so it runs with the spike's
+//  §3.3 Python block; reproduced in JS so it runs with the tool's
 // Node toolchain.
 //
 //   Usage:  node shared/one45-design-systems/scripts/contrast.mjs

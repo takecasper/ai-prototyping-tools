@@ -122,9 +122,9 @@ hex colour literals, or a `className` outside the `proto`/`flow` layout
 namespaces. A failing lint is the gate, so a violating prototype does not pass.
 
 The rules live in `eslint-plugin-canonical/`. Their allowlists (which raw
-wrappers and class prefixes are legal) are SPIKE-SCOPED and provisional: they
-encode the throwaway low-fi primitives, not the real per-system components, which
-do not exist yet. When real design-system components land, those allowlists must
+wrappers and class prefixes are legal) are scoped to the tool's CURRENT primitives
+and provisional: they encode the current low-fi primitives, not the real per-system
+components, which do not exist yet. When real design-system components land, those allowlists must
 be revisited. See the `REVISIT WHEN REAL COMPONENTS LAND` banner in
 `eslint-plugin-canonical/index.js`.
 

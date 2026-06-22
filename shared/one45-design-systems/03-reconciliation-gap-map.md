@@ -52,7 +52,7 @@ palette (38), so two unrelated colour systems share one include
 theme, CSS vars, compiled utilities, and any SCSS from it. The portable
 [`tokens/acuity.json`](tokens/acuity.json) in this folder is a candidate single
 source. **The prototyping tool already models this discipline** — `acuity` renders
-from one token block (`spike/src/styles/tokens.css`), not four.
+from one token block (`acuity-insights-prototype/src/styles/tokens.css`), not four.
 
 Component-side duplication compounds it [D]: 4 coexisting React UI stacks
 (acuity-DS 257 + react-bootstrap 66 + semantic-ui-react 16 + local fork) and 15%
@@ -117,7 +117,7 @@ token level, not per-component. Text 4.5 · UI/large 3.
 acuity-red `#BA1E50` (6.20), neutrals darker `#333` (12.63) / dark `#555` (7.46);
 legacy `$one45_black #27304B` (13.04), `$primary_purple #42507D` (7.85), `$link
 #0a6cbd` (5.39). The prototyping-tool skins already default to these
-(`spike/src/styles/tokens.css`).
+(`acuity-insights-prototype/src/styles/tokens.css`).
 
 ---
 
@@ -153,7 +153,7 @@ Second slice. Canonical pieces added: `Tabs`, `Link` (all three systems) + `Brea
 (legacy + lowfi native, **acuity-absent → bridge**). **No `Pagination`** — it exists in
 neither DS, so fabricating it would misrepresent both systems. Lint-gate-clean,
 browser-verified across acuity / one45-legacy / lowfi; pattern prototype
-`spike/src/prototypes/program-explorer/` (region tabs filter the list → detail with
+`acuity-insights-prototype/src/prototypes/program-explorer/` (region tabs filter the list → detail with
 section tabs + deeper breadcrumb).
 
 **New findings from this slice:**
@@ -191,7 +191,7 @@ observable.
 
 Third slice, first piece. Canonical piece added: **`Modal`** (native in all three systems).
 Lint-gate-clean, browser-verified across acuity / one45-legacy / lowfi; pattern prototype
-`spike/src/prototypes/learner-withdrawal/` (a roster with a destructive Withdraw guarded by
+`acuity-insights-prototype/src/prototypes/learner-withdrawal/` (a roster with a destructive Withdraw guarded by
 a confirm Modal, acknowledged by an Alert). The Feedback group is being sliced; only Modal is
 enshrined this pass, the rest recorded as findings/gaps below.
 
@@ -199,10 +199,10 @@ enshrined this pass, the rest recorded as findings/gaps below.
 
 | Finding | Evidence |
 |---|---|
-| **Modal PASSES the API-survival test AND pure token-swap** — one canonical API absorbs the Acuity headlessui Dialog and the legacy Bootstrap modal; the only visual difference (legacy grey header band vs Acuity headerless title) is captured as tokens (`--ds-modal-header-bg`/`-border`), so unlike Tabs no per-system structural override is needed | `confirmModal.jsx:34`, `mappingModal.jsx:162` [D]; `/test/designSystem` + spike [R] |
+| **Modal PASSES the API-survival test AND pure token-swap** — one canonical API absorbs the Acuity headlessui Dialog and the legacy Bootstrap modal; the only visual difference (legacy grey header band vs Acuity headerless title) is captured as tokens (`--ds-modal-header-bg`/`-border`), so unlike Tabs no per-system structural override is needed | `confirmModal.jsx:34`, `mappingModal.jsx:162` [D]; `/test/designSystem` + tool [R] |
 | Acuity modal [R]: panel radius **8px**, shadow `0 2px 8px rgba(0,0,0,.12)`, scrim `rgba(0,0,0,.25)` (`neutrals-transparent-medium`), title `#333` 23px, **headerless** | `/test/designSystem` getComputedStyle [R] |
-| Legacy modal [D]: panel radius **6px**, shadow `0 3px 7px rgba(0,0,0,.3)`, **grey header band `#F5F5F5` + `#EEE` rule**, title `$one45_black #27304B` | `_bootstrap.scss:103` [D]; spike [R] |
-| **Alert is NOT acuity-only** — legacy ships a real alert: WidgetBundle `Error/*` Twig partials (154 uses) skinned by `.one45-alert` (success `#B0F0E9` / warning `#FCE0A7` / error `#FFC8D7` / info `#42507D`, over `#27304B`/`#FFF`, radius 0, pad 16px). The spike's acuity-only model + bridge fill is now known inaccurate → **rework Alert to native-both next slice** | `Error/*.twig`; `new_branding.scss:66-170` [D] |
+| Legacy modal [D]: panel radius **6px**, shadow `0 3px 7px rgba(0,0,0,.3)`, **grey header band `#F5F5F5` + `#EEE` rule**, title `$one45_black #27304B` | `_bootstrap.scss:103` [D]; tool [R] |
+| **Alert is NOT acuity-only** — legacy ships a real alert: WidgetBundle `Error/*` Twig partials (154 uses) skinned by `.one45-alert` (success `#B0F0E9` / warning `#FCE0A7` / error `#FFC8D7` / info `#42507D`, over `#27304B`/`#FFF`, radius 0, pad 16px). The tool's acuity-only model + bridge fill is now known inaccurate → **rework Alert to native-both next slice** | `Error/*.twig`; `new_branding.scss:66-170` [D] |
 | **Badge is mis-shared to legacy** — the real Badge is the acuity-DS component (`label`/`color`/`type`, demo-page only); legacy has **no** status badge (`.badge-details` is a profile-photo widget) → correct Badge to acuity-only next slice | island recovery [D] |
 | **Toast, tag/chip, empty-state are gaps in BOTH systems** (zero in either DS) → NOT enshrined (the Pagination rule). **Spinner**: acuity-real, legacy is a webeval `busy` cog **GIF** (no CSS). **ProgressBar**: acuity-real, legacy near-absent (`.progress` line-height only). **Tooltip/Popover**: react-bootstrap in both, not DS components. All deferred | island recovery + `_bootstrap.scss` [D] |
 
@@ -215,7 +215,7 @@ structurally-rich piece after Tabs, and it survives more completely: API absorbs
 the look is a pure token swap. The single-canonical-API model still holds; the first true
 API break is still expected at the **data grid / wizard**, not here. Rule honoured: nothing
 muddied or fabricated — pieces absent from both systems (toast/tag/empty-state) are recorded
-gaps, not spike builds.
+gaps, not tool builds.
 
 ---
 

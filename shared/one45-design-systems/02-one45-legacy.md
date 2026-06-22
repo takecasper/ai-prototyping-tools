@@ -13,7 +13,7 @@ layers, kept separate, same evidence labels as `01-acuity-modern.md`
 (**[D]**/**[R]**/**[I]**).
 
 Live in the prototyping tool as system id **`one45-legacy`**
-(`spike/src/systems.tsx`, `spike/src/styles/tokens.css`). Portable token export:
+(`acuity-insights-prototype/src/systems.tsx`, `acuity-insights-prototype/src/styles/tokens.css`). Portable token export:
 [`tokens/one45-legacy.json`](tokens/one45-legacy.json).
 
 ---
@@ -80,7 +80,7 @@ single canonical API + token swap is the right model **at the brand level**, and
 the prototyping tool proves it (toggle re-skins Button/Card/Badge/Image/Icon with
 zero prototype edits). The genuine divergences are where a piece exists as a real
 component in one system and a *different mechanism* in the other — e.g. **Alert**
-(Acuity DS component, 14 uses) vs legacy's Twig `Error/*` partials. The spike
+(Acuity DS component, 14 uses) vs legacy's Twig `Error/*` partials. The tool
 models that: `one45-legacy` ships **no Alert skin**, so a screen using Alert
 (Casper Score Report → Summary) bridges it (flagged "AI approx") when toggled to
 legacy — runtime-verified 2026-06-22. This is the concrete case where "components
@@ -124,7 +124,7 @@ the accent (both AAA), and treats teal/yellow/red as decoration only.
 
 Sourced from the legacy CSS skin (`PageBundle/.../css/src/`), since legacy has **no
 React form-control library** — it is Bootstrap/Twig markup re-skinned by SCSS. Now
-live in the spike as the same canonical pieces, re-skinned to the legacy look.
+live in the tool as the same canonical pieces, re-skinned to the legacy look.
 
 **The legacy form layer is two-speed** [D] — a headline finding of this slice:
 
@@ -142,12 +142,12 @@ live in the spike as the same canonical pieces, re-skinned to the legacy look.
 `#364699`** in production while legacy **text inputs stayed the old grey one45 look**
 (`#DDD` border, no radius). So at the *button* level legacy ≈ Acuity already; the real,
 enshrine-able divergence is the **input chrome** (grey/no-radius/no-focus vs Acuity's
-`#949494`/radius-4/state-coloured). The spike keeps `$primary_purple` as the legacy
+`#949494`/radius-4/state-coloured). The tool keeps `$primary_purple` as the legacy
 brand token (still live on the datepicker + the Acuity shell search) so the toggle stays
 legible, and records the button convergence here and in the gap map.
 
 **Untokened/flagged** [D]: legacy declares **no** radius, padding, focus, or success-state
-token for inputs — the spike values for those are flagged spike defaults, not legacy
+token for inputs — the tool values for those are flagged tool defaults, not legacy
 tokens (`tokens.css` comments). The input border `#DDD` computes **1.36:1** on white
 (`scripts/contrast.mjs`) — it **fails the 3:1 UI threshold** (1.4.11); recorded, not fixed
 (legacy is a migration source).
@@ -176,13 +176,13 @@ never built). **No `Pagination`** (legacy defines none). Browser-verified 2026-0
 **Recorded gaps** [D]: legacy defines **no pagination skin** (only a margin reset,
 `themes/one45.scss:553-559`; no `.pager` anywhere) and **no stepper/wizard CSS** — steps
 render purely through webeval tags (`steps`, `stepsHeader`, `config_step`) with no skin.
-Since pagination exists in NEITHER system, the spike does **not** enshrine it (no fabricated
+Since pagination exists in NEITHER system, the tool does **not** enshrine it (no fabricated
 component); stepper is deferred until a real instance is sourced.
 
 **The headline divergence this group adds:** `Breadcrumb` is a **legacy-only** piece — the
 legacy app has a real (chevron) breadcrumb the Acuity DS never built, the exact mirror of
-`Alert` being acuity-only. So the spike makes `Breadcrumb` native to legacy + lowfi and
-**absent from acuity**, where the bridge builds it (flagged AI). The spike flattens the
+`Alert` being acuity-only. So the tool makes `Breadcrumb` native to legacy + lowfi and
+**absent from acuity**, where the bridge builds it (flagged AI). The tool flattens the
 chevron geometry to a `/`-separated trail (simplification flagged in `tokens.css`).
 
 **Computed contrast** (`scripts/contrast.mjs`, "one45 legacy navigation"): tab label
@@ -194,7 +194,7 @@ class of failure as the `#DDD` input border.
 **Anatomy result — the first crack:** the canonical `Tabs`/`Link` **API** holds (legacy's
 key-based tabs absorb into the same id-based contract as Acuity's index-tabs), but legacy
 tabs are a **structurally different visual model** — Bootstrap box folder tabs vs Acuity's
-underline indicator. That does **not** token-swap, so the spike renders each system's real
+underline indicator. That does **not** token-swap, so the tool renders each system's real
 tab model via a per-system skin (`app.css`), not a flattened shared one. On top of that the
 **inventory** diverges (`Breadcrumb` here, `Alert` there, neither with a real `Pagination`).
 Both are the bridge's / per-system skin's work — see reconciliation §4c/§5.
@@ -215,10 +215,10 @@ legacy look: **`Modal`** (native here — legacy genuinely has one). Browser-ver
 | Title | `$one45_black #27304B`, Cabin | `_colors.scss:1`, `new_branding.scss` |
 | react-bootstrap usage | `Modal show/onHide/size/backdrop="static"/centered` + `Modal.Header/Title/Body/Footer` | `mappingModal.jsx:162`, `confirmationPopup.jsx:39` |
 
-Scrim: the SCSS declares the backdrop via `opacity`, not a colour, so the spike uses a
+Scrim: the SCSS declares the backdrop via `opacity`, not a colour, so the tool uses a
 solid `rgba(0,0,0,.5)` (Bootstrap-2 default) per the no-opacity rule — flagged [I].
 
-**[R] confirmation** (2026-06-22, `getComputedStyle` on the spike's legacy modal): panel
+**[R] confirmation** (2026-06-22, `getComputedStyle` on the tool's legacy modal): panel
 radius 6px, shadow `0 3px 7px rgba(0,0,0,.3)`, header band `#F5F5F5` + `#EEE` rule, title
 `#27304B` Cabin 20px, scrim `rgba(0,0,0,.5)` — matches the sourced tokens to the value.
 
@@ -236,7 +236,7 @@ group found legacy ships a **real** alert: the WidgetBundle `Error/*` Twig parti
 includes: error/warning/info/success/sorry/errors) skinned by `.one45-alert`
 (`new_branding.scss:66-170`) with sourced fills — success `#B0F0E9`, warning `#FCE0A7`,
 error `#FFC8D7`, info `#42507D` (all over `#27304B` except info over `#FFF`), radius 0,
-padding 16px. The spike currently models Alert as acuity-only with a bridge fill, which the
+padding 16px. The tool currently models Alert as acuity-only with a bridge fill, which the
 in-browser check shows flagged "Claude interim → Button" in legacy — now known to be
 inaccurate. Recommend reworking Alert to **native-both** next slice (reconciliation §4d).
 

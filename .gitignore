@@ -17,12 +17,12 @@
 !shared/
 !shared/**
 
-# 3b. Promoted to shareable: the prototyping spike (source only;
+# 3b. Promoted to shareable: the prototyping tool (source only;
 #     installed deps and build output stay ignored).
-!spike/
-!spike/**
-spike/node_modules/
-spike/dist/
+!acuity-insights-prototype/
+!acuity-insights-prototype/**
+acuity-insights-prototype/node_modules/
+acuity-insights-prototype/dist/
 
 # 4. OS / editor noise — stays ignored even inside shared/.
 .DS_Store
