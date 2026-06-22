@@ -128,6 +128,17 @@ do not exist yet. When real design-system components land, those allowlists must
 be revisited. See the `REVISIT WHEN REAL COMPONENTS LAND` banner in
 `eslint-plugin-canonical/index.js`.
 
+## Bridge invariant (do not regress)
+
+Every non-native resolution in `src/resolver.tsx` — a **user-mapped** target (`.res--map`,
+`↔` tag) or a **Claude interim** (`.res--ai`, "AI approx" tag, from `INTERIM_BUILDS` or the
+first-native fallback) — MUST be gated by the store's `annotations` toggle ("Flag interim and
+mapped components"): flagged when on, plain when off. Native pieces are never flagged. Toggle
+off clears every flag; toggle on flags every bridged/mapped piece. A new one-system-only or
+mechanism-divergent canonical MUST flow through a flagged path — never a silent stand-in.
+Before marking any bridge/skin work done, **verify both toggle states in-browser**: on →
+every bridged/mapped piece flagged, off → all flags gone.
+
 ## Navigation and shared state
 
 - `goTo(screenId)` pushes a screen, `back()` pops, `reset()` returns to the start
