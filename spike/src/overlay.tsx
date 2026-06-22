@@ -1,5 +1,6 @@
-// overlay.tsx — the "/" control panel, organised into three sections:
-// Design System, Component Bridge, System Divergence. No "Ask Claude" button —
+// overlay.tsx — the "/" control panel, organised into: Design System, then
+// System Divergence with the Component Bridge nested under it (the two are
+// related — divergence is what the bridge resolves). No "Ask Claude" button —
 // the tool runs in Claude Code, so gaps are filled by Claude Code building an
 // interim (auto-flagged). The user's action here is to OVERRIDE that interim by
 // mapping the missing piece to an existing component, or revert to the interim.
@@ -62,66 +63,6 @@ export function ControlOverlay({ onClose }: { onClose: () => void }) {
       </section>
 
       <section className="ov__sec">
-        <h3 className="ov__h">Component Bridge</h3>
-
-        <label className="ov__toggle">
-          <input
-            type="checkbox"
-            checked={annotations}
-            onChange={(e) => setAnnotations(e.target.checked)}
-          />
-          Flag interim and mapped components
-        </label>
-
-        <div role="status">
-          <div className="ov__label">Components missing here ({missing.length})</div>
-          {missing.length === 0 && (
-            <p className="ov__ok">Every component on this screen exists here.</p>
-          )}
-        </div>
-        {missing.map((name) => {
-          const mapped = maps[systemId]?.[name];
-          return (
-            <div key={name} className="ov__row">
-              <div className="ov__name">
-                {name}
-                {mapped ? (
-                  <span className="ov__pill is-map">mapped → {mapped}</span>
-                ) : (
-                  <span className="ov__pill is-ai">
-                    Claude interim{interim ? ` → ${interim}` : ""}
-                  </span>
-                )}
-              </div>
-              <div className="ov__actions">
-                <label className="ov__map">
-                  map to&nbsp;
-                  <select
-                    value={mapped ?? ""}
-                    onChange={(e) =>
-                      e.target.value && setMap(systemId, name, e.target.value as CanonicalName)
-                    }
-                  >
-                    <option value="">Use Claude interim</option>
-                    {nativeNames.map((t) => (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                {mapped && (
-                  <button className="ov__clear" onClick={() => clearMap(systemId, name)}>
-                    Revert to interim
-                  </button>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </section>
-
-      <section className="ov__sec">
         <h3 className="ov__h">System Divergence</h3>
         <div className="ov__label">Compare to</div>
         <select
@@ -138,6 +79,68 @@ export function ControlOverlay({ onClose }: { onClose: () => void }) {
           ))}
         </select>
         <DesignNotes />
+
+        <div className="ov__sub">
+          <h4 className="ov__subh">Component Bridge</h4>
+
+          <label className="ov__toggle">
+            <input
+              type="checkbox"
+              checked={annotations}
+              onChange={(e) => setAnnotations(e.target.checked)}
+            />
+            Flag interim and mapped components
+          </label>
+
+          <div role="status">
+            <div className="ov__label">Components missing here ({missing.length})</div>
+            {missing.length === 0 && (
+              <p className="ov__ok">
+                Every component on this screen exists in the currently selected design system.
+              </p>
+            )}
+          </div>
+          {missing.map((name) => {
+            const mapped = maps[systemId]?.[name];
+            return (
+              <div key={name} className="ov__row">
+                <div className="ov__name">
+                  {name}
+                  {mapped ? (
+                    <span className="ov__pill is-map">mapped → {mapped}</span>
+                  ) : (
+                    <span className="ov__pill is-ai">
+                      Claude interim{interim ? ` → ${interim}` : ""}
+                    </span>
+                  )}
+                </div>
+                <div className="ov__actions">
+                  <label className="ov__map">
+                    map to&nbsp;
+                    <select
+                      value={mapped ?? ""}
+                      onChange={(e) =>
+                        e.target.value && setMap(systemId, name, e.target.value as CanonicalName)
+                      }
+                    >
+                      <option value="">Use Claude interim</option>
+                      {nativeNames.map((t) => (
+                        <option key={t} value={t}>
+                          {t}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  {mapped && (
+                    <button className="ov__clear" onClick={() => clearMap(systemId, name)}>
+                      Revert to interim
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </section>
 
       <p className="ov__foot">

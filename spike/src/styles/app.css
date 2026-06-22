@@ -476,6 +476,19 @@ body {
   letter-spacing: 0.06em;
   color: #111827;
 }
+/* Component Bridge, nested under System Divergence as a sub-section. Indented
+ * with a rule on the left so it reads as subordinate to the section above it. */
+.ov__sub {
+  margin-top: 1rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid #ececf1;
+}
+.ov__subh {
+  margin: 0 0 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #374151;
+}
 .ov__select {
   width: 100%;
   font: inherit;
