@@ -187,6 +187,38 @@ observable.
 
 ---
 
+## 4d. Feedback & status slice — Modal enshrined 2026-06-22 [D][R]
+
+Third slice, first piece. Canonical piece added: **`Modal`** (native in all three systems).
+Lint-gate-clean, browser-verified across acuity / one45-legacy / lowfi; pattern prototype
+`spike/src/prototypes/learner-withdrawal/` (a roster with a destructive Withdraw guarded by
+a confirm Modal, acknowledged by an Alert). The Feedback group is being sliced; only Modal is
+enshrined this pass, the rest recorded as findings/gaps below.
+
+**New findings from this slice:**
+
+| Finding | Evidence |
+|---|---|
+| **Modal PASSES the API-survival test AND pure token-swap** — one canonical API absorbs the Acuity headlessui Dialog and the legacy Bootstrap modal; the only visual difference (legacy grey header band vs Acuity headerless title) is captured as tokens (`--ds-modal-header-bg`/`-border`), so unlike Tabs no per-system structural override is needed | `confirmModal.jsx:34`, `mappingModal.jsx:162` [D]; `/test/designSystem` + spike [R] |
+| Acuity modal [R]: panel radius **8px**, shadow `0 2px 8px rgba(0,0,0,.12)`, scrim `rgba(0,0,0,.25)` (`neutrals-transparent-medium`), title `#333` 23px, **headerless** | `/test/designSystem` getComputedStyle [R] |
+| Legacy modal [D]: panel radius **6px**, shadow `0 3px 7px rgba(0,0,0,.3)`, **grey header band `#F5F5F5` + `#EEE` rule**, title `$one45_black #27304B` | `_bootstrap.scss:103` [D]; spike [R] |
+| **Alert is NOT acuity-only** — legacy ships a real alert: WidgetBundle `Error/*` Twig partials (154 uses) skinned by `.one45-alert` (success `#B0F0E9` / warning `#FCE0A7` / error `#FFC8D7` / info `#42507D`, over `#27304B`/`#FFF`, radius 0, pad 16px). The spike's acuity-only model + bridge fill is now known inaccurate → **rework Alert to native-both next slice** | `Error/*.twig`; `new_branding.scss:66-170` [D] |
+| **Badge is mis-shared to legacy** — the real Badge is the acuity-DS component (`label`/`color`/`type`, demo-page only); legacy has **no** status badge (`.badge-details` is a profile-photo widget) → correct Badge to acuity-only next slice | island recovery [D] |
+| **Toast, tag/chip, empty-state are gaps in BOTH systems** (zero in either DS) → NOT enshrined (the Pagination rule). **Spinner**: acuity-real, legacy is a webeval `busy` cog **GIF** (no CSS). **ProgressBar**: acuity-real, legacy near-absent (`.progress` line-height only). **Tooltip/Popover**: react-bootstrap in both, not DS components. All deferred | island recovery + `_bootstrap.scss` [D] |
+
+**Modal title contrast** (`scripts/contrast.mjs`, "Modal" sections): Acuity `#333` on `#FFF`
+**12.63** (AAA); legacy `#27304B` on band `#F5F5F5` **11.96** (AAA), on white **13.04**
+(AAA). The header band `#F5F5F5` vs panel `#FFF` is **1.09** — decorative, as intended.
+
+**Anatomy result [R] — the cleanest both-systems result yet.** Modal is the second
+structurally-rich piece after Tabs, and it survives more completely: API absorbs both AND
+the look is a pure token swap. The single-canonical-API model still holds; the first true
+API break is still expected at the **data grid / wizard**, not here. Rule honoured: nothing
+muddied or fabricated — pieces absent from both systems (toast/tag/empty-state) are recorded
+gaps, not spike builds.
+
+---
+
 ## 5. Convergence read [I]
 
 The divergence between the two systems is **largely token/brand at the API level** —
@@ -196,13 +228,20 @@ that re-skin cleanly, no per-system skin needed). But the Navigation slice (§4c
 **first place a pure token-swap is not enough**: `Tabs` share the API yet render structurally
 different models (Acuity underline vs legacy Bootstrap box tabs), so each needs its own skin.
 The rule going forward: **represent each system's real model accurately — never flatten or
-fabricate a component to keep the token-swap story tidy.** Beyond Tabs, the **anatomy
-divergence** is nameable: a true component in one system and a different mechanism in the
-other (Alert: DS component vs Twig `Error/*` partials), or a true component in one and
-**absent** in the other (Breadcrumb: legacy widget vs no Acuity component — §4c). Those are
-the bridge's actual work, and the Navigation slice **evolved it** past the first-native-piece
-heuristic: divergent pieces now resolve to a flagged token-driven build of that piece in the
-active system (`INTERIM_BUILDS`, §4c), not an unrelated component. The broader 7-system
+fabricate a component to keep the token-swap story tidy.** The **Modal slice (§4d) then
+restored the clean result**: one canonical API absorbs both systems AND the look is a pure
+token swap (even the legacy grey header band is two tokens, not a structural override) — so
+token-swap holds wherever the two systems share a real structure, and breaks (Tabs) only
+where they genuinely render different structures. Beyond Tabs, the **anatomy divergence** is
+nameable along two axes: **(a) different mechanism, same surface** — a real component in both,
+built differently (Alert: Acuity DS component vs legacy Twig `Error/*` partials + `.one45-alert`
+skin; §4d corrected the earlier "acuity-only" read — legacy DOES have a real alert, so a
+both-native rework is owed); and **(b) present vs absent** — a real component in one and none
+in the other (Breadcrumb: legacy widget vs no Acuity component — §4c; and Badge: acuity DS vs
+no legacy status badge — §4d). Those are the bridge's actual work, and the Navigation slice
+**evolved it** past the first-native-piece heuristic: divergent pieces now resolve to a flagged
+token-driven build of that piece in the active system (`INTERIM_BUILDS`, §4c), not an unrelated
+component. The broader 7-system
 reality (Semantic UI / Bootstrap 2 / jQuery-UI / webeval) **is** structurally
 divergent — but six of seven die in the rebuild (` §1.7`), so the
 convergence target is Acuity, and this map is the list of what to fix in it first.

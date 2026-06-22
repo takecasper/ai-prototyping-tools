@@ -47,6 +47,7 @@ const CONFIG = {
     button: 'Canonical name="Button"',
     a: 'Canonical name="Link" (or Button for in-app actions)',
     nav: 'Canonical name="Tabs"/"Breadcrumb"',
+    dialog: 'Canonical name="Modal"',
     img: 'Canonical name="Image"',
     image: 'Canonical name="Image"',
     svg: 'Canonical name="Icon"',

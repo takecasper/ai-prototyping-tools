@@ -58,5 +58,37 @@
     "link": { "fg": "#364699", "fgToken": "acuity-blue", "active": "#161E4A", "activeToken": "acuity-blue-darkest", "decoration": "underline; hover removes underline", "variants": ["default", "inline"], "note": "Acuity Link API is text + type(default|inline) + href/target; iconName=linkNewTab pairs with target=_blank" },
     "breadcrumb": null,
     "pagination": null
+  },
+  "feedback": {
+    "$meta": "[R] from the live DS gallery /test/designSystem (2026-06-22, getComputedStyle on the headlessui Modal/Dialog) + API [D] from the islands. The Feedback & status slice enshrines Modal first. Of the requested set the acuity package imports only Alert/Modal/Badge/ProgressBar/Spinner — and only Alert+Modal are used in PRODUCTION islands (Badge/ProgressBar/Spinner appear on the demo page only). Toast/tooltip/popover/tag/empty-state are NOT in the package (zero usages). Spike renders Modal in spike/src/styles/tokens.css.",
+    "modal": {
+      "panelBg": "#FFFFFF", "radius": "8px", "shadow": "0 2px 8px rgba(0,0,0,.12)",
+      "scrim": "rgba(0,0,0,.25)", "scrimToken": "neutrals-transparent-medium",
+      "titleColor": "#333333", "titleSize": "23px", "header": "none (headerless — title on the white panel)",
+      "api": ["open", "onClose", "title", "content", "footer", "backdrop(static|dismissible)", "icon", "iconName(warning|infoCircle)"],
+      "note": "headlessui Dialog; ONE canonical API absorbs this AND the legacy Bootstrap modal — the API-survival test PASSED, and even the header divergence is a pure token swap. radius/shadow are RENDERED values, not theme-file tokens."
+    },
+    "alert": {
+      "$status": "imported + used in 8 production islands",
+      "variants": ["info", "success", "warning", "error"],
+      "props": ["variant", "title", "titleSize(none|small|large)", "description|content", "showIcon", "isDismissible", "handleClose"],
+      "note": "acuity-only in the spike TODAY, but legacy ships a real alert too (.one45-alert + 154 Error/* Twig uses) — a both-native rework is recommended; see reconciliation §4d."
+    },
+    "badge": {
+      "$status": "imported, demo-page only (zero production islands)",
+      "props": ["label", "color(default|red|gray|blue|yellow|green)", "type(regular|small)", "dismissible", "onDismiss"],
+      "note": "the spike's Badge predates sourcing; the real Badge is acuity-DS only (legacy has no status badge) — correct to acuity-only next slice."
+    },
+    "progressBar": {
+      "$status": "imported, demo-page only",
+      "props": ["size(large|small)", "state(indeterminate|in-progress|error|success)", "label", "helperMessage", "maxValue", "value"],
+      "note": "not enshrined this slice — acuity-real, legacy near-absent (deferred to a bridge-interim slice)."
+    },
+    "spinner": {
+      "$status": "imported, demo-page only",
+      "props": ["size(small|medium|large|extra-large)", "label", "ariaLive", "focusable"],
+      "note": "not enshrined this slice — acuity-real, legacy uses a webeval `busy` cog GIF with no CSS (deferred)."
+    },
+    "gaps": "Toast/snackbar, tooltip (react-bootstrap, not DS), popover (react-bootstrap), tag/chip, empty-state — NOT in the acuity DS package (zero usages). Tag/chip + empty-state + toast are gaps in BOTH systems -> not enshrined (the Pagination rule)."
   }
 }

@@ -78,7 +78,11 @@ These are **live, usable skinned systems** in the spike, not just docs:
   **bridges** it when toggled to legacy — verified in-browser 2026-06-22. This is
   the plan's anatomy-divergence question, exercised on two real systems; the
   crude Button-as-Alert interim is the concrete motivation for the bridge to evolve
-  a per-system Alert.
+  a per-system Alert. **Updated:** the bridge has since evolved (`INTERIM_BUILDS`,
+  Navigation slice) so Alert now resolves to a flagged token-driven Alert build in
+  legacy, not Button. And the Feedback slice (§4d) corrected the premise itself —
+  legacy DOES ship a real alert (`.one45-alert` + `Error/*` Twig), so Alert is owed a
+  native-both rework rather than a bridge fill.
 
 **Inputs & controls slice (enshrined 2026-06-22):** the first slice of the full
 component surface is live — `TextField, Textarea, Select, Checkbox, Radio, Toggle,
@@ -93,6 +97,22 @@ single-canonical-API + token-swap model survives the whole inputs group** — no
 needed for any input. See each report's "Inputs & controls — enshrined slice" and gap
 map §4b. The remaining component groups + patterns are tracked in
 `internal notes
+
+**Navigation slice (2026-06-22):** `Tabs`, `Link` (all systems) + `Breadcrumb`
+(legacy-only → bridge fills acuity). First place pure token-swap broke — Acuity underline
+tabs vs legacy Bootstrap box tabs share the API but render a per-system visual model. The
+bridge **evolved** here (`INTERIM_BUILDS`): a missing divergent piece now resolves to a
+flagged token-driven build of *that* piece, not an unrelated component. `program-explorer`
+prototype; gap map §4c.
+
+**Feedback & status slice (2026-06-22):** `Modal` enshrined (native in all three systems),
+the structural API-survival test — **it passed, and so did pure token-swap**: one canonical
+API absorbs the Acuity headlessui Dialog and the legacy Bootstrap modal, and the only visual
+difference (legacy grey header band vs Acuity headerless title) is two tokens, no structural
+override. `learner-withdrawal` prototype (confirm-modal over a roster). Sourcing also found
+**Alert is NOT acuity-only** — legacy ships a real alert (`.one45-alert` + 154 `Error/*` Twig
+uses), so the spike's acuity-only Alert is owed a native-both rework. Toast / tag-chip /
+empty-state are gaps in **both** systems (not enshrined). Gap map §4d.
 
 **Honest scope:** between `acuity` and `one45-legacy`, most pieces are the **same
 component re-skinned by tokens**, not structurally different — so a single

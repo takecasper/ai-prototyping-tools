@@ -68,6 +68,86 @@ body {
 .sk-alert__body {
   font-size: 0.85rem;
 }
+
+/* ---- Feedback & status: Modal (token-driven; the API-survival test) ----
+ * One canonical Modal API absorbs both the Acuity DS headlessui Dialog and the legacy
+ * react-bootstrap/Bootstrap .modal — scrim + centred panel + title + body + footer
+ * actions. The legacy grey header band vs Acuity's headerless title is a PURE token
+ * swap (--ds-modal-header-bg/-border), so unlike Tabs no per-system structural override
+ * is needed (only lowfi adds its sketch border). [D]+[R] 2026-06-22. */
+.sk-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.sk-modal__scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--ds-modal-scrim);
+}
+.sk-modal__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 32rem;
+  max-height: 90vh;
+  overflow: hidden;
+  background: var(--ds-modal-bg);
+  border-radius: var(--ds-modal-radius);
+  box-shadow: var(--ds-modal-shadow);
+}
+.sk-modal__panel:focus-visible {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 2px;
+}
+.sk-modal__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  background: var(--ds-modal-header-bg);
+  border-bottom: 1px solid var(--ds-modal-header-border);
+}
+.sk-modal__title {
+  font-size: var(--ds-modal-title-size);
+  font-weight: 600;
+  color: var(--ds-modal-title-color);
+}
+.sk-modal__close {
+  margin-left: auto;
+  font: inherit;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ds-modal-title-color);
+  background: transparent;
+  border: 0;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}
+.sk-modal__close:hover {
+  background: var(--ds-surface);
+}
+.sk-modal__body {
+  padding: 1rem;
+  overflow-y: auto;
+}
+.sk-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  border-top: 1px solid var(--ds-modal-header-border);
+}
+/* lowfi panel gets the sketch border (acuity/legacy modals are borderless, shadow only) */
+:root[data-ds="lowfi"] .sk-modal__panel {
+  border: var(--ds-border-width) var(--ds-border-style) var(--ds-border-color);
+}
 .sk-img {
   display: block;
   max-width: 100%;

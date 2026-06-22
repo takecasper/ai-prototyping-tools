@@ -263,6 +263,52 @@ ways** (Acuity has a real `Tabs` DS component; legacy has `Breadcrumb`; neither 
 
 ---
 
+## Feedback & status — enshrined slice (Modal) [D][R]
+
+Third component group, first piece (2026-06-22). New canonical piece: **`Modal`** (all
+three systems). Browser-verified across acuity / one45-legacy / lowfi.
+
+**Layer 1 — the real DS Modal API** [D] (recovered from React-island usage): the Acuity
+DS `Modal` is a headlessui Dialog: `open`, `onClose`, `title`, `content`, `footer`,
+`backdrop` ∈ `static | dismissible`, `icon` + `iconName` ∈ `warning | infoCircle`,
+`dismissible`, `horizontalRule` (`common/confirmModal.jsx:34`, `pronounsModal.jsx:68`,
+`designSystemTest/main.jsx:541-576`). The canonical spike piece exposes one contract
+(`open`, `title`, `onClose`, `dismissible`, `icon`, `footer`, children = body).
+
+**Import-list reality** [D]: of the feedback set, the acuity package imports only
+**`Alert`, `Modal`, `Badge`, `ProgressBar`, `Spinner`** — and only **Alert + Modal** are
+used in production islands (Badge/ProgressBar/Spinner appear on the demo page only).
+**Toast, tooltip, popover, tag/chip, empty-state are not in the package** (zero usages).
+
+**Layer 3 — rendered reality** [R] (live DS gallery `/test/designSystem`, 2026-06-22,
+`getComputedStyle` on the opened Dialog):
+
+| Element | Real rendered values |
+|---|---|
+| Panel | bg `#FFFFFF`, border-radius **8px** (`ds-rounded-lg`), shadow **`0 2px 8px rgba(0,0,0,.12)`** (`ds-shadow-modal`), max-height 90vh |
+| Scrim | **`rgba(0,0,0,.25)`** (`neutrals-transparent-medium` — the real token) |
+| Title | `#333` (neutrals-darker), **23px** (the `2xl` step), weight 600, Lato — set on the white panel with **no header band** (headerless) |
+| Footer | right-aligned action buttons (Close / Cancel / Confirm on the demo) |
+
+**Computed contrast** (`scripts/contrast.mjs`, "Acuity Modal" section): modal title
+`#333` on `#FFF` **12.63** (AAA).
+
+**Anatomy result — the API-survival test PASSED, and so did pure token-swap.** Modal is
+the second structurally-rich piece (after Tabs). One canonical API absorbs both the Acuity
+headlessui Dialog and the legacy Bootstrap modal. And unlike Tabs, the visual divergence
+(legacy's grey header band vs Acuity's headerless title) is **pure token swap**
+(`--ds-modal-header-bg` / `-border`) — **no per-system structural override needed**. So the
+single-canonical-API model holds and token-swap holds: the cleanest result yet. The first
+true API break is still expected at the data grid / wizard, not here.
+
+**Adjacent findings recorded (not reworked this slice):** the spike's `Alert` is modelled
+acuity-only, but legacy ships a **real** alert (`.one45-alert` + 154 `Error/*` Twig uses) —
+both-native rework recommended (reconciliation §4d). The spike's `Badge` is the real
+acuity-DS Badge but is mis-shared to legacy (legacy has **no** status badge). Toast,
+tag/chip and empty-state are absent from **both** systems → not enshrined.
+
+---
+
 ## Carry-forward verdict
 
 Carry the **token set verbatim, collapse the 4× duplication to one source**

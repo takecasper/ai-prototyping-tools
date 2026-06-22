@@ -75,5 +75,38 @@
     "pagination": null,
     "stepper": null,
     "$gaps": "pagination + stepper/wizard exist in NEITHER system as a styled component — not enshrined; to be sourced from a real list/wizard page later before any enshrining."
+  },
+  "feedback": {
+    "$meta": "[D] from the legacy CSS skin + Twig partials. Legacy has NO React feedback component library — it is a CSS skin (.one45-alert, .modal) over Twig includes (WidgetBundle Error/* partials, 154 uses) + react-bootstrap Modal in 4 island bundles + the webeval `busy` tag. The Feedback & status slice enshrines Modal first.",
+    "modal": {
+      "$source": "_bootstrap.scss:103-144 (.modal/.modal-header/.modal-body) + react-bootstrap Modal (mappingModal.jsx, confirmationPopup.jsx)",
+      "panelBg": "#FFFFFF", "radius": "6px", "shadow": "0 3px 7px rgba(0,0,0,.3)",
+      "scrim": "rgba(0,0,0,.5)", "scrimNote": "[I] Bootstrap-2 default — the SCSS declares the backdrop via opacity, not a colour; spike uses a solid rgba per the no-opacity rule",
+      "titleColor": "#27304B", "titleColorToken": "$one45_black",
+      "header": { "bg": "#F5F5F5", "borderBottom": "#EEEEEE", "radius": "3px 3px 0 0", "note": "the GREY BAND — the ONLY divergence from Acuity's headerless modal, captured as pure tokens (no structural override)" },
+      "body": { "bg": "#FFFFFF", "padding": "14px" },
+      "api": ["show", "onHide", "size", "backdrop(static)", "centered", "Modal.Header/Title/Body/Footer"],
+      "note": "react-bootstrap dialog; one canonical Modal API absorbs both this AND the Acuity Dialog — the API-survival test PASSED."
+    },
+    "alert": {
+      "$source": "WidgetBundle Error/*.twig (154 uses) + new_branding.scss:66-170 (.one45-alert)",
+      "$status": "REAL legacy alert — NOT acuity-only as the spike currently models it",
+      "variants": {
+        "success": { "bg": "#B0F0E9", "fg": "#27304B", "icon": "#2FAEA1" },
+        "warning": { "bg": "#FCE0A7", "fg": "#27304B", "icon": "#F8B223" },
+        "error":   { "bg": "#FFC8D7", "fg": "#27304B", "icon": "#F12F62" },
+        "info":    { "bg": "#42507D", "fg": "#FFFFFF", "icon": "#B3B9CB" }
+      },
+      "markup": "div.one45-alert.alert.alert-{type} > strong(title) + description + a.close",
+      "note": "radius 0, padding 16px. The Error/* partials (error/warning/info/success/sorry/errors) are the de-facto canonical legacy alert. Recommend reworking the spike's Alert to native-both; see reconciliation §4d."
+    },
+    "badge": null,
+    "spinner": {
+      "$source": "webeval `busy` tag — webeval/admin/pages/classes/tags/busy.php",
+      "value": "animated cog GIF (busy2.gif), no CSS skin",
+      "note": "legacy 'spinner' is an image, not a styled component — recorded gap for a CSS spinner."
+    },
+    "progressBar": null,
+    "gaps": "status badge/chip, tag/chip, empty-state, toast — NO legacy skin in any source (CSS / Twig / webeval / react-bootstrap). .progress has only a line-height (no fill). Tag/chip + empty-state + toast are gaps in BOTH systems -> not enshrined."
   }
 }

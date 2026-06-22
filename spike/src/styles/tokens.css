@@ -60,6 +60,20 @@
   --ds-crumb-fg: #2563eb; /* breadcrumb link */
   --ds-crumb-current: #1a1a1a; /* current (last) crumb */
   --ds-crumb-sep: #9aa0a6; /* crumb separator */
+
+  /* ---- feedback foundation (the Feedback & status slice — Modal) ----
+   * Generic fallbacks; each system overrides below from its real, sourced values.
+   * The legacy grey header band is just two tokens (-header-bg / -header-border), so
+   * the modal divergence is a pure token swap, not a per-system structural override.
+   * See shared/one45-design-systems/01-acuity-modern.md / 02-one45-legacy.md L "Feedback". */
+  --ds-modal-bg: #ffffff;
+  --ds-modal-radius: 8px;
+  --ds-modal-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  --ds-modal-scrim: rgba(0, 0, 0, 0.4);
+  --ds-modal-title-color: #1a1a1a;
+  --ds-modal-title-size: 1.25rem;
+  --ds-modal-header-bg: transparent;
+  --ds-modal-header-border: transparent;
 }
 
 /* Acuity (One45 modern) — real token set from tailwind_acuity_theme.js.
@@ -129,6 +143,22 @@
   --ds-crumb-fg: #364699; /* bridge interim only (no Acuity breadcrumb) — acuity-blue */
   --ds-crumb-current: #333333; /* neutrals-darker */
   --ds-crumb-sep: #949494; /* neutrals */
+
+  /* Feedback & status — Modal [R] /test/designSystem 2026-06-22 (the headlessui Dialog).
+   * Panel: bg neutrals-white #fff, border-radius 8px (ds-rounded-lg), shadow
+   * 0 2px 8px rgba(0,0,0,.12) (ds-shadow-modal). Scrim is neutrals-transparent-medium
+   * rgba(0,0,0,.25) [R] (the real token). Title is neutrals-darker #333 at 23px (the 2xl
+   * header-medium step), weight 600, set on the WHITE panel with NO header band — Acuity
+   * modals are headerless (a horizontalRule is optional, omitted). radius/shadow are real
+   * RENDERED values, not theme-file tokens (the Acuity set defines neither). */
+  --ds-modal-bg: #ffffff; /* neutrals-white [R] */
+  --ds-modal-radius: 8px; /* ds-rounded-lg [R] */
+  --ds-modal-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); /* ds-shadow-modal [R] */
+  --ds-modal-scrim: rgba(0, 0, 0, 0.25); /* neutrals-transparent-medium [R] */
+  --ds-modal-title-color: #333333; /* neutrals-darker [R] */
+  --ds-modal-title-size: 1.4375rem; /* 23px — fontSize 2xl [R] */
+  --ds-modal-header-bg: transparent; /* headerless: title sits on the white panel [R] */
+  --ds-modal-header-border: transparent;
 }
 
 /* one45 legacy — older brand from _colors.scss:1-35 + new_branding.scss.
@@ -201,6 +231,23 @@
   --ds-crumb-fg: #42507d; /* $primary_purple (legacy crumb link, flattened) */
   --ds-crumb-current: #27304b; /* $one45_black current crumb */
   --ds-crumb-sep: #888888; /* legacy body-link grey as separator */
+
+  /* Feedback & status — Modal [D] legacy skin (_bootstrap.scss). The legacy modal is the
+   * Bootstrap/react-bootstrap dialog: .modal border-radius 6px + box-shadow 0 3px 7px
+   * rgba(0,0,0,.3) (_bootstrap.scss:103); .modal-header is a GREY BAND (bg #f5f5f5, 1px #eee
+   * bottom rule, radius 3px 3px 0 0); .modal-body bg #fff padding 14px. Title is $one45_black
+   * #27304B. The grey header band is the ONLY thing that differs from Acuity's headerless
+   * modal, and it is captured purely as tokens (-header-bg / -header-border) — no structural
+   * override needed. Scrim: the SCSS declares the backdrop via opacity, not a colour, so a
+   * solid Bootstrap-2-default rgba is used per the no-opacity rule — flagged [I]. */
+  --ds-modal-bg: #ffffff; /* .modal-body bg [D] */
+  --ds-modal-radius: 6px; /* .modal border-radius [D] */
+  --ds-modal-shadow: 0 3px 7px rgba(0, 0, 0, 0.3); /* .modal box-shadow [D] */
+  --ds-modal-scrim: rgba(0, 0, 0, 0.5); /* Bootstrap-2 backdrop default — [I], solid (no opacity) */
+  --ds-modal-title-color: #27304b; /* $one45_black [D] */
+  --ds-modal-title-size: 1.25rem; /* legacy header sizing (no token; new_branding rule) */
+  --ds-modal-header-bg: #f5f5f5; /* .modal-header grey band [D] */
+  --ds-modal-header-border: #eeeeee; /* .modal-header bottom rule [D] */
 }
 
 /* Low-fi — Balsamiq-style sketch. Greyscale, dashed, marker font, no shadow,
@@ -251,4 +298,16 @@
   --ds-crumb-fg: #3a3a3a;
   --ds-crumb-current: #1a1a1a;
   --ds-crumb-sep: #8a8a8a;
+
+  /* Feedback & status — Modal: deliberate sketch. White panel, minimal radius, no shadow,
+   * a light scrim; the dashed panel border (app.css per-system rule) reads as "wireframe".
+   * lowfi is not a status-quo system, so these are hand-authored sketch values. */
+  --ds-modal-bg: #ffffff;
+  --ds-modal-radius: 2px;
+  --ds-modal-shadow: none;
+  --ds-modal-scrim: rgba(0, 0, 0, 0.2);
+  --ds-modal-title-color: #1a1a1a;
+  --ds-modal-title-size: 1.2rem;
+  --ds-modal-header-bg: transparent;
+  --ds-modal-header-border: var(--ds-border-color);
 }

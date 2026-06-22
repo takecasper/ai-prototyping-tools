@@ -139,3 +139,15 @@ row("link $link_color / white", "#0A6CBD", WHITE);
 row("link hover $link_hover / white", "#064E89", WHITE);
 row("crumb link $primary_purple / white", "#42507D", WHITE);
 row("crumb current $one45_black / white", "#27304B", WHITE);
+
+// ── Feedback & status slice — Modal. Acuity values are [R] from the live DS gallery
+// (/test/designSystem, 2026-06-22, getComputedStyle on the headlessui Dialog panel);
+// legacy values are [D] from _bootstrap.scss (.modal / .modal-header). The modal title
+// is the only TEXT pair (judged on 4.5); the grey-band-vs-panel and panel-shadow pairs
+// are decorative surfaces, reported for completeness, not held to a text threshold.
+section("Acuity Modal [R] — headerless dialog, title on the white panel");
+row("modal title neutrals-darker / white", "#333333", WHITE, "(23px title on #fff panel)");
+section("one45 legacy Modal [D] — title on the grey header band, body on white");
+row("modal title $one45_black / band #F5F5F5", "#27304B", "#F5F5F5", "(title on .modal-header band)");
+row("modal title $one45_black / white", "#27304B", WHITE, "(same title over the white body)");
+row("header band #F5F5F5 / panel #FFFFFF", "#F5F5F5", WHITE, "(decorative band vs panel — not text)");

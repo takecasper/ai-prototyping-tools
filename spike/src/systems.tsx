@@ -23,7 +23,7 @@
 // the bridge fill the gap. This is the anatomy-divergence question from the build
 // plan, exercised on two real systems rather than toy ones.
 
-import type { ComponentType, ReactNode } from "react";
+import { useEffect, useId, useRef, type ComponentType, type ReactNode } from "react";
 import { placeholderImage } from "./placeholder";
 
 export type CanonicalName =
@@ -46,7 +46,9 @@ export type CanonicalName =
   // the mirror of acuity-only Alert).
   | "Tabs"
   | "Link"
-  | "Breadcrumb";
+  | "Breadcrumb"
+  // Feedback & status slice — Modal is token-driven and shared across all systems.
+  | "Modal";
 export type SystemId = "lowfi" | "acuity" | "one45-legacy";
 
 export interface CanonicalDef {
@@ -71,6 +73,7 @@ export const CANONICAL: CanonicalDef[] = [
   { name: "Tabs", label: "Tabs", description: "Tabbed navigation (id-based active tab)" },
   { name: "Link", label: "Link", description: "Hyperlink (default / inline variant)" },
   { name: "Breadcrumb", label: "Breadcrumb", description: "Trail of ancestor links; legacy-only (bridge fills acuity)" },
+  { name: "Modal", label: "Modal", description: "Centred dialog overlay (title, body, footer actions); shared API across systems" },
   { name: "Image", label: "Image", description: "Placeholder image (placehold.co)" },
   { name: "Icon", label: "Icon", description: "Placeholder icon" },
 ];
@@ -335,6 +338,64 @@ const Breadcrumb: Skin = ({ items }) => {
   );
 };
 
+// ---- Feedback & status: Modal (token-driven; the structural API-survival test) ----
+// Sourced [D] from the islands + [R] from the live DS gallery (/test/designSystem,
+// 2026-06-22). The Acuity DS Modal (headlessui Dialog — open/onClose/title/content/
+// footer/backdrop static|dismissible/icon/iconName, confirmModal.jsx + pronounsModal.jsx)
+// and the legacy react-bootstrap/Bootstrap .modal (show/onHide/Modal.Header+Title+Body+
+// Footer, _bootstrap.scss + mappingModal.jsx) are the SAME surface: scrim + centred panel
+// + title + body + footer actions. So ONE canonical API absorbs both — the second
+// structural piece to survive after Tabs. And UNLIKE Tabs, even the header divergence
+// (legacy grey band #f5f5f5 vs Acuity's headerless title on white) is PURE token swap
+// (--ds-modal-header-bg/-border), so no per-system structural override is needed: both
+// the single-canonical-API model AND pure token-swap survive Modal. radius / shadow /
+// scrim / title size also token-swap. See shared/one45-design-systems/01/02 L "Feedback".
+const Modal: Skin = ({ open, title, onClose, dismissible, icon, footer, children }) => {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+  const close = typeof onClose === "function" ? (onClose as () => void) : undefined;
+  // Move focus into the dialog when it opens so the change is announced and Esc works.
+  useEffect(() => {
+    if (open && panelRef.current) panelRef.current.focus();
+  }, [open]);
+  if (!open) return null;
+  const canDismiss = Boolean(dismissible && close);
+  return (
+    <div className="sk-modal" role="presentation">
+      <div className="sk-modal__scrim" onClick={canDismiss ? close : undefined} aria-hidden="true" />
+      <div
+        className="sk-modal__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
+        tabIndex={-1}
+        ref={panelRef}
+        onKeyDown={canDismiss ? (e) => { if (e.key === "Escape") close!(); } : undefined}
+      >
+        <div className="sk-modal__header">
+          {icon ? (
+            <span className="sk-icon sk-icon--brand" aria-hidden="true">
+              {String(icon).charAt(0).toUpperCase()}
+            </span>
+          ) : null}
+          {title ? (
+            <span className="sk-modal__title" id={titleId}>
+              {String(title)}
+            </span>
+          ) : null}
+          {canDismiss ? (
+            <button type="button" className="sk-modal__close" aria-label="Close" onClick={close}>
+              ×
+            </button>
+          ) : null}
+        </div>
+        <div className="sk-modal__body">{children}</div>
+        {footer ? <div className="sk-modal__footer">{footer}</div> : null}
+      </div>
+    </div>
+  );
+};
+
 // Image and Icon differ structurally per system. The brand systems pull a
 // placehold.co image / draw a token-coloured glyph; low-fi draws a sketch box and
 // an outline glyph with no network request.
@@ -395,6 +456,15 @@ const FORM_CONTROLS = { TextField, Textarea, Select, Checkbox, Radio, Toggle, Se
 // acuity exercises the bridge.
 const NAV_CONTROLS = { Tabs, Link };
 
+// Feedback & status (slice 1: Modal). Token-driven and present in every system — the
+// API-survival test PASSED here (one canonical Modal API absorbs the Acuity DS Dialog
+// AND the legacy Bootstrap Modal, and the look is a pure token swap). Alert is NOT in
+// this group: it predates the slice as an acuity-only piece + bridge fill, but the
+// Feedback sourcing found legacy DOES ship a real alert (.one45-alert skin + 154 Error/*
+// Twig uses) — a both-native rework is recommended next slice (see 03 §4d). Toast,
+// tag/chip and empty-state are gaps in BOTH systems → not enshrined (the Pagination rule).
+const FEEDBACK_CONTROLS = { Modal };
+
 export const SYSTEMS: Record<SystemId, DesignSystem> = {
   lowfi: {
     id: "lowfi",
@@ -405,7 +475,7 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // (Alert now resolves to a flagged token-driven build via the bridge; Badge still
     // demonstrates the older first-native-piece fallback.) Breadcrumb IS present — it
     // is legacy-era and renders fine in the sketch skin.
-    skins: { Button, Card, ...FORM_CONTROLS, ...NAV_CONTROLS, Breadcrumb, Image: LowfiImage, Icon: LowfiIcon },
+    skins: { Button, Card, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Breadcrumb, Image: LowfiImage, Icon: LowfiIcon },
   },
   acuity: {
     id: "acuity",
@@ -415,7 +485,7 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // Breadcrumb is deliberately absent: the Acuity DS package ships no Breadcrumb
     // component (zero usages recovered from the islands), so it resolves through the
     // bridge to a flagged AI build — the mirror of legacy lacking Alert.
-    skins: { Button, Card, Badge, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, Image: BrandImage, Icon: BrandIcon },
+    skins: { Button, Card, Badge, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Image: BrandImage, Icon: BrandIcon },
   },
   "one45-legacy": {
     id: "one45-legacy",
@@ -425,7 +495,7 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // No Alert → the real, sourced divergence against Acuity (bridge fills it). But
     // Breadcrumb IS native here — the legacy app has a real (bespoke chevron) breadcrumb
     // the Acuity DS never built. Form + nav controls re-skin cleanly to the legacy look.
-    skins: { Button, Card, Badge, ...FORM_CONTROLS, ...NAV_CONTROLS, Breadcrumb, Image: BrandImage, Icon: BrandIcon },
+    skins: { Button, Card, Badge, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Breadcrumb, Image: BrandImage, Icon: BrandIcon },
   },
 };
 

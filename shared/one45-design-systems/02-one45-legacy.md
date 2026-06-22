@@ -201,6 +201,53 @@ Both are the bridge's / per-system skin's work — see reconciliation §4c/§5.
 
 ---
 
+## Feedback & status — enshrined slice (Modal) [D][R]
+
+Third component group, first piece (2026-06-22). New canonical piece re-skinned to the
+legacy look: **`Modal`** (native here — legacy genuinely has one). Browser-verified
+2026-06-22.
+
+| Element | Real source values | Cite |
+|---|---|---|
+| Modal panel (`.modal`) | bg `#FFFFFF`, border-radius **6px**, box-shadow **`0 3px 7px rgba(0,0,0,.3)`** | `_bootstrap.scss:103` |
+| **Modal header band** (`.modal-header`) | **grey band** bg `#F5F5F5`, bottom rule `#EEE`, radius `3px 3px 0 0` | `_bootstrap.scss` |
+| Modal body (`.modal-body`) | bg `#FFFFFF`, padding 14px | `_bootstrap.scss` |
+| Title | `$one45_black #27304B`, Cabin | `_colors.scss:1`, `new_branding.scss` |
+| react-bootstrap usage | `Modal show/onHide/size/backdrop="static"/centered` + `Modal.Header/Title/Body/Footer` | `mappingModal.jsx:162`, `confirmationPopup.jsx:39` |
+
+Scrim: the SCSS declares the backdrop via `opacity`, not a colour, so the spike uses a
+solid `rgba(0,0,0,.5)` (Bootstrap-2 default) per the no-opacity rule — flagged [I].
+
+**[R] confirmation** (2026-06-22, `getComputedStyle` on the spike's legacy modal): panel
+radius 6px, shadow `0 3px 7px rgba(0,0,0,.3)`, header band `#F5F5F5` + `#EEE` rule, title
+`#27304B` Cabin 20px, scrim `rgba(0,0,0,.5)` — matches the sourced tokens to the value.
+
+**Computed contrast** (`scripts/contrast.mjs`, "one45 legacy Modal"): modal title `#27304B`
+on the band `#F5F5F5` **11.96** (AAA); on white **13.04** (AAA).
+
+**Anatomy result — the API-survival test PASSED.** The legacy Bootstrap/react-bootstrap
+modal and the Acuity headlessui Dialog absorb into **one canonical Modal API**. The one
+visual difference — legacy's grey header band vs Acuity's headerless title — is a **pure
+token swap** (`--ds-modal-header-bg`/`-border`), so unlike Tabs **no per-system structural
+override is needed**. Modal is the cleanest both-systems result so far.
+
+**Headline finding for the next slice — Alert is NOT acuity-only.** Sourcing the feedback
+group found legacy ships a **real** alert: the WidgetBundle `Error/*` Twig partials (154
+includes: error/warning/info/success/sorry/errors) skinned by `.one45-alert`
+(`new_branding.scss:66-170`) with sourced fills — success `#B0F0E9`, warning `#FCE0A7`,
+error `#FFC8D7`, info `#42507D` (all over `#27304B` except info over `#FFF`), radius 0,
+padding 16px. The spike currently models Alert as acuity-only with a bridge fill, which the
+in-browser check shows flagged "Claude interim → Button" in legacy — now known to be
+inaccurate. Recommend reworking Alert to **native-both** next slice (reconciliation §4d).
+
+**Recorded gaps** [D]: legacy has **no status badge** (`.badge-details` is a profile-photo
+widget), **no tag/chip, no empty-state, no toast** (only a Semantic-UI vendor override in
+admin), and the spinner is the webeval `busy` **cog GIF** (an image, no CSS). `.progress`
+carries only a `line-height`. Tag/chip + empty-state + toast are gaps in **both** systems →
+not enshrined.
+
+---
+
 ## Carry-forward verdict
 
 The legacy brand is a **migration source, not a target** — it is being replaced by

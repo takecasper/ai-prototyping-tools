@@ -77,6 +77,7 @@ export function FirstScreen() {
 | Tabs        | tabs (string[] or {id,label,badge?}[]), active, onSelect, children | tabbed nav; active by id; children are the panel; per-system visual model (acuity underline / legacy box tabs) |
 | Link        | children (or text), href?, variant?, external?            | variant: default / inline; external opens a new tab    |
 | Breadcrumb  | items (string[] or {label,href?}[])                       | trail; last item is the current page; legacy-only (bridge fills acuity) |
+| Modal       | open, title?, onClose?, dismissible?, icon?, footer?, children | centred dialog overlay; one API across both systems; `footer` holds the action Buttons; closes on Esc / scrim click when `dismissible` |
 | Image       | w, h, label?                                               | placeholder via placehold.co; never add assets         |
 | Icon        | icon (name string)                                         | placeholder until Acuity's real icons land             |
 
@@ -92,6 +93,13 @@ indicator vs legacy's Bootstrap box tabs) — accurate to each system, not a fla
 skin. **Breadcrumb is legacy-only** (the Acuity DS ships none): in `acuity` it resolves
 through the bridge to a flagged AI build — the mirror of `Alert` being acuity-only. There is
 **no Pagination piece**: neither One45 system defines one, so the tool does not fabricate it.
+
+The Feedback & status piece **Modal** is present in all three systems. It is the structural
+API-survival test: one canonical API absorbs both the Acuity DS dialog and the legacy
+Bootstrap modal, and the look (including legacy's grey header band vs Acuity's headerless
+title) is a **pure token swap** — no per-system structural override, unlike Tabs. Pass the
+action buttons via the `footer` prop. **Toast, tag/chip and empty-state are not enshrined**:
+they exist in neither One45 system, so the tool does not fabricate them (the Pagination rule).
 
 ## Rules
 
