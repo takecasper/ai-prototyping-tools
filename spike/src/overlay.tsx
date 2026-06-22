@@ -4,11 +4,20 @@
 // interim (auto-flagged). The user's action here is to OVERRIDE that interim by
 // mapping the missing piece to an existing component, or revert to the interim.
 
+import { useEffect, useRef } from "react";
 import { CANONICAL, SYSTEMS, SYSTEM_IDS, interimTarget, type CanonicalName, type SystemId } from "./systems";
 import { useStore } from "./store";
 import { DesignNotes } from "./notes";
 
 export function ControlOverlay({ onClose }: { onClose: () => void }) {
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // On open, move focus into the panel so screen-reader and keyboard users
+  // know the controls appeared (the "/" key has no visible trigger to focus).
+  useEffect(() => {
+    panelRef.current?.focus();
+  }, []);
+
   const {
     systemId,
     setSystemId,
@@ -27,10 +36,10 @@ export function ControlOverlay({ onClose }: { onClose: () => void }) {
   const interim = interimTarget(systemId);
 
   return (
-    <div className="ov" role="dialog" aria-label="Prototype controls">
+    <div className="ov" role="region" aria-label="Prototype controls" tabIndex={-1} ref={panelRef}>
       <div className="ov__head">
-        <strong>Controls</strong>
-        <button className="ov__x" onClick={onClose} aria-label="Close controls">
+        <h2 className="panel__title">Controls</h2>
+        <button className="ov__x" onClick={onClose} aria-label="Close controls (esc or /)">
           esc or /
         </button>
       </div>
@@ -39,6 +48,7 @@ export function ControlOverlay({ onClose }: { onClose: () => void }) {
         <h3 className="ov__h">Design System</h3>
         <select
           className="ov__select"
+          aria-label="Design system"
           value={systemId}
           onChange={(e) => setSystemId(e.target.value as SystemId)}
         >
@@ -63,10 +73,12 @@ export function ControlOverlay({ onClose }: { onClose: () => void }) {
           Flag interim and mapped components
         </label>
 
-        <div className="ov__label">Components missing here ({missing.length})</div>
-        {missing.length === 0 && (
-          <p className="ov__ok">Every component on this screen exists here.</p>
-        )}
+        <div role="status">
+          <div className="ov__label">Components missing here ({missing.length})</div>
+          {missing.length === 0 && (
+            <p className="ov__ok">Every component on this screen exists here.</p>
+          )}
+        </div>
         {missing.map((name) => {
           const mapped = maps[systemId]?.[name];
           return (
@@ -114,6 +126,7 @@ export function ControlOverlay({ onClose }: { onClose: () => void }) {
         <div className="ov__label">Compare to</div>
         <select
           className="ov__select ov__select--compare"
+          aria-label="Compare to"
           value={compareId ?? ""}
           onChange={(e) => setCompareId(e.target.value ? (e.target.value as SystemId) : null)}
         >

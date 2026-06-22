@@ -17,7 +17,8 @@ function Shell() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement;
-      const typing = ["INPUT", "TEXTAREA", "SELECT"].includes(t?.tagName);
+      const typing =
+        ["INPUT", "TEXTAREA", "SELECT"].includes(t?.tagName) || t?.isContentEditable;
       if (e.key === "/" && !typing) {
         e.preventDefault();
         setPanelsOpen((o) => !o);
@@ -32,7 +33,7 @@ function Shell() {
     <div className="app">
       {panelsOpen && (
         <header className="app__bar">
-          <strong className="app__title">Acuity Prototype Spike</strong>
+          <h1 className="app__title">Acuity Prototype Spike</h1>
           <span className="app__sys">
             {active.name} · {SYSTEMS[systemId].label}
           </span>

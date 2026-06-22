@@ -102,6 +102,7 @@ body {
 .app__bar {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   padding: 0.6rem 1rem;
   background: #14161a;
@@ -109,11 +110,19 @@ body {
   font-family: ui-sans-serif, system-ui, sans-serif;
 }
 .app__title {
+  margin: 0;
   font-size: 0.95rem;
+  font-weight: 700;
+}
+.panel__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
 }
 .app__sys {
   font-size: 0.8rem;
-  opacity: 0.7;
+  color: #c3c6cc;
 }
 .app__btn {
   margin-left: auto;
@@ -241,12 +250,12 @@ body {
   color: #3730a3;
 }
 .res--ai {
-  outline: 2px dashed #d6409f;
+  outline: 2px dashed #a3186b;
   outline-offset: 3px;
   border-radius: 4px;
 }
 .res--ai .res__tag {
-  background: #d6409f;
+  background: #a3186b;
   color: #fff;
 }
 .res--unmapped {
@@ -366,6 +375,30 @@ body {
 .lib__table th:hover {
   color: #111827;
 }
+/* Sort headers and row openers are real buttons (keyboard-operable) styled to
+ * read as the surrounding table text. */
+.lib__sort {
+  font: inherit;
+  font-weight: 600;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.lib__sort:hover {
+  color: #111827;
+}
+.lib__open {
+  font: inherit;
+  width: 100%;
+  text-align: left;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
 .lib__table td {
   padding: 0.45rem 0.4rem;
   border-bottom: 1px solid #f1f2f4;
@@ -397,7 +430,7 @@ body {
   color: #111827;
   padding-bottom: 0.35rem;
   border-bottom: 1px solid #ececf1;
-  margin-bottom: 0.6rem;
+  margin: 0 0 0.6rem;
 }
 
 /* ---- control overlay ---- */
@@ -528,7 +561,7 @@ body {
   color: #3730a3;
 }
 .ov__pill.is-ai {
-  background: #d6409f;
+  background: #a3186b;
   color: #fff;
 }
 .ov__pill.is-unmapped {
@@ -576,4 +609,49 @@ kbd {
   background: rgba(0, 0, 0, 0.08);
   border-radius: 3px;
   padding: 0 0.3em;
+}
+
+/* ---- accessibility: visible keyboard focus ---- */
+:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+/* The panels are programmatic focus targets (tabIndex=-1) used only to move
+ * focus in on open so the change is announced. They are not user-operated
+ * controls, so they do not show a focus ring; the controls inside them do. */
+.ov:focus,
+.ov:focus-visible,
+.lib:focus,
+.lib:focus-visible {
+  outline: none;
+}
+
+/* Active states are signalled by background colour, which flattens in Windows
+ * High Contrast. Add a border cue so the active row/step/system stays distinct. */
+@media (forced-colors: active) {
+  .lib__table tbody tr.is-active,
+  .ov__step.is-active,
+  .ov__sys.is-active,
+  .ov__pill {
+    outline: 2px solid;
+  }
+}
+
+/* Narrow viewports: drop the fixed side panels into normal flow so they stack
+ * above and below the canvas instead of overlapping it (reflow without a
+ * two-dimensional scroll). The tool is desktop-first; this keeps it usable when
+ * squeezed. */
+@media (max-width: 720px) {
+  .lib,
+  .ov {
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    bottom: auto;
+    box-shadow: none;
+  }
+  .app__main {
+    padding: 1.25rem;
+  }
 }

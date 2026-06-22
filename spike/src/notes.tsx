@@ -49,7 +49,7 @@ export function DesignNotes() {
       <div className="notes__sub">
         {active.label} vs {compare.label}
       </div>
-      <div className="notes__counts">
+      <div className="notes__counts" role="status">
         <span className="c c--native">{both} shared</span>
         <span className="c c--map">{onlyActive} only in {active.label}</span>
         <span className="c c--ai">{onlyCompare} only in {compare.label}</span>
