@@ -65,17 +65,16 @@ These are **live, usable skinned systems** in the tool, not just docs:
 - `src/styles/tokens.css` — the rendered token blocks (single source of
   truth; the reports cite it). Real values, with faithful choices and known
   weaknesses commented inline.
-- **Real, sourced divergence:** Acuity ships `Alert` (DS component, 14 uses);
-  legacy one45 has no Alert (it used Twig `Error/*` partials). So `one45-legacy`
-  has no Alert skin, and a screen using Alert (Casper Score Report → Summary)
-  **bridges** it when toggled to legacy — verified in-browser 2026-06-22. This is
-  the anatomy-divergence question, exercised on two real systems; the
-  crude Button-as-Alert interim is the concrete motivation for the bridge to evolve
-  a per-system Alert. **Updated:** the bridge has since evolved (`INTERIM_BUILDS`,
-  Navigation slice) so Alert now resolves to a flagged token-driven Alert build in
-  legacy, not Button. And the Feedback slice (§4d) corrected the premise itself —
-  legacy DOES ship a real alert (`.one45-alert` + `Error/*` Twig), so Alert is owed a
-  native-both rework rather than a bridge fill.
+- **Real, sourced divergence:** `Alert` is the worked example. Acuity ships a DS
+  `Alert` (14 uses); legacy ships a *different mechanism* for the same surface — the
+  `Error/*` Twig partials skinned by `.one45-alert` (154 uses). Both are real, so
+  Alert is **native in both** systems: the tool renders each system's own skin
+  (Acuity tinted banner, legacy solid pale fill), and the bridge fills only **lowfi**.
+  This is the "different mechanism, same surface" case (§4d/§4e). The genuine
+  *present-vs-absent* bridge cases are **Breadcrumb** (legacy-only) and **Badge**
+  (acuity-only). The bridge itself has evolved (`INTERIM_BUILDS`): a missing piece
+  resolves to a flagged token-driven build of *that* piece, not an unrelated
+  component.
 
 **Inputs & controls slice (enshrined 2026-06-22):** the first slice of the full
 component surface is live — `TextField, Textarea, Select, Checkbox, Radio, Toggle,

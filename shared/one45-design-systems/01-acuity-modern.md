@@ -103,9 +103,12 @@ analysis, this session). Coverage of the token-governed UI is **~10–20%**. No
 Storybook, no path aliases — cross-bundle reuse via `../../../../../../` chains.
 
 **In the prototyping tool:** `acuity` skins Button, Card, Badge, **Alert**, Image,
-Icon (`src/systems.tsx`). Alert is modelled as a first-class Acuity piece
-(DS Alert, 14 uses) — and is the **sourced divergence** against legacy, which has
-no Alert (Layer 2 of `02-one45-legacy.md`).
+Icon (`src/systems.tsx`). Alert is a first-class Acuity piece (DS Alert, 14 uses);
+it is **native in legacy too** (the real `.one45-alert` over the `Error/*` Twig
+partials), so the Alert divergence is one of *mechanism and skin*, not presence —
+each system renders its own skin and the bridge fills only lowfi (see the Alert
+section below and reconciliation §4d/§4e). The genuine present-vs-absent cases are
+**Breadcrumb** (legacy-only) and **Badge** (acuity-only).
 
 ---
 

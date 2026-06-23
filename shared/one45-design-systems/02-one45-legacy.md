@@ -78,12 +78,14 @@ single canonical API + token swap is the right model **at the brand level**, and
 the prototyping tool proves it (toggle re-skins Button/Card/Badge/Image/Icon with
 zero prototype edits). The genuine divergences are where a piece exists as a real
 component in one system and a *different mechanism* in the other — e.g. **Alert**
-(Acuity DS component, 14 uses) vs legacy's Twig `Error/*` partials. The tool
-models that: `one45-legacy` ships **no Alert skin**, so a screen using Alert
-(Casper Score Report → Summary) bridges it (flagged "AI approx") when toggled to
-legacy — runtime-verified 2026-06-22. This is the concrete case where "components
-may not map 1:1" and the bridge must evolve (the crude Button-as-Alert interim is
-the motivation to teach the bridge a real per-system Alert).
+(Acuity DS component, 14 uses) vs legacy's `Error/*` Twig partials skinned by
+`.one45-alert` (154 uses). Both are real, so Alert is **native in both** systems:
+the tool renders each system's own skin — Acuity a tinted banner, legacy a solid
+pale fill — and the bridge fills only **lowfi**, not legacy. This is the "different
+mechanism, same surface" case (axis a; see the Alert section below and reconciliation
+§4d/§4e). The genuine *present-vs-absent* cases that the bridge actually fills are
+**Breadcrumb** (legacy-only → bridged in acuity) and **Badge** (acuity-only →
+bridged in legacy + lowfi).
 
 ---
 
