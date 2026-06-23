@@ -782,8 +782,7 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
   lowfi: {
     id: "lowfi",
     label: "Low-fi wireframe",
-    blurb:
-      "A rough wireframe in the Balsamiq style. It looks deliberately unfinished, the way a draft should. No setup needed.",
+    blurb: "A rough Balsamiq style",
     // Badge and Alert are INTENTIONALLY absent → exercises graceful degradation.
     // Alert resolves to a flagged token-driven build via the bridge (INTERIM_BUILDS);
     // Badge demonstrates the older first-native-piece fallback. lowfi is the ONLY system
@@ -794,8 +793,7 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
   acuity: {
     id: "acuity",
     label: "Acuity (One45 modern)",
-    blurb:
-      "One45's modern design system, rebuilt from its real token set: Lato, the acuity-blue family, an 8-family colour scale. The deliberate system worth carrying forward.",
+    blurb: "Rebuilt from the real token set",
     // Breadcrumb is deliberately absent: the Acuity DS package ships no Breadcrumb
     // component (zero usages recovered from the islands), so it resolves through the
     // bridge to a flagged AI build — the mirror of legacy lacking Alert.
@@ -804,8 +802,7 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
   "one45-legacy": {
     id: "one45-legacy",
     label: "one45 legacy",
-    blurb:
-      "One45's older brand, still live on auth, self-send and React-shell pages: Cabin, the primary-purple palette. Ships a real alert and breadcrumb, but no status Badge — so the bridge fills Badge here.",
+    blurb: "One45's older brand and style",
     // Alert IS native here — legacy ships a real .one45-alert (the earlier "acuity-only"
     // read was wrong; 03 §4d). Badge is NOT here — legacy has no status badge (its
     // .badge-details is a profile-photo widget), so Badge is the genuine acuity-only piece
