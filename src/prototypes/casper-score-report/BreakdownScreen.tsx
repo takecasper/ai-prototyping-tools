@@ -12,7 +12,7 @@ export function BreakdownScreen() {
       <div className="flow-list">
         {SECTIONS.map((s) => (
           <div key={s.label} className="flow-row">
-            <Canonical name="Icon" icon={s.icon} />
+            <Canonical name="Icon" iconName={s.icon} size="small" />
             <div className="flow-row__id">
               <div className="flow-row__name">{s.label}</div>
             </div>

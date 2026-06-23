@@ -112,6 +112,14 @@ solid pale fills — "different mechanism, same surface": one API + per-system s
 in legacy + lowfi (the genuine present-vs-absent piece, mirror of acuity lacking Breadcrumb).
 Gap map §4e.
 
+**Iconography slice (2026-06-23):** the last open foundation category. `Icon` reworked from a
+placeholder to the real DS API + a new `IconButton` — both native in all three systems, with the
+real `iconName` vocabulary, a small/medium size scale, and an optional semantic `tone`. Sourced
+from the Acuity DS islands (a custom named icon set) and the legacy FontAwesome Pro 5.15.3 / sprite
+skin. The real glyph **artwork** is unavailable in both systems (un-vendored DS package; paid
+webfont + binary sprites) — a recorded **asset gap**, so the tool renders a token-sized stand-in,
+never the real icon. See "Gaps and legitimate omissions" below and gap map §4g.
+
 **Honest scope:** between `acuity` and `one45-legacy`, most pieces are the **same
 component re-skinned by tokens**, not structurally different — so a single
 canonical API + token swap is the right model at the brand level (and the tool
@@ -140,3 +148,30 @@ shared/one45-design-systems/
   tokens/one45-legacy.json       portable legacy token set (documented intent)
   scripts/contrast.mjs           deterministic WCAG contrast (ratios of record)
 ```
+
+---
+
+## Gaps and legitimate omissions
+
+Some things are deliberately *not* in the tool. Each is a recorded gap, not an oversight —
+the governing rule is **never fabricate a component, token, or asset to tidy the story**
+(no fabrication; the Pagination rule). The honest omissions:
+
+- **Icon glyph artwork.** The tool enshrines the real iconography *API*, size scale, and
+  colour rule, but **not** the actual glyphs. The sizes are confirmed (Acuity SVG icons render
+  small 16px / medium 24px, IconButton 38×38px — `/test/designSystem` [R]), but neither system's
+  glyph artwork is available to ship: the Acuity DS package (`@takecasper/acuity-design-system`)
+  is not vendored, so its SVG paths are unrecoverable; legacy draws on **FontAwesome Pro 5.15.3**
+  (a paid webfont) plus binary PNG sprites, neither of which the tool commits. So `Icon`/`IconButton`
+  render a token-sized **stand-in** (a brand monogram / a lowfi sketch box) at the real sourced
+  sizes, with the real `iconName` vocabulary and semantic `tone` — clearly a placeholder, never
+  passed off as the system's real icon. (Reports §Iconography; gap map §4g.)
+- **Pagination, stepper/wizard.** Exist in *neither* One45 system as a styled component, so
+  the tool does not build them — fabricating one would misrepresent both systems.
+- **Toast/snackbar, tag/chip, empty-state.** Gaps in both systems → not enshrined.
+- **Spinner, ProgressBar, Tooltip, Popover.** One-sided or non-DS (react-bootstrap); deferred
+  to a later bridge-interim slice, not faked now.
+- **`[R]`-pending values (the discipline).** Where a value needs a signed-in staging read to
+  confirm, it is flagged as a tool default in `src/styles/tokens.css` and recorded as pending,
+  never silently invented. (None currently open — the Acuity icon `small`/`medium` px and the
+  IconButton box were confirmed 2026-06-23.)

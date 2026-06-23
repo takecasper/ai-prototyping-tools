@@ -173,3 +173,22 @@ row("info  white / $primary_purple", WHITE, "#42507D", "(solid purple fill, whit
 section("Foundations — muted text (--ds-fg-muted) on white");
 row("fg-muted acuity/legacy #5f5f5f / white", "#5F5F5F", WHITE);
 row("fg-muted lowfi #6a6a6a / white", "#6A6A6A", WHITE);
+
+// ── Iconography slice (2026-06-23) — the semantic icon TONE colours rendered as the glyph on
+// the white canvas. The Icon `tone` prop reuses the --ds-alert-*-accent colours; UNLIKE the
+// Alert section (each family's darkest TEXT on its lightest tint, judged 4.5), here the accent
+// colour IS the small glyph on white, so it is judged on the 3:1 non-text/UI threshold (WCAG
+// 1.4.11). Several warm hues FAIL 3:1 at icon scale — a real, recorded finding: a semantic icon
+// must not rely on hue alone, so the tool always pairs it with shape + an altText/adjacent label.
+// (Acuity tones [D fam] = tailwind_acuity_theme.js DEFAULT shades; legacy tones [D] = the FA
+// alert-icon palette, new_branding.scss:100/119/140/159.)
+section("Acuity icon tones [D fam] — semantic accent as the glyph on white (3:1 UI)");
+row("success-green DEFAULT / white", "#4DA81F", WHITE, "(icon glyph, 3:1 UI)");
+row("warning-yellow DEFAULT / white", "#FCE833", WHITE, "(icon glyph, 3:1 UI)");
+row("danger-red DEFAULT / white", "#E40A0A", WHITE, "(icon glyph, 3:1 UI)");
+row("information-blue DEFAULT / white", "#1E93BA", WHITE, "(icon glyph, 3:1 UI)");
+section("one45 legacy icon tones [D] — FA alert-icon palette as the glyph on white (3:1 UI)");
+row("teal_dark / white (success)", "#2FAEA1", WHITE, "(icon glyph, 3:1 UI)");
+row("yellow / white (warning)", "#F8B223", WHITE, "(icon glyph, 3:1 UI)");
+row("red / white (error)", "#F12F62", WHITE, "(icon glyph, 3:1 UI)");
+row("purple_light / white (info)", "#B3B9CB", WHITE, "(icon glyph, 3:1 UI)");

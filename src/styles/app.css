@@ -232,6 +232,73 @@ body {
   background: #f0f0f0;
 }
 
+/* ---- iconography (Iconography slice) ----
+ * The base .sk-icon keeps its 1.4rem chrome size for the SearchField / Modal leading
+ * glyphs. The canonical Icon adds a size modifier that scales width/height/font from the
+ * per-system --ds-icon-size-* tokens, plus a --glyph look: a currentColor monogram in a
+ * thin box (a recognisable STAND-IN, not the system's real artwork — the DS icon fonts are
+ * not vendored; see tokens.css / README). Semantic tones reuse the sourced
+ * --ds-alert-*-accent colours (the legacy alert-icon palette is a real DS value). */
+.sk-icon--sm {
+  width: var(--ds-icon-size-sm);
+  height: var(--ds-icon-size-sm);
+  font-size: calc(var(--ds-icon-size-sm) * 0.62);
+}
+.sk-icon--md {
+  width: var(--ds-icon-size-md);
+  height: var(--ds-icon-size-md);
+  font-size: calc(var(--ds-icon-size-md) * 0.55);
+}
+.sk-icon--glyph {
+  color: currentColor;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.sk-icon--success {
+  color: var(--ds-alert-success-accent);
+}
+.sk-icon--warning {
+  color: var(--ds-alert-warning-accent);
+}
+.sk-icon--error {
+  color: var(--ds-alert-error-accent);
+}
+.sk-icon--info {
+  color: var(--ds-alert-info-accent);
+}
+
+/* IconButton — the real DS icon-only button (Acuity IconButton / legacy 25px .icon-button),
+ * native in all three systems (token-driven). The inner glyph is the per-system Icon stand-in;
+ * the button carries the accessible `label`, so the glyph stays decorative. */
+.sk-iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ds-iconbtn-size);
+  height: var(--ds-iconbtn-size);
+  padding: 0;
+  color: var(--ds-accent);
+  background: transparent;
+  border: var(--ds-border-width) var(--ds-border-style) transparent;
+  border-radius: var(--ds-radius);
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.sk-iconbtn:hover {
+  background: var(--ds-surface);
+}
+.sk-iconbtn:focus-visible {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 1px;
+}
+.sk-iconbtn:disabled {
+  /* --ds-opacity-disabled is the one sanctioned opacity use (tokens.css) */
+  opacity: var(--ds-opacity-disabled);
+  cursor: not-allowed;
+}
+
 /* ---- canonical form controls (Inputs & controls slice, token-driven) ----
  * One canonical API per piece, re-skinned by the control tokens in tokens.css.
  * This is the architecture's claim made concrete: text inputs / select / textarea

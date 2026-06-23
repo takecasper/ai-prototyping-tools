@@ -275,6 +275,45 @@ the gap is recorded, never papered over.
 
 ---
 
+## 4g. Iconography slice — enshrined 2026-06-23 [D][R]
+
+Sixth slice. Completes the last open foundation category (iconography) and adds the real DS
+icon API. Canonical pieces: `Icon` reworked from a placeholder to the real named API, and a
+new **`IconButton`** — both native in all three systems. No new prototype (a foundation slice,
+like §4f); `Icon` is wired into the `casper-score-report` + `applicant-review` rows, exercised
+in the gallery via specimens. `npm run check` clean; gallery + coverage matrix verified across
+acuity / one45-legacy / lowfi with annotations on and off (both native → never flagged).
+
+**New findings from this slice:**
+
+| Finding | Evidence |
+|---|---|
+| **The Acuity DS Icon API is `name` + `size` (small\|medium) + `altText`** on a standalone `<Icon>`, plus `iconName`/`iconSize` convenience props on Button/IconButton/Modal/Link. The icon-name vocabulary is a **custom named set** (`add`, `edit`, `delete`, `checkCircle`, `warning`, `bookmark`, `download`, `infoCircle`, `linkNewTab`, `questionCircle`, `resourceCenter`, `error`), recovered from usage | `designSystemTest/main.jsx:330-521` island recovery [D] |
+| **The Acuity icon glyph ENGINE is not vendored** — `@takecasper/acuity-design-system` is absent from the snapshot, so which renderer (sprite/font/inline-SVG) draws the names is undeterminable; the names are the only registry. Recorded **asset gap**, not guessed | island recovery [D] |
+| **Acuity icon sizes [R]-confirmed** — the DS renders Icon as an SVG at **small 16px / medium 24px**, and **IconButton at 38×38px** (10px pad, 4px radius); colour via `ds-text-*`/`ds-stroke-*` (currentColor). Now carried in `tokens.css` | `/test/designSystem` getComputedStyle, 2026-06-23 (signed in) [R] |
+| **Legacy iconography is THREE overlapping mechanisms**, not one: **FontAwesome Pro 5.15.3** webfont (default `0.9rem`, alert icons `1.5rem`, only scale class `fa-2x`), older **famfamfam Silk** 16px PNG sprites, and **Semantic UI** icon font in webeval markup; `.icon-button` is 25×25px | `package.json:13`, `fontawesome.scss:2-16`, `new_branding.scss:86`, `themes/one45.css:289,1279` [D] |
+| **FA Pro + the PNG sprites are assets the tool can't ship** (a paid webfont / binaries) — the legacy glyph artwork is the same kind of **asset gap** as Acuity's. Both systems render a token-sized currentColor stand-in (brand monogram / lowfi sketch box), never claimed as the real glyph | `fontawesome.scss:1` (font path) [D] |
+| **No webeval icon tag exists** — `tag_tutorials/` has zero icon/glyph entries; webeval emits FA/Semantic `<i>` markup inline in the PHP outputters, not a first-class tag | `tag_tutorials/` grep = 0; outputter `<i>` usages [D] |
+| **Legacy icon colour is explicit palette vars per context** (the alert icons: teal `#2FAEA1` / yellow `#F8B223` / red `#F12F62` / purple-light `#B3B9CB`) — no `currentColor` rule; the tool's `tone` prop reuses these as the real semantic icon colours | `new_branding.scss:100,119,140,159`; `_colors.scss` [D] |
+| **Semantic icon tones FAIL 3:1 at icon scale** — as the glyph on white: acuity warning-yellow `#FCE833` **1.26**, info-blue `#1E93BA` 3.54, success-green `#4DA81F` 3.03; legacy yellow `#F8B223` **1.84**, teal `#2FAEA1` **2.73**, info purple-light `#B3B9CB` **1.96**, red `#F12F62` 3.95. A semantic icon must not rely on hue alone — the tool pairs shape + `altText`/adjacent label | `contrast.mjs` "icon tones" [D] |
+
+**API adaptation (recorded):** the canonical name prop is exposed as **`iconName`** (not the DS's
+`name`) because `name` selects the canonical piece in `<Canonical name="Icon">` — the same
+selector collision `Radio`'s `group` avoids. The DS size names (small/medium) and `IconButton`'s
+`label`-as-accessible-name are kept faithfully.
+
+**Anatomy result [D] — iconography is an "axis a" divergence with a shared asset gap.** Both
+systems have a real icon SYSTEM built differently (Acuity a named-vocabulary component; legacy a
+FontAwesome/sprite webfont stack), so one canonical API absorbs both and the two-step size scale
+absorbs named (acuity) vs rem (legacy) sizing — the single-canonical-API model survives again.
+The genuinely new wrinkle is that the real GLYPH ARTWORK is unavailable in BOTH systems (un-vendored
+DS package / paid font / binaries), so this is the first slice whose fidelity gap is the assets
+themselves, not the API or skin. Recorded honestly as a stand-in (README "Gaps and legitimate
+omissions"); the API, size scale, and colour rule ARE faithful. Rule honoured: no glyph artwork
+fabricated and passed off as a system's real icons.
+
+---
+
 ## 5. Convergence read [I]
 
 The divergence between the two systems is **largely token/brand at the API level** —

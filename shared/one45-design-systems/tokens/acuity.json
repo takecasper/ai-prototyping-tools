@@ -113,5 +113,24 @@
       "note": "not enshrined this slice — acuity-real, legacy uses a webeval `busy` cog GIF with no CSS (deferred)."
     },
     "gaps": "Toast/snackbar, tooltip (react-bootstrap, not DS), popover (react-bootstrap), tag/chip, empty-state — NOT in the acuity DS package (zero usages). Tag/chip + empty-state + toast are gaps in BOTH systems -> not enshrined (the Pagination rule)."
+  },
+  "iconography": {
+    "$meta": "[D] API recovered from island usage (designSystemTest/main.jsx:330-521); sizes [R]-confirmed on the live DS gallery (/test/designSystem, 2026-06-23, getComputedStyle on the rendered <svg>). The glyph ENGINE/artwork is NOT vendored (@takecasper/acuity-design-system absent) — recorded asset gap; the icon-name list below is the only registry (recovered from usage). The tool renders a token-sized currentColor stand-in (src/styles/tokens.css --ds-icon-*) at the real sizes, never the real glyph.",
+    "icon": {
+      "api": ["name", "size(small|medium)", "altText", "filled", "hasIndicator"],
+      "render": "SVG, coloured by ds-text-*/ds-stroke-* classes (effectively currentColor)",
+      "size": { "small": "16px [R]", "medium": "24px [R]" }
+    },
+    "iconButton": {
+      "api": ["iconName", "iconSize(small|medium)", "label", "onClick", "type", "variant(default)", "disabled", "hasTooltip", "hasIndicator"],
+      "box": "38x38px [R] (pad 10px, radius 4px ds-rounded, transparent bg, neutrals-black glyph)",
+      "note": "label is the accessible name (not aria-label); a real 25x25 .icon-button also exists in legacy"
+    },
+    "names": ["add", "bookmark", "checkCircle", "delete", "download", "edit", "error", "infoCircle", "linkNewTab", "questionCircle", "resourceCenter", "warning"],
+    "tones": {
+      "$note": "semantic accent as the glyph on white, judged 3:1 UI (contrast.mjs 'icon tones'); warning fails at icon scale -> pair with shape/label, never hue alone",
+      "success": "#4DA81F (3.03)", "warning": "#FCE833 (1.26 FAIL)", "error": "#E40A0A (4.83)", "info": "#1E93BA (3.54)"
+    },
+    "apiNote": "the tool exposes the DS `name` as `iconName` to avoid the <Canonical name=\"Icon\"> selector collision (the Radio `group` pattern). Reconciliation map §4g."
   }
 }

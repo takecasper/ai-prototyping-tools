@@ -38,6 +38,7 @@ export type CanonicalName =
   | "Alert"
   | "Image"
   | "Icon"
+  | "IconButton"
   // Inputs & controls slice — token-driven, shared across all systems.
   | "TextField"
   | "Textarea"
@@ -92,6 +93,7 @@ export interface CanonicalDef {
 export const CANONICAL: CanonicalDef[] = [
   { name: "Button", label: "Button", category: "Actions & containers", description: "Primary action control", props: "children, variant?, onClick", notes: "variant: primary (default) / secondary / danger / inline" },
   { name: "Card", label: "Card", category: "Actions & containers", description: "Content container with optional title", props: "title?, children" },
+  { name: "IconButton", label: "Icon button", category: "Actions & containers", description: "Icon-only button (real DS iconName/iconSize API)", props: "iconName, iconSize?, label, onClick?, variant?, disabled?", notes: "iconSize: small / medium; label is the accessible name; native in all three; the glyph is a token-sized stand-in (real artwork is a recorded asset gap)" },
   { name: "Badge", label: "Badge", category: "Feedback & status", description: "Small inline status label", props: "children" },
   { name: "Alert", label: "Alert", category: "Feedback & status", description: "Inline message banner (info, success, warning, error)", props: "title?, children, variant?", notes: "variant: info (default) / success / warning / error; native in acuity + legacy (the bridge fills lowfi)" },
   { name: "TextField", label: "Text field", category: "Inputs & controls", description: "Labelled text input with validation state", props: "label, type?, value, onChange, state?, message?, helpText?, optionalityLabel?", notes: "state: default / error / success" },
@@ -106,7 +108,7 @@ export const CANONICAL: CanonicalDef[] = [
   { name: "Breadcrumb", label: "Breadcrumb", category: "Navigation", description: "Trail of ancestor links; legacy-only (bridge fills acuity)", props: "items", notes: "items: string[] or {label,href?}[]; last item is the current page; legacy-only" },
   { name: "Modal", label: "Modal", category: "Feedback & status", description: "Centred dialog overlay (title, body, footer actions); shared API across systems", props: "open, title?, onClose?, dismissible?, icon?, footer?, children", notes: "one API across all systems; footer holds the action Buttons; closes on Esc / scrim click when dismissible" },
   { name: "Image", label: "Image", category: "Media", description: "Placeholder image (placehold.co)", props: "w, h, label?", notes: "never commit binary image files" },
-  { name: "Icon", label: "Icon", category: "Media", description: "Placeholder icon", props: "icon", notes: "placeholder until Acuity's real icons land" },
+  { name: "Icon", label: "Icon", category: "Media", description: "Named icon (real DS name/size vocabulary)", props: "iconName, size?, altText?, tone?", notes: "size: small / medium; iconName is the real DS vocabulary (add, edit, delete, checkCircle, warning…); tone: success / warning / error / info; renders a token-sized stand-in glyph — real glyph artwork is a recorded asset gap (no DS icon font is vendored)" },
 ];
 
 export type Skin = ComponentType<Record<string, any> & { children?: ReactNode; title?: string }>;
@@ -459,19 +461,87 @@ const LowfiImage: Skin = ({ w = 320, h = 160, label }) => (
   </div>
 );
 
-const BrandIcon: Skin = ({ icon }) => (
-  <span className="sk-icon sk-icon--brand" title={String(icon ?? "")}>
-    {String(icon ?? "?").charAt(0).toUpperCase()}
-  </span>
+// ---- Iconography (the Iconography foundation slice) ----
+// Sourced [D] from the islands + the legacy skin (shared/one45-design-systems/01/02 L
+// "Iconography", 03 §4g). Acuity ships a custom NAMED icon vocabulary on a standalone
+// <Icon name=… size=… altText=…> (size ∈ small | medium) plus iconName/iconSize convenience
+// props on Button/IconButton/Modal/Link (designSystemTest/main.jsx). Legacy uses FontAwesome
+// Pro 5.15.3 (+ famfamfam 16px PNG sprites + Semantic UI) sized 0.9rem default / 1.5rem in
+// alerts, coloured by explicit palette vars per context. NEITHER system's glyph ASSETS are
+// available — the Acuity DS package is not vendored, FA Pro is a paid webfont, the sprites are
+// binaries we don't commit — so the real ARTWORK is a recorded asset gap (README "Gaps and
+// legitimate omissions"). The tool renders a token-sized, currentColor stand-in glyph (a
+// monogram for brand, a sketch box for lowfi), never passed off as the system's real icon.
+// What IS faithful and enshrined: the API shape, the size scale, and the colour rule.
+//
+// The canonical name prop is exposed as `iconName` (not `name`) because `name` selects the
+// canonical piece in <Canonical name="Icon">, the same collision Radio's `group` avoids. An
+// optional `tone` (success | warning | error | info) maps to the sourced --ds-alert-*-accent
+// colours (the legacy alert-icon colours are real DS values — teal/yellow/red/purple).
+const iconSizeClass = (size: unknown) => (size === "small" ? "sk-icon--sm" : "sk-icon--md");
+const iconToneClass = (tone: unknown) =>
+  tone === "success" || tone === "warning" || tone === "error" || tone === "info"
+    ? ` sk-icon--${tone}`
+    : "";
+
+const BrandIcon: Skin = ({ iconName, size, altText, tone }) => {
+  const nm = String(iconName ?? "");
+  const a11y = altText != null ? String(altText) : "";
+  return (
+    <span
+      className={`sk-icon sk-icon--glyph ${iconSizeClass(size)}${iconToneClass(tone)}`}
+      title={nm || undefined}
+      role={a11y ? "img" : undefined}
+      aria-label={a11y || undefined}
+      aria-hidden={a11y ? undefined : true}
+    >
+      {(nm || "?").charAt(0).toUpperCase()}
+    </span>
+  );
+};
+
+const LowfiIcon: Skin = ({ iconName, size, altText }) => {
+  const nm = String(iconName ?? "");
+  const a11y = altText ? String(altText) : "";
+  return (
+    <span
+      className={`sk-icon sk-icon--lowfi ${iconSizeClass(size)}`}
+      title={nm || undefined}
+      role={a11y ? "img" : undefined}
+      aria-label={a11y || undefined}
+      aria-hidden={a11y ? undefined : true}
+    />
+  );
+};
+
+// IconButton — the real Acuity DS icon-only button (iconName / iconSize small|medium / label /
+// onClick / variant default / disabled, designSystemTest/main.jsx:486-521); legacy has a real
+// 25×25 .icon-button (themes/one45.css:1279). Native in all three (token-driven); the inner
+// glyph reuses the per-system Icon stand-in. `label` is the accessible name — the DS uses
+// `label` (not aria-label), kept faithfully; it is set as aria-label on the button so the
+// inner glyph stays decorative.
+const BrandIconButton: Skin = ({ iconName, iconSize, label, ...rest }) => (
+  <button
+    type="button"
+    className="sk-iconbtn"
+    aria-label={label != null ? String(label) : undefined}
+    title={label != null ? String(label) : undefined}
+    {...rest}
+  >
+    <BrandIcon iconName={iconName} size={iconSize} />
+  </button>
 );
 
-const LowfiIcon: Skin = ({ icon }) => (
-  <span
-    className="sk-icon sk-icon--lowfi"
-    title={String(icon ?? "")}
-    role="img"
-    aria-label={String(icon ?? "icon")}
-  />
+const LowfiIconButton: Skin = ({ iconName, iconSize, label, ...rest }) => (
+  <button
+    type="button"
+    className="sk-iconbtn"
+    aria-label={label != null ? String(label) : undefined}
+    title={label != null ? String(label) : undefined}
+    {...rest}
+  >
+    <LowfiIcon iconName={iconName} size={iconSize} />
+  </button>
 );
 
 export interface DesignSystem {
@@ -516,7 +586,7 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // Badge demonstrates the older first-native-piece fallback. lowfi is the ONLY system
     // that bridges Alert now — both brand systems ship a real one. Breadcrumb IS present —
     // it is legacy-era and renders fine in the sketch skin.
-    skins: { Button, Card, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Breadcrumb, Image: LowfiImage, Icon: LowfiIcon },
+    skins: { Button, Card, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Breadcrumb, Image: LowfiImage, Icon: LowfiIcon, IconButton: LowfiIconButton },
   },
   acuity: {
     id: "acuity",
@@ -526,7 +596,7 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // Breadcrumb is deliberately absent: the Acuity DS package ships no Breadcrumb
     // component (zero usages recovered from the islands), so it resolves through the
     // bridge to a flagged AI build — the mirror of legacy lacking Alert.
-    skins: { Button, Card, Badge, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Image: BrandImage, Icon: BrandIcon },
+    skins: { Button, Card, Badge, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Image: BrandImage, Icon: BrandIcon, IconButton: BrandIconButton },
   },
   "one45-legacy": {
     id: "one45-legacy",
@@ -538,7 +608,7 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // .badge-details is a profile-photo widget), so Badge is the genuine acuity-only piece
     // and the bridge fills it. Breadcrumb IS native — the legacy app has a real (bespoke
     // chevron) breadcrumb the Acuity DS never built. Form + nav controls re-skin cleanly.
-    skins: { Button, Card, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Breadcrumb, Image: BrandImage, Icon: BrandIcon },
+    skins: { Button, Card, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Breadcrumb, Image: BrandImage, Icon: BrandIcon, IconButton: BrandIconButton },
   },
 };
 

@@ -16,7 +16,7 @@ export function ListScreen() {
       <div className="flow-list">
         {APPLICANTS.map((a) => (
           <div key={a.id} className="flow-row">
-            <Canonical name="Icon" icon="person" />
+            <Canonical name="Icon" iconName="person" size="small" />
             <div className="flow-row__id">
               <div className="flow-row__name">{a.name}</div>
               <div className="flow-row__meta">{a.role}</div>

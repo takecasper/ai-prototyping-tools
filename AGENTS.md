@@ -70,7 +70,7 @@ so it is always complete and current.
 
 The pieces, by slice:
 
-- **Actions & containers** — Button, Card
+- **Actions & containers** — Button, Card, IconButton
 - **Inputs & controls** — TextField, Textarea, Select, Checkbox, Radio, Toggle, SearchField
 - **Navigation** — Tabs, Link, Breadcrumb
 - **Feedback & status** — Badge, Alert, Modal
@@ -106,6 +106,17 @@ The Feedback & status pieces:
 **Toast, tag/chip and empty-state are not enshrined**: they exist in neither One45 system, so
 the tool does not fabricate them (the Pagination rule).
 
+The Media / iconography pieces:
+
+- **Icon** and **IconButton** are present in all three systems. They carry the real DS API
+  (`iconName` + `size`/`iconSize` ∈ small/medium + `altText`/`label`, plus an optional `tone`),
+  recovered from the Acuity DS islands and the legacy FontAwesome/sprite skin. The real glyph
+  **artwork** is unavailable in both systems (the Acuity DS package is not vendored; legacy uses a
+  paid FA Pro webfont + binary sprites) — a recorded **asset gap**, so the tool renders a
+  token-sized stand-in glyph (a monogram for brand, a sketch box for lowfi), **never the real
+  icon**. See `shared/one45-design-systems/README.md` "Gaps and legitimate omissions" and
+  reconciliation §4g.
+
 ## Rules
 
 - Build only from `<Canonical>` pieces. No raw `<button>`, `<img>`, hex colours,
@@ -114,7 +125,9 @@ the tool does not fabricate them (the Pagination rule).
   the bridge handle it.
 - Images: always `<Canonical name="Image" w={..} h={..} label=".." />`. Never
   commit binary image files.
-- Icons: always `<Canonical name="Icon" icon=".." />`.
+- Icons: always `<Canonical name="Icon" iconName=".." size="small|medium" altText=".." />`
+  (decorative icons may omit `altText`). For an icon-only button use
+  `<Canonical name="IconButton" iconName=".." label=".." onClick={..} />`.
 - Plain wrapper elements (`<div className="flow-row">`, `<p className="proto__text">`)
   are allowed for layout and spacing only, never for colour or design tokens.
 

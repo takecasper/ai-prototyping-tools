@@ -54,6 +54,18 @@
   --ds-opacity-disabled: 0.5; /* disabled state — the ONE sanctioned opacity use */
   --ds-fg-muted: #5f5f5f; /* muted text via a REAL colour (never opacity — see css rule) */
 
+  /* ---- iconography (the Iconography slice) ----
+   * Acuity exposes a NAMED size scale (small|medium) on Icon/IconButton; legacy sizes
+   * FontAwesome by rem (0.9rem default / 1.5rem in alerts) + a 25px .icon-button. Both
+   * map to a two-step icon size scale + an icon-button box, per system. Glyph ARTWORK is a
+   * recorded asset gap in BOTH systems (no DS icon font is vendored — see README "Gaps and
+   * legitimate omissions", 03 §4g): these tokens size the stand-in glyph, they do not ship
+   * real icons. Icon colour is currentColor; semantic tones reuse the sourced
+   * --ds-alert-*-accent colours. Generic tool defaults here; each system overrides below. */
+  --ds-icon-size-sm: 1rem;
+  --ds-icon-size-md: 1.25rem;
+  --ds-iconbtn-size: 2rem;
+
   /* ---- form-control foundation (the Inputs & controls slice) ----
    * Generic fallbacks; each system overrides below from its real, sourced values.
    * See shared/one45-design-systems/01-acuity-modern.md / 02-one45-legacy.md L "Inputs". */
@@ -235,6 +247,18 @@
   --ds-alert-error-bg: #ffece8; /* danger-red lightest */
   --ds-alert-error-fg: #720202; /* danger-red darkest */
   --ds-alert-error-accent: #e40a0a; /* danger-red DEFAULT */
+
+  /* Iconography — [D] the Acuity DS Icon/IconButton API (designSystemTest/main.jsx): a NAMED
+   * size scale small|medium + the iconName/iconSize convenience props. The icon-name vocabulary
+   * is real (add / edit / delete / checkCircle / warning / …) but the glyph ENGINE (SVG) is not
+   * vendored (artwork asset gap). The rendered px are now [R]-CONFIRMED on the live DS gallery
+   * (/test/designSystem, 2026-06-23, signed in, getComputedStyle on the rendered <svg>): the DS
+   * Icon renders small 16px / medium 24px, coloured by ds-text-*/ds-stroke-* utility classes
+   * (currentColor here). The DS IconButton box is 38×38px (10px pad, 4px ds-rounded, transparent
+   * bg, neutrals-black glyph). */
+  --ds-icon-size-sm: 16px; /* small — [R] /test/designSystem 2026-06-23 */
+  --ds-icon-size-md: 24px; /* medium — [R] /test/designSystem 2026-06-23 */
+  --ds-iconbtn-size: 38px; /* IconButton box — [R] 38×38 (pad 10px, radius 4px) */
 }
 
 /* one45 legacy — older brand from _colors.scss:1-35 + new_branding.scss.
@@ -354,6 +378,19 @@
   --ds-alert-info-bg: #42507d; /* $primary_purple — solid fill */
   --ds-alert-info-fg: #ffffff; /* white text on the purple fill */
   --ds-alert-info-accent: #b3b9cb; /* $primary_purple_light (icon) */
+
+  /* Iconography — [D] FontAwesome Pro 5.15.3 (fontawesome.scss:2-16) is the legacy icon
+   * webfont: default size 0.9rem (the fa-icon mixin, fontawesome.scss:16), alert icons 1.5rem
+   * (new_branding.scss:86); the only scale class in use is fa-2x. The older famfamfam Silk set
+   * renders 16px PNG sprites (themes/one45.css:289) and .icon-button is 25×25px
+   * (themes/one45.css:1279). FA Pro + the PNG sprites are assets the tool does not ship (a paid
+   * webfont / binaries) → the glyph artwork is a recorded gap; the stand-in renders at these
+   * real sizes. Icon colour is set by explicit palette vars per context — e.g. the alert icons
+   * teal #2FAEA1 / yellow #F8B223 / red #F12F62 / purple-light #B3B9CB (the --ds-alert-*-accent
+   * tokens above; new_branding.scss:100,119,140,159). */
+  --ds-icon-size-sm: 0.9rem; /* FA default [D] fontawesome.scss:16 */
+  --ds-icon-size-md: 1.5rem; /* alert icon size [D] new_branding.scss:86 */
+  --ds-iconbtn-size: 25px; /* .icon-button [D] themes/one45.css:1279 */
 }
 
 /* Low-fi — Balsamiq-style sketch. Greyscale, dashed, marker font, no shadow,
@@ -444,4 +481,10 @@
   --ds-alert-error-bg: #f3f3f3;
   --ds-alert-error-fg: #3a3a3a;
   --ds-alert-error-accent: #8a8a8a;
+
+  /* Iconography — deliberate sketch. A two-step size scale + a square icon button; the
+   * stand-in glyph is a dashed box (no brand glyph, no semantic hue). */
+  --ds-icon-size-sm: 1rem;
+  --ds-icon-size-md: 1.4rem;
+  --ds-iconbtn-size: 2rem;
 }

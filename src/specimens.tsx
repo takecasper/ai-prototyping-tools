@@ -89,5 +89,20 @@ export const SPECIMENS: Partial<Record<CanonicalName, Specimen>> = {
   Breadcrumb: { items: ["Home", "Programs", "Biology"] },
   Modal: (system) => <ModalDemo system={system} />,
   Image: { w: 240, h: 120, label: "Image" },
-  Icon: { icon: "star" },
+  // Real DS icon-name vocabulary at both sizes, plus two semantic tones. The glyph is a
+  // token-sized stand-in (the DS icon fonts are not vendored — see systems.tsx / README).
+  Icon: (system) => (
+    <div className="proto__row">
+      <Canonical name="Icon" system={system} iconName="checkCircle" size="medium" altText="Complete" />
+      <Canonical name="Icon" system={system} iconName="edit" size="small" altText="Edit" />
+      <Canonical name="Icon" system={system} iconName="warning" size="medium" tone="warning" altText="Warning" />
+      <Canonical name="Icon" system={system} iconName="error" size="medium" tone="error" altText="Error" />
+    </div>
+  ),
+  IconButton: (system) => (
+    <div className="proto__row">
+      <Canonical name="IconButton" system={system} iconName="bookmark" iconSize="medium" label="Bookmark" />
+      <Canonical name="IconButton" system={system} iconName="download" iconSize="small" label="Download" />
+    </div>
+  ),
 };

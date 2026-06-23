@@ -385,6 +385,57 @@ where Acuity defines nothing, the gap is recorded, not papered over with an inve
 
 ---
 
+## Iconography — enshrined slice [D][R]
+
+Sixth slice (2026-06-23). Completes the last open foundation category. New canonical pieces:
+**`Icon`** (reworked from a placeholder to the real DS API) and **`IconButton`**. Browser-verified
+across acuity / one45-legacy / lowfi, annotations on and off; lint-gate-clean.
+
+**Layer 1 — the real DS Icon/IconButton API** [D] (recovered from React-island usage,
+`designSystemTest/main.jsx:330-521`): the standalone Acuity DS `<Icon>` takes **`name`**
+(custom icon-name vocabulary), **`size`** ∈ `small | medium`, **`altText`**, plus `filled` /
+`hasIndicator`; `<IconButton>` takes **`iconName`**, **`iconSize`** ∈ `small | medium`,
+**`label`** (the accessible name — not `aria-label`), `onClick`, `type`, `variant` (`default`
+seen), `disabled`, `hasTooltip` / `hasIndicator`. `iconName`/`iconSize` also appear as
+convenience props on Button / Card / Modal / Link. The canonical tool pieces expose `iconName`
+(see API-note below), `size`/`iconSize`, `altText`/`label`, and an optional `tone`.
+
+**Icon-name vocabulary** [D] (the real names recovered from usage — there is no separate
+registry, the package is not vendored): `add`, `bookmark`, `checkCircle`, `delete`, `download`,
+`edit`, `error`, `infoCircle`, `linkNewTab`, `questionCircle`, `resourceCenter`, `warning`.
+
+**Layer 2 — colour** [D]: icon colour is set by **`ds-text-*` utility classes** (e.g.
+`ds-text-success-green-darkest`, `ds-text-acuity-green`), not a colour/`fill` prop — i.e.
+effectively `currentColor`. The tool defaults to `currentColor` and maps the optional `tone`
+(success/warning/error/info) to the semantic accent colours.
+
+**Layer 3 — rendered sizes [R] + the artwork asset gap** [D] (live DS gallery
+`/test/designSystem`, 2026-06-23, signed in, `getComputedStyle` on the rendered `<svg>`): the DS
+Icon renders as an **SVG** at **small = 16px**, **medium = 24px**, coloured by
+`ds-text-*`/`ds-stroke-*` utility classes (currentColor); the DS **IconButton is 38×38px** (10px
+pad, 4px `ds-rounded`, transparent bg, `neutrals-black` glyph, hover `neutrals-transparent-light`).
+`tokens.css` now carries these confirmed values. The glyph **artwork** is still a recorded asset
+gap — the package `@takecasper/acuity-design-system` is **not vendored**, so the actual SVG paths
+are unavailable; the tool renders a token-sized currentColor **monogram stand-in** at the real
+sizes, never claimed as the real icon.
+
+**Icon-tone contrast** (`scripts/contrast.mjs`, "Acuity icon tones", glyph on white, 3:1 UI):
+success-green `#4DA81F` **3.03**, danger-red `#E40A0A` **4.83**, information-blue `#1E93BA`
+**3.54**, **warning-yellow `#FCE833` 1.26 (FAIL)**. Semantic icons must not rely on hue alone, so
+the tool pairs every icon with shape + an `altText`/adjacent label.
+
+**API note (recorded):** the canonical name prop is `iconName`, not the DS's `name`, because
+`name` selects the canonical piece in `<Canonical name="Icon">` (the same collision `Radio`'s
+`group` avoids). Everything else (size names, `IconButton.label`) is kept faithfully.
+
+**Anatomy result [D] — "axis a" with a shared asset gap.** Both systems ship a real icon
+SYSTEM built differently; one canonical API + a two-step size token scale absorb both. The new
+wrinkle is that the real glyph ARTWORK is unavailable here (un-vendored package) — the first
+slice whose fidelity gap is the assets, not the API or skin. Recorded honestly; the API, size
+scale, and colour rule are faithful. (Reconciliation map §4g.)
+
+---
+
 ## Carry-forward verdict
 
 Carry the **token set verbatim, collapse the 4× duplication to one source**. Add

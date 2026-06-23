@@ -303,6 +303,49 @@ gap is recorded, not invented.
 
 ---
 
+## Iconography — enshrined slice [D]
+
+Sixth slice (2026-06-23). Completes the last open foundation category. New canonical pieces:
+**`Icon`** (real DS API) and **`IconButton`** — both native here. Browser-verified across all
+three systems (annotations on/off); lint-gate-clean.
+
+**Layer 1 — three overlapping icon mechanisms** [D] (legacy has no single icon system):
+
+| Mechanism | What | Cite |
+|---|---|---|
+| **FontAwesome Pro 5.15.3** (primary webfont) | all four styles imported; the `fa-icon` mixin defaults `font-size: 0.9rem`; alert icons `1.5rem`; only scale class in use is `fa-2x`; report toolbars alias `icon-*-fa` → `@extend .fas` | `package.json:13`, `fontawesome.scss:2-47`, `new_branding.scss:86` |
+| **famfamfam Silk** (older raster set) | 16×16px PNG sprites via `.icon-*` classes (colour baked into the PNG); custom one45 PNGs alongside | `themes/one45.css:289-307`; vendor `famfamfam/` |
+| **Semantic UI** icon font | used by webeval-emitted markup (`<i class='angle right icon'>`) | `package.json:72`; outputter `<i>` usages |
+
+`.icon-button` is a real **25×25px** control. **Glyphicons are not used** (one stray animation
+class only). There is **no webeval icon tag** — webeval emits FA/Semantic `<i>` inline in PHP
+outputters, not a first-class tag.
+
+**Layer 2 — colour** [D]: explicit SCSS palette variables per context, not `currentColor`. The
+alert icons are the clearest sourced set: success `$primary_teal_dark #2FAEA1`, warning
+`$primary_yellow #F8B223`, error `$primary_red #F12F62`, info `$primary_purple_light #B3B9CB`
+(`new_branding.scss:100,119,140,159`) — the tool's `tone` prop reuses these as the real legacy
+semantic icon colours.
+
+**Layer 3 — the asset gap** [D]: FontAwesome Pro is a **paid webfont** and the famfamfam set is
+**binary PNGs** — neither is shipped by the tool (no-binary rule). So the legacy glyph **artwork**
+is a recorded asset gap, the same kind as Acuity's un-vendored package. The tool sizes its
+stand-in at the real sourced sizes (`--ds-icon-size-sm 0.9rem` / `-md 1.5rem`, `--ds-iconbtn-size
+25px`) but renders a token-driven sketch/monogram, never the real glyph.
+
+**Icon-tone contrast** (`scripts/contrast.mjs`, "legacy icon tones", glyph on white, 3:1 UI):
+red `#F12F62` **3.95**, **teal `#2FAEA1` 2.73 (FAIL)**, **yellow `#F8B223` 1.84 (FAIL)**,
+**purple-light `#B3B9CB` 1.96 (FAIL)** — same finding as Acuity: a small semantic glyph can't
+carry meaning on hue alone, so the tool pairs shape + label.
+
+**Anatomy result [D] — "axis a" with a shared asset gap.** Legacy's FontAwesome/sprite stack and
+Acuity's named-vocabulary component absorb into **one canonical API**, and a two-step size token
+scale absorbs legacy's rem sizing vs Acuity's named sizes. The real glyph artwork is unavailable
+in both systems — the fidelity gap is the assets, recorded honestly, not fabricated.
+(Reconciliation map §4g.)
+
+---
+
 ## Carry-forward verdict
 
 The legacy brand is a **migration source, not a target** — it is being replaced by

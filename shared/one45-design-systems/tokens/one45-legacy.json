@@ -127,5 +127,23 @@
     },
     "progressBar": null,
     "gaps": "status badge/chip, tag/chip, empty-state, toast — NO legacy skin in any source (CSS / Twig / webeval / react-bootstrap). .progress has only a line-height (no fill). Tag/chip + empty-state + toast are gaps in BOTH systems -> not enshrined."
+  },
+  "iconography": {
+    "$meta": "[D] legacy has THREE overlapping icon mechanisms, not one. The glyph ARTWORK is a recorded asset gap (a paid FA Pro webfont + binary PNG sprites, not shipped by the tool); the tool sizes a token-driven stand-in at the real sourced sizes (src/styles/tokens.css --ds-icon-* = 0.9rem / 1.5rem / 25px). No webeval icon tag exists (tag_tutorials has none — icons are inline <i> in the PHP outputters).",
+    "fontAwesomePro": {
+      "$source": "package.json:13, fontawesome.scss:2-47",
+      "version": "5.15.3", "defaultSize": "0.9rem (fa-icon mixin, fontawesome.scss:16)",
+      "alertIconSize": "1.5rem (new_branding.scss:86)", "scaleClassInUse": "fa-2x (only)"
+    },
+    "famfamfam": { "$source": "themes/one45.css:289-307; vendor famfamfam/", "size": "16x16px PNG sprites", "colour": "baked into the PNG (CSS sets no colour)" },
+    "semanticUi": { "$source": "package.json:72; outputter <i> usages", "use": "webeval-emitted markup (<i class='angle right icon'>)" },
+    "iconButton": { "$source": "themes/one45.css:1279", "size": "25x25px" },
+    "colour": "explicit SCSS palette vars per context (no currentColor). Alert icons: teal $primary_teal_dark #2FAEA1 / yellow $primary_yellow #F8B223 / red $primary_red #F12F62 / info $primary_purple_light #B3B9CB (new_branding.scss:100,119,140,159).",
+    "tones": {
+      "$note": "the alert-icon palette as the glyph on white, judged 3:1 UI (contrast.mjs 'icon tones'); 3 of 4 fail at icon scale -> pair with shape/label, never hue alone",
+      "success": "#2FAEA1 (2.73 FAIL)", "warning": "#F8B223 (1.84 FAIL)", "error": "#F12F62 (3.95)", "info": "#B3B9CB (1.96 FAIL)"
+    },
+    "glyphicons": "NOT used (one stray animation class only — settings.html.twig:55)",
+    "note": "reconciliation map §4g. One canonical Icon/IconButton API + a two-step size token scale absorb both this FA/sprite stack and the Acuity named-vocabulary component."
   }
 }
