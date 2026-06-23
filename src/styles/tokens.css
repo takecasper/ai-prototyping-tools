@@ -83,7 +83,12 @@
  * 8.42:1). radius and shadow are NOT Acuity tokens (the set covers colour / type
  * / spacing / weight only) — values below are tool defaults, flagged in the
  * report, not invented Acuity tokens. */
-:root[data-ds="acuity"] {
+/* The `[data-ds="X"]` selector (added alongside `:root[...]`) lets a token set
+ * scope to ANY subtree, not just <html> — the Systems-tab gallery renders a piece
+ * in an arbitrary system (and two systems side by side) by wrapping each stage in
+ * a `data-ds` element, independent of the root's active system. */
+:root[data-ds="acuity"],
+[data-ds="acuity"] {
   --ds-font: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --ds-bg: #ffffff; /* neutrals-white */
   --ds-fg: #333333; /* neutrals-darker */
@@ -165,7 +170,8 @@
  * Cabin font, primary-purple #42507D accent (white-on-it 7.85:1), one45_black
  * #27304B body text (13.04:1). The 0.4px letter-spacing is a real new_branding
  * detail. */
-:root[data-ds="one45-legacy"] {
+:root[data-ds="one45-legacy"],
+[data-ds="one45-legacy"] {
   --ds-font: "Cabin", Verdana, Arial, Helvetica, sans-serif;
   --ds-bg: #ffffff;
   --ds-fg: #27304b; /* $one45_black */
@@ -252,7 +258,8 @@
 
 /* Low-fi — Balsamiq-style sketch. Greyscale, dashed, marker font, no shadow,
  * slight tilt. Unmistakably "not production." */
-:root[data-ds="lowfi"] {
+:root[data-ds="lowfi"],
+[data-ds="lowfi"] {
   --ds-font: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Bradley Hand", cursive;
   --ds-bg: #ffffff;
   --ds-fg: #3a3a3a;

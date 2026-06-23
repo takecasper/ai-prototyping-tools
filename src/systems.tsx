@@ -51,31 +51,57 @@ export type CanonicalName =
   | "Modal";
 export type SystemId = "lowfi" | "acuity" | "one45-legacy";
 
+// The documentation slices the gallery groups by. New canonical pieces slot into
+// their slice automatically — adding a piece is just giving it a `category`.
+export type Slice =
+  | "Actions & containers"
+  | "Inputs & controls"
+  | "Navigation"
+  | "Feedback & status"
+  | "Media";
+
+// Slice render order in the gallery.
+export const SLICES: Slice[] = [
+  "Actions & containers",
+  "Inputs & controls",
+  "Navigation",
+  "Feedback & status",
+  "Media",
+];
+
 export interface CanonicalDef {
   name: CanonicalName;
   label: string;
   description: string;
+  category: Slice;
+  // `props` / `notes` are the live documentation the Systems-tab gallery renders.
+  // They are the single source of truth — the AGENTS.md table points here rather
+  // than duplicating them, so the doc cannot drift from the catalogue.
+  props: string;
+  notes?: string;
 }
 
-// The canonical catalogue — the only pieces a prototype is allowed to reference.
+// The canonical catalogue — the only pieces a prototype is allowed to reference,
+// and the single source the gallery documents from. Add a piece here (with a
+// `category`) and it appears in every system's gallery automatically.
 export const CANONICAL: CanonicalDef[] = [
-  { name: "Button", label: "Button", description: "Primary action control" },
-  { name: "Card", label: "Card", description: "Content container with optional title" },
-  { name: "Badge", label: "Badge", description: "Small inline status label" },
-  { name: "Alert", label: "Alert", description: "Inline message banner (info, success, warning)" },
-  { name: "TextField", label: "Text field", description: "Labelled text input with validation state" },
-  { name: "Textarea", label: "Textarea", description: "Multi-line text input with validation state" },
-  { name: "Select", label: "Select", description: "Labelled dropdown (native options)" },
-  { name: "Checkbox", label: "Checkbox", description: "Single checkbox with label" },
-  { name: "Radio", label: "Radio", description: "Radio option (grouped by name)" },
-  { name: "Toggle", label: "Toggle", description: "On/off switch with label" },
-  { name: "SearchField", label: "Search field", description: "Pill search input with leading icon" },
-  { name: "Tabs", label: "Tabs", description: "Tabbed navigation (id-based active tab)" },
-  { name: "Link", label: "Link", description: "Hyperlink (default / inline variant)" },
-  { name: "Breadcrumb", label: "Breadcrumb", description: "Trail of ancestor links; legacy-only (bridge fills acuity)" },
-  { name: "Modal", label: "Modal", description: "Centred dialog overlay (title, body, footer actions); shared API across systems" },
-  { name: "Image", label: "Image", description: "Placeholder image (placehold.co)" },
-  { name: "Icon", label: "Icon", description: "Placeholder icon" },
+  { name: "Button", label: "Button", category: "Actions & containers", description: "Primary action control", props: "children, variant?, onClick", notes: "variant: primary (default) / secondary / danger / inline" },
+  { name: "Card", label: "Card", category: "Actions & containers", description: "Content container with optional title", props: "title?, children" },
+  { name: "Badge", label: "Badge", category: "Feedback & status", description: "Small inline status label", props: "children" },
+  { name: "Alert", label: "Alert", category: "Feedback & status", description: "Inline message banner (info, success, warning)", props: "title?, children", notes: "acuity-only DS piece; the bridge fills legacy + lowfi" },
+  { name: "TextField", label: "Text field", category: "Inputs & controls", description: "Labelled text input with validation state", props: "label, type?, value, onChange, state?, message?, helpText?, optionalityLabel?", notes: "state: default / error / success" },
+  { name: "Textarea", label: "Textarea", category: "Inputs & controls", description: "Multi-line text input with validation state", props: "label, value, onChange, state?, message?, rows?", notes: "same validation surface as TextField" },
+  { name: "Select", label: "Select", category: "Inputs & controls", description: "Labelled dropdown (native options)", props: "label, value, onChange, state?, message?, options", notes: "options: string[] or {value,label}[]" },
+  { name: "Checkbox", label: "Checkbox", category: "Inputs & controls", description: "Single checkbox with label", props: "label, checked, onChange", notes: "brand-tinted via accent-color" },
+  { name: "Radio", label: "Radio", category: "Inputs & controls", description: "Radio option (grouped by name)", props: "label, group, value, checked, onChange", notes: "group by shared name" },
+  { name: "Toggle", label: "Toggle", category: "Inputs & controls", description: "On/off switch with label", props: "label, checked, onChange" },
+  { name: "SearchField", label: "Search field", category: "Inputs & controls", description: "Pill search input with leading icon", props: "value, onChange, placeholder?" },
+  { name: "Tabs", label: "Tabs", category: "Navigation", description: "Tabbed navigation (id-based active tab)", props: "tabs, active, onSelect, children", notes: "tabs: string[] or {id,label,badge?}[]; per-system visual model (acuity underline / legacy box tabs)" },
+  { name: "Link", label: "Link", category: "Navigation", description: "Hyperlink (default / inline variant)", props: "children (or text), href?, variant?, external?", notes: "variant: default / inline; external opens a new tab" },
+  { name: "Breadcrumb", label: "Breadcrumb", category: "Navigation", description: "Trail of ancestor links; legacy-only (bridge fills acuity)", props: "items", notes: "items: string[] or {label,href?}[]; last item is the current page; legacy-only" },
+  { name: "Modal", label: "Modal", category: "Feedback & status", description: "Centred dialog overlay (title, body, footer actions); shared API across systems", props: "open, title?, onClose?, dismissible?, icon?, footer?, children", notes: "one API across all systems; footer holds the action Buttons; closes on Esc / scrim click when dismissible" },
+  { name: "Image", label: "Image", category: "Media", description: "Placeholder image (placehold.co)", props: "w, h, label?", notes: "never commit binary image files" },
+  { name: "Icon", label: "Icon", category: "Media", description: "Placeholder icon", props: "icon", notes: "placeholder until Acuity's real icons land" },
 ];
 
 export type Skin = ComponentType<Record<string, any> & { children?: ReactNode; title?: string }>;

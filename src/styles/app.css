@@ -144,8 +144,11 @@ body {
   padding: 0.8rem 1rem;
   border-top: 1px solid var(--ds-modal-header-border);
 }
-/* lowfi panel gets the sketch border (acuity/legacy modals are borderless, shadow only) */
-:root[data-ds="lowfi"] .sk-modal__panel {
+/* lowfi panel gets the sketch border (acuity/legacy modals are borderless, shadow only).
+ * The bare `[data-ds=...]` variant lets the rule also apply inside a gallery stage
+ * scoped to that system, not just when lowfi is the root active system. */
+:root[data-ds="lowfi"] .sk-modal__panel,
+[data-ds="lowfi"] .sk-modal__panel {
   border: var(--ds-border-width) var(--ds-border-style) var(--ds-border-color);
 }
 .sk-img {
@@ -463,14 +466,19 @@ body {
  * one45 tabs are Bootstrap nav-tabs — BOX folder tabs — a genuinely different visual
  * structure that does NOT token-swap, so it is rendered faithfully here rather than
  * flattened into the underline model. [D] themes/one45.scss:759-775, styles_overwrite.scss:32-40. */
-:root[data-ds="one45-legacy"] .sk-tab {
+/* The bare `[data-ds=...]` variants let the legacy box-tab model also render inside
+ * a gallery stage scoped to legacy, not just when legacy is the root active system. */
+:root[data-ds="one45-legacy"] .sk-tab,
+[data-ds="one45-legacy"] .sk-tab {
   border: var(--ds-border-width) var(--ds-border-style) transparent;
   border-radius: var(--ds-radius) var(--ds-radius) 0 0;
 }
-:root[data-ds="one45-legacy"] .sk-tab:hover:not(.is-active) {
+:root[data-ds="one45-legacy"] .sk-tab:hover:not(.is-active),
+[data-ds="one45-legacy"] .sk-tab:hover:not(.is-active) {
   border-color: #eeeeee #eeeeee var(--ds-tab-strip-border);
 }
-:root[data-ds="one45-legacy"] .sk-tab.is-active {
+:root[data-ds="one45-legacy"] .sk-tab.is-active,
+[data-ds="one45-legacy"] .sk-tab.is-active {
   background: var(--ds-bg);
   /* active folder tab: grey top+sides, bottom edge merges with the strip rule */
   border-color: var(--ds-tab-strip-border) var(--ds-tab-strip-border) var(--ds-bg);
@@ -527,6 +535,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+}
+/* A prototype is a narrow centred card, so it sits comfortably between the fixed
+ * side panels. A gallery is wide, so when the panels are open it is inset by their
+ * widths (lib 23rem + ov 24rem) to clear them instead of scrolling underneath. */
+.app__main--galleryopen {
+  justify-content: flex-start;
+  padding-left: 24.5rem;
+  padding-right: 25.5rem;
 }
 
 /* ---- prototype ---- */
@@ -819,6 +835,270 @@ body {
   margin: 0 0 0.6rem;
 }
 
+/* ---- left-panel tabs (Prototypes | Systems) ---- */
+.lib__tabs {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+.lib__tab {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 0.8rem;
+  color: #6b7280;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.lib__tab:hover {
+  color: #111827;
+}
+.lib__tab.is-active {
+  color: #111827;
+  border-bottom-color: #111827;
+}
+/* The tab panels share the column layout the library relies on so the prototype
+ * table still caps at half height and the flow steps scroll below it. */
+.lib__panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ---- systems list (Systems tab) ---- */
+.sys {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
+}
+.sys__item {
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+}
+.sys__item:hover {
+  background: #f8fafc;
+}
+.sys__item.is-active {
+  border-color: #111827;
+  background: #eef2ff;
+}
+.sys__name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #111827;
+}
+.sys__blurb {
+  font-size: 0.74rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* ---- system gallery (Systems-tab canvas) ---- */
+.gal {
+  width: 100%;
+  max-width: 64rem;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  color: #111827;
+}
+.gal__head {
+  margin-bottom: 1.5rem;
+}
+.gal__title {
+  margin: 0;
+  font-size: 1.4rem;
+}
+.gal__blurb {
+  margin: 0.4rem 0 0;
+  max-width: 48rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+.gal__slice {
+  margin-top: 2rem;
+}
+.gal__slice-h {
+  margin: 0 0 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #374151;
+}
+.gal__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: 1rem;
+}
+.gal__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+.gal__name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+.gal__desc {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+.gal__props {
+  display: block;
+  margin-top: 0.4rem;
+  padding: 0.3rem 0.45rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.72rem;
+  color: #374151;
+  background: #f6f7f9;
+  border-radius: 5px;
+  word-break: break-word;
+}
+.gal__notes {
+  margin: 0.35rem 0 0;
+  font-size: 0.74rem;
+  color: #6b7280;
+}
+.gal__cols {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.gal__col {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.gal__cols.is-compare .gal__col {
+  flex: 1 1 13rem;
+  padding: 0.6rem;
+  border: 1px dashed #e5e7eb;
+  border-radius: 8px;
+}
+.gal__col-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+.gal__col-sys {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+.gal__stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.5rem;
+  min-height: 3.5rem;
+  padding: 1rem;
+  background: #fafafa;
+  border: 1px solid #f1f2f4;
+  border-radius: 8px;
+}
+.gal__chip {
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+}
+.gal__chip--native {
+  background: #ecfdf5;
+  color: #065f46;
+}
+.gal__chip--map {
+  background: #eef2ff;
+  color: #3730a3;
+}
+.gal__chip--ai {
+  background: #fdf2f8;
+  color: #9d174d;
+}
+.gal__chip--none {
+  background: #fff7ed;
+  color: #9a3412;
+}
+.gal__needs {
+  display: inline-block;
+  margin-left: 0.4rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: #9a3412;
+  background: #fff7ed;
+  border: 1px dashed #fb923c;
+  border-radius: 4px;
+  padding: 0.05rem 0.3rem;
+}
+
+/* ---- coverage matrix (system-info panel) ---- */
+.mtx {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+}
+.mtx th,
+.mtx td {
+  padding: 0.25rem 0.3rem;
+  border-bottom: 1px solid #f1f2f4;
+  text-align: center;
+}
+.mtx th {
+  color: #6b7280;
+  font-weight: 600;
+}
+.mtx th.is-viewed {
+  color: #111827;
+  text-decoration: underline;
+}
+.mtx__corner,
+.mtx__name {
+  text-align: left;
+}
+.mtx__name {
+  color: #374151;
+}
+.mtx__cell {
+  font-size: 0.85rem;
+}
+.mtx__cell.is-native {
+  color: #059669;
+}
+.mtx__cell.is-map {
+  color: #4f46e5;
+}
+.mtx__cell.is-ai {
+  color: #db2777;
+}
+.mtx__cell.is-none {
+  color: #9ca3af;
+}
+.mtx__cell.is-viewed {
+  background: #f8fafc;
+}
+
 /* ---- control overlay ---- */
 .ov {
   position: fixed;
@@ -1050,7 +1330,8 @@ kbd {
     bottom: auto;
     box-shadow: none;
   }
-  .app__main {
+  .app__main,
+  .app__main--galleryopen {
     padding: 1.25rem;
   }
 }

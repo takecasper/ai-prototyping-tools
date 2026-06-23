@@ -20,7 +20,7 @@ import {
 import { type CanonicalName, type SystemId } from "./systems";
 
 // systemId → (missing canonical → manual map target)
-type MapRegistry = Record<string, Partial<Record<CanonicalName, CanonicalName>>>;
+export type MapRegistry = Record<string, Partial<Record<CanonicalName, CanonicalName>>>;
 
 const LS_KEY = "acuity-insights-prototype-maps-v2";
 // Original key from before the tool was renamed off "spike". Read it once as a

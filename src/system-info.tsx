@@ -1,0 +1,119 @@
+// system-info.tsx — the right-hand panel while a system gallery is on the canvas.
+// It replaces ControlOverlay (which is prototype-scoped). It shows the viewed
+// system's blurb, a coverage matrix across all systems, the annotations toggle
+// (reused from the store, so gallery flags still toggle), and a "Compare to"
+// selector that drives the gallery's second column.
+
+import { useEffect, useRef } from "react";
+import { CANONICAL, SYSTEMS, SYSTEM_IDS, type SystemId } from "./systems";
+import { pieceStatus, type PieceStatus } from "./resolver";
+import { useStore } from "./store";
+import { useView } from "./view";
+
+// Compact cell glyph per resolution outcome for the coverage matrix.
+const CELL: Record<PieceStatus, { glyph: string; cls: string; title: string }> = {
+  native: { glyph: "●", cls: "is-native", title: "Native" },
+  mapped: { glyph: "↔", cls: "is-map", title: "Mapped" },
+  interim: { glyph: "~", cls: "is-ai", title: "AI interim" },
+  substitute: { glyph: "~", cls: "is-ai", title: "Substitute" },
+  none: { glyph: "·", cls: "is-none", title: "Unavailable" },
+};
+
+export function SystemInfo({ onClose }: { onClose: () => void }) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    panelRef.current?.focus();
+  }, []);
+
+  const { maps, annotations, setAnnotations } = useStore();
+  const { viewedSystemId, compareSystemId, setCompareSystem } = useView();
+
+  if (!viewedSystemId) return null;
+  const system = SYSTEMS[viewedSystemId];
+  const nativeCount = CANONICAL.filter((c) => system.skins[c.name]).length;
+
+  return (
+    <div className="ov" role="region" aria-label="System controls" tabIndex={-1} ref={panelRef}>
+      <div className="ov__head">
+        <h2 className="panel__title">System</h2>
+        <button className="ov__x" onClick={onClose} aria-label="Close controls (esc or /)">
+          esc or /
+        </button>
+      </div>
+
+      <section className="ov__sec">
+        <h3 className="ov__h">{system.label}</h3>
+        <p className="ov__blurb">{system.blurb}</p>
+        <p className="ov__label">
+          Coverage: {nativeCount} of {CANONICAL.length} canonical pieces native
+        </p>
+      </section>
+
+      <section className="ov__sec">
+        <h3 className="ov__h">Compare to</h3>
+        <select
+          className="ov__select ov__select--compare"
+          aria-label="Compare to"
+          value={compareSystemId ?? ""}
+          onChange={(e) => setCompareSystem(e.target.value ? (e.target.value as SystemId) : null)}
+        >
+          <option value="">No comparison (this system only)</option>
+          {SYSTEM_IDS.filter((id) => id !== viewedSystemId).map((id) => (
+            <option key={id} value={id}>
+              {SYSTEMS[id].label}
+            </option>
+          ))}
+        </select>
+
+        <label className="ov__toggle">
+          <input
+            type="checkbox"
+            checked={annotations}
+            onChange={(e) => setAnnotations(e.target.checked)}
+          />
+          Flag interim and mapped components
+        </label>
+      </section>
+
+      <section className="ov__sec">
+        <h3 className="ov__h">Coverage matrix</h3>
+        <table className="mtx">
+          <thead>
+            <tr>
+              <th className="mtx__corner">Component</th>
+              {SYSTEM_IDS.map((id) => (
+                <th key={id} className={id === viewedSystemId ? "is-viewed" : ""} title={SYSTEMS[id].label}>
+                  {id}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {CANONICAL.map((def) => (
+              <tr key={def.name}>
+                <td className="mtx__name">{def.name}</td>
+                {SYSTEM_IDS.map((id) => {
+                  const { status } = pieceStatus(id, def.name, maps);
+                  const cell = CELL[status];
+                  return (
+                    <td
+                      key={id}
+                      className={"mtx__cell " + cell.cls + (id === viewedSystemId ? " is-viewed" : "")}
+                      title={cell.title}
+                    >
+                      {cell.glyph}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p className="ov__foot">
+          ● native · ↔ mapped · ~ AI interim / substitute · · unavailable. Native pieces render
+          plainly; every bridged piece is flagged on the canvas while annotations are on.
+        </p>
+      </section>
+    </div>
+  );
+}

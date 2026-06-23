@@ -61,25 +61,20 @@ export function FirstScreen() {
 
 ## Canonical components (the only pieces you may use)
 
-| name        | props                                                      | notes                                                  |
-| ----------- | ---------------------------------------------------------- | ------------------------------------------------------ |
-| Button      | children, variant?, onClick                                | variant: primary (default) / secondary / danger / inline |
-| Card        | title?, children                                           | content container                                      |
-| Badge       | children                                                   | small status label                                     |
-| Alert       | title?, children                                           | inline message banner; acuity-only (bridge fills legacy) |
-| TextField   | label, type?, value, onChange, state?, message?, helpText?, optionalityLabel? | labelled text input; state: default/error/success |
-| Textarea    | label, value, onChange, state?, message?, rows?            | multi-line; same validation surface as TextField       |
-| Select      | label, value, onChange, state?, message?, children         | children are `<option>`s                               |
-| Checkbox    | label, checked, onChange                                   | single checkbox; brand-tinted via accent-color         |
-| Radio       | label, name, value, checked, onChange                      | group by shared name                                   |
-| Toggle      | label, checked, onChange                                   | on/off switch                                          |
-| SearchField | value, onChange, placeholder?                              | pill search input with leading icon                    |
-| Tabs        | tabs (string[] or {id,label,badge?}[]), active, onSelect, children | tabbed nav; active by id; children are the panel; per-system visual model (acuity underline / legacy box tabs) |
-| Link        | children (or text), href?, variant?, external?            | variant: default / inline; external opens a new tab    |
-| Breadcrumb  | items (string[] or {label,href?}[])                       | trail; last item is the current page; legacy-only (bridge fills acuity) |
-| Modal       | open, title?, onClose?, dismissible?, icon?, footer?, children | centred dialog overlay; one API across both systems; `footer` holds the action Buttons; closes on Esc / scrim click when `dismissible` |
-| Image       | w, h, label?                                               | placeholder via placehold.co; never add assets         |
-| Icon        | icon (name string)                                         | placeholder until Acuity's real icons land             |
+The catalogue is the `CANONICAL` array in `src/systems.tsx` — the single source of
+truth for the canonical name, its props, and its notes. Do not maintain a second
+copy of that table here; it would drift. To see every piece with its props and a
+live rendering in each design system, open the running tool, press `/`, and pick
+the **Systems** tab → a design system: that gallery is generated from `CANONICAL`,
+so it is always complete and current.
+
+The pieces, by slice:
+
+- **Actions & containers** — Button, Card
+- **Inputs & controls** — TextField, Textarea, Select, Checkbox, Radio, Toggle, SearchField
+- **Navigation** — Tabs, Link, Breadcrumb
+- **Feedback & status** — Badge, Alert, Modal
+- **Media** — Image, Icon
 
 The Inputs & controls pieces (TextField … SearchField) are token-driven and present
 in all three systems — they re-skin by tokens, not by structure. Their look is
@@ -138,6 +133,56 @@ off clears every flag; toggle on flags every bridged/mapped piece. A new one-sys
 mechanism-divergent canonical MUST flow through a flagged path — never a silent stand-in.
 Before marking any bridge/skin work done, **verify both toggle states in-browser**: on →
 every bridged/mapped piece flagged, off → all flags gone.
+
+## Adding a canonical component
+
+A new canonical piece must display and operate correctly everywhere it appears —
+in prototypes AND in every system's gallery. When you add a `CanonicalName`:
+
+1. Add it to `CANONICAL` in `src/systems.tsx` with a `category` (its slice), a
+   `props` summary, and `notes` if it diverges. This drives the lint allowlist,
+   the gallery's auto-listing, and the live docs.
+2. Provide the skin(s): add it to each system's `skins` in `SYSTEMS` that
+   implements it natively.
+3. If it is one-system-only or mechanism-divergent, wire the flagged bridge path
+   (`INTERIM_BUILDS`) so the systems that lack it get a flagged interim — never a
+   silent stand-in. (See the Bridge invariant below.)
+4. Add a specimen to `src/specimens.tsx` (props bag, or a render function for
+   pieces with composed children). Without one the gallery shows a dev-only
+   `needs specimen` marker.
+5. Open the **Systems** tab for every system and confirm the piece renders:
+   native plain, non-native flagged, status chip correct. Toggle annotations on
+   and off (see the Gallery invariant below).
+
+## Adding a design system
+
+When you add a `SystemId`:
+
+1. Add it to `SYSTEMS` in `src/systems.tsx` with `label`, `blurb`, and `skins`.
+2. Wire its token block in `src/styles/tokens.css` for the new `data-ds` value —
+   include both the `:root[data-ds="…"]` and bare `[data-ds="…"]` selectors so the
+   tokens scope to a gallery stage, not just the root active system.
+3. Open its gallery (Systems tab → the system): confirm every canonical piece
+   renders (native plain / bridged flagged), the coverage matrix is right, and the
+   blurb reads well.
+
+## Gallery / Systems-view invariant (do not regress)
+
+The Systems tab renders a self-documenting gallery per design system. Keep these
+true:
+
+- The gallery lists **every** `CANONICAL` piece, always — completeness is
+  structural (it iterates the catalogue), never a hand-maintained list. Adding a
+  piece to `CANONICAL` is what makes it appear.
+- A piece with no specimen still appears (with a dev-only `needs specimen`
+  marker); missing example data never hides a component.
+- Specimens render through the real resolver (`<Canonical system={…}>`), so the
+  annotations toggle governs the on-canvas flags in the gallery exactly as in a
+  prototype: on → every bridged/mapped piece flagged, off → all flags gone, native
+  never flagged. The status chip and coverage matrix are separate documentation
+  chrome, always shown.
+- After any component / system / skin / bridge change, open the gallery across all
+  systems and toggle annotations on and off before marking the work done.
 
 ## Navigation and shared state
 

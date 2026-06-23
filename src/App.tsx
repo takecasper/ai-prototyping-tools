@@ -6,10 +6,14 @@ import { PROTOTYPES } from "./prototypes/discover";
 import { PrototypeRenderer } from "./prototypes/Renderer";
 import { Library } from "./library";
 import { ControlOverlay } from "./overlay";
+import { ViewProvider, useView } from "./view";
+import { SystemGallery } from "./gallery";
+import { SystemInfo } from "./system-info";
 
 function Shell() {
   const { systemId } = useStore();
   const { active } = usePrototypes();
+  const { mode, viewedSystemId, compareSystemId } = useView();
   const [panelsOpen, setPanelsOpen] = useState(false);
 
   // "/" toggles both side panels (Prototypes on the left, Controls on the
@@ -29,24 +33,38 @@ function Shell() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // Null unless a system gallery is on the canvas; narrows to SystemId where truthy.
+  const gallerySystem = mode === "system" ? viewedSystemId : null;
+
   return (
     <div className="app">
       {panelsOpen && (
         <header className="app__bar">
           <h1 className="app__title">Acuity Insights Prototype</h1>
           <span className="app__sys">
-            {active.name} · {SYSTEMS[systemId].label}
+            {gallerySystem
+              ? `${SYSTEMS[gallerySystem].label} · component gallery`
+              : `${active.name} · ${SYSTEMS[systemId].label}`}
           </span>
         </header>
       )}
 
       {panelsOpen && <Library />}
 
-      <main className="app__main">
-        <PrototypeRenderer />
+      <main className={"app__main" + (panelsOpen && gallerySystem ? " app__main--galleryopen" : "")}>
+        {gallerySystem ? (
+          <SystemGallery systemId={gallerySystem} compareId={compareSystemId} />
+        ) : (
+          <PrototypeRenderer />
+        )}
       </main>
 
-      {panelsOpen && <ControlOverlay onClose={() => setPanelsOpen(false)} />}
+      {panelsOpen &&
+        (gallerySystem ? (
+          <SystemInfo onClose={() => setPanelsOpen(false)} />
+        ) : (
+          <ControlOverlay onClose={() => setPanelsOpen(false)} />
+        ))}
     </div>
   );
 }
@@ -55,7 +73,9 @@ export function App() {
   return (
     <StoreProvider>
       <PrototypesProvider prototypes={PROTOTYPES}>
-        <Shell />
+        <ViewProvider>
+          <Shell />
+        </ViewProvider>
       </PrototypesProvider>
     </StoreProvider>
   );
