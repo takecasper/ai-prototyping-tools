@@ -1028,6 +1028,14 @@ body {
   border-bottom: 1px solid #f1f2f4;
   color: #4b5563;
 }
+/* Created / Modified date columns must never wrap (the th already nowraps); only
+ * the Name column (1st) stays wrappable for long prototype names. */
+.lib__table th:nth-child(2),
+.lib__table th:nth-child(3),
+.lib__table td:nth-child(2),
+.lib__table td:nth-child(3) {
+  white-space: nowrap;
+}
 .lib__table tbody tr {
   cursor: pointer;
 }
