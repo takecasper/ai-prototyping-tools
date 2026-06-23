@@ -12,7 +12,7 @@ sees both this and Acuity. Three layers, kept separate, same evidence labels as
 `01-acuity-modern.md` (**[D]**/**[R]**/**[I]**).
 
 Live in the prototyping tool as system id **`one45-legacy`**
-(`acuity-insights-prototype/src/systems.tsx`, `acuity-insights-prototype/src/styles/tokens.css`). Portable token export:
+(`src/systems.tsx`, `src/styles/tokens.css`). Portable token export:
 [`tokens/one45-legacy.json`](tokens/one45-legacy.json).
 
 ---

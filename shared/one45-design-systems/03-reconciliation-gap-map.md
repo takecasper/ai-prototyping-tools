@@ -52,7 +52,7 @@ palette (38), so two unrelated colour systems share one include
 theme, CSS vars, compiled utilities, and any SCSS from it. The portable
 [`tokens/acuity.json`](tokens/acuity.json) in this folder is a candidate single
 source. **The prototyping tool already models this discipline** — `acuity` renders
-from one token block (`acuity-insights-prototype/src/styles/tokens.css`), not four.
+from one token block (`src/styles/tokens.css`), not four.
 
 Component-side duplication compounds it [D]: 4 coexisting React UI stacks
 (acuity-DS 257 + react-bootstrap 66 + semantic-ui-react 16 + local fork) and 15%
@@ -116,7 +116,7 @@ token level, not per-component. Text 4.5 · UI/large 3.
 acuity-red `#BA1E50` (6.20), neutrals darker `#333` (12.63) / dark `#555` (7.46);
 legacy `$one45_black #27304B` (13.04), `$primary_purple #42507D` (7.85), `$link
 #0a6cbd` (5.39). The prototyping-tool skins already default to these
-(`acuity-insights-prototype/src/styles/tokens.css`).
+(`src/styles/tokens.css`).
 
 ---
 
@@ -152,7 +152,7 @@ Second slice. Canonical pieces added: `Tabs`, `Link` (all three systems) + `Brea
 (legacy + lowfi native, **acuity-absent → bridge**). **No `Pagination`** — it exists in
 neither DS, so fabricating it would misrepresent both systems. Lint-gate-clean,
 browser-verified across acuity / one45-legacy / lowfi; pattern prototype
-`acuity-insights-prototype/src/prototypes/program-explorer/` (region tabs filter the list → detail with
+`src/prototypes/program-explorer/` (region tabs filter the list → detail with
 section tabs + deeper breadcrumb).
 
 **New findings from this slice:**
@@ -190,7 +190,7 @@ observable.
 
 Third slice, first piece. Canonical piece added: **`Modal`** (native in all three systems).
 Lint-gate-clean, browser-verified across acuity / one45-legacy / lowfi; pattern prototype
-`acuity-insights-prototype/src/prototypes/learner-withdrawal/` (a roster with a destructive Withdraw guarded by
+`src/prototypes/learner-withdrawal/` (a roster with a destructive Withdraw guarded by
 a confirm Modal, acknowledged by an Alert). The Feedback group is being sliced; only Modal is
 enshrined this pass, the rest recorded as findings/gaps below.
 

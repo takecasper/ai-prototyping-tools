@@ -7,7 +7,7 @@ verified: true
 # One45 design systems — documented
 
 Two of One45's real, currently-live design systems, reverse-engineered from the
-staging repo so the [prototyping tool](../../acuity-insights-prototype/) can toggle between them and
+staging repo so the [prototyping tool](../../) can toggle between them and
 surface their divergence. This folder extracts the two systems from internal
 analysis and turns them into usable, documented design systems plus a
 reconciliation map.
@@ -61,8 +61,8 @@ Headline facts it carries (all [D] unless marked):
 
 These are **live, usable skinned systems** in the tool, not just docs:
 
-- `acuity-insights-prototype/src/systems.tsx` — `acuity`, `one45-legacy`, `lowfi` as real skins.
-- `acuity-insights-prototype/src/styles/tokens.css` — the rendered token blocks (single source of
+- `src/systems.tsx` — `acuity`, `one45-legacy`, `lowfi` as real skins.
+- `src/styles/tokens.css` — the rendered token blocks (single source of
   truth; the reports cite it). Real values, with faithful choices and known
   weaknesses commented inline.
 - **Real, sourced divergence:** Acuity ships `Alert` (DS component, 14 uses);

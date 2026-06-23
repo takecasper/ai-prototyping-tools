@@ -17,7 +17,7 @@ Counts trace to internal analysis (re-run this session, reproduce to the digit)
 and `path:line` source citations.
 
 Live in the prototyping tool as system id **`acuity`**
-(`acuity-insights-prototype/src/systems.tsx`, `acuity-insights-prototype/src/styles/tokens.css`). Portable token export:
+(`src/systems.tsx`, `src/styles/tokens.css`). Portable token export:
 [`tokens/acuity.json`](tokens/acuity.json).
 
 ---
@@ -103,7 +103,7 @@ analysis, this session). Coverage of the token-governed UI is **~10–20%**. No
 Storybook, no path aliases — cross-bundle reuse via `../../../../../../` chains.
 
 **In the prototyping tool:** `acuity` skins Button, Card, Badge, **Alert**, Image,
-Icon (`acuity-insights-prototype/src/systems.tsx`). Alert is modelled as a first-class Acuity piece
+Icon (`src/systems.tsx`). Alert is modelled as a first-class Acuity piece
 (DS Alert, 14 uses) — and is the **sourced divergence** against legacy, which has
 no Alert (Layer 2 of `02-one45-legacy.md`).
 
