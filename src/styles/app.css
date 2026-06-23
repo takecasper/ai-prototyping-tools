@@ -619,17 +619,6 @@ body {
   font-size: 0.8rem;
   color: #c3c6cc;
 }
-.app__btn {
-  margin-left: auto;
-  font: inherit;
-  font-size: 0.8rem;
-  color: #fff;
-  background: #2a2d34;
-  border: 1px solid #3a3d44;
-  border-radius: 6px;
-  padding: 0.35rem 0.7rem;
-  cursor: pointer;
-}
 .app__main {
   flex: 1;
   padding: 2.5rem;
@@ -728,10 +717,6 @@ body {
   background: #374151;
   color: #fff;
 }
-.ov__restart {
-  font-size: 0.76rem;
-}
-
 /* ---- bridge markers (resolver.tsx) ---- */
 .res {
   position: relative;
@@ -845,10 +830,6 @@ body {
   font-family: ui-sans-serif, system-ui, sans-serif;
   display: flex;
   flex-direction: column;
-}
-.lib__head {
-  flex: 0 0 auto;
-  margin-bottom: 1rem;
 }
 /* The table is capped at half the panel and scrolls, so the flow steps below
  * stay visible even with a long list of prototypes. */
@@ -1272,25 +1253,6 @@ body {
   color: #374151;
   margin-bottom: 0.5rem;
 }
-.ov__systems {
-  display: flex;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-}
-.ov__sys {
-  font: inherit;
-  font-size: 0.78rem;
-  cursor: pointer;
-  padding: 0.4rem 0.6rem;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
-  background: #fff;
-}
-.ov__sys.is-active {
-  background: #111827;
-  color: #fff;
-  border-color: #111827;
-}
 .ov__blurb {
   font-size: 0.74rem;
   color: #6b7280;
@@ -1300,12 +1262,10 @@ body {
   display: flex;
   align-items: center;
   gap: 0.45rem;
+  margin-bottom: 0.85rem;
   font-size: 0.8rem;
   color: #374151;
   cursor: pointer;
-}
-.ov__toggle {
-  margin-bottom: 0.85rem;
 }
 .ov__toggle input {
   width: 1rem;
@@ -1344,10 +1304,6 @@ body {
   background: #a3186b;
   color: #fff;
 }
-.ov__pill.is-unmapped {
-  background: #fff7ed;
-  color: #9a3412;
-}
 .ov__actions {
   display: flex;
   align-items: center;
@@ -1360,7 +1316,6 @@ body {
   color: #4b5563;
 }
 .ov__map select,
-.ov__ai,
 .ov__clear {
   font: inherit;
   font-size: 0.76rem;
@@ -1369,11 +1324,6 @@ body {
   border: 1px solid #d1d5db;
   background: #fff;
   padding: 0.25rem 0.45rem;
-}
-.ov__ai {
-  background: #fdf2f8;
-  border-color: #f5c2e0;
-  color: #9d174d;
 }
 .ov__foot {
   font-size: 0.72rem;
@@ -1412,7 +1362,6 @@ kbd {
 @media (forced-colors: active) {
   .lib__table tbody tr.is-active,
   .ov__step.is-active,
-  .ov__sys.is-active,
   .ov__pill {
     outline: 2px solid;
   }

@@ -47,7 +47,7 @@ export type CanonicalName =
   | "Radio"
   | "Toggle"
   | "SearchField"
-  // Navigation slice — token-driven. Tabs/Link/Pagination are shared across all
+  // Navigation slice — token-driven. Tabs/Link are shared across all
   // systems; Breadcrumb is legacy-only (the Acuity DS ships none → bridge fills it,
   // the mirror of acuity-only Badge).
   | "Tabs"

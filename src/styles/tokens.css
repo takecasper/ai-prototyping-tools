@@ -44,7 +44,7 @@
   --ds-shadow-sm: var(--ds-shadow); /* resting elevation, tracks each system's base */
   --ds-shadow-lg: 0 6px 16px rgba(0, 0, 0, 0.14); /* raised: modal/drawer/popover */
   --ds-motion-fast: 120ms; /* control state changes (toggle, hover) */
-  --ds-motion: 200ms; /* default transition duration */
+  --ds-motion: 200ms; /* default transition duration — structural; consumed by future component transitions (the -fast / -ease siblings drive the Toggle today) */
   --ds-motion-ease: cubic-bezier(0.4, 0, 0.2, 1); /* standard easing */
   --ds-z-dropdown: 1000; /* the de-facto Bootstrap layering stack (structural) */
   --ds-z-overlay: 1040; /* scrim / backdrop */
