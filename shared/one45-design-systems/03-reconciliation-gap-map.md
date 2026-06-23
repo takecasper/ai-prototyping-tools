@@ -10,10 +10,10 @@ The bridge between the two documented systems and the rendered product. Four
 sections: **Keep** (carry verbatim), **Dedupe** (the 4× duplication), **Untokened**
 (values used but not in any token file), **Contrast-fix** (token-level failures).
 Evidence labels **[D]**/**[R]**/**[I]** as in the per-system reports; every count
-traces to `internal analysis` / `internal analysis` (re-run this session, reproduce to
-the digit), `scripts/contrast.mjs`, or `path:line`.
+traces to internal analysis (re-run this session, reproduce to the digit),
+`scripts/contrast.mjs`, or `path:line` source citations.
 
-This is both an input to the prototyping tool's bridge and its own audit finding:
+This is both an input to the prototyping tool's bridge and its own finding:
 **the documented tokens govern a small minority of what actually paints.**
 
 ---
@@ -22,10 +22,10 @@ This is both an input to the prototyping tool's bridge and its own audit finding
 
 | Asset | Why | Cite |
 |---|---|---|
-| **Acuity token set** (8 families × 6 + neutrals, 7-step type, spacing 0–7, 3 weights) | The one deliberately-designed system; complete, clean | `01-acuity-modern.md §L1`; ` §1.7` |
-| **`@takecasper/acuity-design-system`** as THE component library | Real external DS, the obvious target; extend to server surface | ` carries-forward 1` |
-| **WidgetBundle `Error/*` alert partials** (135 includes) | De-facto canonical alert primitive; promote to first-class | ` §2.5` |
-| **175 webeval tags** as a *coverage checklist* | The full legacy UI vocabulary the new system must cover (engine dies, list survives) | ` §webeval tags` |
+| **Acuity token set** (8 families × 6 + neutrals, 7-step type, spacing 0–7, 3 weights) | The one deliberately-designed system; complete, clean | `01-acuity-modern.md §L1` |
+| **`@takecasper/acuity-design-system`** as THE component library | Real external DS, the obvious target; extend to server surface | internal analysis |
+| **WidgetBundle `Error/*` alert partials** (135 includes) | De-facto canonical alert primitive; promote to first-class | internal analysis |
+| **175 webeval tags** as a *coverage checklist* | The full legacy UI vocabulary the new system must cover (engine dies, list survives) | internal analysis |
 | **one45-legacy as a toggle target** (not its tokens) | Faithful "legacy" pole for old-vs-new convergence views | `02-one45-legacy.md §carry-forward` |
 
 ---
@@ -34,7 +34,7 @@ This is both an input to the prototyping tool's bridge and its own audit finding
 
 The Acuity colour set exists in **four hand-synced copies with no shared source**.
 Any colour change must be made in four places or it drifts
-(`internal analysis`, this session; ` §1.4`):
+(internal analysis, this session):
 
 | # | Representation | File | Count |
 |--:|---|---|--:|
@@ -56,7 +56,7 @@ from one token block (`acuity-insights-prototype/src/styles/tokens.css`), not fo
 
 Component-side duplication compounds it [D]: 4 coexisting React UI stacks
 (acuity-DS 257 + react-bootstrap 66 + semantic-ui-react 16 + local fork) and 15%
-Twig line-duplication (SCFHS/CBME forks) — `
+Twig line-duplication (SCFHS/CBME forks) — internal analysis.
 
 ---
 
@@ -66,29 +66,28 @@ The token set is a minority of the painted colour space:
 
 | Zone | Raw values | Tokenized? | Cite |
 |---|--:|---|---|
-| Symfony source (scss+css) | **979 raw hex / 222 unique**, 105 rgb(), **3,165 px**, 215 `!important` | mostly no — 222 unique hex leak alongside 198 `$var` decls | `internal analysis` |
-| webeval CSS | **7,309 raw hex / 727 unique**, 19,625 px, **1,367 `!important`** | no token system at all | `internal analysis` |
-| Semantic UI dist | 418 unique colours, **0 custom props**, 733 `!important` | Semantic's own Sass vars, unrelated to Acuity | `internal analysis` |
+| Symfony source (scss+css) | **979 raw hex / 222 unique**, 105 rgb(), **3,165 px**, 215 `!important` | mostly no — 222 unique hex leak alongside 198 `$var` decls | internal analysis |
+| webeval CSS | **7,309 raw hex / 727 unique**, 19,625 px, **1,367 `!important`** | no token system at all | internal analysis |
+| Semantic UI dist | 418 unique colours, **0 custom props**, 733 `!important` | Semantic's own Sass vars, unrelated to Acuity | internal analysis |
 
 **Adoption signal** [D]: only `tailwind_final.css` uses CSS custom properties
 meaningfully (53, mostly `--tw-*` plumbing); Semantic UI and source SCSS/CSS use 0.
 Runtime token adoption app-wide is **~nil outside the Tailwind layer**; `ds-`
-utilities appear 402× against 3,165 hardcoded px. Coverage ~**10–20%**
-(` §1.7`).
+utilities appear 402× against 3,165 hardcoded px. Coverage ~**10–20%**.
 
-**Rendered colours in NO token file** [R] (` §runtime`;
-`scripts/contrast.mjs`): config nav `#e46b6b` (3.17:1), My eDossier `#2196f3` on
-`#27304b` (4.17:1), and the rotation-grid colour-coding behind 1,239 contrast
-fails. **These are the rendered reality the token files cannot see** — the reason
-the audit insisted on a runtime pass, and the reason the prototyping tool surfaces
-divergence rather than trusting token files alone.
+**Rendered colours in NO token file** [R] (`scripts/contrast.mjs`): config nav
+`#e46b6b` (3.17:1), My eDossier `#2196f3` on `#27304b` (4.17:1), and the
+rotation-grid colour-coding behind 1,239 contrast fails. **These are the rendered
+reality the token files cannot see** — the reason a runtime pass was needed, and
+the reason the prototyping tool surfaces divergence rather than trusting token
+files alone.
 
 ---
 
 ## 4. Contrast-fix — token-level failures to resolve before carry-forward
 
-Computed deterministically (`scripts/contrast.mjs`; reconciles with `
-§3.3`). **Even the deliberate Acuity palette fails**, so these must be fixed at the
+Computed deterministically (`scripts/contrast.mjs`). **Even the deliberate Acuity
+palette fails**, so these must be fixed at the
 token level, not per-component. Text 4.5 · UI/large 3.
 
 **Acuity (System B) — fix list:**
@@ -123,8 +122,8 @@ legacy `$one45_black #27304B` (13.04), `$primary_purple #42507D` (7.85), `$link
 
 ## 4b. Inputs & controls slice — enshrined 2026-06-22 [D][R]
 
-The first slice of the full-surface enshrining (handoff:
-`internal notes Canonical pieces added: `TextField,
+The first slice of the full-surface enshrining (tracked in internal analysis).
+Canonical pieces added: `TextField,
 Textarea, Select, Checkbox, Radio, Toggle, SearchField` + `Button` variants
 (primary/secondary/danger/inline) — token-driven, present in all three systems,
 lint-gate-clean, browser-verified across acuity/one45-legacy/lowfi.
@@ -142,8 +141,8 @@ lint-gate-clean, browser-verified across acuity/one45-legacy/lowfi.
 **Anatomy result [R]:** every input maps 1:1 to one canonical API re-skinned by tokens —
 the single-canonical-API model **survives the entire inputs group** with zero prototype
 edits. The genuine anatomy divergence remains narrow (Alert; see §5). The bridge did not
-need to fill any input gap — a clean positive result for the plan's anatomy question
-on this group.
+need to fill any input gap — a clean positive result for the anatomy question on this
+group.
 
 ---
 
@@ -243,5 +242,5 @@ no legacy status badge — §4d). Those are the bridge's actual work, and the Na
 token-driven build of that piece in the active system (`INTERIM_BUILDS`, §4c), not an unrelated
 component. The broader 7-system
 reality (Semantic UI / Bootstrap 2 / jQuery-UI / webeval) **is** structurally
-divergent — but six of seven die in the rebuild (` §1.7`), so the
-convergence target is Acuity, and this map is the list of what to fix in it first.
+divergent — but six of seven die in the rebuild, so the convergence target is
+Acuity, and this map is the list of what to fix in it first.

@@ -8,21 +8,14 @@ verified: true
 
 Two of One45's real, currently-live design systems, reverse-engineered from the
 staging repo so the [prototyping tool](../../acuity-insights-prototype/) can toggle between them and
-surface their divergence. Built **on top of** the existing 8-phase internal analysis
-(` analysis — this folder does **not**
-re-derive the audit; it extracts the two systems the audit identified and turns
-them into usable, documented design systems plus a reconciliation map.
+surface their divergence. This folder extracts the two systems from internal
+analysis and turns them into usable, documented design systems plus a
+reconciliation map.
 
-**Audience:** Claude agents and the Acuity team. Dense and citable, modelled on
-the audit's ` **Evidence labels:** **[D]**
-deterministic · **[R]** runtime-confirmed (staging, 2026-06-19) · **[I]**
-code-derived inference. Counts trace to the audit scripts (re-run this session,
-reproduce to the digit) and `path:line`.
-
-> **Privacy note:** One45 is Acuity's own product and this folder is under
-> `shared/` (the tracked, shareable zone) by Spencer's direction — appropriate
-> since the future audience is the Acuity design team. Distinct from the
-> Prompty-IP posture (that code is another client's and is never copied here).
+**Audience:** Claude agents and the Acuity team. Dense and citable. **Evidence
+labels:** **[D]** deterministic · **[R]** runtime-confirmed (staging, 2026-06-19) ·
+**[I]** code-derived inference. Counts trace to internal analysis (re-run this
+session, reproduce to the digit) and `path:line` source citations.
 
 ---
 
@@ -37,7 +30,7 @@ Selected in the product by the page-template toggle
 `design_system_style = 'acuity' | 'one45' | 'none'`
 (`React/react_page_base.html.twig:14`) — a **migration toggle** (old one45 brand →
 new Acuity brand), not a tenant skin. The split is by **page-type**, so a user
-crossing flows sees both (` §1.6`).
+crossing flows sees both.
 
 Each report keeps **three layers separate**:
 1. **Tokens** — the documented intent (colour/type/spacing/radius/shadow).
@@ -76,7 +69,7 @@ These are **live, usable skinned systems** in the tool, not just docs:
   legacy one45 has no Alert (it used Twig `Error/*` partials). So `one45-legacy`
   has no Alert skin, and a screen using Alert (Casper Score Report → Summary)
   **bridges** it when toggled to legacy — verified in-browser 2026-06-22. This is
-  the plan's anatomy-divergence question, exercised on two real systems; the
+  the anatomy-divergence question, exercised on two real systems; the
   crude Button-as-Alert interim is the concrete motivation for the bridge to evolve
   a per-system Alert. **Updated:** the bridge has since evolved (`INTERIM_BUILDS`,
   Navigation slice) so Alert now resolves to a flagged token-driven Alert build in
@@ -95,8 +88,7 @@ to acuity-blue while inputs stayed grey; the DS input border is the accessible
 `#949494`; purple persists in the Acuity shell search). Result: **the
 single-canonical-API + token-swap model survives the whole inputs group** — no bridge
 needed for any input. See each report's "Inputs & controls — enshrined slice" and gap
-map §4b. The remaining component groups + patterns are tracked in
-`internal notes
+map §4b. The remaining component groups + patterns are tracked in internal analysis.
 
 **Navigation slice (2026-06-22):** `Tabs`, `Link` (all systems) + `Breadcrumb`
 (legacy-only → bridge fills acuity). First place pure token-swap broke — Acuity underline
@@ -126,12 +118,9 @@ the rebuild, so the convergence target is Acuity.
 ## Reproduce
 
 - **Contrast** (computed, not hand-written): `node shared/one45-design-systems/scripts/contrast.mjs`
-- **Token / hex counts** (from the audit, re-runnable): from the audit root
-  (`internal analysis with the `repo` symlink present) —
-  `bash  analysis` and `bash  analysis`.
 - **Source token files:** `symfony/tailwind_acuity_theme.js` (Acuity) and
   `symfony/src/One45/PageBundle/Resources/public/css/src/includes/_colors.scss:1-35`
-  (legacy). `` is read-only; never edit it.
+  (legacy).
 
 ## Files
 

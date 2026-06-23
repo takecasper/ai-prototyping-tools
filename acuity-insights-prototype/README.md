@@ -1,13 +1,6 @@
----
-title: Acuity Insights Prototype — README
-tags: prototyping, multi-design-system, design-systems
----
-
 # Acuity Insights Prototype
 
-A working multi-design-system prototyping tool for Acuity
-([plan](../ It delivers the two
-no-prior-art pieces:
+A working multi-design-system prototyping tool for Acuity. It delivers two pieces:
 
 1. **Multi-system toggle** — one prototype, switched between design systems via a
    root `data-ds` attribute. Three systems ship today: **Low-fi wireframe** (a
@@ -19,11 +12,9 @@ no-prior-art pieces:
    component, resolve it from the `/` overlay by a saved **manual map** (ground
    truth) or a flagged **Claude approximation** (visibly marked).
 
-Deliberately dependency-light (React + Vite + TypeScript + CSS vars — no Tailwind/
-Storybook yet). It is shared for the team to use and steer; the durable Phase-1
-foundation (full stack) is described in the plan. Author new prototypes
-against [`AGENTS.md`](AGENTS.md); raw markup is blocked by a hard lint gate
-(`npm run lint`).
+Deliberately dependency-light (React + Vite + TypeScript + CSS vars). Author new
+prototypes against [`AGENTS.md`](AGENTS.md); raw markup is blocked by a hard lint
+gate (`npm run lint`).
 
 ## Run it
 
@@ -49,8 +40,8 @@ bridge, annotation toggle).
    auto-discovered.
 2. **Auto-interim, flagged.** Open **Casper Score Report** and toggle to **one45
    legacy**: it has no `Alert`, so the alert is auto-filled by a **Claude interim**,
-   flagged with a magenta "AI approx" outline. For divergent pieces the interim is now
-   a real token-driven **build of that piece** in the active system's own language
+   flagged with a magenta "AI approx" outline. For divergent pieces the interim is a
+   real token-driven **build of that piece** in the active system's own language
    (`Alert`→legacy, `Breadcrumb`→acuity, via `INTERIM_BUILDS` in `systems.tsx`), not an
    unrelated substitute. Pieces without a generic build (e.g. `Badge` in low-fi) still
    fall back to the cruder first-native substitution. No button to press — gaps fill
@@ -66,17 +57,5 @@ bridge, annotation toggle).
    Divergence** → it counts shared / only-in-A / only-in-B / in-neither for the
    pieces the active screen uses — the convergence signal.
 
-Reset saved maps: clear the `acuity-insights-prototype-maps-v2` key in localStorage (or use each
-row's **Revert to interim** button).
-
-## What's stubbed / out of scope
-
-- The "Claude interim" is a heuristic substitution, not a real Claude Code build —
-  and its crude first-native-piece fallback is the motivation for the bridge to
-  evolve a per-system implementation.
-- The Acuity / one45-legacy skins are faithful token re-skins (real values, real
-  fonts), not the systems' full component implementations. See
-  [`shared/one45-design-systems/`](../shared/one45-design-systems/) for the
-  documented three-layer detail per system.
-- No Storybook, real token pipeline, multi-screen authoring UI, or Figma yet — all
-  Phase 1+. The hard lint gate IS built (`eslint-plugin-canonical/`).
+Reset saved maps: clear the `acuity-insights-prototype-maps-v2` key in localStorage
+(or use each row's **Revert to interim** button).

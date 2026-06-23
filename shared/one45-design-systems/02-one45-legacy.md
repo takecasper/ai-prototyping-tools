@@ -8,9 +8,8 @@ verified: true
 
 The older "one45" brand, still LIVE today on auth / password / self-send /
 React-shell pages. Not deprecated in the running product — a user crossing flows
-sees both this and Acuity (` §1.6`, ` thread 2`). Three
-layers, kept separate, same evidence labels as `01-acuity-modern.md`
-(**[D]**/**[R]**/**[I]**).
+sees both this and Acuity. Three layers, kept separate, same evidence labels as
+`01-acuity-modern.md` (**[D]**/**[R]**/**[I]**).
 
 Live in the prototyping tool as system id **`one45-legacy`**
 (`acuity-insights-prototype/src/systems.tsx`, `acuity-insights-prototype/src/styles/tokens.css`). Portable token export:
@@ -48,7 +47,7 @@ distinct from Acuity's Lato); base 16px; body **letter-spacing 0.4px**; `h1`
 **Drift note** [D]: `_colors.scss` carries this legacy palette **plus** a verbatim
 copy of the 49 Acuity colours (`:37-95`), so two unrelated colour systems live in
 one include and both feed `new_branding.scss`. The legacy half has **no Acuity
-equivalent** (` §1.4`).
+equivalent**.
 
 ---
 
@@ -60,13 +59,12 @@ applied — via `design_system_style = 'one45' | 'none'`
 stacks Acuity uses, plus the deep-legacy webeval engine:
 
 - **Server UI (Twig):** no component library at all — template inheritance + ad-hoc
-  `{% include %}` partials, 15% line duplication (` §2.1, §2.7`). The
-  de-facto alert primitive is the WidgetBundle `Error/*` Twig partial family (error
-  47× · warning 46× · info 28× · success 8× · alert 6× = **135 includes**,
-  ` §2.5`). **This is why legacy has no React Alert component** — it used
-  these server partials.
+  `{% include %}` partials, 15% line duplication. The de-facto alert primitive is
+  the WidgetBundle `Error/*` Twig partial family (error 47× · warning 46× · info
+  28× · success 8× · alert 6× = **135 includes**). **This is why legacy has no React
+  Alert component** — it used these server partials.
 - **Legacy webeval:** a bespoke **175-tag** template engine
-  (`webeval/documentation/tag_tutorials/`, ` §webeval tags`) — the
+  (`webeval/documentation/tag_tutorials/`) — the
   legacy UI vocabulary (48 `form_row_with_*`, 38 `cv_*`, 34 `ul_*`, ~55 primitives),
   itself full of forked-variant duplication (`chunk_table`+`chunkTable`,
   `datepicker`+`datepicker2`). OUT for rebuild; the tag list is a coverage
@@ -91,14 +89,13 @@ the motivation to teach the bridge a real per-system Alert).
 
 ## Layer 3 — Rendered reality [R]
 
-Legacy surfaces are the **worse-behaved half** at runtime (`
-§divergence`): the legacy webeval frame sets **no `lang`** (Symfony base templates
+Legacy surfaces are the **worse-behaved half** at runtime: the legacy webeval
+frame sets **no `lang`** (Symfony base templates
 do), the Rotation Schedule grid alone fires **1,239 contrast failures**, and the
 legacy form layer is ~18% label-to-input. That a11y debt rides with the legacy
 brand and retires when legacy screens do.
 
-**Contrast, computed** (`scripts/contrast.mjs`; matches ` §3.3`). Text
-4.5 · UI/large 3 · AAA 7:
+**Contrast, computed** (`scripts/contrast.mjs`). Text 4.5 · UI/large 3 · AAA 7:
 
 | Token pair | ratio | verdict |
 |---|--:|---|
@@ -251,9 +248,8 @@ not enshrined.
 ## Carry-forward verdict
 
 The legacy brand is a **migration source, not a target** — it is being replaced by
-Acuity (mid-flight, ` thread 2`). Preserve it in the prototyping tool as
-a real toggle target so a screen can be shown old-vs-new (the convergence signal),
-and so the One45-legacy ↔ One45-new comparison the plan wants has a faithful
-"legacy" pole. Do **not** carry its tokens forward into the unified system. The
-175-tag webeval list is the functional coverage checklist the new system must
-cover (` carries-forward 5`).
+Acuity (mid-flight). Preserve it in the prototyping tool as a real toggle target so
+a screen can be shown old-vs-new (the convergence signal), and so the
+One45-legacy ↔ One45-new comparison has a faithful "legacy" pole. Do **not** carry
+its tokens forward into the unified system. The 175-tag webeval list is the
+functional coverage checklist the new system must cover.

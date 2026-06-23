@@ -18,10 +18,10 @@
 //
 // Component divergence is REAL, not cosmetic: Acuity ships a dedicated Alert
 // component (react-scanner: 14 uses) that the legacy one45 brand never had — it
-// used WidgetBundle Twig Error/* partials instead ( §2.5). So Alert is
+// used WidgetBundle Twig Error/* partials instead. So Alert is
 // acuity-only here, and toggling a screen that uses Alert to one45-legacy makes
-// the bridge fill the gap. This is the anatomy-divergence question from the build
-// plan, exercised on two real systems rather than toy ones.
+// the bridge fill the gap. This is the anatomy-divergence question,
+// exercised on two real systems rather than toy ones.
 
 import { useEffect, useId, useRef, type ComponentType, type ReactNode } from "react";
 import { placeholderImage } from "./placeholder";

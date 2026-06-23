@@ -1,8 +1,7 @@
 // contrast.mjs — deterministic WCAG 2.x contrast computation for the two One45
 // design systems. Ratios are COMPUTED here (sRGB relative luminance, WCAG 1.4.3
-// formula), never hand-written into the reports. Same method as the internal analysis
-//  §3.3 Python block; reproduced in JS so it runs with the tool's
-// Node toolchain.
+// formula), never hand-written into the reports. Same method as the internal
+// analysis; reproduced in JS so it runs with the tool's Node toolchain.
 //
 //   Usage:  node shared/one45-design-systems/scripts/contrast.mjs
 //
@@ -95,7 +94,7 @@ row("white / primary_purple (button)", WHITE, ONE45.primary_purple);
 row("white / one45_black (header)", WHITE, ONE45.one45_black);
 row("one45_black / white (body text)", ONE45.one45_black, WHITE);
 
-section("Rendered-reality colours [R] — present in NO token file (audit 
+section("Rendered-reality colours [R] — present in NO token file (internal analysis)");
 row("config nav #e46b6b / white", "#e46b6b", WHITE, "(runtime-confirmed 3.17)");
 row("My eDossier #2196f3 / #27304b", "#2196f3", "#27304b", "(runtime-confirmed 4.17)");
 

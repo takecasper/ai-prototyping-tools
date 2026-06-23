@@ -6,16 +6,15 @@ verified: true
 
 # System B — Acuity (One45 modern)
 
-The deliberate, modern design system. The one asset the internal analysis named worth
-carrying forward verbatim (` §1.7`, ` thread 5`). Three
-layers, kept separate: **Tokens** (documented intent), **Components** (inventory +
-which stack renders each), **Rendered reality** (what actually paints, including
-colours in no token file).
+The deliberate, modern design system — the one asset worth carrying forward
+verbatim. Three layers, kept separate: **Tokens** (documented intent),
+**Components** (inventory + which stack renders each), **Rendered reality** (what
+actually paints, including colours in no token file).
 
 **Evidence labels:** **[D]** deterministic (scripted/grep, count of record) ·
 **[R]** runtime-confirmed on staging 2026-06-19 · **[I]** code-derived inference.
-Counts trace to the audit's `internal analysis` / `internal analysis` (re-run this
-session, reproduce to the digit) and `path:line`.
+Counts trace to internal analysis (re-run this session, reproduce to the digit)
+and `path:line` source citations.
 
 Live in the prototyping tool as system id **`acuity`**
 (`acuity-insights-prototype/src/systems.tsx`, `acuity-insights-prototype/src/styles/tokens.css`). Portable token export:
@@ -26,7 +25,7 @@ Live in the prototyping tool as system id **`acuity`**
 ## Layer 1 — Tokens (documented intent) [D]
 
 **Source of truth (and the problem): the same set exists in FOUR hand-synced
-copies, no shared origin** (`internal analysis`; ` §1.4`):
+copies, no shared origin** (internal analysis):
 
 | Representation | File | Count | Form |
 |---|---|--:|---|
@@ -35,8 +34,8 @@ copies, no shared origin** (`internal analysis`; ` §1.4`):
 | Tailwind compiled | `symfony/tailwind_final.css:325-466` | subset emitted | `ds-bg-acuity-*` utilities |
 | SCSS vars | `_colors.scss:37-95` | 49 Acuity (+38 legacy) | build-time `$acuity-*` |
 
-Tailwind-JS and CSS-var counts match exactly (55 = 55, verified `internal analysis`
-this session). This is the **4× duplication** — see the reconciliation map.
+Tailwind-JS and CSS-var counts match exactly (55 = 55, verified this session).
+This is the **4× duplication** — see the reconciliation map.
 
 **Colour — 8 families × 6 shades + a 9-member neutrals family** [D]
 (`tailwind_acuity_theme.js:30-105`). DEFAULT values:
@@ -68,7 +67,7 @@ tool-default radius/shadow for `acuity` and flags them as non-tokens
 decision, not a governed token. Runtime token adoption app-wide is **~nil outside
 the Tailwind layer** — Semantic UI ships 0 custom props, source SCSS/CSS 0; only
 `tailwind_final.css` uses CSS custom props meaningfully (53, mostly `--tw-*`
-plumbing) (`internal analysis`; ` §1.2`).
+plumbing) (internal analysis).
 
 ---
 
@@ -87,22 +86,21 @@ reconciliation map.
 
 | Stack | What | Count | Cite |
 |---|---|--:|---|
-| `@takecasper/acuity-design-system` | external npm DS, the real Acuity components | 21 distinct / **257 uses** | `package.json:53` `^1.27.0`; react-scanner via `internal analysis`; ` §2.1` |
-| react-bootstrap | competing stack, same React layer | 14 / 66 | ` §2.2` |
-| semantic-ui-react | competing stack | 1 / 16 | ` §2.2` |
-| PageBundle/common fork | local React fork (StatefulButton/ConfirmModal/SortableTable…) | 5 / ~21 | ` §local` |
+| `@takecasper/acuity-design-system` | external npm DS, the real Acuity components | 21 distinct / **257 uses** | `package.json:53` `^1.27.0`; react-scanner attribution |
+| react-bootstrap | competing stack, same React layer | 14 / 66 | internal analysis |
+| semantic-ui-react | competing stack | 1 / 16 | internal analysis |
+| PageBundle/common fork | local React fork (StatefulButton/ConfirmModal/SortableTable…) | 5 / ~21 | internal analysis |
 
-Acuity DS components by use [D] (`internal analysis` rollup): Heading 63 ·
+Acuity DS components by use [D] (react-scanner rollup): Heading 63 ·
 Button 57 · Card 30 · TextInput 15 · Alert 14 · Icon 10 · Dropdown/Link/Badge/
 ProgressBar 8 · Tab 7 · Textarea 7 · Modal 5 · IconButton/Spinner 4 · Tabs 3 ·
 Checkbox 2 · LabelAtom/TextInputAtom/Radio/FormValidation 1 each.
 
 **Adoption is shallow** [D]: 257 DS calls vs 1,130 raw HTML intrinsics in the same
 JSX, and `ds-` Tailwind utilities appear only **402** times app-wide against
-**3,165** hardcoded px + **222** unique raw hex in Symfony source
-(`internal analysis`, this session). Coverage of the token-governed UI is **~10–20%**
-(` §1.7`). No Storybook, no path aliases — cross-bundle reuse via
-`../../../../../../` chains (` §2.6, §local`).
+**3,165** hardcoded px + **222** unique raw hex in Symfony source (internal
+analysis, this session). Coverage of the token-governed UI is **~10–20%**. No
+Storybook, no path aliases — cross-bundle reuse via `../../../../../../` chains.
 
 **In the prototyping tool:** `acuity` skins Button, Card, Badge, **Alert**, Image,
 Icon (`acuity-insights-prototype/src/systems.tsx`). Alert is modelled as a first-class Acuity piece
@@ -115,16 +113,15 @@ no Alert (Layer 2 of `02-one45-legacy.md`).
 
 Modern Symfony surfaces (Reports Center, report param form, report table base)
 scan **markedly cleaner** than the legacy layer — the Acuity-skinned pages are the
-better-behaved half (` §divergence`). But the deliberate palette still
-ships contrast debt, and the rendered app paints colours that exist in **no token
-file**:
+better-behaved half. But the deliberate palette still ships contrast debt, and the
+rendered app paints colours that exist in **no token file**:
 
-- **Colours in no token file** [R] (` §runtime`): config nav `#e46b6b`,
+- **Colours in no token file** [R]: config nav `#e46b6b`,
   My eDossier `#2196f3` on sidebar `#27304b`, and the rotation-grid colour-coding —
   none of these are Acuity tokens. The token set governs a minority of the painted
   surface.
-- **Contrast, computed** (deterministic, `scripts/contrast.mjs`; matches
-  ` §3.3`). Thresholds: text 4.5 · UI/large 3 · AAA 7.
+- **Contrast, computed** (deterministic, `scripts/contrast.mjs`). Thresholds: text
+  4.5 · UI/large 3 · AAA 7.
 
 | Token pair | ratio | verdict |
 |---|--:|---|
@@ -151,7 +148,7 @@ the border-grey weakness (`tokens.css`).
 ## Inputs & controls — enshrined slice [D][R]
 
 The first deliverable to enshrine the **full** component surface (the rest of the
-checklist is tracked in `internal notes Inputs are
+checklist is tracked in internal analysis). Inputs are
 now live canonical pieces in the tool (`TextField, Textarea, Select, Checkbox,
 Radio, Toggle, SearchField` + `Button` variants), token-driven and browser-verified
 across all three systems 2026-06-22.
@@ -199,8 +196,8 @@ text `#42507D` on `#EBEDF2` **6.7** (PASS).
 — **one component set holds for the whole inputs group** across acuity / one45-legacy /
 lowfi with zero prototype edits (verified in-browser). The single-canonical-API model
 survives this group intact; the genuine anatomy divergence stays with Alert (see
-reconciliation map §5). This is a positive answer to the plan's anatomy question
-for inputs, recorded as data, not assumed.
+reconciliation map §5). This is a positive answer to the anatomy question for
+inputs, recorded as data, not assumed.
 
 ---
 
@@ -311,9 +308,8 @@ tag/chip and empty-state are absent from **both** systems → not enshrined.
 
 ## Carry-forward verdict
 
-Carry the **token set verbatim, collapse the 4× duplication to one source**
-(` carry-forward 5`). Add the two missing token categories (radius,
-shadow) deliberately rather than leaving them per-component. Fix the contrast
-failures at the token level (see reconciliation map §contrast-fix). Adopt
-`@takecasper/acuity-design-system` as THE component library and extend it to the
-server surface (` carries-forward 1`).
+Carry the **token set verbatim, collapse the 4× duplication to one source**. Add
+the two missing token categories (radius, shadow) deliberately rather than leaving
+them per-component. Fix the contrast failures at the token level (see
+reconciliation map §contrast-fix). Adopt `@takecasper/acuity-design-system` as THE
+component library and extend it to the server surface.
