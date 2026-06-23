@@ -138,5 +138,15 @@
       "success": "#4DA81F (3.03)", "warning": "#FCE833 (1.26 FAIL)", "error": "#E40A0A (4.83)", "info": "#1E93BA (3.54)"
     },
     "apiNote": "the tool exposes the DS `name` as `iconName` to avoid the <Canonical name=\"Icon\"> selector collision (the Radio `group` pattern). Reconciliation map §4g."
+  },
+  "dataDisplay": {
+    "$meta": "[R] 2026-06-23 (signed in, getComputedStyle on staging). The Acuity DS ships NO table component: the /test/designSystem demo renders ZERO tables and the consumed-export set (Alert/Badge/Button/Card/Checkbox/Dropdown/.../TextInput) has none. Real app tables are react-table v7 (the common SortableTable wrapper) over raw <table class='table table-hover'> with NO authored .table skin — an injected probe across the live app inherits only body type (Lato 14px #333, th weight 700, no border/hover/stripe; --bs-table-hover-bg empty). The one real rendered table (the marksheet, admin/pages/marksOverview2.php) is border-collapse, 1px #666 row dividers, tight padding. So the tool's Table skin reproduces that minimal reality; it is NOT an invented DS component. Reconciliation map §4i.",
+    "table": {
+      "api": ["columns({key,header,align,width,sortable,cell})", "rows", "rowKey", "sort({key,dir})", "onSort", "selectable", "selected", "onSelectionChange", "empty", "caption"],
+      "sourceShape": "react-table v7: column {Header,accessor,Cell,width,hidden}; table-wide useSortBy; caller-managed data/filter; optional useRowSelect bulk-select -> onChange (groupTable.jsx). NO usePagination/useFilters (filter is done before the table).",
+      "render": "text neutrals-darker #333 [R]; header weight 700, no fill [R]; header rule #666 [R marksheet]; row divider neutrals-light #B8B8B8 (--ds-border-color); hover neutrals-lighter #F5F5F5; selected acuity-blue-lightest #E9ECF6; font 14px; radius 0; sort caret = token-coloured text glyph (PNG/FA arrow simplified)",
+      "contrast": "text #333/white 12.63 (AAA); header rule #666/white 5.74 (UI pass); row divider #B8B8B8/white 1.98 (fails 3:1 — thin decorative divider, flagged). contrast.mjs 'Acuity Table'."
+    },
+    "gaps": "The Acuity DS owns no dedicated table — its tables are app-level react-table over Bootstrap. The rest of the data-display group (list, accordion, avatar, tree, timeline, stat/metric, code block, key-value) is a FOLLOW-UP slice, not enshrined here. Toast/tag-chip/empty-state remain both-systems gaps (the Pagination rule)."
   }
 }

@@ -348,6 +348,34 @@ breakpoints-grid all enshrined or recorded as a sourced gap).
 
 ---
 
+## 4i. Data display slice — Table enshrined 2026-06-23 [D][R]
+
+Fifth slice (first data-display piece), and the long-flagged **"first true API break" test**.
+Canonical piece added: **`Table`** (native in all three systems), token-driven, lint-gate-clean,
+browser-verified across acuity / one45-legacy / lowfi; pattern prototype
+`src/prototypes/cohort-marksheet/` (filter → sort → multi-select → bulk release → confirm Modal → summary).
+
+**New findings from this slice:**
+
+| Finding | Evidence |
+|---|---|
+| **The Acuity DS ships NO table component** — the `/test/designSystem` demo renders zero tables, the consumed-export set has none; real tables are app-level **react-table v7** over a raw `.table` | island recovery [D]; `/test/designSystem` + live-app probe [R] 2026-06-23 |
+| On the live Acuity app a bare `.table` gets **no authored skin** — inherits only Lato 14px `#333`, `th` 700 (`--bs-table-hover-bg` empty; the BS5 `#FDF3F6` is not live on the classic app) | staging `getComputedStyle` [R] |
+| The one real rendered Acuity table (the marksheet, `marksOverview2.php`) = `border-collapse`, 1px **`#666`** dividers, tight padding, bold navy `#333366` key rows | staging [R] |
+| Legacy owns a **real** custom table skin (`table.report`/`.standard`: `#999` rule, `#444` text, `#BBB` cells, 5px pad, DataTables PNG arrows) — but it is **not live on the modern staging** (legacy classes render inert there) | `_tables.scss` [D]; staging [R] |
+| Legacy table header rule **`#999` fails 3:1 (2.85)** — add to the legacy fix list (same class as the `#DDD` input + `#AAA` tab greys) | `contrast.mjs` |
+
+**Anatomy result [R] — the predicted break did NOT happen.** The canonical columns+rows+sort API
+absorbs **both** the Acuity react-table-v7 column model and the legacy DataTables/`.report` grid,
+and the skin is a **pure token swap** — no per-system structural override (unlike Tabs). The real
+divergence is **inventory**: Acuity owns no dedicated table (its tables are app-level), legacy owns a
+real `_tables.scss` skin. Both render a genuine status quo → Table is **native in all three**, no
+bridge, no fabrication. Rule honoured: the Acuity skin reproduces the minimal real app-table reality
+rather than inventing a polished DS table. The rest of data display (list, accordion, avatar, tree,
+timeline, stat, code block, key-value) is a follow-up slice.
+
+---
+
 ## 5. Convergence read [I]
 
 The divergence between the two systems is **largely token/brand at the API level** —
@@ -370,7 +398,11 @@ in the other (Breadcrumb: legacy widget vs no Acuity component — §4c; and Bad
 no legacy status badge — §4d, **corrected to acuity-only §4e**). Those are the bridge's actual work, and the Navigation slice
 **evolved it** past the first-native-piece heuristic: divergent pieces now resolve to a flagged
 token-driven build of that piece in the active system (`INTERIM_BUILDS`, §4c), not an unrelated
-component. The broader 7-system
+component. The Data display slice (§4i) then ran the long-predicted **data-grid API-break test —
+and it passed**: one columns+rows+sort API absorbs both the Acuity react-table-v7 model and the
+legacy DataTables/`.report` grid as a **pure token swap**, no structural override. The divergence
+there is **inventory** (axis b — the Acuity DS owns no table component; legacy owns a real
+`_tables.scss` skin), not API or structure. The broader 7-system
 reality (Semantic UI / Bootstrap 2 / jQuery-UI / webeval) **is** structurally
 divergent — but six of seven die in the rebuild, so the convergence target is
 Acuity, and this map is the list of what to fix in it first.

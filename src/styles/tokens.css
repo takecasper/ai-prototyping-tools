@@ -150,6 +150,26 @@
   --ds-alert-error-bg: #fef2f2;
   --ds-alert-error-fg: #991b1b;
   --ds-alert-error-accent: #dc2626;
+
+  /* ---- data display (the Data display slice — Table) ----
+   * Generic fallbacks; each system overrides below from its real, sourced values.
+   * The Acuity DS ships no table component ([R] — real app tables inherit base type
+   * only), so its skin reproduces that minimal reality; legacy carries the real
+   * _tables.scss skin. One canonical API + a pure token swap (no per-system structural
+   * override). See shared/one45-design-systems/01/02 L "Data display", 03 §4i. */
+  --ds-table-font-size: 0.9rem;
+  --ds-table-text: #1a1a1a; /* body cell text */
+  --ds-table-header-fg: #1a1a1a; /* header cell text */
+  --ds-table-header-bg: transparent; /* header fill */
+  --ds-table-header-weight: 700;
+  --ds-table-header-border: #d0d0d5; /* header bottom rule */
+  --ds-table-row-border: #ececf1; /* body row divider */
+  --ds-table-hover-bg: #f7f7f8; /* row hover */
+  --ds-table-selected-bg: #eef2ff; /* selected row */
+  --ds-table-caret: #2563eb; /* active sort caret */
+  --ds-table-cell-pad-y: 0.5rem;
+  --ds-table-cell-pad-x: 0.6rem;
+  --ds-table-radius: 6px; /* outer corner (real tables are mostly square — overridden) */
 }
 
 /* Acuity (One45 modern) — real token set from tailwind_acuity_theme.js.
@@ -270,6 +290,32 @@
   --ds-alert-error-bg: #ffece8; /* danger-red lightest */
   --ds-alert-error-fg: #720202; /* danger-red darkest */
   --ds-alert-error-accent: #e40a0a; /* danger-red DEFAULT */
+
+  /* Data display — Table. [R] 2026-06-23 (signed in, getComputedStyle on staging): the
+   * Acuity DS ships NO table component (the /test/designSystem demo renders ZERO tables;
+   * the consumed-export set has none), and on the live app a bare .table gets NO authored
+   * skin — real tables inherit only body type: Lato 14px, neutrals-darker #333, th weight
+   * 700, NO header fill ([R]). The one real rendered Acuity table (the marksheet,
+   * admin/pages/marksOverview2.php) is border-collapse with 1px #666 row dividers, tight
+   * padding. So the skin reproduces that minimal reality, not an invented DS table: #333
+   * text, transparent header, the marksheet #666 header rule, neutrals-light #b8b8b8 row
+   * dividers (the real --ds-border-color), neutrals-lighter #f5f5f5 hover and acuity-blue-
+   * lightest #e9ecf6 selected (real neutrals/badge tokens — legacy/lowfi differ). Radius 0
+   * (real tables carry none). The --bs-table-hover-bg #FDF3F6 from styles_overwrite.scss is
+   * a Bootstrap-5 value NOT live on the classic app ([R] empty var), so it is NOT used. */
+  --ds-table-font-size: 0.875rem; /* Lato 14px [R] */
+  --ds-table-text: #333333; /* neutrals-darker [R] */
+  --ds-table-header-fg: #333333; /* neutrals-darker [R] */
+  --ds-table-header-bg: transparent; /* no header fill [R] */
+  --ds-table-header-weight: 700; /* th weight 700 [R] */
+  --ds-table-header-border: #666666; /* marksheet header rule [R] marksOverview2.php */
+  --ds-table-row-border: #b8b8b8; /* neutrals-light (--ds-border-color) — divider, flagged 1.4.11 */
+  --ds-table-hover-bg: #f5f5f5; /* neutrals-lighter (--ds-surface) — real token */
+  --ds-table-selected-bg: #e9ecf6; /* acuity-blue-lightest (--ds-badge-bg) — real token */
+  --ds-table-caret: #364699; /* acuity-blue active sort caret */
+  --ds-table-cell-pad-y: 0.4rem;
+  --ds-table-cell-pad-x: 0.5rem; /* 8px — matches the real form-control pad [R] */
+  --ds-table-radius: 0; /* real Acuity tables carry no radius [R] */
 
   /* Iconography — [D] the Acuity DS Icon/IconButton API (designSystemTest/main.jsx): a NAMED
    * size scale small|medium + the iconName/iconSize convenience props. The icon-name vocabulary
@@ -411,6 +457,31 @@
   --ds-alert-info-fg: #ffffff; /* white text on the purple fill */
   --ds-alert-info-accent: #b3b9cb; /* $primary_purple_light (icon) */
 
+  /* Data display — Table. [D] the real legacy skin (_tables.scss + _constants.scss). The
+   * legacy custom table is table.report/.standard: font-size 14px, td/th padding 5px
+   * ($table_cell_padding_unit), header border-top/bottom #999 ($table_header_border_color),
+   * header + body text #444 ($table_header_text_color / $table_cell_text_color), no header
+   * fill ($table_header_cell_background_color transparent), cell border #BBB
+   * ($table_cell_border_color). Sort is DataTables: PNG up/down arrows + row hover / active-
+   * sort-column bg #FEFEFE ($table_cell_hover_bg_color). No radius (border-collapse, square).
+   * The legacy app authors no selected-ROW colour, so selected reuses --ds-surface
+   * (purple-pale) — flagged tool default. NOTE this custom skin is NOT live on the modern
+   * Acuity-rebranded staging ([R]: legacy table classes render inert there) — it is sourced
+   * from the legacy SCSS, the documented legacy-pole reality. See 02 L "Data display", 03 §4i. */
+  --ds-table-font-size: 0.875rem; /* 14px [D] _tables.scss:5 */
+  --ds-table-text: #444444; /* $table_cell_text_color [D] */
+  --ds-table-header-fg: #444444; /* $table_header_text_color [D] */
+  --ds-table-header-bg: transparent; /* $table_header_cell_background_color [D] */
+  --ds-table-header-weight: 700;
+  --ds-table-header-border: #999999; /* $table_header_border_color [D] */
+  --ds-table-row-border: #bbbbbb; /* $table_cell_border_color [D] */
+  --ds-table-hover-bg: #fefefe; /* $table_cell_hover_bg_color [D] */
+  --ds-table-selected-bg: #f2f3f8; /* no legacy selected-row token — reuse --ds-surface, flagged */
+  --ds-table-caret: #999999; /* DataTables PNG-arrow colour simplified to the header grey, flagged */
+  --ds-table-cell-pad-y: 5px; /* $table_cell_padding_unit [D] */
+  --ds-table-cell-pad-x: 5px; /* $table_cell_padding_unit [D] */
+  --ds-table-radius: 0; /* no legacy table radius [D] */
+
   /* Iconography — [D] FontAwesome Pro 5.15.3 (fontawesome.scss:2-16) is the legacy icon
    * webfont: default size 0.9rem (the fa-icon mixin, fontawesome.scss:16), alert icons 1.5rem
    * (new_branding.scss:86); the only scale class in use is fa-2x. The older famfamfam Silk set
@@ -525,6 +596,23 @@
   --ds-alert-error-bg: #f3f3f3;
   --ds-alert-error-fg: #3a3a3a;
   --ds-alert-error-accent: #8a8a8a;
+
+  /* Data display — Table: deliberate greyscale sketch. lowfi is not a status-quo system,
+   * so these are hand-authored sketch values; the dashed cell borders (app.css per-system
+   * rule) read as "wireframe". No brand hue; the active sort caret reads by ink, not colour. */
+  --ds-table-font-size: 0.95rem;
+  --ds-table-text: #3a3a3a;
+  --ds-table-header-fg: #1a1a1a;
+  --ds-table-header-bg: transparent;
+  --ds-table-header-weight: 700;
+  --ds-table-header-border: #8a8a8a;
+  --ds-table-row-border: #c4c4c4;
+  --ds-table-hover-bg: #fbfbfb;
+  --ds-table-selected-bg: #ededed;
+  --ds-table-caret: #3a3a3a;
+  --ds-table-cell-pad-y: 0.4rem;
+  --ds-table-cell-pad-x: 0.55rem;
+  --ds-table-radius: 2px;
 
   /* Iconography — deliberate sketch. A two-step size scale + a square icon button; the
    * stand-in glyph is a dashed box (no brand glyph, no semantic hue). */

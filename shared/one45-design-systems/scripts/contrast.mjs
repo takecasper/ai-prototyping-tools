@@ -192,3 +192,21 @@ row("teal_dark / white (success)", "#2FAEA1", WHITE, "(icon glyph, 3:1 UI)");
 row("yellow / white (warning)", "#F8B223", WHITE, "(icon glyph, 3:1 UI)");
 row("red / white (error)", "#F12F62", WHITE, "(icon glyph, 3:1 UI)");
 row("purple_light / white (info)", "#B3B9CB", WHITE, "(icon glyph, 3:1 UI)");
+
+// ── Data display slice (2026-06-23) — Table. Acuity values are [R] from staging (signed in:
+// a bare .table inherits Lato 14px #333 / th 700 with NO authored skin; the real marksheet
+// admin/pages/marksOverview2.php renders 1px #666 row dividers). Legacy values are [D] from
+// the real _tables.scss / _constants.scss skin. Cell TEXT is judged on 4.5; header/cell
+// border rules on the 3:1 UI threshold (1.4.11); hover/selected fills are decorative
+// surfaces, reported for completeness, not held to a text threshold.
+section("Acuity Table [R] — text + dividers on white (the DS ships no table; app reality)");
+row("cell/header text neutrals-darker / white", "#333333", WHITE);
+row("header rule #666 / white", "#666666", WHITE, "(marksheet header border, 3:1 UI)");
+row("row divider neutrals-light / white", "#B8B8B8", WHITE, "(1px divider — fails 3:1, flagged)");
+row("hover neutrals-lighter / white", "#F5F5F5", WHITE, "(decorative fill — not text)");
+row("selected acuity-blue-lightest / white", "#E9ECF6", WHITE, "(decorative fill — not text)");
+section("one45 legacy Table [D] — _tables.scss table.report/.standard on white");
+row("cell/header text #444 / white", "#444444", WHITE);
+row("header rule #999 / white", "#999999", WHITE, "(border 3:1 UI)");
+row("cell border #BBB / white", "#BBBBBB", WHITE, "(border — fails 3:1, flagged)");
+row("hover #FEFEFE / white", "#FEFEFE", WHITE, "(decorative fill — not text)");

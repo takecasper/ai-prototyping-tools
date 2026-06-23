@@ -381,6 +381,41 @@ gap is recorded, not invented. (Reconciliation map §4h.)
 
 ---
 
+## Data display — enshrined slice (Table) [D]
+
+Fourth component group, first piece (2026-06-23). New canonical piece **`Table`** (native in all
+three systems); pattern prototype `src/prototypes/cohort-marksheet/`.
+
+**Layer 1/2 — the real legacy table skin** [D] (`_tables.scss` + `_constants.scss`). Legacy
+authors a **custom** table skin keyed on `table.report` / `.standard` / `.bordered` (NOT the
+Bootstrap `.table*` classes, which it inherits unchanged from vendored BS2). Sort is **DataTables**:
+PNG `sort_up.png` / `sort_down.png` arrows under `.dataTables_wrapper`. Real values:
+
+| Element | Real value | Source |
+|---|---|---|
+| Font / cell padding | 14px / 5px | `_tables.scss:5,7` |
+| Header text + rule | `#444` text, `#999` top+bottom rule, **no fill** | `_constants.scss:65-67` |
+| Body cell | `#444` text, `#BBB` border | `_constants.scss:58-59` |
+| Outer (`.bordered`/`.records_list`) | `#CCC` | `_constants.scss:56` |
+| Hover / active-sort col | `#FEFEFE` | `_constants.scss:61-62` |
+| Radius / sticky | none (collapse, square) | `_tables.scss` |
+
+**Instances:** `table.standard` (importer/eDossier `records.html.twig`), the `report-tabular`
+DataTables grids (`grades_marks.html.twig` — the colloquial "marksheet"; there is **no** `marksheet`
+CSS class), rotation listings.
+
+**Computed contrast** (`contrast.mjs`, "legacy Table"): text `#444`/white **9.74** (AAA); header
+rule `#999`/white **2.85** — **fails 3:1**, added to the legacy fix list alongside the `#DDD` input
+border and `#AAA` tab rule; cell border `#BBB`/white **1.92** (fails, thin decorative).
+
+**Intent-vs-reality [R]:** this custom legacy skin is **not live on the modern Acuity-rebranded
+staging** — injected `table.report`/`.standard` classes render inert there (the staging runs the
+modern build). The values above are the documented **legacy-pole** reality, sourced from SCSS, the
+same handling as other legacy-only chrome. The canonical Table API + a pure token swap absorb this
+skin and the Acuity react-table model alike. (Reconciliation map §4i.)
+
+---
+
 ## Carry-forward verdict
 
 The legacy brand is a **migration source, not a target** — it is being replaced by

@@ -119,6 +119,16 @@ skin. The real glyph **artwork** is unavailable in both systems (un-vendored DS 
 webfont + binary sprites) — a recorded **asset gap**, so the tool renders a token-sized stand-in,
 never the real icon. See "Gaps and legitimate omissions" below and gap map §4g.
 
+**Data display slice (2026-06-23):** `Table` enshrined (native in all three systems) — the first
+data-display piece and the long-predicted "first true API break" test, which it **passed**.
+Sourcing found the Acuity DS ships **no** table component (`/test/designSystem` renders zero
+tables; real app tables are react-table v7 over a raw `.table` that inherits only Lato 14px `#333`
+— `[R]` signed-in `getComputedStyle`), while legacy carries a real `_tables.scss` skin (`#999`
+header rule / `#444` text / `#BBB` cells). Yet one columns+rows+sort API + a **pure token swap**
+absorb both — the divergence is **inventory, not API/structure**, so Table is native in all three
+(no bridge). `cohort-marksheet` prototype (filter / sort / bulk release). The legacy `#999` header
+rule fails 3:1 (2.85) — added to the legacy fix list. Gap map §4i.
+
 **Honest scope:** between `acuity` and `one45-legacy`, most pieces are the **same
 component re-skinned by tokens**, not structurally different — so a single
 canonical API + token swap is the right model at the brand level (and the tool

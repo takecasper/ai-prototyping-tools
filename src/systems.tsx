@@ -54,7 +54,11 @@ export type CanonicalName =
   | "Link"
   | "Breadcrumb"
   // Feedback & status slice — Modal is token-driven and shared across all systems.
-  | "Modal";
+  | "Modal"
+  // Data display slice — Table is native in all three (the Acuity DS ships no table
+  // component, so its skin reproduces the real app-level table reality; legacy carries
+  // the real _tables.scss skin). One canonical columns+rows+sort API across systems.
+  | "Table";
 export type SystemId = "lowfi" | "acuity" | "one45-legacy";
 
 // The documentation slices the gallery groups by. New canonical pieces slot into
@@ -63,6 +67,7 @@ export type Slice =
   | "Actions & containers"
   | "Inputs & controls"
   | "Navigation"
+  | "Data display"
   | "Feedback & status"
   | "Media";
 
@@ -71,6 +76,7 @@ export const SLICES: Slice[] = [
   "Actions & containers",
   "Inputs & controls",
   "Navigation",
+  "Data display",
   "Feedback & status",
   "Media",
 ];
@@ -107,6 +113,7 @@ export const CANONICAL: CanonicalDef[] = [
   { name: "Link", label: "Link", category: "Navigation", description: "Hyperlink (default / inline variant)", props: "children (or text), href?, variant?, external?", notes: "variant: default / inline; external opens a new tab" },
   { name: "Breadcrumb", label: "Breadcrumb", category: "Navigation", description: "Trail of ancestor links; legacy-only (bridge fills acuity)", props: "items", notes: "items: string[] or {label,href?}[]; last item is the current page; legacy-only" },
   { name: "Modal", label: "Modal", category: "Feedback & status", description: "Centred dialog overlay (title, body, footer actions); shared API across systems", props: "open, title?, onClose?, dismissible?, icon?, footer?, children", notes: "one API across all systems; footer holds the action Buttons; closes on Esc / scrim click when dismissible" },
+  { name: "Table", label: "Table", category: "Data display", description: "Data table with sortable columns + optional row selection", props: "columns, rows, rowKey?, sort?, onSort?, selectable?, selected?, onSelectionChange?, empty?, caption?", notes: "columns: {key, header, align?, width?, sortable?, cell?}[]; table-wide sort — onSort(key) toggles; selectable adds a bulk-select column (select-all header); native in all three. The Acuity DS ships NO table component ([R] — real app tables inherit base type only over react-table), so its skin reproduces that minimal reality; legacy carries the real _tables.scss skin. One canonical API + pure token swap — the predicted data-grid API break did not happen" },
   { name: "Image", label: "Image", category: "Media", description: "Placeholder image (placehold.co)", props: "w, h, label?", notes: "never commit binary image files" },
   { name: "Icon", label: "Icon", category: "Media", description: "Named icon (real DS name/size vocabulary)", props: "iconName, size?, altText?, tone?", notes: "size: small / medium; iconName is the real DS vocabulary (add, edit, delete, checkCircle, warning…); tone: success / warning / error / info; renders a token-sized stand-in glyph — real glyph artwork is a recorded asset gap (no DS icon font is vendored)" },
 ];
@@ -437,6 +444,161 @@ const Modal: Skin = ({ open, title, onClose, dismissible, icon, footer, children
   );
 };
 
+// ---- Data display: Table (token-driven; the data-display group opener) ----
+// Sourced [D] from the Acuity islands (react-table v7 over raw <table class="table
+// table-hover">; the common SortableTable wrapper — columns {Header,accessor,Cell},
+// table-wide useSortBy, caller-managed data/filter, optional useRowSelect bulk-select
+// with onChange) + the legacy _tables.scss skin (table.report/.standard — header
+// border #999, text #444, cell border #BBB, 5px padding, DataTables PNG sort arrows,
+// #FEFEFE hover, no radius). [R] 2026-06-23 (signed in, getComputedStyle on staging):
+// the Acuity DS ships NO table component (the /test/designSystem demo renders ZERO
+// tables; the consumed-export list has none), and on the live app a bare .table gets
+// NO skin — real tables inherit only body type (Lato 14px #333, th 700). The one real
+// rendered Acuity table (the marksheet, admin/pages/marksOverview2.php) is
+// border-collapse with 1px #666 row dividers, 11px headers, 12px bold key rows, tight
+// padding. So Table is the INVENTORY divergence (Acuity owns no dedicated table; legacy
+// owns a real skin) — but the canonical columns+rows+sort API SURVIVES all three and the
+// look is a pure token swap. The predicted data-grid API break did NOT happen here.
+// Native in all three; no bridge. The sort caret is a token-coloured text glyph (the
+// legacy PNG arrow / Acuity FA caret geometry simplified — flagged, the Breadcrumb
+// chevron handling). See shared/one45-design-systems/01/02 L "Data display", 03 §4i.
+type TableColumn = {
+  key: string;
+  header: string;
+  align?: "left" | "right" | "center";
+  width?: string | number;
+  sortable?: boolean;
+  cell?: (row: any) => ReactNode;
+};
+
+const Table: Skin = ({
+  columns,
+  rows,
+  rowKey,
+  sort,
+  onSort,
+  selectable,
+  selected,
+  onSelectionChange,
+  empty,
+  caption,
+}) => {
+  const cols: TableColumn[] = Array.isArray(columns) ? columns : [];
+  const data: any[] = Array.isArray(rows) ? rows : [];
+  const keyOf = typeof rowKey === "function" ? rowKey : (_row: any, i: number) => String(i);
+
+  // Sort is caller-managed (uncontrolled-with-initial, mirroring react-table v7's
+  // useSortBy): `sort` is the current {key,dir}; onSort(key) asks the caller to flip it.
+  const sortKey = sort && typeof sort === "object" ? sort.key : undefined;
+  const sortDir = sort && typeof sort === "object" ? sort.dir : undefined;
+  const canSort = typeof onSort === "function";
+
+  // Selection mirrors the real useRowSelect bulk-select: internal-free, the caller
+  // owns the selected set and is notified via onSelectionChange (the groupTable onChange).
+  const selSet =
+    selected instanceof Set
+      ? selected
+      : new Set<string>(Array.isArray(selected) ? selected.map(String) : []);
+  const allKeys = data.map((r, i) => String(keyOf(r, i)));
+  const allSelected = allKeys.length > 0 && allKeys.every((k) => selSet.has(k));
+  const emit = typeof onSelectionChange === "function" ? onSelectionChange : undefined;
+  const toggleAll = emit ? () => emit(allSelected ? [] : allKeys) : undefined;
+  const toggleRow = emit
+    ? (k: string) => {
+        const next = new Set(selSet);
+        if (next.has(k)) next.delete(k);
+        else next.add(k);
+        emit([...next]);
+      }
+    : undefined;
+
+  const alignClass = (a: TableColumn["align"], base: string) =>
+    a === "right" ? `${base} ${base}--right` : a === "center" ? `${base} ${base}--center` : base;
+  const span = cols.length + (selectable ? 1 : 0);
+
+  return (
+    <div className="sk-table-wrap">
+      <table className="sk-table">
+        {caption ? <caption className="sk-table__caption">{String(caption)}</caption> : null}
+        <thead>
+          <tr>
+            {selectable ? (
+              <th className="sk-table__sel" scope="col">
+                <input
+                  type="checkbox"
+                  className="sk-choice__box"
+                  checked={allSelected}
+                  onChange={toggleAll}
+                  aria-label="Select all rows"
+                />
+              </th>
+            ) : null}
+            {cols.map((c) => {
+              const active = sortKey === c.key;
+              const sortable = canSort && c.sortable !== false;
+              const ariaSort = active ? (sortDir === "desc" ? "descending" : "ascending") : undefined;
+              return (
+                <th
+                  key={c.key}
+                  scope="col"
+                  className={alignClass(c.align, "sk-table__th")}
+                  style={c.width ? { width: typeof c.width === "number" ? `${c.width}px` : String(c.width) } : undefined}
+                  aria-sort={ariaSort as any}
+                >
+                  {sortable ? (
+                    <button type="button" className="sk-table__sort" onClick={() => onSort(c.key)}>
+                      {c.header}
+                      <span className={active ? "sk-table__caret is-active" : "sk-table__caret"} aria-hidden="true">
+                        {active && sortDir === "desc" ? "▾" : "▴"}
+                      </span>
+                    </button>
+                  ) : (
+                    c.header
+                  )}
+                </th>
+              );
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {data.length === 0 ? (
+            <tr>
+              <td className="sk-table__empty" colSpan={span}>
+                {empty ? String(empty) : "No data."}
+              </td>
+            </tr>
+          ) : (
+            data.map((row, i) => {
+              const k = String(keyOf(row, i));
+              const isSel = selSet.has(k);
+              return (
+                <tr key={k} className={isSel ? "is-selected" : undefined}>
+                  {selectable ? (
+                    <td className="sk-table__sel">
+                      <input
+                        type="checkbox"
+                        className="sk-choice__box"
+                        checked={isSel}
+                        onChange={toggleRow ? () => toggleRow(k) : undefined}
+                        aria-label={`Select row ${i + 1}`}
+                      />
+                    </td>
+                  ) : null}
+                  {cols.map((c) => (
+                    <td key={c.key} className={alignClass(c.align, "sk-table__td")}>
+                      {c.cell ? c.cell(row) : row[c.key] != null ? String(row[c.key]) : ""}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
 // Image and Icon differ structurally per system. The brand systems pull a
 // placehold.co image / draw a token-coloured glyph; low-fi draws a sketch box and
 // an outline glyph with no network request.
@@ -575,6 +737,19 @@ const NAV_CONTROLS = { Tabs, Link };
 // are gaps in BOTH systems → not enshrined (the Pagination rule).
 const FEEDBACK_CONTROLS = { Modal };
 
+// Data display. Table is token-driven and present in EVERY system — the first
+// data-display piece, and the long-predicted "first true API break" test. Result:
+// the canonical columns+rows+sort API SURVIVED all three (it absorbs the Acuity
+// react-table-v7 column model AND the legacy DataTables/.report grid), and the look
+// is a PURE token swap — no per-system structural override (unlike Tabs). The real
+// divergence is INVENTORY, not API/skin: the Acuity DS package ships no table
+// component, so its skin reproduces the minimal real app reality (Lato, #333, thin
+// dividers — [R] marksOverview2.php) while legacy carries its real _tables.scss skin.
+// Native in all three → never bridged (03 §4i). Toast/tag-chip/empty-state remain
+// un-built both-systems gaps; the rest of the data-display group (list, accordion,
+// avatar, tree, timeline, stat, code block, key-value) is a follow-up slice.
+const DATA_DISPLAY = { Table };
+
 export const SYSTEMS: Record<SystemId, DesignSystem> = {
   lowfi: {
     id: "lowfi",
@@ -586,7 +761,7 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // Badge demonstrates the older first-native-piece fallback. lowfi is the ONLY system
     // that bridges Alert now — both brand systems ship a real one. Breadcrumb IS present —
     // it is legacy-era and renders fine in the sketch skin.
-    skins: { Button, Card, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Breadcrumb, Image: LowfiImage, Icon: LowfiIcon, IconButton: LowfiIconButton },
+    skins: { Button, Card, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Breadcrumb, Image: LowfiImage, Icon: LowfiIcon, IconButton: LowfiIconButton },
   },
   acuity: {
     id: "acuity",
@@ -596,7 +771,7 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // Breadcrumb is deliberately absent: the Acuity DS package ships no Breadcrumb
     // component (zero usages recovered from the islands), so it resolves through the
     // bridge to a flagged AI build — the mirror of legacy lacking Alert.
-    skins: { Button, Card, Badge, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Image: BrandImage, Icon: BrandIcon, IconButton: BrandIconButton },
+    skins: { Button, Card, Badge, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Image: BrandImage, Icon: BrandIcon, IconButton: BrandIconButton },
   },
   "one45-legacy": {
     id: "one45-legacy",
@@ -608,7 +783,7 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // .badge-details is a profile-photo widget), so Badge is the genuine acuity-only piece
     // and the bridge fills it. Breadcrumb IS native — the legacy app has a real (bespoke
     // chevron) breadcrumb the Acuity DS never built. Form + nav controls re-skin cleanly.
-    skins: { Button, Card, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Breadcrumb, Image: BrandImage, Icon: BrandIcon, IconButton: BrandIconButton },
+    skins: { Button, Card, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Breadcrumb, Image: BrandImage, Icon: BrandIcon, IconButton: BrandIconButton },
   },
 };
 

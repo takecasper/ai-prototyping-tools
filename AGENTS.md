@@ -73,6 +73,7 @@ The pieces, by slice:
 - **Actions & containers** — Button, Card, IconButton
 - **Inputs & controls** — TextField, Textarea, Select, Checkbox, Radio, Toggle, SearchField
 - **Navigation** — Tabs, Link, Breadcrumb
+- **Data display** — Table
 - **Feedback & status** — Badge, Alert, Modal
 - **Media** — Image, Icon
 
@@ -88,6 +89,17 @@ indicator vs legacy's Bootstrap box tabs) — accurate to each system, not a fla
 skin. **Breadcrumb is legacy-only** (the Acuity DS ships none): in `acuity` it resolves
 through the bridge to a flagged AI build — the mirror of **`Badge` being acuity-only**. There is
 **no Pagination piece**: neither One45 system defines one, so the tool does not fabricate it.
+
+The Data display piece **Table** is present in all three systems. It carries one canonical
+columns+rows+sort API (`columns: {key, header, align?, width?, sortable?, cell?}[]`, `rows`,
+`rowKey?`, `sort?`/`onSort?` for table-wide sort, `selectable?`/`selected?`/`onSelectionChange?`
+for bulk-select, `empty?`, `caption?`) — pass a `cell` render function for a custom cell (use
+`<Canonical>` pieces inside it, never raw markup). It is the data-display group's first piece and
+the long-predicted "first true API break" test, which it **passed**: the Acuity DS ships **no**
+table component (its tables are app-level react-table over Bootstrap, so the skin reproduces that
+minimal reality), while legacy carries the real `_tables.scss` skin — yet the one API + a **pure
+token swap** absorb both. The divergence is **inventory, not API/structure**; Table is native in
+all three, so it never bridges. See `shared/one45-design-systems/01`/`02` L "Data display" / §4i.
 
 The Feedback & status pieces:
 

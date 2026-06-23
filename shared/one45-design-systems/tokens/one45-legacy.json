@@ -151,5 +151,25 @@
     },
     "glyphicons": "NOT used (one stray animation class only — settings.html.twig:55)",
     "note": "reconciliation map §4g. One canonical Icon/IconButton API + a two-step size token scale absorb both this FA/sprite stack and the Acuity named-vocabulary component."
+  },
+  "dataDisplay": {
+    "$meta": "[D] the real legacy table skin (_tables.scss + _constants.scss). Legacy authors a custom table skin keyed on table.report/.standard/.bordered (NOT the Bootstrap .table* classes, which it inherits unchanged from vendored BS2). Sort is DataTables (PNG up/down arrows under .dataTables_wrapper). NOTE: this skin is NOT live on the modern Acuity-rebranded staging ([R]: the legacy table classes render inert there) — it is the documented legacy-pole reality, sourced from SCSS. Reconciliation map §4i.",
+    "table": {
+      "$source": "_tables.scss:3-119, _constants.scss:56-69",
+      "fontSize": "14px (_tables.scss:5)",
+      "cellPadding": "5px ($table_cell_padding_unit)",
+      "text": "#444 ($table_cell_text_color / $table_header_text_color)",
+      "headerFill": "transparent ($table_header_cell_background_color)",
+      "headerRule": "#999 ($table_header_border_color)",
+      "cellBorder": "#BBB ($table_cell_border_color)",
+      "outerBorder": "#CCC ($table_border_color, table.bordered/.records_list)",
+      "hover": "#FEFEFE ($table_cell_hover_bg_color; active-sort col same)",
+      "stripe": "#f9f9f9 (BS2 default, _bootstrap.scss:186)",
+      "radius": "0 (border-collapse, square)",
+      "sortArrows": "DataTables PNG sort_up.png/sort_down.png (custom_icons/) — the tool simplifies to a token-coloured text caret",
+      "contrast": "text #444/white 9.74 (AAA); header rule #999/white 2.85 (FAILS 3:1 — add to legacy fix list, same class as the #DDD input + #AAA tab greys); cell border #BBB/white 1.92 (fails, thin decorative). contrast.mjs 'legacy Table'.",
+      "instances": "table.standard (records.html.twig importer/eDossier), report-tabular DataTables grids (_base_tabular_report.html.twig, grades_marks.html.twig 'marksheet'), rotation listing"
+    },
+    "gaps": "No CSS `marksheet` class exists (the colloquial marksheet renders via the generic report-tabular/DataTables skin). No position:sticky header. List/accordion/avatar/tree/timeline/stat/code-block/key-value = FOLLOW-UP slice. Tag/chip/empty-state/toast remain both-systems gaps."
   }
 }

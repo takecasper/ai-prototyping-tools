@@ -185,6 +185,107 @@ body {
 [data-ds="lowfi"] .sk-modal__panel {
   border: var(--ds-border-width) var(--ds-border-style) var(--ds-border-color);
 }
+
+/* ---- Data display: Table (token-driven; the data-display slice opener) ----
+ * One canonical columns+rows+sort API, re-skinned by the --ds-table-* tokens. The
+ * predicted data-grid API break did NOT happen: the skin is a PURE token swap (no
+ * per-system structural override like Tabs needed) — Acuity reproduces its minimal real
+ * app-table reality (Lato, #333, thin dividers, no header fill — the DS ships no table),
+ * legacy the real _tables.scss skin (#999 header rule, #444 text, #BBB cells, 5px pad),
+ * lowfi a dashed sketch. The sort caret is a token-coloured text glyph (the legacy PNG
+ * arrow / Acuity FA caret geometry simplified — the Breadcrumb-chevron handling). */
+.sk-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+.sk-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--ds-table-font-size);
+  color: var(--ds-table-text);
+  border-radius: var(--ds-table-radius);
+}
+.sk-table__caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding-bottom: 0.5rem;
+  color: var(--ds-fg);
+}
+.sk-table__th {
+  text-align: left;
+  font-weight: var(--ds-table-header-weight, 700);
+  color: var(--ds-table-header-fg);
+  background: var(--ds-table-header-bg);
+  border-bottom: 2px solid var(--ds-table-header-border);
+  padding: var(--ds-table-cell-pad-y) var(--ds-table-cell-pad-x);
+  white-space: nowrap;
+}
+.sk-table__th--right {
+  text-align: right;
+}
+.sk-table__th--center {
+  text-align: center;
+}
+.sk-table__td {
+  padding: var(--ds-table-cell-pad-y) var(--ds-table-cell-pad-x);
+  border-bottom: 1px solid var(--ds-table-row-border);
+}
+.sk-table__td--right {
+  text-align: right;
+}
+.sk-table__td--center {
+  text-align: center;
+}
+.sk-table tbody tr:hover {
+  background: var(--ds-table-hover-bg);
+}
+.sk-table tbody tr.is-selected {
+  background: var(--ds-table-selected-bg);
+}
+.sk-table__sel {
+  width: 1px;
+  white-space: nowrap;
+  text-align: center;
+}
+/* the sort header is a real button styled to read as the surrounding header text */
+.sk-table__sort {
+  font: inherit;
+  font-weight: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.sk-table__caret {
+  font-size: 0.75em;
+  color: var(--ds-table-row-border);
+}
+.sk-table__caret.is-active {
+  color: var(--ds-table-caret);
+}
+.sk-table__sort:focus-visible {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 1px;
+}
+.sk-table__empty {
+  text-align: center;
+  color: var(--ds-fg-muted);
+  padding: 1rem;
+}
+/* lowfi: a wireframe table reads as dashed rules, not solid (the Modal/Image sketch rule). */
+:root[data-ds="lowfi"] .sk-table__th,
+[data-ds="lowfi"] .sk-table__th,
+:root[data-ds="lowfi"] .sk-table__td,
+[data-ds="lowfi"] .sk-table__td {
+  border-bottom-style: dashed;
+}
+
 .sk-img {
   display: block;
   max-width: 100%;

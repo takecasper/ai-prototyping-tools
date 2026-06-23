@@ -62,7 +62,7 @@ const CONFIG = {
     h5: 'Canonical name="Card" (use its title prop)',
     h6: 'Canonical name="Card" (use its title prop)',
     span: 'Canonical name="Badge"',
-    table: "a canonical data piece",
+    table: 'Canonical name="Table"',
     ul: 'Canonical name="Tabs"/"Breadcrumb", or the "flow-list" layout wrapper',
     ol: 'the "flow-list" layout wrapper plus canonical rows',
     li: "a canonical row piece",

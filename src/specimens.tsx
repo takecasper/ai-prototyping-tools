@@ -47,6 +47,44 @@ function ModalDemo({ system }: { system: SystemId }) {
   );
 }
 
+// Table is sortable + selectable, so its specimen is a small stateful demo that owns
+// the sort and selection (caller-managed, the real react-table v7 / useRowSelect shape).
+const TABLE_ROWS = [
+  { id: "r1", learner: "Amara Okafor", year: "PGY-2", score: 88 },
+  { id: "r2", learner: "Daniel Reyes", year: "PGY-1", score: 73 },
+  { id: "r3", learner: "Priya Nair", year: "PGY-3", score: 91 },
+];
+function TableDemo({ system }: { system: SystemId }) {
+  const [sort, setSort] = useState<{ key: string; dir: "asc" | "desc" }>({ key: "learner", dir: "asc" });
+  const [selected, setSelected] = useState<string[]>(["r1"]);
+  const rows = [...TABLE_ROWS].sort((a, b) => {
+    const av = (a as any)[sort.key];
+    const bv = (b as any)[sort.key];
+    const cmp = typeof av === "number" && typeof bv === "number" ? av - bv : String(av).localeCompare(String(bv));
+    return sort.dir === "asc" ? cmp : -cmp;
+  });
+  const onSort = (key: string) =>
+    setSort((s) => (s.key === key ? { key, dir: s.dir === "asc" ? "desc" : "asc" } : { key, dir: "asc" }));
+  return (
+    <Canonical
+      name="Table"
+      system={system}
+      rowKey={(r: any) => r.id}
+      columns={[
+        { key: "learner", header: "Learner", sortable: true },
+        { key: "year", header: "Year" },
+        { key: "score", header: "Score", align: "right", sortable: true },
+      ]}
+      rows={rows}
+      sort={sort}
+      onSort={onSort}
+      selectable
+      selected={selected}
+      onSelectionChange={setSelected}
+    />
+  );
+}
+
 export const SPECIMENS: Partial<Record<CanonicalName, Specimen>> = {
   Button: { children: "Save changes" },
   Card: (system) => (
@@ -88,6 +126,7 @@ export const SPECIMENS: Partial<Record<CanonicalName, Specimen>> = {
   Link: { children: "View details", href: "#" },
   Breadcrumb: { items: ["Home", "Programs", "Biology"] },
   Modal: (system) => <ModalDemo system={system} />,
+  Table: (system) => <TableDemo system={system} />,
   Image: { w: 240, h: 120, label: "Image" },
   // Real DS icon-name vocabulary at both sizes, plus two semantic tones. The glyph is a
   // token-sized stand-in (the DS icon fonts are not vendored — see systems.tsx / README).

@@ -476,6 +476,48 @@ defines nothing, the gap is recorded, the reference scale flagged as a tool defa
 
 ---
 
+## Data display — enshrined slice (Table) [R][D]
+
+Fourth component group, first piece (2026-06-23). New canonical piece: **`Table`** (native in
+all three systems). Browser-verified across acuity / one45-legacy / lowfi; pattern prototype
+`src/prototypes/cohort-marksheet/` (an OSCE marksheet: filter → sort → multi-select → bulk
+release via a confirm Modal → summary).
+
+**Inventory reality — the Acuity DS ships NO table component** [R] (signed in,
+`/test/designSystem` + a live-app probe, 2026-06-23). The DS demo page renders **zero** tables
+and the consumed-export set has none. Real Acuity-era tables are **react-table v7** (the common
+`SortableTable` wrapper) over a raw `<table class="table table-hover">`: columns are
+`{Header, accessor, Cell, width, hidden}`, sort is table-wide (`useSortBy`), data/filter are
+caller-managed, bulk-select is optional (`useRowSelect` → `onChange`). No `usePagination`.
+
+**Layer 3 — rendered reality** [R] (`getComputedStyle` on staging): a bare `.table` inherits
+**only body type** — Lato 14px, `#333`, `th` weight 700 — with **no authored skin** (no border,
+no hover, no stripe; `--bs-table-hover-bg` empty, so `styles_overwrite.scss`'s `#FDF3F6` is not
+live on the classic app). The one real rendered table (the marksheet, `admin/pages/marksOverview2.php`):
+
+| Element | Real rendered values |
+|---|---|
+| Structure | `border-collapse`, 1px **`#666`** row dividers, tight (0–5px) cell padding |
+| Header | `#333`, weight 700, **no fill** |
+| Body cell | `#333`, 11–14px; key rows render bold navy `#333366` |
+
+**Tokens enshrined** (`--ds-table-*`): text `#333`, header rule `#666` (marksheet [R]), row
+divider neutrals-light `#B8B8B8` (the real `--ds-border-color`), hover neutrals-lighter `#F5F5F5`,
+selected acuity-blue-lightest `#E9ECF6`, font 14px, radius 0, sort caret acuity-blue. **Computed
+contrast** (`contrast.mjs`, "Acuity Table"): text `#333`/white **12.63** (AAA); header rule
+`#666`/white **5.74** (UI pass); 1px divider `#B8B8B8`/white **1.98** (fails 3:1 — thin decorative
+divider, flagged).
+
+**Anatomy result — the predicted "first true API break" did NOT happen.** The canonical
+columns+rows+sort API absorbs both the Acuity react-table model and the legacy DataTables grid,
+and the look is a **pure token swap** (no per-system structural override, unlike Tabs). The real
+divergence is **inventory**: Acuity owns no dedicated table component (its tables are app-level),
+while legacy owns a real `_tables.scss` skin. Both render a genuine status quo, so Table is native
+in all three — no fabrication, no bridge. The rest of the data-display group (list, accordion,
+avatar, tree, timeline, stat, code block, key-value) is a follow-up slice. (Reconciliation map §4i.)
+
+---
+
 ## Carry-forward verdict
 
 Carry the **token set verbatim, collapse the 4× duplication to one source**. Add
