@@ -144,8 +144,7 @@ export function ControlOverlay({ onClose }: { onClose: () => void }) {
 
       <p className="ov__foot">
         When a component has no match here, Claude Code builds a stand-in and flags it on the canvas.
-        Override it by mapping to a real component. Your maps are saved. Turn flags off for a clean
-        demo view.
+        Override it by mapping to a real component.
       </p>
     </div>
   );
