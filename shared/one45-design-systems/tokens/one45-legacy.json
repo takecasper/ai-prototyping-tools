@@ -32,6 +32,12 @@
   "opacity": {
     "$meta": "[D] No opacity scale. Opacity used only for disabled/muted states (.suspended .5 _body.scss:92; disabled icons .3 _actions.scss:131) and the scrim: #overlay is a solid #cccccc element at opacity .5 (_overlay.scss:3-4) — a real opacity-based backdrop. The tool renders the scrim as an rgba colour per the no-opacity rule (flagged [I], see feedback.modal.scrimNote) and exposes only --ds-opacity-disabled (0.5)."
   },
+  "breakpoints": {
+    "$meta": "[D] Bootstrap 2 (v2.0.2, web/vendor/twitterbootstrap2/). The legacy skin authors exactly ONE breakpoint — min/max-width 768px, the adaptive-nav show/collapse (themes/one45-responsive.scss:28,41); the BS2 default tiers (480/767/979/980/1200) are inherited, never overridden. A real desktop page floor min-width 1100px on .page-body.row-fluid (one45-responsive.scss:6) makes legacy a fixed-DESKTOP layout, not a mobile-responsive one. Recorded gap (no responsive scale authored beyond the 768 nav toggle); the tool's structural reference scale applies, md 768 coinciding with the real legacy value. See reconciliation §4h."
+  },
+  "grid": {
+    "$meta": "[D] Bootstrap 2 grid, INHERITED not authored: 12 columns (.span1-.span12), 20px gutter, 60px column unit, 940px base / 1170px large container (bootstrap.css:149-150,170,203; bootstrap-responsive.css:524). The legacy SCSS defines NO $grid-columns / $grid-gutter-width / $container-* override (recorded gap). Real legacy-authored layout constants are component sizes, not a grid scale: $sidebar_width 250px (_constants.scss:40), nav .span3 220px (one45-responsive.scss:16), $pageheaderheight 40px (_constants.scss:48), page floor 1100px. The tool carries the BS2 20px gutter as the legacy --ds-grid-gutter (flagged framework default); columns/container stay structural. See reconciliation §4h."
+  },
   "spacing": null,
   "colors": {
     "brand": {

@@ -40,6 +40,12 @@
   "opacity": {
     "$meta": "[D] No opacity scale in the theme — recorded gap. Two colour tokens encode alpha directly (neutrals transparent-medium rgba(0,0,0,.25), transparent-light rgba(0,0,0,.05)) but that is colour, not an opacity scale. The tool exposes only --ds-opacity-disabled (0.5) and never uses opacity to mute prominence — muting uses a real --ds-fg-muted colour (#5f5f5f, 6.39:1 AA; contrast.mjs)."
   },
+  "breakpoints": {
+    "$meta": "[D] No `screens` key in the Acuity Tailwind theme, and ZERO responsive prefixes (sm:/md:/lg:/xl:) compiled across the 87 islands — recorded gap. tailwind.config.js:13-17 spreads the theme with empty extend:{}, so Tailwind's stock breakpoints (640/768/1024/1280) remain available but are never used; the product is effectively single-breakpoint desktop. The tool exposes a STRUCTURAL :root reference scale (sm 640 / md 768 / lg 1024 / xl 1280), not Acuity tokens. CSS custom properties cannot drive @media conditions, so these are reference values only. Source: tailwind_acuity_theme.js (no screens) + tailwind.config.js:13-17 + zero island responsive prefixes. See reconciliation §4h."
+  },
+  "grid": {
+    "$meta": "[D] No `container` / `maxWidth` / `gridTemplateColumns` / grid `gap` customization in the theme; no grid utility emitted in tailwind_final.css — recorded gap. Layout is flexbox (ds-flex ×91) + the spacing gap scale (0/4/8/12/16/24/48px), NOT a column grid. The tool's structural grid tokens (12 cols / 1rem gutter / 75rem≈1200px container) are reference/tool defaults, never Acuity tokens; the 1rem default gutter coincides with the real spacing-4 (16px) step. Source: tailwind_acuity_theme.js:2-11 (spacing), tailwind_final.css (no grid). See reconciliation §4h."
+  },
   "colors": {
     "acuity-blue":      { "darkest": "#161E4A", "dark": "#253170", "DEFAULT": "#364699", "light": "#7779B8", "lighter": "#B0B1D7", "lightest": "#E9ECF6" },
     "acuity-green":     { "darkest": "#00514B", "dark": "#007A72", "DEFAULT": "#00A59B", "light": "#70C0B8", "lighter": "#B0DBD6", "lightest": "#EBF6F5" },

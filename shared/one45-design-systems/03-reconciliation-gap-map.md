@@ -314,6 +314,40 @@ fabricated and passed off as a system's real icons.
 
 ---
 
+## 4h. Layout & grid slice — breakpoints / grid foundation enshrined 2026-06-23 [D]
+
+Seventh slice. Closes the **last** open foundation row from the handoff checklist
+(breakpoints / grid & layout). No component or prototype — token + documentation work,
+browser-verified across acuity / one45-legacy / lowfi (no regression; the new tokens have no
+visible consumer yet, by design). With this row the foundation token layer is complete.
+
+**New findings from this slice:**
+
+| Finding | Evidence |
+|---|---|
+| **Neither system authored a responsive breakpoint scale** — Acuity's Tailwind theme has no `screens` key (`tailwind.config.js` spreads it with empty `extend:{}`) and **zero** responsive prefixes (`sm:`/`md:`/`lg:`) compile across the 87 islands; legacy authors exactly **one** breakpoint, `768px` (adaptive-nav collapse) | `tailwind_acuity_theme.js` (no screens); island grep = 0; `themes/one45-responsive.scss:28,41` [D] |
+| **Both products are effectively single-breakpoint DESKTOP apps** — Acuity lays out with flexbox (`ds-flex` ×91) + the spacing gap scale, no column grid; legacy is Bootstrap-2 with a hard **`min-width: 1100px`** page floor (`.page-body.row-fluid`) — a fixed-desktop layout, not mobile-responsive | island flex usage; `themes/one45-responsive.scss:6` [D] |
+| **Legacy's grid is inherited BS2, never authored** — 12 columns, 20px gutter, 60px column unit, 940/1170px containers are Bootstrap-2 defaults; the legacy SCSS declares no `$grid-columns`/`$grid-gutter-width`/`$container-*` override | `bootstrap.css:149-150,170,203`, `bootstrap-responsive.css:524` [D] |
+| **Real legacy-authored layout values are component sizes, not a grid scale** — `$sidebar_width 250px`, nav `.span3` 220px, `$pageheaderheight 40px`, the 1100px page floor; documented, not promoted to shared `--ds-*` tokens (no component consumes them, no Acuity equivalent) | `_constants.scss:40,48`, `one45-responsive.scss:6,16` [D] |
+| **CSS custom properties cannot drive `@media` conditions** — so the breakpoint tokens (`--ds-bp-sm/-md/-lg/-xl`) are reference values for JS / container queries / `clamp()`, not a drop-in for `@media (min-width: var(...))`; the grid-column / gutter / container tokens DO drive `var()`-based `grid-template-columns` / `gap` / `max-width` | CSS spec; `tokens.css` comment [D] |
+
+**No new colour pair** — layout tokens are dimensions, not colours, so `scripts/contrast.mjs` is
+unchanged (the slice introduces zero new colours to compute).
+
+**Anatomy result [D] — layout is STRUCTURAL, the least-divergent foundation of all.** Neither
+system authored a responsive breakpoint/container/grid-column scale, so — exactly like
+motion / z-index / opacity (§4f) — the reference scale lives once in `:root` (bp 640/768/1024/1280;
+12 cols; 1rem gutter; 75rem container) and each system overrides only what it really renders
+(legacy: the BS2 20px gutter, flagged framework default). These tokens are documentary now,
+consumed by the future **Containers & layout** component slice (stack / grid / divider / panel) —
+the same defined-now-read-later pattern as the `radius`/`shadow` `-sm`/`-lg` steps. Rule honoured:
+no responsive system fabricated where neither product has one; both gaps recorded, the real legacy
+768px breakpoint and 1100px desktop floor surfaced as facts. **The foundation token layer is now
+complete** (colour / type / spacing / radius / shadow / motion / z-index / opacity / iconography /
+breakpoints-grid all enshrined or recorded as a sourced gap).
+
+---
+
 ## 5. Convergence read [I]
 
 The divergence between the two systems is **largely token/brand at the API level** —

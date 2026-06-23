@@ -66,6 +66,29 @@
   --ds-icon-size-md: 1.25rem;
   --ds-iconbtn-size: 2rem;
 
+  /* ---- layout & grid foundation (the Breakpoints / grid & layout slice) ----
+   * NEITHER One45 system authored a responsive breakpoint, container, or grid-column
+   * token. Acuity's Tailwind theme defines no `screens` / `container` /
+   * `gridTemplateColumns` key (tailwind.config.js spreads it with empty extend:{}), and the
+   * islands compile ZERO responsive prefixes — flexbox + the spacing gap scale do all layout.
+   * Legacy is Bootstrap 2 and inherits the BS2 grid/breakpoints without overriding them,
+   * authoring only ONE real breakpoint (768px nav collapse) + a 1100px desktop page floor.
+   * Both products are effectively single-breakpoint DESKTOP apps. So, like motion / z-index /
+   * opacity (03 §4f), this layer is STRUCTURAL: a reference scale lives once here, and each
+   * system overrides only the few values it really authored (legacy: the BS2 20px gutter).
+   * NOTE: CSS custom properties CANNOT be used in @media query conditions, so these breakpoint
+   * tokens are reference values (for JS, container queries, or clamp()), NOT a drop-in for
+   * `@media (min-width: var(--ds-bp-md))`. The grid-column / gutter / container tokens DO drive
+   * var()-based grid-template-columns / gap / max-width — the future Containers & layout
+   * component slice (stack / grid / divider / panel) reads them. See 01/02 §Layout, 03 §4h. */
+  --ds-bp-sm: 640px; /* reference scale — the common Tailwind/BS breakpoint set; NOT One45-authored */
+  --ds-bp-md: 768px; /* tablet — coincides with legacy's one real authored breakpoint */
+  --ds-bp-lg: 1024px; /* desktop */
+  --ds-bp-xl: 1280px; /* wide */
+  --ds-grid-columns: 12; /* de-facto column count (legacy BS2 grid; Acuity uses flex, not a grid) */
+  --ds-grid-gutter: 1rem; /* default grid/flex gap; legacy overrides to its real BS2 20px */
+  --ds-container-max: 75rem; /* reference page content max-width (1200px); no One45 system authors one */
+
   /* ---- form-control foundation (the Inputs & controls slice) ----
    * Generic fallbacks; each system overrides below from its real, sourced values.
    * See shared/one45-design-systems/01-acuity-modern.md / 02-one45-legacy.md L "Inputs". */
@@ -253,12 +276,21 @@
    * is real (add / edit / delete / checkCircle / warning / …) but the glyph ENGINE (SVG) is not
    * vendored (artwork asset gap). The rendered px are now [R]-CONFIRMED on the live DS gallery
    * (/test/designSystem, 2026-06-23, signed in, getComputedStyle on the rendered <svg>): the DS
-   * Icon renders small 16px / medium 24px, coloured by ds-text-*/ds-stroke-* utility classes
+   * Icon renders small 16px / medium 24px, coloured by ds-text-* / ds-stroke-* utility classes
    * (currentColor here). The DS IconButton box is 38×38px (10px pad, 4px ds-rounded, transparent
    * bg, neutrals-black glyph). */
   --ds-icon-size-sm: 16px; /* small — [R] /test/designSystem 2026-06-23 */
   --ds-icon-size-md: 24px; /* medium — [R] /test/designSystem 2026-06-23 */
   --ds-iconbtn-size: 38px; /* IconButton box — [R] 38×38 (pad 10px, radius 4px) */
+
+  /* Layout & grid — the Acuity theme authors NO breakpoint / container / grid token
+   * (tailwind.config.js spreads the theme with empty extend:{}; no `screens`/`container`/
+   * `gridTemplateColumns` key) and the islands compile ZERO responsive prefixes (sm:/md:/lg:) —
+   * layout is flexbox (ds-flex ×91) + the spacing gap scale (0/4/8/12/16/24/48px), not a column
+   * grid. So Acuity overrides NONE of the structural layout tokens above; the reference
+   * breakpoint scale + 12-col grid are framework/tool defaults, never Acuity tokens (recorded
+   * gap — 01 §Layout, 03 §4h). The structural --ds-grid-gutter 1rem coincides with the real
+   * spacing-4 (16px) step. [D] tailwind_acuity_theme.js (no screens/container/grid keys). */
 }
 
 /* one45 legacy — older brand from _colors.scss:1-35 + new_branding.scss.
@@ -391,6 +423,18 @@
   --ds-icon-size-sm: 0.9rem; /* FA default [D] fontawesome.scss:16 */
   --ds-icon-size-md: 1.5rem; /* alert icon size [D] new_branding.scss:86 */
   --ds-iconbtn-size: 25px; /* .icon-button [D] themes/one45.css:1279 */
+
+  /* Layout & grid — legacy is Bootstrap 2 (v2.0.2, web/vendor/twitterbootstrap2/). It authors
+   * exactly ONE breakpoint — 768px, the adaptive-nav show/collapse (one45-responsive.scss:28,41)
+   * — which coincides with the structural --ds-bp-md above, plus a real desktop page floor
+   * min-width 1100px (.page-body.row-fluid, one45-responsive.scss:6) and component sizes
+   * ($sidebar_width 250px _constants.scss:40; nav .span3 220px; $pageheaderheight 40px). The
+   * 12-col grid, gutter, and 940/1170px containers are inherited BS2 defaults, NEVER overridden
+   * in the legacy SCSS (flagged framework defaults, not legacy tokens — recorded gap, 02 §Layout,
+   * 03 §4h). So legacy carries only its real rendered grid gutter; columns/container/breakpoints
+   * stay structural. Both the breakpoint coincidence and the page floor are layout facts, not
+   * shared-scale tokens, so they live in the docs, not as dead per-system vars. */
+  --ds-grid-gutter: 20px; /* BS2 grid gutter [framework default] bootstrap.css:149-150 — flagged */
 }
 
 /* Low-fi — Balsamiq-style sketch. Greyscale, dashed, marker font, no shadow,
@@ -487,4 +531,8 @@
   --ds-icon-size-sm: 1rem;
   --ds-icon-size-md: 1.4rem;
   --ds-iconbtn-size: 2rem;
+
+  /* Layout & grid — lowfi is not a status-quo system, so it overrides no layout token; it falls
+   * through to the structural reference scale (breakpoints / 12-col grid / 1rem gutter). A
+   * wireframe asserts no responsive brand. */
 }

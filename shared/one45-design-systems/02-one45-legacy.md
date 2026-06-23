@@ -346,6 +346,39 @@ in both systems — the fidelity gap is the assets, recorded honestly, not fabri
 
 ---
 
+## Layout & grid — breakpoints / grid foundation [D]
+
+Seventh slice (2026-06-23). Closes the **last** open foundation category (breakpoints / grid &
+layout). No new component or prototype — token + documentation work, browser-verified across all
+three systems (no regression).
+
+**Sourcing result — legacy is Bootstrap 2 (v2.0.2), and inherits its grid/breakpoints rather
+than authoring them** [D] (`web/vendor/twitterbootstrap2/`; legacy SCSS under
+`PageBundle/.../css/src/`). The one breakpoint the legacy skin authors itself is `768px`; the
+grid is the stock BS2 940-grid, never overridden.
+
+| Category | Legacy reality | Cite |
+|---|---|---|
+| Breakpoints | authors **one** — `min/max-width: 768px` (adaptive-nav show/collapse); BS2 default tiers `480/767/979/980/1200` inherited, not overridden | `themes/one45-responsive.scss:28,41` [D] |
+| Page floor | a hard **`min-width: 1100px`** on `.page-body.row-fluid` — legacy is a **fixed-desktop** layout, not mobile-responsive | `one45-responsive.scss:6` [D] |
+| Grid columns / gutter | BS2 default: **12 columns** (`.span1`-`.span12`), **20px gutter**, 60px column unit; legacy SCSS declares no `$grid-columns`/`$grid-gutter-width` override | `bootstrap.css:149-150,170,203` [D] |
+| Containers | BS2 `940px` base / `1170px` large; no legacy `$container-*` override | `bootstrap.css:170`, `bootstrap-responsive.css:524` [D] |
+| Component sizes (real, authored) | `$sidebar_width 250px`, nav `.span3` 220px, `$pageheaderheight 40px` | `_constants.scss:40,48`, `one45-responsive.scss:16` [D] |
+
+In the tool, legacy carries only its real rendered grid gutter (`--ds-grid-gutter: 20px`, the BS2
+value, flagged framework default); columns, container, and the breakpoint scale stay structural
+(`:root`), with `--ds-bp-md 768px` coinciding with legacy's one authored breakpoint. The real
+authored component sizes (sidebar 250px, page floor 1100px) are layout **facts** recorded here,
+not promoted to shared `--ds-*` tokens — no component consumes them and Acuity has no equivalent,
+so they would be dead per-system vars.
+
+**Two-speed confirmation:** as elsewhere (buttons converged to Acuity while inputs did not;
+buttons carry a real radius while no motion scale grew), the legacy layout is BS2-inherited with
+one bespoke breakpoint and a desktop floor bolted on — never a real responsive grid system. The
+gap is recorded, not invented. (Reconciliation map §4h.)
+
+---
+
 ## Carry-forward verdict
 
 The legacy brand is a **migration source, not a target** — it is being replaced by

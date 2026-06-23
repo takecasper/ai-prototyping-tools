@@ -436,6 +436,43 @@ scale, and colour rule are faithful. (Reconciliation map §4g.)
 
 ---
 
+## Layout & grid — breakpoints / grid foundation [D]
+
+Seventh slice (2026-06-23). Closes the **last** open foundation category (breakpoints / grid &
+layout). No new component or prototype — token + documentation work, browser-verified across all
+three systems (no regression; no visible consumer yet, by design).
+
+**Sourcing result — Acuity authors NO layout foundation token** [D]
+(`tailwind_acuity_theme.js`, fully read; `tailwind.config.js:13-17`): no `screens`, no
+`container`, no `maxWidth`, no `gridTemplateColumns`, no grid `gap` key. The config spreads the
+theme at the `theme` root with an empty `extend: {}`, so for each omitted key Tailwind's stock
+default remains — but the compiled `tailwind_final.css` contains **no `@media` rules and no grid
+utilities**, and a grep of all 87 React islands finds **zero** responsive prefixes
+(`sm:`/`md:`/`lg:`/`xl:`). Layout is done entirely with **flexbox** (`ds-flex` ×91, plus
+`ds-flex-row`/`-col`/`-items-*`/`-justify-*`/`-gap-*`) over the spacing gap scale
+(0/4/8/12/16/24/48px) — there is no column grid and no responsive variant in the product at all.
+
+| Category | Acuity reality | Tool token (`tokens.css`) |
+|---|---|---|
+| Breakpoints | no `screens` key; **zero** responsive prefixes compiled — single-breakpoint desktop | structural `:root` reference scale `sm 640 / md 768 / lg 1024 / xl 1280` — framework/tool defaults, never Acuity tokens |
+| Container / max-width | no `container`/`maxWidth` key | structural `--ds-container-max 75rem` (≈1200px) — reference, no Acuity equivalent |
+| Grid columns / gutter | no `gridTemplateColumns`; layout is flexbox + the spacing gap scale | structural `12 cols` / `--ds-grid-gutter 1rem` — the 1rem gutter coincides with the real spacing-4 (16px) step |
+
+**Reference-only caveat:** CSS custom properties **cannot** be used in `@media` query conditions,
+so the breakpoint tokens are reference values (for JS, container queries, or `clamp()`), not a
+drop-in for `@media (min-width: var(--ds-bp-md))`. The grid-column / gutter / container tokens DO
+drive `var()`-based `grid-template-columns` / `gap` / `max-width`.
+
+**Anatomy note:** layout is the **least-divergent** foundation — neither system authored a
+responsive breakpoint/container/grid scale, so it is **structural** (defined once in `:root`,
+not re-skinned), the same situation as motion/z-index/opacity (§Foundation completion). These
+tokens are documentary now; the future Containers & layout component slice (stack/grid/divider/
+panel) reads them, like the `radius`/`shadow` `-sm`/`-lg` steps. No fabrication: where Acuity
+defines nothing, the gap is recorded, the reference scale flagged as a tool default.
+(Reconciliation map §4h.)
+
+---
+
 ## Carry-forward verdict
 
 Carry the **token set verbatim, collapse the 4× duplication to one source**. Add
