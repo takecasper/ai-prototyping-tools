@@ -147,6 +147,12 @@
       "render": "text neutrals-darker #333 [R]; header weight 700, no fill [R]; header rule #666 [R marksheet]; row divider neutrals-light #B8B8B8 (--ds-border-color); hover neutrals-lighter #F5F5F5; selected acuity-blue-lightest #E9ECF6; font 14px; radius 0; sort caret = token-coloured text glyph (PNG/FA arrow simplified)",
       "contrast": "text #333/white 12.63 (AAA); header rule #666/white 5.74 (UI pass); row divider #B8B8B8/white 1.98 (fails 3:1 — thin decorative divider, flagged). contrast.mjs 'Acuity Table'."
     },
-    "gaps": "The Acuity DS owns no dedicated table — its tables are app-level react-table over Bootstrap. The rest of the data-display group (list, accordion, avatar, tree, timeline, stat/metric, code block, key-value) is a FOLLOW-UP slice, not enshrined here. Toast/tag-chip/empty-state remain both-systems gaps (the Pagination rule)."
+    "card": {
+      "$meta": "[R] 2026-06-23 (signed in, getComputedStyle on /test/designSystem). Card IS a real first-party Acuity DS component (in the consumed-export set), used with title/content/footer/iconName in genuine med-ed domains (domain_demo_person_info.jsx:24-90 person info / group rosters / current-user; designSystemTest/main.jsx:307-334). The tool's stub Card was FORMALISED to this API (added iconName + footer). Reconciliation map §4j.",
+      "api": ["title", "iconName", "children(content)", "footer"],
+      "render": "headerless white flex-column: ds-rounded-lg ds-border ds-border-neutrals-light ds-p-5 -> border 1px neutrals-light #B8B8B8, radius 8px, padding 24px, ~24px inter-block gap, NO box-shadow; header row = 24px icon (neutrals-darker #333) + Lato 20px/weight 600 title #333 (gap 12px, items-center); footer holds the action Buttons. radius/shadow are RENDERED values (the Acuity set tokenizes neither).",
+      "contrast": "title #333/white 12.63 (AAA); border neutrals-light #B8B8B8/white 1.98 (fails 3:1 — thin decorative border, flagged, the real token). contrast.mjs 'Acuity Card'."
+    },
+    "gaps": "The Acuity DS owns no dedicated table — its tables are app-level react-table over Bootstrap. Card IS first-party (formalised §4j). The rest of the data-display group (list, accordion, avatar, tree, timeline, stat/metric, code block, key-value) is a FOLLOW-UP slice, not enshrined here. Toast/tag-chip/empty-state remain both-systems gaps (the Pagination rule)."
   }
 }

@@ -210,3 +210,19 @@ row("cell/header text #444 / white", "#444444", WHITE);
 row("header rule #999 / white", "#999999", WHITE, "(border 3:1 UI)");
 row("cell border #BBB / white", "#BBBBBB", WHITE, "(border — fails 3:1, flagged)");
 row("hover #FEFEFE / white", "#FEFEFE", WHITE, "(decorative fill — not text)");
+
+// ── Data display slice (2026-06-23) — Card (formalised). Acuity values are [R] from staging
+// (signed in, getComputedStyle on /test/designSystem: the DS Card is a headerless white panel,
+// neutrals-light #B8B8B8 1px border, neutrals-darker #333 title). Legacy values are [D] — the
+// custom skin ships no bespoke card, so the tool models the legacy panel idiom ($one45_black
+// title on the #F5F5F5 grey header band over the white body, $grey #D1D1D9 border). Title TEXT
+// is judged on 4.5; the card border + header rule on the 3:1 UI threshold (1.4.11); the header
+// band vs panel is a decorative surface, reported for completeness, not held to a text threshold.
+section("Acuity Card [R] — title + border on the white panel (headerless DS Card)");
+row("card title neutrals-darker / white", "#333333", WHITE, "(20px/600 title on #fff panel)");
+row("card border neutrals-light / white", "#B8B8B8", WHITE, "(1px border — fails 3:1, flagged)");
+section("one45 legacy Card [D] — title on the grey header band, body on white");
+row("card title $one45_black / band #F5F5F5", "#27304B", "#F5F5F5", "(title on the grey header band)");
+row("card title $one45_black / white", "#27304B", WHITE, "(same title over the white body)");
+row("card border $grey #D1D1D9 / white", "#D1D1D9", WHITE, "(1px border — fails 3:1, flagged)");
+row("header band #F5F5F5 / panel #FFFFFF", "#F5F5F5", WHITE, "(decorative band vs panel — not text)");

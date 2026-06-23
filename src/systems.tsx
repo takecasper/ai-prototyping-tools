@@ -98,7 +98,7 @@ export interface CanonicalDef {
 // `category`) and it appears in every system's gallery automatically.
 export const CANONICAL: CanonicalDef[] = [
   { name: "Button", label: "Button", category: "Actions & containers", description: "Primary action control", props: "children, variant?, onClick", notes: "variant: primary (default) / secondary / danger / inline" },
-  { name: "Card", label: "Card", category: "Actions & containers", description: "Content container with optional title", props: "title?, children" },
+  { name: "Card", label: "Card", category: "Actions & containers", description: "Content container (icon, title, body, footer actions)", props: "title?, iconName?, children, footer?", notes: "real DS Card surface — acuity: headerless white card (icon + title row, body, footer); legacy: a grey header band over the body; footer holds the action Buttons; iconName renders the per-system token glyph stand-in (real artwork is a recorded asset gap)" },
   { name: "IconButton", label: "Icon button", category: "Actions & containers", description: "Icon-only button (real DS iconName/iconSize API)", props: "iconName, iconSize?, label, onClick?, variant?, disabled?", notes: "iconSize: small / medium; label is the accessible name; native in all three; the glyph is a token-sized stand-in (real artwork is a recorded asset gap)" },
   { name: "Badge", label: "Badge", category: "Feedback & status", description: "Small inline status label", props: "children" },
   { name: "Alert", label: "Alert", category: "Feedback & status", description: "Inline message banner (info, success, warning, error)", props: "title?, children, variant?", notes: "variant: info (default) / success / warning / error; native in acuity + legacy (the bridge fills lowfi)" },
@@ -137,10 +137,38 @@ const Button: Skin = ({ children, variant, ...rest }) => {
   );
 };
 
-const Card: Skin = ({ children, title }) => (
+// Card — formalised to the real Acuity DS Card API (the Data display checklist's
+// "card (formalise)" item; it lives in the Actions & containers gallery slice, a
+// container). Sourced [D] from the islands (the DS Card is consumed with
+// title/content/footer/iconName — domain_demo_person_info.jsx:24-90 real med-ed
+// person/group panels; designSystemTest/main.jsx:307-334 demo) + [R] 2026-06-23
+// (getComputedStyle on /test/designSystem, signed in): the Acuity DS Card is a
+// HEADERLESS white flex-column — border 1px neutrals-light #B8B8B8, radius 8px
+// (ds-rounded-lg), NO shadow, padding 24px, ~24px inter-block gap; the header row is a
+// 24px icon + a Lato 20px/600/#333 (neutrals-darker) title (gap 12px, items-center);
+// the footer holds action Button(s). Legacy [D]: the custom skin ships NO bespoke card
+// — cards render via vendored Bootstrap + the real .dashboard-widget tile
+// (one45.scss:657-715: 1px #CCC border, grey h3 title band) and the bootstrap/modal
+// grey-band idiom (#f5f5f5 fill / #eee rule, _bootstrap.scss). So Card is native-both
+// "different mechanism, same surface" (like Alert), and the look is a pure token swap
+// EXCEPT legacy's full-bleed grey header band, the one per-system structural flourish
+// (app.css) — acuity + lowfi stay headerless. The icon is the per-system token glyph
+// stand-in (artwork asset gap, like Icon/Modal). Divergence axis = INVENTORY (Acuity
+// owns a real Card; legacy borrows bootstrap/tile). See 01/02 L "Data display", 03 §4j.
+const Card: Skin = ({ children, title, iconName, footer }) => (
   <div className="sk-card">
-    {title ? <div className="sk-card__title">{title}</div> : null}
+    {title || iconName ? (
+      <div className="sk-card__head">
+        {iconName ? (
+          <span className="sk-icon sk-icon--brand" aria-hidden="true">
+            {String(iconName).charAt(0).toUpperCase()}
+          </span>
+        ) : null}
+        {title ? <div className="sk-card__title">{String(title)}</div> : null}
+      </div>
+    ) : null}
     <div className="sk-card__body">{children}</div>
+    {footer ? <div className="sk-card__foot">{footer}</div> : null}
   </div>
 );
 

@@ -516,6 +516,42 @@ while legacy owns a real `_tables.scss` skin. Both render a genuine status quo, 
 in all three — no fabrication, no bridge. The rest of the data-display group (list, accordion,
 avatar, tree, timeline, stat, code block, key-value) is a follow-up slice. (Reconciliation map §4i.)
 
+## Data display — enshrined slice (Card, formalised) [R][D]
+
+Second data-display piece (2026-06-23). The tool's stub `Card` (title + body only) was
+**formalised** to the real Acuity DS Card API. New props: **`iconName`** + **`footer`** (kept
+`title` + children). Browser-verified across acuity / one45-legacy / lowfi; pattern prototype
+`src/prototypes/learner-profile/` (a learner directory `Table` → a profile built from
+icon/title/footer Cards, the real DS person-panel shape).
+
+**Inventory [D]** — Card **is** a real first-party Acuity DS component (it is in the islands'
+consumed-export set), used with `title` / `content` / `footer` / `iconName` in genuine med-ed
+domains (`domain_demo_person_info.jsx:24-90` — a person's identity / group rosters /
+current-user panels) and the demo (`designSystemTest/main.jsx:307-334`).
+
+**Layer 3 — rendered reality** [R] (signed in, `getComputedStyle` on `/test/designSystem`,
+2026-06-23): the DS Card is a **headerless** white flex-column.
+
+| Element | Real rendered values |
+|---|---|
+| Outer | `ds-rounded-lg ds-border ds-border-neutrals-light ds-p-5` → border 1px **`#B8B8B8`**, radius **8px**, padding **24px**, ~24px inter-block gap, **no box-shadow** |
+| Header | a 24px icon (neutrals-darker `#333`) + a Lato **20px / weight 600** title, gap 12px, items-center — **no header band** (icon + title sit on the white panel) |
+| Footer | holds the action `Button`(s) |
+
+**Tokens enshrined** (`--ds-card-*`): bg neutrals-white `#fff`, border neutrals-light `#B8B8B8`
+(real token, flagged 1.4.11), radius 8px, **shadow none**, pad 24px, gap 24px, title neutrals-darker
+`#333` / 20px / 600, header band transparent (headerless). radius/shadow are **rendered** values,
+not theme-file tokens (the Acuity set tokenizes neither). **Computed contrast** (`contrast.mjs`,
+"Acuity Card"): title `#333`/white **12.63** (AAA); 1px border `#B8B8B8`/white **1.98** (fails 3:1 —
+thin decorative border, flagged, the real token).
+
+**Anatomy result — Card survives the API test and is a near-pure token swap.** acuity (headerless)
+and lowfi (sketch) re-skin purely by tokens; only legacy adds **one** per-system structural flourish
+— a full-bleed grey header band (app.css), like the legacy box-tab override. Divergence axis is
+again **inventory**: Acuity owns a real Card, legacy borrows Bootstrap + the `.dashboard-widget`
+tile, so Card is native-both ("different mechanism, same surface", like Alert) — no bridge.
+(Reconciliation map §4j.)
+
 ---
 
 ## Carry-forward verdict

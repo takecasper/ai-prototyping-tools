@@ -87,9 +87,21 @@ function TableDemo({ system }: { system: SystemId }) {
 
 export const SPECIMENS: Partial<Record<CanonicalName, Specimen>> = {
   Button: { children: "Save changes" },
+  // Card formalised to the real DS surface: icon + title header, body, footer action.
+  // acuity renders headerless (icon + title on white); legacy adds a grey header band.
   Card: (system) => (
-    <Canonical name="Card" system={system} title="Card title">
-      <p className="proto__text">Body content inside a card container.</p>
+    <Canonical
+      name="Card"
+      system={system}
+      iconName="user"
+      title="Learner profile"
+      footer={
+        <Canonical name="Button" system={system} variant="secondary">
+          View details
+        </Canonical>
+      }
+    >
+      <p className="proto__text">Body content inside a card, with an icon, a title, and a footer action.</p>
     </Canonical>
   ),
   Badge: { children: "New" },

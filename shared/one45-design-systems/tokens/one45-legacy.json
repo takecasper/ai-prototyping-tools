@@ -170,6 +170,12 @@
       "contrast": "text #444/white 9.74 (AAA); header rule #999/white 2.85 (FAILS 3:1 — add to legacy fix list, same class as the #DDD input + #AAA tab greys); cell border #BBB/white 1.92 (fails, thin decorative). contrast.mjs 'legacy Table'.",
       "instances": "table.standard (records.html.twig importer/eDossier), report-tabular DataTables grids (_base_tabular_report.html.twig, grades_marks.html.twig 'marksheet'), rotation listing"
     },
-    "gaps": "No CSS `marksheet` class exists (the colloquial marksheet renders via the generic report-tabular/DataTables skin). No position:sticky header. List/accordion/avatar/tree/timeline/stat/code-block/key-value = FOLLOW-UP slice. Tag/chip/empty-state/toast remain both-systems gaps."
+    "card": {
+      "$meta": "[D] legacy ships NO bespoke card component. Real card surfaces are (a) vendored Bootstrap panel/modal and (b) the real .dashboard-widget tile (themes/one45.scss:657-715: li 1px #CCC border, grey h3 title band #CCC, content #000 16px); a real React island uses react-bootstrap Card (canvas_sync/.../syncJob.jsx). So legacy 'has' a card via a DIFFERENT MECHANISM (the mirror of shipping a real Alert but no Badge). [R] bespoke-card not separately captured (cards render via vendored Bootstrap, not a first-party component) — values modelled on the legacy panel idiom, a recorded gap. Reconciliation map §4j.",
+      "api": ["title", "iconName", "children(content)", "footer"],
+      "render": "the legacy panel/modal grey-band idiom (already enshrined for the legacy Modal, _bootstrap.scss): white body with a #F5F5F5 grey header band + #EEE bottom rule, $grey #D1D1D9 border, 4px base radius, $one45_black #27304B title at 16px (the .dashboard-widget h3 size). The grey band is full-bleed (the one per-system structural flourish, like the legacy box tabs).",
+      "contrast": "title #27304B on band #F5F5F5 11.96 (AAA) and on white body 13.04 (AAA); border $grey #D1D1D9/white 1.52 (fails 3:1 — thin decorative border, flagged, the real $grey). contrast.mjs 'legacy Card'."
+    },
+    "gaps": "No CSS `marksheet` class exists (the colloquial marksheet renders via the generic report-tabular/DataTables skin). No position:sticky header. Legacy ships no bespoke card (§4j — modelled on the panel idiom). List/accordion/avatar/tree/timeline/stat/code-block/key-value = FOLLOW-UP slice. Tag/chip/empty-state/toast remain both-systems gaps."
   }
 }

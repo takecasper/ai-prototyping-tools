@@ -101,6 +101,15 @@ minimal reality), while legacy carries the real `_tables.scss` skin — yet the 
 token swap** absorb both. The divergence is **inventory, not API/structure**; Table is native in
 all three, so it never bridges. See `shared/one45-design-systems/01`/`02` L "Data display" / §4i.
 
+**Card** (in the Actions & containers slice) is the data-display group's second piece, **formalised**
+to the real Acuity DS Card API — `title?`, `iconName?`, `children` (body), `footer?` (put the action
+`Button`s here). It is present in all three systems and never bridges: `acuity` renders a headerless
+white card (icon + title row on the panel — `[R]` border 1px, radius 8px, **no shadow**), `legacy`
+adds a full-bleed grey header band (the one per-system flourish, like the box tabs), `lowfi` is the
+dashed sketch. `iconName` renders the per-system token glyph stand-in (real artwork is a recorded
+asset gap, like Icon). The divergence is again **inventory** (Acuity owns a real Card; legacy borrows
+Bootstrap + the `.dashboard-widget` tile). See `shared/one45-design-systems/01`/`02` L "Data display" / §4j.
+
 The Feedback & status pieces:
 
 - **Modal** is present in all three systems — the structural API-survival test: one canonical

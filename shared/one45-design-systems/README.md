@@ -129,6 +129,16 @@ absorb both — the divergence is **inventory, not API/structure**, so Table is 
 (no bridge). `cohort-marksheet` prototype (filter / sort / bulk release). The legacy `#999` header
 rule fails 3:1 (2.85) — added to the legacy fix list. Gap map §4i.
 
+**Data display slice — Card (2026-06-23):** the stub `Card` **formalised** to the real Acuity DS
+Card API (added `iconName` + `footer`). `[R]` (signed-in `getComputedStyle` on `/test/designSystem`)
+found a **headerless** white card — 1px `#B8B8B8` border, 8px radius, **no shadow**, a 24px icon +
+Lato 20px/600 `#333` title row, footer action Buttons. Legacy ships **no bespoke card** (`[D]`: real
+surfaces are vendored Bootstrap + the `.dashboard-widget` tile), so the tool models it on the legacy
+panel grey-band idiom — native-both, "different mechanism, same surface" (like Alert), a near-pure
+token swap with one legacy grey-band flourish. `learner-profile` prototype (directory `Table` →
+icon/title/footer profile Cards). Card borders fail 1.4.11 (`#B8B8B8` 1.98 / `#D1D1D9` 1.52,
+flagged). Gap map §4j.
+
 **Honest scope:** between `acuity` and `one45-legacy`, most pieces are the **same
 component re-skinned by tokens**, not structurally different — so a single
 canonical API + token swap is the right model at the brand level (and the tool

@@ -30,6 +30,24 @@
   --ds-card-rotate: 0deg;
   --ds-letter-spacing: normal;
 
+  /* ---- card (the Data display slice — Card, formalised) ----
+   * Generic fallbacks; each system overrides below from its real, sourced values.
+   * The Acuity DS Card is headerless (icon + title row on the white panel); legacy
+   * renders a grey header band (-header-bg / -header-border), the one per-system
+   * structural flourish (a full-bleed band, app.css) — acuity + lowfi stay headerless,
+   * a pure token swap. See shared/one45-design-systems/01/02 L "Data display", 03 §4j. */
+  --ds-card-bg: var(--ds-bg);
+  --ds-card-border: var(--ds-border-color);
+  --ds-card-radius: var(--ds-radius);
+  --ds-card-shadow: var(--ds-shadow);
+  --ds-card-pad: 1.25rem;
+  --ds-card-gap: 1rem; /* between header / body / footer */
+  --ds-card-title-color: var(--ds-fg);
+  --ds-card-title-size: 1.15rem;
+  --ds-card-title-weight: 700;
+  --ds-card-header-bg: transparent; /* headerless by default */
+  --ds-card-header-border: transparent;
+
   /* ---- foundation scales (radii / elevation / motion / z-index / opacity) ----
    * Completes the token layer (Foundations slice, 2026-06-23). Generic tool
    * defaults; acuity + legacy override the radius + elevation steps from their
@@ -201,6 +219,27 @@
   --ds-card-rotate: 0deg;
   --ds-letter-spacing: normal;
 
+  /* Card — [R] 2026-06-23 (signed in, getComputedStyle on /test/designSystem): the
+   * Acuity DS Card is a HEADERLESS white flex-column. Outer ds-rounded-lg ds-border
+   * ds-border-neutrals-light ds-p-5 → border 1px neutrals-light #B8B8B8, radius 8px,
+   * padding 24px, ~24px inter-block gap, NO box-shadow. Header row: a 24px icon
+   * (neutrals-darker #333) + a Lato 20px / weight 600 title in neutrals-darker #333,
+   * gap 12px, items-center. There is NO header band — icon + title sit on the white
+   * panel (so -header-bg / -header-border stay transparent). The neutrals-light border
+   * fails 1.4.11 (1.98:1) but is the real token, flagged. radius/shadow are the real
+   * RENDERED values, not theme-file tokens (the Acuity set tokenizes neither). */
+  --ds-card-bg: #ffffff; /* neutrals-white [R] */
+  --ds-card-border: #b8b8b8; /* neutrals-light [R] — real token; 1px border fails 1.4.11 (1.98), flagged */
+  --ds-card-radius: 8px; /* ds-rounded-lg [R] */
+  --ds-card-shadow: none; /* the DS Card carries no shadow [R] */
+  --ds-card-pad: 24px; /* ds-p-5 rendered 24px [R] */
+  --ds-card-gap: 24px; /* inter-block gap [R] */
+  --ds-card-title-color: #333333; /* neutrals-darker [R] */
+  --ds-card-title-size: 20px; /* ds-text-xl [R] */
+  --ds-card-title-weight: 600; /* ds-font-semibold [R] */
+  --ds-card-header-bg: transparent; /* headerless [R] */
+  --ds-card-header-border: transparent;
+
   /* Foundation scales — the Acuity theme defines NONE of radius / shadow / motion /
    * z-index / opacity (tailwind_acuity_theme.js has no borderRadius/boxShadow/
    * transition/zIndex/opacity key — [D]; the islands use exactly one radius class,
@@ -360,6 +399,29 @@
   --ds-shadow: 0 1px 2px rgba(39, 48, 75, 0.1);
   --ds-card-rotate: 0deg;
   --ds-letter-spacing: 0.4px; /* new_branding.scss body letter-spacing */
+
+  /* Card — [D] legacy skin. The legacy custom skin ships NO bespoke card component;
+   * real card surfaces come from (a) the vendored Bootstrap panel/modal and (b) the
+   * real .dashboard-widget tile (one45.scss:657-715: li border 1px #CCC, a grey h3
+   * title band #CCC, content text #000 16px). The tool models the legacy card on the
+   * legacy panel/modal grey-band idiom already enshrined (the Modal header band, _bootstrap.scss:
+   * bg #f5f5f5, 1px #eee rule, radius 4px base) over a white body with a #d1d1d9 ($grey)
+   * border — so a legacy card reads as a one45 panel: bordered, with a grey header band.
+   * The full-bleed band is the one per-system structural flourish (app.css), mirroring the
+   * legacy box-tab override. Title is $one45_black #27304B, 16px (the dashboard-widget h3 [D]).
+   * [R] not separately captured this slice (legacy cards render via vendored Bootstrap, not a
+   * first-party DS component) — values are [D]-sourced, the gap is recorded in 02 / 03 §4j. */
+  --ds-card-bg: #ffffff; /* panel body bg [D] */
+  --ds-card-border: #d1d1d9; /* $grey [D] */
+  --ds-card-radius: 4px; /* base legacy radius (--ds-radius) [D] */
+  --ds-card-shadow: 0 1px 2px rgba(39, 48, 75, 0.1); /* --ds-shadow legacy */
+  --ds-card-pad: 1rem; /* panel-body padding ~16px [D] _bootstrap.scss */
+  --ds-card-gap: 0.75rem;
+  --ds-card-title-color: #27304b; /* $one45_black [D] */
+  --ds-card-title-size: 1rem; /* dashboard-widget h3 16px [D] one45.scss:683 */
+  --ds-card-title-weight: 700;
+  --ds-card-header-bg: #f5f5f5; /* legacy panel/modal grey band [D] _bootstrap.scss */
+  --ds-card-header-border: #eeeeee; /* band bottom rule [D] _bootstrap.scss */
 
   /* Foundation scales — legacy carries real radii + shadows in its Bootstrap/SCSS
    * skin, but NO motion / z-index / opacity SCALE (only ad-hoc per-component values:
@@ -526,6 +588,21 @@
   --ds-badge-fg: #333333;
   --ds-shadow: none;
   --ds-card-rotate: -0.4deg;
+
+  /* Card — deliberate greyscale sketch. White panel, dashed border (via --ds-border-*),
+   * minimal radius, no shadow, the slight tilt. Headerless like Acuity — a wireframe
+   * doesn't assert a brand header band. */
+  --ds-card-bg: #ffffff;
+  --ds-card-border: #8a8a8a;
+  --ds-card-radius: 2px;
+  --ds-card-shadow: none;
+  --ds-card-pad: 1rem;
+  --ds-card-gap: 0.75rem;
+  --ds-card-title-color: #1a1a1a;
+  --ds-card-title-size: 1.15rem;
+  --ds-card-title-weight: 700;
+  --ds-card-header-bg: transparent;
+  --ds-card-header-border: transparent;
 
   /* Foundation scales — deliberate sketch. A wireframe doesn't animate or layer with
    * depth: motion is instant, elevation stays flat (--ds-shadow: none above), radii

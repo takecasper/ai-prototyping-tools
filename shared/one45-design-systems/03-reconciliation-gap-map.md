@@ -376,6 +376,35 @@ timeline, stat, code block, key-value) is a follow-up slice.
 
 ---
 
+## 4j. Data display slice — Card formalised 2026-06-23 [D][R]
+
+Sixth slice (second data-display piece). The tool's stub `Card` (title + body only) was
+**formalised** to the real Acuity DS Card API — new props **`iconName`** + **`footer`** (kept
+`title` + children). Native in all three systems, token-driven (`--ds-card-*`), lint-gate-clean,
+browser-verified across acuity / one45-legacy / lowfi (annotations on + off — Card never flagged);
+pattern prototype `src/prototypes/learner-profile/` (a learner directory `Table` → a profile built
+from icon/title/footer Cards, the real DS person-panel shape).
+
+**New findings from this slice:**
+
+| Finding | Evidence |
+|---|---|
+| **Card is a real first-party Acuity DS component** — consumed with `title`/`content`/`footer`/`iconName` in genuine med-ed domains (person info, group rosters, current-user panels) | island recovery [D] `domain_demo_person_info.jsx:24-90`, `designSystemTest/main.jsx:307-334` |
+| The DS Card is a **headerless white flex-column**: border 1px `#B8B8B8`, radius **8px**, padding 24px, ~24px gap, **no shadow**; header row = 24px icon + Lato **20px/600** `#333` title (gap 12px); footer holds the action Buttons | `/test/designSystem` `getComputedStyle` [R] 2026-06-23 |
+| **Legacy ships NO bespoke card** — real card surfaces are vendored Bootstrap + the real `.dashboard-widget` tile (1px `#CCC`, grey `h3` band, `#000` 16px); a real island uses react-bootstrap `Card` | `themes/one45.scss:657-715` [D]; `syncJob.jsx` [D] |
+| Card border greys **fail 1.4.11** — acuity neutrals-light `#B8B8B8` **1.98**, legacy `$grey #D1D1D9` **1.52** (thin decorative borders, flagged, both real tokens) | `contrast.mjs` |
+
+**Anatomy result [R] — Card survives the API test and is a near-pure token swap.** acuity
+(headerless) and lowfi (sketch) re-skin purely by tokens; **legacy adds one** per-system
+structural flourish — a full-bleed grey header band (app.css), like the legacy box-tab override.
+Divergence axis is again **inventory** (axis b): Acuity owns a real Card, legacy borrows Bootstrap +
+the `.dashboard-widget` tile, so Card is **native-both** ("different mechanism, same surface", like
+Alert) — no bridge, no fabrication. Legacy bespoke-card `[R]` was not separately captured (cards
+render via vendored Bootstrap, not a first-party component); the values are `[D]`-sourced from the
+panel idiom — a recorded gap.
+
+---
+
 ## 5. Convergence read [I]
 
 The divergence between the two systems is **largely token/brand at the API level** —
@@ -402,7 +431,10 @@ component. The Data display slice (§4i) then ran the long-predicted **data-grid
 and it passed**: one columns+rows+sort API absorbs both the Acuity react-table-v7 model and the
 legacy DataTables/`.report` grid as a **pure token swap**, no structural override. The divergence
 there is **inventory** (axis b — the Acuity DS owns no table component; legacy owns a real
-`_tables.scss` skin), not API or structure. The broader 7-system
+`_tables.scss` skin), not API or structure. **Card (§4j) repeats the pattern with the axes
+inverted**: Acuity owns a real first-party Card while legacy owns none (borrowing Bootstrap + the
+`.dashboard-widget` tile) — native-both inventory divergence, a near-pure token swap with the one
+legacy grey-band flourish (like the legacy box tabs). The broader 7-system
 reality (Semantic UI / Bootstrap 2 / jQuery-UI / webeval) **is** structurally
 divergent — but six of seven die in the rebuild, so the convergence target is
 Acuity, and this map is the list of what to fix in it first.

@@ -414,6 +414,34 @@ modern build). The values above are the documented **legacy-pole** reality, sour
 same handling as other legacy-only chrome. The canonical Table API + a pure token swap absorb this
 skin and the Acuity react-table model alike. (Reconciliation map §4i.)
 
+## Data display — enshrined slice (Card, formalised) [D]
+
+Second data-display piece (2026-06-23). The canonical `Card` was formalised (new `iconName` +
+`footer` props); pattern prototype `src/prototypes/learner-profile/`.
+
+**Inventory reality — legacy ships NO bespoke card** [D]. The custom one45 skin has no first-party
+card component; real card surfaces come from **(a)** the vendored Bootstrap panel/modal and **(b)**
+the real **`.dashboard-widget` tile** (`themes/one45.scss:657-715`: `li` 1px `#CCC` border, a grey
+`h3` title band `#CCC`, content text `#000` 16px). A real React island does reach for the
+react-bootstrap `Card` (`canvas_sync/.../syncJob.jsx`). So legacy "has" a card via a **different
+mechanism**, the mirror of how it ships a real Alert but no Badge.
+
+**Layer 1/2 — the legacy panel idiom the tool models** [D]. The legacy card is rendered on the
+**panel/modal grey-band idiom** already enshrined for the legacy Modal (`_bootstrap.scss`): a white
+body with a **`#F5F5F5` grey header band** + `#EEE` bottom rule, `#D1D1D9` (`$grey`) border, 4px
+base radius, `$one45_black #27304B` title at 16px (the `.dashboard-widget` `h3` size). The grey band
+is **full-bleed** (the one per-system structural flourish in app.css, like the legacy box tabs).
+
+**Computed contrast** (`contrast.mjs`, "legacy Card"): title `#27304B` on the band `#F5F5F5`
+**11.96** (AAA) and on the white body **13.04** (AAA); 1px border `#D1D1D9`/white **1.52** — fails
+3:1 (thin decorative border, flagged, the real `$grey`).
+
+**Intent-vs-reality [R]:** legacy cards render via vendored Bootstrap, not a first-party DS
+component, so bespoke-card `[R]` was **not separately captured** this slice — the values are
+`[D]`-sourced from the panel idiom + the `.dashboard-widget` tile, the recorded gap. The canonical
+Card API + a near-pure token swap (plus the one legacy band flourish) absorb this and the Acuity DS
+Card alike, so Card is native-both — no bridge. (Reconciliation map §4j.)
+
 ---
 
 ## Carry-forward verdict
