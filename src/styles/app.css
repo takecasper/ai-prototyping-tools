@@ -112,7 +112,7 @@ body {
 .sk-modal {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: var(--ds-z-modal);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -344,7 +344,7 @@ body {
   border-radius: 999px;
   background: var(--ds-input-border);
   border: var(--ds-border-width) var(--ds-border-style) var(--ds-input-border);
-  transition: background 0.12s;
+  transition: background var(--ds-motion-fast) var(--ds-motion-ease);
   flex: 0 0 auto;
 }
 .sk-switch input {
@@ -362,7 +362,7 @@ body {
   border-radius: 999px;
   background: var(--ds-bg);
   transform: translateY(-50%);
-  transition: left 0.12s;
+  transition: left var(--ds-motion-fast) var(--ds-motion-ease);
 }
 .sk-switch input:checked + .sk-switch__track {
   background: var(--ds-accent);
@@ -618,7 +618,7 @@ body {
 }
 .flow-row__meta {
   font-size: 0.8rem;
-  opacity: 0.7;
+  color: var(--ds-fg-muted);
 }
 
 /* ---- flow nav in the / panel ---- */

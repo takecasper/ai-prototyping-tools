@@ -346,6 +346,45 @@ accurately, neither flattened nor fabricated.
 
 ---
 
+## Foundation completion — radii / elevation / motion / z-index / opacity [D]
+
+Fifth slice (2026-06-23). Completes the token layer's remaining foundation categories.
+No new component or prototype — token + documentation work, browser-verified across all
+three systems (the existing skins re-read the tokens).
+
+**Sourcing result — the Acuity theme defines NONE of the five** [D]
+(`tailwind_acuity_theme.js`, fully read): no `borderRadius`, `boxShadow`,
+`transitionDuration`/`transitionTimingFunction`/`animation`/`keyframes`, `zIndex`, or
+`opacity` key. `tailwind.config.js` spreads the theme at the `theme` root with an **empty
+`extend: {}`**, so for every key the theme omits, Tailwind's built-in defaults remain.
+The islands use exactly one radius utility (`ds-rounded`, `designSystemTest/main.jsx:257`)
+which resolves to the framework default; zero shadow / z-index / opacity / duration
+utilities are used anywhere. So all five are an explicit **"design system defines none"
+gap** — the same situation as radius/shadow already flagged in Layer 1, now extended to
+the full foundation set.
+
+| Category | Acuity reality | Tool token (`tokens.css`) |
+|---|---|---|
+| Radius | no token; one `ds-rounded` = framework default; modal renders `ds-rounded-lg` **8px** [R] | scale `sm 4px` / `base 6px` / `lg 8px` — sm = Tailwind DEFAULT, lg = modal [R], all flagged non-tokens |
+| Elevation | no token; modal renders `ds-shadow-modal` **`0 2px 8px rgba(0,0,0,.12)`** [R] | `--ds-shadow-lg` = the modal value [R]; base/`sm` tool defaults |
+| Motion | no token → Tailwind default (~150ms, `cubic-bezier(.4,0,.2,1)`) | structural `:root` scale (`fast 120ms` / `base 200ms` / standard ease) — flagged |
+| z-index | no token, zero `ds-z-*` usages | shared structural stack (`1000 / 1040 / 1050 / 1060 / 1070`) |
+| Opacity | no scale; two colours encode alpha (`neutrals transparent-medium/-light`) — colour, not opacity | only `--ds-opacity-disabled 0.5`; muting uses a **colour** (`--ds-fg-muted`), never opacity |
+
+**Token-layer hygiene fix** [D]: replaced the lone `.flow-row__meta { opacity: 0.7 }`
+chrome rule with a real `--ds-fg-muted` colour (`#5f5f5f`, **6.39:1** on white, AA —
+`contrast.mjs` "Foundations" section), honouring the no-opacity-for-prominence rule. The
+new tokens have live consumers: the Modal layer reads `--ds-z-modal`; the Toggle track/knob
+read `--ds-motion-fast` + `--ds-motion-ease`. The `radius`/`shadow` `-sm`/`-lg` steps are the
+foundation the data-grid / dropdown / drawer slices will read instead of inventing values.
+
+**Anatomy note:** foundations are where the systems are *least* divergent — radius/elevation
+are per-brand (sourced or flagged), but motion, z-index, and opacity are **structural**, the
+same for every system, so they live once in `:root` and are not re-skinned. No fabrication:
+where Acuity defines nothing, the gap is recorded, not papered over with an invented token.
+
+---
+
 ## Carry-forward verdict
 
 Carry the **token set verbatim, collapse the 4× duplication to one source**. Add

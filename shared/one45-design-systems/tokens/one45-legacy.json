@@ -11,8 +11,27 @@
     "sans": ["Cabin", "Verdana", "Arial", "Helvetica", "sans-serif"]
   },
   "type": { "base": "16px", "bodyLetterSpacing": "0.4px", "note": "no named type scale; sizes are per-rule in new_branding.scss" },
-  "radius": null,
-  "shadow": null,
+  "radius": {
+    "$meta": "[D] No radius token in the legacy SCSS — values are literal per-component declarations (Bootstrap-era). Recorded as a scale below; panels/inputs/alerts/badges declare none → Bootstrap default 4px (flagged).",
+    "scale": { "sm": "3px", "base": "4px", "lg": "6px" },
+    "$sources": "btn 3px new_branding.scss:211 · navbar-inner 4px _bootstrap.scss:224 · datepicker 3px _forms.scss:78 · modal 6px _bootstrap.scss:110 · modal-header 3px 3px 0 0 _bootstrap.scss:130"
+  },
+  "shadow": {
+    "$meta": "[D] No shadow token — literal box-shadow declarations only.",
+    "navbar": "0 1px 4px rgba(0,0,0,.065) _bootstrap.scss:229",
+    "pageHeader": "0 0 3px rgba(34,36,38,.15) one45.scss:254",
+    "modal": "0 3px 7px rgba(0,0,0,.3) _bootstrap.scss:113",
+    "$gaps": "dropdowns/popovers/panels declare none → Bootstrap defaults (dropdown 0 6px 12px rgba(0,0,0,.175); popover 0 5px 10px rgba(0,0,0,.2); panel 0 1px 1px rgba(0,0,0,.05)) — flagged"
+  },
+  "motion": {
+    "$meta": "[D] The legacy stack declares essentially NO motion — the only transition in the core SCSS is `.btn.stateful { transition: unset }` (new_branding.scss:227, a removal). Buttons/inputs/fade render at Bootstrap defaults (.fade .15s linear; .modal.fade transform .3s ease-out) — flagged. Recorded gap: no motion scale; the tool's :root structural scale applies."
+  },
+  "zIndex": {
+    "$meta": "[D] No organized z-index stack in the legacy SCSS — ad-hoc values (5/10/500/1000/9999) + a custom #overlay scrim at 9999 (_bootstrap.scss:37). Only real DS-layer override: .popover 1000 !important (_bootstrap.scss:153). Dropdown/modal/backdrop/tooltip render at Bootstrap defaults (1000/1050/1040/1070) — flagged. Recorded gap; the tool's :root structural stack applies."
+  },
+  "opacity": {
+    "$meta": "[D] No opacity scale. Opacity used only for disabled/muted states (.suspended .5 _body.scss:92; disabled icons .3 _actions.scss:131) and the scrim: #overlay is a solid #cccccc element at opacity .5 (_overlay.scss:3-4) — a real opacity-based backdrop. The tool renders the scrim as an rgba colour per the no-opacity rule (flagged [I], see feedback.modal.scrimNote) and exposes only --ds-opacity-disabled (0.5)."
+  },
   "spacing": null,
   "colors": {
     "brand": {

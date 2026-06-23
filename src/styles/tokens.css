@@ -30,6 +30,30 @@
   --ds-card-rotate: 0deg;
   --ds-letter-spacing: normal;
 
+  /* ---- foundation scales (radii / elevation / motion / z-index / opacity) ----
+   * Completes the token layer (Foundations slice, 2026-06-23). Generic tool
+   * defaults; acuity + legacy override the radius + elevation steps from their
+   * real/sourced values below (or record an explicit gap). NEITHER One45 system
+   * defines a scale for motion, z-index, or opacity (sourced gap — see 01/02
+   * §Foundation, 03 §4f), so those are STRUCTURAL and live here once, not
+   * re-skinned per system. The radius/shadow -sm/-lg steps complete the scale the
+   * Acuity theme never tokenized; future component slices (data grid, dropdown,
+   * drawer) read them instead of inventing values. */
+  --ds-radius-sm: 4px;
+  --ds-radius-lg: 12px; /* --ds-radius (base, 8px) is defined above */
+  --ds-shadow-sm: var(--ds-shadow); /* resting elevation, tracks each system's base */
+  --ds-shadow-lg: 0 6px 16px rgba(0, 0, 0, 0.14); /* raised: modal/drawer/popover */
+  --ds-motion-fast: 120ms; /* control state changes (toggle, hover) */
+  --ds-motion: 200ms; /* default transition duration */
+  --ds-motion-ease: cubic-bezier(0.4, 0, 0.2, 1); /* standard easing */
+  --ds-z-dropdown: 1000; /* the de-facto Bootstrap layering stack (structural) */
+  --ds-z-overlay: 1040; /* scrim / backdrop */
+  --ds-z-modal: 1050;
+  --ds-z-popover: 1060;
+  --ds-z-tooltip: 1070;
+  --ds-opacity-disabled: 0.5; /* disabled state — the ONE sanctioned opacity use */
+  --ds-fg-muted: #5f5f5f; /* muted text via a REAL colour (never opacity — see css rule) */
+
   /* ---- form-control foundation (the Inputs & controls slice) ----
    * Generic fallbacks; each system overrides below from its real, sourced values.
    * See shared/one45-design-systems/01-acuity-modern.md / 02-one45-legacy.md L "Inputs". */
@@ -121,6 +145,17 @@
   --ds-shadow: 0 1px 2px rgba(0, 0, 0, 0.08); /* NOT an Acuity token — tool default */
   --ds-card-rotate: 0deg;
   --ds-letter-spacing: normal;
+
+  /* Foundation scales — the Acuity theme defines NONE of radius / shadow / motion /
+   * z-index / opacity (tailwind_acuity_theme.js has no borderRadius/boxShadow/
+   * transition/zIndex/opacity key — [D]; the islands use exactly one radius class,
+   * ds-rounded, which resolves to a Tailwind framework default). So these are
+   * framework or tool defaults, flagged, never Acuity tokens; motion/z-index/opacity
+   * fall through to the :root structural scale. The only REAL rendered Acuity
+   * radius/elevation are the modal's (--ds-modal-* below, [R]). */
+  --ds-radius-sm: 4px; /* Tailwind DEFAULT (rounded) — framework default, not an Acuity token */
+  --ds-radius-lg: 8px; /* the modal's rendered ds-rounded-lg [R] */
+  --ds-shadow-lg: 0 2px 8px rgba(0, 0, 0, 0.12); /* modal ds-shadow-modal [R] — the one real Acuity elevation */
 
   /* Form controls — [R] from the live DS gallery (/test/designSystem, 2026-06-22):
    * .ds-form-input / .ds-form-select render border 1px #949494, radius 4px, pad 8px,
@@ -223,6 +258,17 @@
   --ds-shadow: 0 1px 2px rgba(39, 48, 75, 0.1);
   --ds-card-rotate: 0deg;
   --ds-letter-spacing: 0.4px; /* new_branding.scss body letter-spacing */
+
+  /* Foundation scales — legacy carries real radii + shadows in its Bootstrap/SCSS
+   * skin, but NO motion / z-index / opacity SCALE (only ad-hoc per-component values:
+   * the #overlay scrim at opacity .5 (_overlay.scss:3-4), the .popover z-index 1000
+   * override (_bootstrap.scss:153); the rest renders at Bootstrap defaults). So
+   * radius + elevation are sourced here; motion/z-index/opacity fall through to the
+   * :root structural defaults — recorded gap (02 §Foundation, 03 §4f). */
+  --ds-radius-sm: 3px; /* .btn / datepicker [D] new_branding.scss:211, _forms.scss:78 */
+  --ds-radius-lg: 6px; /* .modal [D] _bootstrap.scss:110 */
+  --ds-shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.065); /* .navbar-inner [D] _bootstrap.scss:229 */
+  --ds-shadow-lg: 0 3px 7px rgba(0, 0, 0, 0.3); /* .modal [D] _bootstrap.scss:113 */
 
   /* Form controls — [D] from the legacy skin (_forms.scss:114-127, _constants.scss:24-28,
    * _bootstrap.scss:14-18). The legacy text-input/select/textarea base is the OLD grey
@@ -328,6 +374,17 @@
   --ds-badge-fg: #333333;
   --ds-shadow: none;
   --ds-card-rotate: -0.4deg;
+
+  /* Foundation scales — deliberate sketch. A wireframe doesn't animate or layer with
+   * depth: motion is instant, elevation stays flat (--ds-shadow: none above), radii
+   * minimal. z-index uses the shared structural :root scale (layering order is not a
+   * brand expression). opacity-disabled / fg-muted stay greyscale. */
+  --ds-radius-sm: 1px;
+  --ds-radius-lg: 3px;
+  --ds-shadow-lg: none;
+  --ds-motion-fast: 0s;
+  --ds-motion: 0s;
+  --ds-fg-muted: #6a6a6a;
 
   /* Form controls — deliberate greyscale sketch. Dashed borders come from
    * --ds-border-style; no brand colour, no validation hues (a wireframe doesn't

@@ -249,6 +249,32 @@ self-check (`gallery-selfcheck.ts`) now asserts this topology so a future regres
 
 ---
 
+## 4f. Foundation completion slice — enshrined 2026-06-23 [D]
+
+Fifth slice. Completes the token layer's remaining foundation categories (radii,
+elevation/shadow, motion, z-index, opacity). No component or prototype — token +
+documentation work, browser-verified across acuity / one45-legacy / lowfi (the existing
+skins re-read the tokens). Closes the open foundation rows from the handoff checklist.
+
+**New findings from this slice:**
+
+| Finding | Evidence |
+|---|---|
+| **The Acuity theme defines NONE of the five** (no `borderRadius`/`boxShadow`/`transition*`/`zIndex`/`opacity` key; `tailwind.config.js` `extend: {}` empty → Tailwind defaults render) — extends the Layer-1 radius/shadow gap to the full foundation set | `tailwind_acuity_theme.js` (full read); `main.jsx:257` [D] |
+| **Legacy has real radii + shadows but no motion/z-index/opacity scale** — `.btn` 3px / `.modal` 6px / modal `0 3px 7px rgba(0,0,0,.3)` / navbar `0 1px 4px rgba(0,0,0,.065)`; the only motion is `transition: unset`; z-index is ad-hoc (`.popover 1000` override, `#overlay` 9999); opacity only for disabled + the `#overlay` scrim | `_bootstrap.scss:110,113,153,229`, `new_branding.scss:211,227`, `_overlay.scss:3-4` [D] |
+| **Motion / z-index / opacity are STRUCTURAL, not per-brand** — neither system defines a scale, so they live once in `:root` (motion `120/200ms` + standard ease; z-stack `1000–1070`; `--ds-opacity-disabled 0.5`) and are not re-skinned per system | `tokens.css`; both theme sources [D] |
+| **Opacity-for-prominence nit fixed** — `.flow-row__meta { opacity: 0.7 }` replaced with a real `--ds-fg-muted` colour (`#5f5f5f` **6.39:1** AA on white; lowfi `#6a6a6a` 5.41:1) per the no-opacity rule; ratios computed | `contrast.mjs` "Foundations"; `app.css` |
+
+**Anatomy result [D] — foundations are the LEAST divergent layer.** Radius and elevation are
+per-brand (sourced for legacy; framework/tool defaults flagged for Acuity, which tokenizes
+neither), but motion, z-index, and opacity are structural and identical across systems — so
+they are defined once, not bridged or re-skinned. The new `radius`/`shadow` `-sm`/`-lg` steps
+are the foundation the data-grid / dropdown / drawer slices will read. Rule honoured: every
+Acuity "value" is flagged as a framework/tool default, not presented as an authored token;
+the gap is recorded, never papered over.
+
+---
+
 ## 5. Convergence read [I]
 
 The divergence between the two systems is **largely token/brand at the API level** —

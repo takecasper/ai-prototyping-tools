@@ -272,6 +272,37 @@ its own real alert.
 
 ---
 
+## Foundation completion — radii / elevation / motion / z-index / opacity [D]
+
+Fifth slice (2026-06-23). Completes the token layer. No new component or prototype —
+token + documentation work, browser-verified across all three systems.
+
+**Sourcing result — legacy has real radii + shadows, but no scale for the rest** [D]
+(Bootstrap-era SCSS under `PageBundle/.../css/src/`). The legacy stack is literal
+per-component declarations, not foundation variables (`_constants.scss`/`_colors.scss`
+define only colour/spacing/font).
+
+| Category | Legacy reality | Cite |
+|---|---|---|
+| Radius | `.btn` **3px**; `.navbar-inner` 4px; `.modal` **6px** (header `3px 3px 0 0`); inputs/panels/alerts/badges declare none → Bootstrap default 4px (flagged) | `new_branding.scss:211`, `_bootstrap.scss:110,224,130` [D] |
+| Elevation | `.modal` **`0 3px 7px rgba(0,0,0,.3)`**; `.navbar-inner` `0 1px 4px rgba(0,0,0,.065)`; `.page-header` `0 0 3px rgba(34,36,38,.15)`; dropdowns/popovers/panels → Bootstrap defaults (flagged) | `_bootstrap.scss:113,229`, `one45.scss:254` [D] |
+| Motion | **essentially none** — the only declaration in the core SCSS is `.btn.stateful { transition: unset }` (a removal); `.fade`/`.modal.fade` render at Bootstrap defaults (`.15s linear` / `transform .3s ease-out`) | `new_branding.scss:227` [D] |
+| z-index | **no organized stack** — ad-hoc `5/10/500/1000/9999` + a custom `#overlay` scrim at 9999; only real DS-layer override is `.popover 1000 !important`; the rest renders at Bootstrap defaults (1000/1040/1050/1070) | `_bootstrap.scss:153,37` [D] |
+| Opacity | **no scale** — opacity used only for disabled (`.suspended` .5; disabled icons .3) and the `#overlay` scrim (solid `#cccccc` at **opacity .5**, a real opacity-based backdrop) | `_body.scss:92`, `_actions.scss:131`, `_overlay.scss:3-4` [D] |
+
+In the tool, radius + elevation are sourced per-system (`--ds-radius-sm 3px` / `-lg 6px`,
+`--ds-shadow-sm` navbar / `-lg` modal); **motion, z-index, and opacity have no legacy scale**,
+so they fall through to the structural `:root` defaults (recorded gap). The legacy scrim's
+opacity-based backdrop is rendered as a solid `rgba` per the no-opacity rule (already flagged
+in the Modal slice).
+
+**Two-speed confirmation:** like the Inputs slice (buttons converged to Acuity, inputs did
+not), foundations are two-speed — buttons carry a real 3px radius and the modal a real 6px,
+but the system never grew a motion/elevation/z-index scale, leaning on Bootstrap defaults. The
+gap is recorded, not invented.
+
+---
+
 ## Carry-forward verdict
 
 The legacy brand is a **migration source, not a target** — it is being replaced by

@@ -165,3 +165,11 @@ row("success $one45_black / $teal_light", "#27304B", "#B0F0E9");
 row("warning $one45_black / $yellow_light", "#27304B", "#FCE0A7");
 row("error $one45_black / pink #FFC8D7", "#27304B", "#FFC8D7");
 row("info  white / $primary_purple", WHITE, "#42507D", "(solid purple fill, white text)");
+
+// ── Foundations slice — muted text. The Foundations slice (2026-06-23) replaced the
+// `.flow-row__meta { opacity: 0.7 }` chrome nit with a real --ds-fg-muted colour token
+// (the css-conventions rule: never use opacity to reduce prominence). These are the
+// muted-text greys; judged on the 4.5 text threshold (chrome over the white canvas).
+section("Foundations — muted text (--ds-fg-muted) on white");
+row("fg-muted acuity/legacy #5f5f5f / white", "#5F5F5F", WHITE);
+row("fg-muted lowfi #6a6a6a / white", "#6A6A6A", WHITE);

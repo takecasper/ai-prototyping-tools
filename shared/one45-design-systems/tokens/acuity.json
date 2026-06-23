@@ -22,8 +22,24 @@
   },
   "fontWeight": { "normal": "400", "semibold": "600", "bold": "700" },
   "spacing": { "0": "0px", "1": "0.25rem", "2": "0.5rem", "3": "0.75rem", "4": "1rem", "5": "1.5rem", "6": "2rem", "7": "3rem" },
-  "radius": null,
-  "shadow": null,
+  "radius": {
+    "$meta": "[D] The Acuity Tailwind theme defines NO borderRadius key — recorded gap. The islands use exactly one radius class (ds-rounded, main.jsx:257) which resolves to a Tailwind FRAMEWORK default. Values below are framework/tool defaults or the modal's rendered radius, flagged non-tokens in src/styles/tokens.css; they are NOT authored Acuity tokens.",
+    "scale": { "sm": "4px (Tailwind DEFAULT)", "base": "6px (tool default)", "lg": "8px (modal ds-rounded-lg [R])" }
+  },
+  "shadow": {
+    "$meta": "[D] No boxShadow key in the theme; no ds-shadow-* utility used in any island (zero usages) — recorded gap. The only real rendered elevation is the modal's.",
+    "modal": "0 2px 8px rgba(0,0,0,.12) [R] (ds-shadow-modal)",
+    "base": "0 1px 2px rgba(0,0,0,.08) (tool default, flagged)"
+  },
+  "motion": {
+    "$meta": "[D] No transitionDuration / transitionTimingFunction / animation / keyframes key in the theme, no ds-duration-*/ds-ease-* utility used — recorded gap. Components render at Tailwind framework defaults (~150ms, cubic-bezier(.4,0,.2,1)). The tool uses a structural :root motion scale (fast 120ms / base 200ms / ease cubic-bezier(.4,0,.2,1)), flagged non-tokens."
+  },
+  "zIndex": {
+    "$meta": "[D] No zIndex key in the theme, no ds-z-* utility used (zero island usages), no headlessui import recovered — recorded gap. Layering renders at framework defaults; the tool uses a shared structural stack (dropdown 1000 / overlay 1040 / modal 1050 / popover 1060 / tooltip 1070)."
+  },
+  "opacity": {
+    "$meta": "[D] No opacity scale in the theme — recorded gap. Two colour tokens encode alpha directly (neutrals transparent-medium rgba(0,0,0,.25), transparent-light rgba(0,0,0,.05)) but that is colour, not an opacity scale. The tool exposes only --ds-opacity-disabled (0.5) and never uses opacity to mute prominence — muting uses a real --ds-fg-muted colour (#5f5f5f, 6.39:1 AA; contrast.mjs)."
+  },
   "colors": {
     "acuity-blue":      { "darkest": "#161E4A", "dark": "#253170", "DEFAULT": "#364699", "light": "#7779B8", "lighter": "#B0B1D7", "lightest": "#E9ECF6" },
     "acuity-green":     { "darkest": "#00514B", "dark": "#007A72", "DEFAULT": "#00A59B", "light": "#70C0B8", "lighter": "#B0DBD6", "lightest": "#EBF6F5" },
