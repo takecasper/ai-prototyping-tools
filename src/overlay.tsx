@@ -59,7 +59,6 @@ export function ControlOverlay({ onClose }: { onClose: () => void }) {
             </option>
           ))}
         </select>
-        <p className="ov__blurb">{system.blurb}</p>
       </section>
 
       <section className="ov__sec">
