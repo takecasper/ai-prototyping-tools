@@ -16,12 +16,17 @@
 // repo and documented under shared/one45-design-systems/. The values here are the
 // single source of truth the tool renders from; the reports cite this file.
 //
-// Component divergence is REAL, not cosmetic: Acuity ships a dedicated Alert
-// component (react-scanner: 14 uses) that the legacy one45 brand never had — it
-// used WidgetBundle Twig Error/* partials instead. So Alert is
-// acuity-only here, and toggling a screen that uses Alert to one45-legacy makes
-// the bridge fill the gap. This is the anatomy-divergence question,
-// exercised on two real systems rather than toy ones.
+// Component divergence is REAL, not cosmetic, and splits along two axes:
+//   (a) different mechanism, same surface — BOTH systems ship a real Alert (Acuity
+//       a dedicated DS component; legacy the .one45-alert skin over 154 WidgetBundle
+//       Twig Error/* partials), so one canonical API absorbs both, rendered per
+//       system (native-both).
+//   (b) present vs absent — the Acuity DS ships a Badge the legacy one45 brand never
+//       had (legacy's .badge-details is a profile-photo widget, not a status badge),
+//       so Badge is acuity-only and toggling a Badge screen to one45-legacy makes the
+//       bridge fill the gap.
+// This is the anatomy-divergence question, exercised on two real systems rather than
+// toy ones. (Sourced: shared/one45-design-systems/03 §4d/§4e.)
 
 import { useEffect, useId, useRef, type ComponentType, type ReactNode } from "react";
 import { placeholderImage } from "./placeholder";
@@ -43,7 +48,7 @@ export type CanonicalName =
   | "SearchField"
   // Navigation slice — token-driven. Tabs/Link/Pagination are shared across all
   // systems; Breadcrumb is legacy-only (the Acuity DS ships none → bridge fills it,
-  // the mirror of acuity-only Alert).
+  // the mirror of acuity-only Badge).
   | "Tabs"
   | "Link"
   | "Breadcrumb"
@@ -88,7 +93,7 @@ export const CANONICAL: CanonicalDef[] = [
   { name: "Button", label: "Button", category: "Actions & containers", description: "Primary action control", props: "children, variant?, onClick", notes: "variant: primary (default) / secondary / danger / inline" },
   { name: "Card", label: "Card", category: "Actions & containers", description: "Content container with optional title", props: "title?, children" },
   { name: "Badge", label: "Badge", category: "Feedback & status", description: "Small inline status label", props: "children" },
-  { name: "Alert", label: "Alert", category: "Feedback & status", description: "Inline message banner (info, success, warning)", props: "title?, children", notes: "acuity-only DS piece; the bridge fills legacy + lowfi" },
+  { name: "Alert", label: "Alert", category: "Feedback & status", description: "Inline message banner (info, success, warning, error)", props: "title?, children, variant?", notes: "variant: info (default) / success / warning / error; native in acuity + legacy (the bridge fills lowfi)" },
   { name: "TextField", label: "Text field", category: "Inputs & controls", description: "Labelled text input with validation state", props: "label, type?, value, onChange, state?, message?, helpText?, optionalityLabel?", notes: "state: default / error / success" },
   { name: "Textarea", label: "Textarea", category: "Inputs & controls", description: "Multi-line text input with validation state", props: "label, value, onChange, state?, message?, rows?", notes: "same validation surface as TextField" },
   { name: "Select", label: "Select", category: "Inputs & controls", description: "Labelled dropdown (native options)", props: "label, value, onChange, state?, message?, options", notes: "options: string[] or {value,label}[]" },
@@ -132,14 +137,22 @@ const Card: Skin = ({ children, title }) => (
 
 const Badge: Skin = ({ children }) => <span className="sk-badge">{children}</span>;
 
-// Acuity-only. Legacy one45 had no Alert component (Twig Error/* partials filled
-// the role), so it is deliberately absent from one45-legacy's skins below.
-const Alert: Skin = ({ children, title }) => (
-  <div className="sk-alert" role="status">
-    {title ? <div className="sk-alert__title">{title}</div> : null}
-    <div className="sk-alert__body">{children}</div>
-  </div>
-);
+// Native in acuity AND legacy — "different mechanism, same surface" (03 §4d/§4e):
+// the Acuity DS Alert component and legacy's .one45-alert skin (over WidgetBundle
+// Error/* Twig partials) absorb into ONE canonical API, rendered per system from
+// tokens (acuity tinted-bg + accent border from the semantic families; legacy solid
+// pale fills, radius 0, pad 16px — see app.css / tokens.css). lowfi has no Alert →
+// the bridge fills it (INTERIM_BUILDS, flagged). variant ∈ info | success | warning |
+// error (the legacy Error/* set and the acuity Alert `variant` prop); default info.
+const Alert: Skin = ({ children, title, variant }) => {
+  const v = typeof variant === "string" ? variant : "info";
+  return (
+    <div className={`sk-alert sk-alert--${v}`} role="status">
+      {title ? <div className="sk-alert__title">{String(title)}</div> : null}
+      <div className="sk-alert__body">{children}</div>
+    </div>
+  );
+};
 
 // ---- Inputs & controls (token-driven, shared across all three systems) ----
 // These mirror the Acuity DS form API recovered from the React islands: the
@@ -272,7 +285,7 @@ const SearchField: Skin = ({ placeholder, ...rest }) => (
 //      this is the first piece where pure token-swap stops being enough.
 //   2. INVENTORY — the Acuity DS package ships no Breadcrumb component (zero island
 //      usages), while legacy has a real chevron breadcrumb. So Breadcrumb is legacy-only
-//      and the bridge fills acuity (the mirror of acuity-only Alert). Pagination is NOT
+//      and the bridge fills acuity (the mirror of acuity-only Badge). Pagination is NOT
 //      enshrined: neither system defines one, so fabricating it would misrepresent both.
 
 // `tabs` is an array of strings or {id,label,badge}. The Acuity Tab `badgeText`
@@ -482,13 +495,14 @@ const FORM_CONTROLS = { TextField, Textarea, Select, Checkbox, Radio, Toggle, Se
 // acuity exercises the bridge.
 const NAV_CONTROLS = { Tabs, Link };
 
-// Feedback & status (slice 1: Modal). Token-driven and present in every system — the
+// Feedback & status. Modal is token-driven and present in every system — the
 // API-survival test PASSED here (one canonical Modal API absorbs the Acuity DS Dialog
 // AND the legacy Bootstrap Modal, and the look is a pure token swap). Alert is NOT in
-// this group: it predates the slice as an acuity-only piece + bridge fill, but the
-// Feedback sourcing found legacy DOES ship a real alert (.one45-alert skin + 154 Error/*
-// Twig uses) — a both-native rework is recommended next slice (see 03 §4d). Toast,
-// tag/chip and empty-state are gaps in BOTH systems → not enshrined (the Pagination rule).
+// this shared group: it is native in acuity + legacy but NOT lowfi, so it is added per
+// system below (acuity + legacy skins) rather than spread into all three — the earlier
+// "acuity-only + bridge" model was corrected to native-both once sourcing found legacy's
+// real .one45-alert (154 Error/* Twig uses; 03 §4d/§4e). Toast, tag/chip and empty-state
+// are gaps in BOTH systems → not enshrined (the Pagination rule).
 const FEEDBACK_CONTROLS = { Modal };
 
 export const SYSTEMS: Record<SystemId, DesignSystem> = {
@@ -498,9 +512,10 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     blurb:
       "A rough wireframe in the Balsamiq style. It looks deliberately unfinished, the way a draft should. No setup needed.",
     // Badge and Alert are INTENTIONALLY absent → exercises graceful degradation.
-    // (Alert now resolves to a flagged token-driven build via the bridge; Badge still
-    // demonstrates the older first-native-piece fallback.) Breadcrumb IS present — it
-    // is legacy-era and renders fine in the sketch skin.
+    // Alert resolves to a flagged token-driven build via the bridge (INTERIM_BUILDS);
+    // Badge demonstrates the older first-native-piece fallback. lowfi is the ONLY system
+    // that bridges Alert now — both brand systems ship a real one. Breadcrumb IS present —
+    // it is legacy-era and renders fine in the sketch skin.
     skins: { Button, Card, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Breadcrumb, Image: LowfiImage, Icon: LowfiIcon },
   },
   acuity: {
@@ -517,11 +532,13 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     id: "one45-legacy",
     label: "one45 legacy",
     blurb:
-      "One45's older brand, still live on auth, self-send and React-shell pages: Cabin, the primary-purple palette. No dedicated Alert piece, so the bridge fills that gap.",
-    // No Alert → the real, sourced divergence against Acuity (bridge fills it). But
-    // Breadcrumb IS native here — the legacy app has a real (bespoke chevron) breadcrumb
-    // the Acuity DS never built. Form + nav controls re-skin cleanly to the legacy look.
-    skins: { Button, Card, Badge, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Breadcrumb, Image: BrandImage, Icon: BrandIcon },
+      "One45's older brand, still live on auth, self-send and React-shell pages: Cabin, the primary-purple palette. Ships a real alert and breadcrumb, but no status Badge — so the bridge fills Badge here.",
+    // Alert IS native here — legacy ships a real .one45-alert (the earlier "acuity-only"
+    // read was wrong; 03 §4d). Badge is NOT here — legacy has no status badge (its
+    // .badge-details is a profile-photo widget), so Badge is the genuine acuity-only piece
+    // and the bridge fills it. Breadcrumb IS native — the legacy app has a real (bespoke
+    // chevron) breadcrumb the Acuity DS never built. Form + nav controls re-skin cleanly.
+    skins: { Button, Card, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...FEEDBACK_CONTROLS, Breadcrumb, Image: BrandImage, Icon: BrandIcon },
   },
 };
 
@@ -533,10 +550,11 @@ export const SYSTEM_IDS = Object.keys(SYSTEMS) as SystemId[];
 // an unrelated component. These skins are token-driven, so they re-skin to whatever
 // system is active (acuity-blue/Lato, one45 purple/Cabin, or the sketch) — but the
 // resolver flags them as AI-built interims, never passed off as the system's real
-// component. The two real divergences each have a build here:
-//   Alert       acuity-only DS component → built (flagged) for legacy + lowfi.
-//   Breadcrumb  legacy-only piece        → built (flagged) for acuity.
-// A piece NOT listed here (e.g. Badge in lowfi) still falls back to the cruder
+// component. The divergent pieces with a build here:
+//   Alert       native in acuity + legacy → built (flagged) for lowfi ONLY (lowfi has
+//               no real alert; both brand systems do, so they render native).
+//   Breadcrumb  legacy-only piece         → built (flagged) for acuity.
+// A piece NOT listed here (e.g. Badge in legacy + lowfi) still falls back to the cruder
 // first-native substitution below, so both bridge behaviours stay observable.
 export const INTERIM_BUILDS: Partial<Record<CanonicalName, Skin>> = { Alert, Breadcrumb };
 

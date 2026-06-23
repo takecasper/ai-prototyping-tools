@@ -228,20 +228,47 @@ visual difference — legacy's grey header band vs Acuity's headerless title —
 token swap** (`--ds-modal-header-bg`/`-border`), so unlike Tabs **no per-system structural
 override is needed**. Modal is the cleanest both-systems result so far.
 
-**Headline finding for the next slice — Alert is NOT acuity-only.** Sourcing the feedback
-group found legacy ships a **real** alert: the WidgetBundle `Error/*` Twig partials (154
-includes: error/warning/info/success/sorry/errors) skinned by `.one45-alert`
-(`new_branding.scss:66-170`) with sourced fills — success `#B0F0E9`, warning `#FCE0A7`,
+**Headline finding (reworked the next slice) — Alert is NOT acuity-only.** Sourcing the
+feedback group found legacy ships a **real** alert: the WidgetBundle `Error/*` Twig partials
+(154 includes: error/warning/info/success/sorry/errors) skinned by `.one45-alert`
+(`new_branding.scss:65-170`) with sourced fills — success `#B0F0E9`, warning `#FCE0A7`,
 error `#FFC8D7`, info `#42507D` (all over `#27304B` except info over `#FFF`), radius 0,
-padding 16px. The tool currently models Alert as acuity-only with a bridge fill, which the
-in-browser check shows flagged "Claude interim → Button" in legacy — now known to be
-inaccurate. Recommend reworking Alert to **native-both** next slice (reconciliation §4d).
+padding 16px. The tool's earlier acuity-only-with-bridge model was inaccurate; Alert is now
+**native-both** (see the Alert section below and reconciliation §4d/§4e).
 
 **Recorded gaps** [D]: legacy has **no status badge** (`.badge-details` is a profile-photo
 widget), **no tag/chip, no empty-state, no toast** (only a Semantic-UI vendor override in
 admin), and the spinner is the webeval `busy` **cog GIF** (an image, no CSS). `.progress`
 carries only a `line-height`. Tag/chip + empty-state + toast are gaps in **both** systems →
 not enshrined.
+
+---
+
+## Feedback & status — Alert enshrined (native here) [D]
+
+Fourth slice (2026-06-23). `Alert` is now **native** in legacy — the earlier acuity-only model
+was wrong. Browser-verified across all three systems (annotations on/off); lint-gate-clean.
+
+**Layer 1 — the real legacy alert** [D] (`new_branding.scss:65-170`, `.alert.one45-alert`,
+over the WidgetBundle `Error/*` Twig partials, 154 includes): solid pale fills, **radius 0**,
+**padding 16px**, `border: none`, body text `$one45_black #27304B` (white on the purple info
+fill). Each variant carries a FontAwesome icon colour.
+
+| Variant | bg | fg | icon | text contrast | source |
+|---|---|---|---|---|---|
+| success | `#B0F0E9` | `#27304B` | `#2FAEA1` | **10.24:1** (AAA) | `$primary_teal_light` / `$one45_black` / `$primary_teal_dark` |
+| warning | `#FCE0A7` | `#27304B` | `#F8B223` | **10.16:1** (AAA) | `$primary_yellow_light` / `$one45_black` / `$primary_yellow` |
+| error | `#FFC8D7` | `#27304B` | `#F12F62` | **9.00:1** (AAA) | pink (`new_branding.scss:132`, "works better as background") / `$one45_black` / `$primary_red` |
+| info | `#42507D` | `#FFFFFF` | `#B3B9CB` | **7.85:1** (AAA) | `$primary_purple` (solid fill) / white / `$primary_purple_light` |
+
+(`scripts/contrast.mjs`, "one45 legacy Alert" section.)
+
+**Anatomy result — "different mechanism, same surface" (axis a).** Legacy's `.one45-alert`
+(solid fill, radius 0) and Acuity's tinted banner absorb into **one canonical API** (variant +
+title + body), but the look does **not** token-swap — the structural difference is rendered
+per-system in `app.css` (the Tabs rule), not flattened. The mirror of Tabs: API survives, skin
+diverges. The earlier "Claude interim → Button" bridge fill in legacy is gone — legacy renders
+its own real alert.
 
 ---
 

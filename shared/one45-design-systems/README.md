@@ -101,10 +101,16 @@ prototype; gap map §4c.
 the structural API-survival test — **it passed, and so did pure token-swap**: one canonical
 API absorbs the Acuity headlessui Dialog and the legacy Bootstrap modal, and the only visual
 difference (legacy grey header band vs Acuity headerless title) is two tokens, no structural
-override. `learner-withdrawal` prototype (confirm-modal over a roster). Sourcing also found
-**Alert is NOT acuity-only** — legacy ships a real alert (`.one45-alert` + 154 `Error/*` Twig
-uses), so the tool's acuity-only Alert is owed a native-both rework. Toast / tag-chip /
+override. `learner-withdrawal` prototype (confirm-modal over a roster). Toast / tag-chip /
 empty-state are gaps in **both** systems (not enshrined). Gap map §4d.
+
+**Alert + Badge correction (2026-06-23):** sourcing found **Alert is NOT acuity-only** —
+legacy ships a real alert (`.one45-alert` + 154 `Error/*` Twig uses), now enshrined
+**native-both** (variant info/success/warning/error; Acuity tinted-family banners, legacy
+solid pale fills — "different mechanism, same surface": one API + per-system skin). And
+**Badge is acuity-only** — legacy has no status badge, so it now resolves through the bridge
+in legacy + lowfi (the genuine present-vs-absent piece, mirror of acuity lacking Breadcrumb).
+Gap map §4e.
 
 **Honest scope:** between `acuity` and `one45-legacy`, most pieces are the **same
 component re-skinned by tokens**, not structurally different — so a single

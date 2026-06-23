@@ -55,7 +55,24 @@ export const SPECIMENS: Partial<Record<CanonicalName, Specimen>> = {
     </Canonical>
   ),
   Badge: { children: "New" },
-  Alert: { title: "Heads up", children: "This is an inline alert message." },
+  // Alert is native in acuity + legacy and bridged (flagged) in lowfi. Showing all four
+  // variants documents the surface AND, in lowfi, the per-variant bridge flag.
+  Alert: (system) => (
+    <div>
+      <Canonical name="Alert" system={system} variant="info" title="Information">
+        A general informational message.
+      </Canonical>
+      <Canonical name="Alert" system={system} variant="success" title="Success">
+        The action completed successfully.
+      </Canonical>
+      <Canonical name="Alert" system={system} variant="warning" title="Warning">
+        Something needs your attention.
+      </Canonical>
+      <Canonical name="Alert" system={system} variant="error" title="Error">
+        Something went wrong.
+      </Canonical>
+    </div>
+  ),
   TextField: { label: "Full name", defaultValue: "Ada Lovelace", helpText: "As it appears on your ID." },
   Textarea: { label: "Notes", defaultValue: "A few lines of longer text…", rows: 3 },
   Select: { label: "Role", options: ["Student", "Instructor", "Admin"], defaultValue: "Instructor" },

@@ -1,6 +1,6 @@
 // ConfirmScreen — enrolment summary after a valid submit. Reads the shared bag
-// written by FormScreen and shows a success Alert (acuity-only; the bridge fills
-// it for one45-legacy and lowfi).
+// written by FormScreen and shows a success Alert (native in acuity + legacy; the
+// bridge fills it for lowfi).
 
 import { Canonical } from "../../resolver";
 import { usePrototypes } from "../context";
@@ -12,7 +12,7 @@ export function ConfirmScreen() {
 
   return (
     <Canonical name="Card" title="Learner enrolled">
-      <Canonical name="Alert" title="Success">
+      <Canonical name="Alert" variant="success" title="Success">
         The learner has been added to the program.
       </Canonical>
 

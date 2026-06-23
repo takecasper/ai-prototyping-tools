@@ -25,7 +25,7 @@ export function RosterScreen() {
   return (
     <Canonical name="Card" title="Internal Medicine — rotation roster">
       {withdrawn ? (
-        <Canonical name="Alert" title="Learner withdrawn">
+        <Canonical name="Alert" variant="success" title="Learner withdrawn">
           {withdrawn} has been removed from this rotation. Completed assessments stay on file.
         </Canonical>
       ) : null}

@@ -86,15 +86,25 @@ The Navigation pieces Tabs and Link are present in all three systems. Link re-sk
 by tokens; **Tabs shares one API but renders a per-system visual model** (Acuity's underline
 indicator vs legacy's Bootstrap box tabs) — accurate to each system, not a flattened shared
 skin. **Breadcrumb is legacy-only** (the Acuity DS ships none): in `acuity` it resolves
-through the bridge to a flagged AI build — the mirror of `Alert` being acuity-only. There is
+through the bridge to a flagged AI build — the mirror of **`Badge` being acuity-only**. There is
 **no Pagination piece**: neither One45 system defines one, so the tool does not fabricate it.
 
-The Feedback & status piece **Modal** is present in all three systems. It is the structural
-API-survival test: one canonical API absorbs both the Acuity DS dialog and the legacy
-Bootstrap modal, and the look (including legacy's grey header band vs Acuity's headerless
-title) is a **pure token swap** — no per-system structural override, unlike Tabs. Pass the
-action buttons via the `footer` prop. **Toast, tag/chip and empty-state are not enshrined**:
-they exist in neither One45 system, so the tool does not fabricate them (the Pagination rule).
+The Feedback & status pieces:
+
+- **Modal** is present in all three systems — the structural API-survival test: one canonical
+  API absorbs both the Acuity DS dialog and the legacy Bootstrap modal, and the look (including
+  legacy's grey header band vs Acuity's headerless title) is a **pure token swap**, no per-system
+  override unlike Tabs. Pass the action buttons via the `footer` prop.
+- **Alert** is native in **acuity + legacy** (the bridge fills lowfi). One canonical API
+  (`variant` ∈ info/success/warning/error + `title` + body), but — like Tabs — the skin is
+  **per-system**: Acuity a tinted banner with an accent border, legacy a solid pale fill (the
+  real `.one45-alert`). "Different mechanism, same surface."
+- **Badge** is **acuity-only** (legacy has no status badge): in `legacy` + `lowfi` it resolves
+  through the bridge to a flagged build — the genuine present-vs-absent piece, the mirror of
+  acuity lacking Breadcrumb.
+
+**Toast, tag/chip and empty-state are not enshrined**: they exist in neither One45 system, so
+the tool does not fabricate them (the Pagination rule).
 
 ## Rules
 

@@ -69,15 +69,22 @@
       "note": "headlessui Dialog; ONE canonical API absorbs this AND the legacy Bootstrap modal — the API-survival test PASSED, and even the header divergence is a pure token swap. radius/shadow are RENDERED values, not theme-file tokens."
     },
     "alert": {
-      "$status": "imported + used in 8 production islands",
+      "$status": "imported + used in 8 production islands — NATIVE in the tool",
       "variants": ["info", "success", "warning", "error"],
       "props": ["variant", "title", "titleSize(none|small|large)", "description|content", "showIcon", "isDismissible", "handleClose"],
-      "note": "acuity-only in the tool TODAY, but legacy ships a real alert too (.one45-alert + 154 Error/* Twig uses) — a both-native rework is recommended; see reconciliation §4d."
+      "rendered": {
+        "$note": "[D] the semantic colour FAMILIES are real (tailwind_acuity_theme.js); the bg=lightest / fg=darkest / accent=DEFAULT tint pairing is the tool's faithful RENDERING [I] — the acuity-DS Alert component CSS is not vendored. All four pass AA (contrast.mjs).",
+        "info":    { "bg": "#EBF4F8", "fg": "#0D556D", "accent": "#1E93BA", "ratio": "7.42:1" },
+        "success": { "bg": "#EEF8EB", "fg": "#24590A", "accent": "#4DA81F", "ratio": "7.68:1" },
+        "warning": { "bg": "#FEFBE0", "fg": "#816E09", "accent": "#FCE833", "ratio": "4.82:1" },
+        "error":   { "bg": "#FFECE8", "fg": "#720202", "accent": "#E40A0A", "ratio": "10.68:1" }
+      },
+      "note": "native-both: Acuity ships a real Alert AND legacy ships .one45-alert (154 Error/* Twig uses) — corrected from the earlier acuity-only model; see reconciliation §4d/§4e. Acuity renders a tinted-bg banner with an accent left border; legacy a solid pale fill (radius 0, pad 16px)."
     },
     "badge": {
-      "$status": "imported, demo-page only (zero production islands)",
+      "$status": "imported, demo-page only (zero production islands) — acuity-only (the genuine present-vs-absent piece)",
       "props": ["label", "color(default|red|gray|blue|yellow|green)", "type(regular|small)", "dismissible", "onDismiss"],
-      "note": "the tool's Badge predates sourcing; the real Badge is acuity-DS only (legacy has no status badge) — correct to acuity-only next slice."
+      "note": "the real Badge is acuity-DS only — legacy has no status badge (.badge-details is a profile-photo widget), so Badge resolves through the bridge in legacy + lowfi. Corrected from the earlier mis-shared-to-legacy model; see reconciliation §4e."
     },
     "progressBar": {
       "$status": "imported, demo-page only",

@@ -298,11 +298,51 @@ headlessui Dialog and the legacy Bootstrap modal. And unlike Tabs, the visual di
 single-canonical-API model holds and token-swap holds: the cleanest result yet. The first
 true API break is still expected at the data grid / wizard, not here.
 
-**Adjacent findings recorded (not reworked this slice):** the tool's `Alert` is modelled
-acuity-only, but legacy ships a **real** alert (`.one45-alert` + 154 `Error/*` Twig uses) —
-both-native rework recommended (reconciliation §4d). The tool's `Badge` is the real
-acuity-DS Badge but is mis-shared to legacy (legacy has **no** status badge). Toast,
-tag/chip and empty-state are absent from **both** systems → not enshrined.
+**Adjacent findings (reworked the following slice — see Alert below):** the tool's `Alert`
+was modelled acuity-only, but legacy ships a **real** alert (`.one45-alert` + 154 `Error/*`
+Twig uses) — now reworked to **native-both** (reconciliation §4d/§4e). The tool's `Badge`
+was the real acuity-DS Badge but mis-shared to legacy (legacy has **no** status badge) — now
+corrected to **acuity-only**. Toast, tag/chip and empty-state are absent from **both** systems
+→ not enshrined.
+
+---
+
+## Feedback & status — Alert enshrined (native-both) [D][I]
+
+Fourth slice (2026-06-23). New canonical piece: **`Alert`**, now native in **acuity + legacy**
+(corrected from the earlier acuity-only model). Browser-verified across acuity / one45-legacy /
+lowfi, annotations on and off; lint-gate-clean.
+
+**Layer 1 — the real DS Alert API** [D] (recovered from React-island usage,
+`designSystemTest/main.jsx`, `canvas_sync/components/mappingTable.jsx`): the Acuity DS `Alert`
+takes `variant` ∈ `info | success | warning | error`, `title`, `titleSize` ∈
+`none | small | large`, `description` / `content`, `showIcon`, `isDismissible`, `handleClose`.
+The canonical tool piece exposes one contract (`variant`, `title`, children = body).
+
+**Layer 1 — colour [D] / Layer 3 — rendering [I]:** each variant maps to a semantic colour
+**family** (real tokens, `tailwind_acuity_theme.js`): info → information-blue, success →
+success-green, warning → warning-yellow, error → danger-red. The acuity-DS Alert component CSS
+is **not vendored**, so the tool renders each as a **tinted banner**: `bg` = family *lightest*,
+`fg` = family *darkest*, accent left-border = family *DEFAULT*. The families are sourced [D];
+the lightest/darkest tint pairing is the tool's faithful **rendering [I]**, flagged the same way
+as the radius/shadow tool-defaults. (`mappingTable.jsx` corroborates `information-blue-darkest`
+as info text.)
+
+| Variant | bg (lightest) | fg (darkest) | accent (DEFAULT) | text contrast |
+|---|---|---|---|---|
+| info | `#EBF4F8` | `#0D556D` | `#1E93BA` | **7.42:1** (AAA) |
+| success | `#EEF8EB` | `#24590A` | `#4DA81F` | **7.68:1** (AAA) |
+| warning | `#FEFBE0` | `#816E09` | `#FCE833` | **4.82:1** (AA) |
+| error | `#FFECE8` | `#720202` | `#E40A0A` | **10.68:1** (AAA) |
+
+(`scripts/contrast.mjs`, "Acuity Alert" section.)
+
+**Anatomy result [R] — "different mechanism, same surface" (axis a).** One canonical API
+absorbs both the Acuity DS Alert and the legacy `.one45-alert`, but — like Tabs, unlike Modal —
+the **skin does not pure-token-swap**: Acuity is a tinted banner with an accent border; legacy
+is a solid pale fill, radius 0, padding 16px (rendered per-system in `app.css`). The API
+survives; the look is per-system. Rule honoured: each system's real alert is represented
+accurately, neither flattened nor fabricated.
 
 ---
 

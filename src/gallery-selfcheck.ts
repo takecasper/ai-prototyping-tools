@@ -12,14 +12,39 @@
 // compile time; this catches the runtime wiring the types can't.
 
 import { CANONICAL, SYSTEM_IDS, SYSTEMS } from "./systems";
-import { pieceStatus } from "./resolver";
+import { pieceStatus, type PieceStatus } from "./resolver";
 import { SPECIMENS } from "./specimens";
 
 let ran = false;
 
+// The sourced bridge topology these slices enshrined — the resolver must keep
+// matching reality (shared/one45-design-systems/03 §4d/§4e). Each entry is the
+// status a piece MUST resolve to in a given system; a mismatch is a sourcing
+// regression the gallery would otherwise paint as if it were correct.
+//   Alert  native-both (acuity DS component + legacy .one45-alert) → lowfi bridge.
+//   Badge  acuity-only (legacy has no status badge) → legacy + lowfi bridge.
+const TOPOLOGY: Array<{ name: "Alert" | "Badge"; system: (typeof SYSTEM_IDS)[number]; expect: PieceStatus }> = [
+  { name: "Alert", system: "acuity", expect: "native" },
+  { name: "Alert", system: "one45-legacy", expect: "native" },
+  { name: "Alert", system: "lowfi", expect: "interim" },
+  { name: "Badge", system: "acuity", expect: "native" },
+  { name: "Badge", system: "one45-legacy", expect: "substitute" },
+  { name: "Badge", system: "lowfi", expect: "substitute" },
+];
+
 export function runGallerySelfCheck(): void {
   if (ran || !import.meta.env.DEV) return;
   ran = true;
+
+  for (const { name, system, expect } of TOPOLOGY) {
+    const { status } = pieceStatus(system, name, {});
+    if (status !== expect) {
+      console.warn(
+        `[gallery] sourcing regression: "${name}" resolves to "${status}" in ` +
+          `${SYSTEMS[system].label}, expected "${expect}" (see shared/one45-design-systems/03 §4d/§4e).`,
+      );
+    }
+  }
 
   for (const def of CANONICAL) {
     for (const systemId of SYSTEM_IDS) {

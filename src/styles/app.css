@@ -47,19 +47,43 @@ body {
   border-radius: 999px;
   border: var(--ds-border-width) var(--ds-border-style) var(--ds-border-color);
 }
-/* Alert — acuity-only canonical piece (token-driven). Accent left-border banner
- * over the system surface; the bridge fills it for one45-legacy. */
+/* Alert — native in acuity + legacy (token-driven, per-system look). "Different
+ * mechanism, same surface" (03 §4d/§4e): one canonical API, variant ∈ info / success /
+ * warning / error. Acuity renders a tinted-bg banner with an accent left border (the
+ * semantic colour families); legacy renders a solid pale fill, radius 0, pad 16px, no
+ * border (the real .one45-alert). lowfi gets a flagged bridge build (greyscale). The
+ * variant colours come from the --ds-alert-<variant>-* tokens in tokens.css. */
 .sk-alert {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
   padding: 0.7rem 0.9rem;
   margin: 0.75rem 0;
-  background: var(--ds-surface);
+  background: var(--ds-alert-bg, var(--ds-surface));
   border: var(--ds-border-width) var(--ds-border-style) var(--ds-border-color);
-  border-left: 4px solid var(--ds-accent);
+  border-left: 4px solid var(--ds-alert-accent, var(--ds-accent));
   border-radius: var(--ds-radius);
-  color: var(--ds-fg);
+  color: var(--ds-alert-fg, var(--ds-fg));
+}
+.sk-alert--info {
+  --ds-alert-bg: var(--ds-alert-info-bg);
+  --ds-alert-fg: var(--ds-alert-info-fg);
+  --ds-alert-accent: var(--ds-alert-info-accent);
+}
+.sk-alert--success {
+  --ds-alert-bg: var(--ds-alert-success-bg);
+  --ds-alert-fg: var(--ds-alert-success-fg);
+  --ds-alert-accent: var(--ds-alert-success-accent);
+}
+.sk-alert--warning {
+  --ds-alert-bg: var(--ds-alert-warning-bg);
+  --ds-alert-fg: var(--ds-alert-warning-fg);
+  --ds-alert-accent: var(--ds-alert-warning-accent);
+}
+.sk-alert--error {
+  --ds-alert-bg: var(--ds-alert-error-bg);
+  --ds-alert-fg: var(--ds-alert-error-fg);
+  --ds-alert-accent: var(--ds-alert-error-accent);
 }
 .sk-alert__title {
   font-weight: 700;
@@ -67,6 +91,16 @@ body {
 }
 .sk-alert__body {
   font-size: 0.85rem;
+}
+
+/* Legacy .one45-alert is structurally different: a SOLID pale fill, radius 0,
+ * padding 16px, no border or left accent (new_branding.scss:65-170). Rendered
+ * per-system, not flattened into the acuity tinted-banner model — the Tabs rule. */
+:root[data-ds="one45-legacy"] .sk-alert,
+[data-ds="one45-legacy"] .sk-alert {
+  border: none;
+  border-radius: 0;
+  padding: 16px;
 }
 
 /* ---- Feedback & status: Modal (token-driven; the API-survival test) ----

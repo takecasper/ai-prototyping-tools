@@ -218,6 +218,37 @@ gaps, not tool builds.
 
 ---
 
+## 4e. Alert native-both + Badge acuity-only — enshrined 2026-06-23 [D][I]
+
+Fourth slice. Corrects the two pieces §4d flagged as mis-sourced; no new component invented,
+the topology fixed to match reality.
+
+**Alert → native-both.** Legacy ships a real `.one45-alert` (`new_branding.scss:65-170`, over
+154 `Error/*` Twig includes), so Alert is now native in **acuity + legacy** (was acuity-only +
+bridge). `INTERIM_BUILDS` keeps Alert for **lowfi only** (lowfi has no real alert). The
+canonical API gains `variant` ∈ info/success/warning/error. "Different mechanism, same surface"
+(axis a, §5): one API, but the skin is **per-system** — Acuity a tinted banner (family
+lightest-bg / darkest-fg / DEFAULT accent; families [D], tint pairing [I]); legacy a solid pale
+fill, radius 0, pad 16px (`app.css` structural override, the Tabs rule). All eight variant text
+pairs pass AA (`contrast.mjs`):
+
+| | info | success | warning | error |
+|---|--:|--:|--:|--:|
+| Acuity (darkest on lightest) | 7.42 | 7.68 | 4.82 | 10.68 |
+| legacy ($one45_black / white on fill) | 7.85 | 10.24 | 10.16 | 9.00 |
+
+**Badge → acuity-only.** The real Badge is the acuity-DS component (`label`/`color`/`type`,
+demo-page only); legacy has **no** status badge (`.badge-details` is a profile-photo widget), so
+Badge is removed from legacy's skins and resolves through the bridge (first-native substitution,
+no `INTERIM_BUILDS` entry — so the cruder fallback stays observable) in **legacy + lowfi**. Badge
+is now the genuine present-vs-absent piece (axis b), the mirror of acuity-lacking-Breadcrumb.
+
+**Net bridge topology after this slice:** Alert native acuity+legacy, interim lowfi · Breadcrumb
+native legacy+lowfi, interim acuity · Badge native acuity, substitute legacy+lowfi. A DEV
+self-check (`gallery-selfcheck.ts`) now asserts this topology so a future regression warns.
+
+---
+
 ## 5. Convergence read [I]
 
 The divergence between the two systems is **largely token/brand at the API level** —
@@ -234,10 +265,10 @@ token-swap holds wherever the two systems share a real structure, and breaks (Ta
 where they genuinely render different structures. Beyond Tabs, the **anatomy divergence** is
 nameable along two axes: **(a) different mechanism, same surface** — a real component in both,
 built differently (Alert: Acuity DS component vs legacy Twig `Error/*` partials + `.one45-alert`
-skin; §4d corrected the earlier "acuity-only" read — legacy DOES have a real alert, so a
-both-native rework is owed); and **(b) present vs absent** — a real component in one and none
+skin; §4d corrected the earlier "acuity-only" read and §4e **enshrined it native-both** — one
+API, per-system skin); and **(b) present vs absent** — a real component in one and none
 in the other (Breadcrumb: legacy widget vs no Acuity component — §4c; and Badge: acuity DS vs
-no legacy status badge — §4d). Those are the bridge's actual work, and the Navigation slice
+no legacy status badge — §4d, **corrected to acuity-only §4e**). Those are the bridge's actual work, and the Navigation slice
 **evolved it** past the first-native-piece heuristic: divergent pieces now resolve to a flagged
 token-driven build of that piece in the active system (`INTERIM_BUILDS`, §4c), not an unrelated
 component. The broader 7-system

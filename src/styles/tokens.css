@@ -74,6 +74,23 @@
   --ds-modal-title-size: 1.25rem;
   --ds-modal-header-bg: transparent;
   --ds-modal-header-border: transparent;
+
+  /* ---- alert variants (Feedback & status slice — Alert) ----
+   * Generic fallbacks; each system overrides below from its real, sourced values.
+   * variant ∈ info / success / warning / error; each carries -bg / -fg / -accent.
+   * See shared/one45-design-systems/01-acuity-modern.md / 02-one45-legacy.md L "Feedback". */
+  --ds-alert-info-bg: #eef2ff;
+  --ds-alert-info-fg: #1e3a8a;
+  --ds-alert-info-accent: #2563eb;
+  --ds-alert-success-bg: #ecfdf5;
+  --ds-alert-success-fg: #065f46;
+  --ds-alert-success-accent: #059669;
+  --ds-alert-warning-bg: #fffbeb;
+  --ds-alert-warning-fg: #854d0e;
+  --ds-alert-warning-accent: #d97706;
+  --ds-alert-error-bg: #fef2f2;
+  --ds-alert-error-fg: #991b1b;
+  --ds-alert-error-accent: #dc2626;
 }
 
 /* Acuity (One45 modern) — real token set from tailwind_acuity_theme.js.
@@ -164,6 +181,25 @@
   --ds-modal-title-size: 1.4375rem; /* 23px — fontSize 2xl [R] */
   --ds-modal-header-bg: transparent; /* headerless: title sits on the white panel [R] */
   --ds-modal-header-border: transparent;
+
+  /* Alert — [D] the acuity semantic colour FAMILIES (tailwind_acuity_theme.js) +
+   * the real Alert variant API (designSystemTest/main.jsx: variant info/success/warning/
+   * error). The bg=lightest / fg=darkest / accent=DEFAULT pairing is the tool's faithful
+   * RENDERING [I] — the acuity-DS Alert component CSS is not vendored, so the families are
+   * real but the tint pairing is flagged (the same handling as radius/shadow above). Text
+   * is each family's darkest on its lightest tint (all pass AA — see contrast.mjs). */
+  --ds-alert-info-bg: #ebf4f8; /* information-blue lightest */
+  --ds-alert-info-fg: #0d556d; /* information-blue darkest */
+  --ds-alert-info-accent: #1e93ba; /* information-blue DEFAULT */
+  --ds-alert-success-bg: #eef8eb; /* success-green lightest */
+  --ds-alert-success-fg: #24590a; /* success-green darkest */
+  --ds-alert-success-accent: #4da81f; /* success-green DEFAULT */
+  --ds-alert-warning-bg: #fefbe0; /* warning-yellow lightest */
+  --ds-alert-warning-fg: #816e09; /* warning-yellow darkest */
+  --ds-alert-warning-accent: #fce833; /* warning-yellow DEFAULT */
+  --ds-alert-error-bg: #ffece8; /* danger-red lightest */
+  --ds-alert-error-fg: #720202; /* danger-red darkest */
+  --ds-alert-error-accent: #e40a0a; /* danger-red DEFAULT */
 }
 
 /* one45 legacy — older brand from _colors.scss:1-35 + new_branding.scss.
@@ -254,6 +290,24 @@
   --ds-modal-title-size: 1.25rem; /* legacy header sizing (no token; new_branding rule) */
   --ds-modal-header-bg: #f5f5f5; /* .modal-header grey band [D] */
   --ds-modal-header-border: #eeeeee; /* .modal-header bottom rule [D] */
+
+  /* Alert — [D] the real .one45-alert skin (new_branding.scss:65-170) over the
+   * WidgetBundle Error/* Twig partials (154 uses). Solid pale fills over $one45_black
+   * #27304B (info is a solid $primary_purple fill with white text), radius 0, padding
+   * 16px (the structural override lives in app.css). accent = the variant icon colour.
+   * Legacy ships a REAL alert — the tool's earlier "acuity-only" model was wrong (03 §4d). */
+  --ds-alert-success-bg: #b0f0e9; /* $primary_teal_light */
+  --ds-alert-success-fg: #27304b; /* $one45_black */
+  --ds-alert-success-accent: #2faea1; /* $primary_teal_dark (icon) */
+  --ds-alert-warning-bg: #fce0a7; /* $primary_yellow_light */
+  --ds-alert-warning-fg: #27304b; /* $one45_black */
+  --ds-alert-warning-accent: #f8b223; /* $primary_yellow (icon) */
+  --ds-alert-error-bg: #ffc8d7; /* sourced pink (new_branding.scss:132 — "works better as background") */
+  --ds-alert-error-fg: #27304b; /* $one45_black */
+  --ds-alert-error-accent: #f12f62; /* $primary_red (icon) */
+  --ds-alert-info-bg: #42507d; /* $primary_purple — solid fill */
+  --ds-alert-info-fg: #ffffff; /* white text on the purple fill */
+  --ds-alert-info-accent: #b3b9cb; /* $primary_purple_light (icon) */
 }
 
 /* Low-fi — Balsamiq-style sketch. Greyscale, dashed, marker font, no shadow,
@@ -317,4 +371,20 @@
   --ds-modal-title-size: 1.2rem;
   --ds-modal-header-bg: transparent;
   --ds-modal-header-border: var(--ds-border-color);
+
+  /* Alert — deliberate greyscale sketch. lowfi has no real alert, so the bridge fills
+   * it (flagged); a wireframe doesn't assert state colour, so every variant reads the
+   * same neutral sketch (no brand hue). */
+  --ds-alert-info-bg: #f3f3f3;
+  --ds-alert-info-fg: #3a3a3a;
+  --ds-alert-info-accent: #8a8a8a;
+  --ds-alert-success-bg: #f3f3f3;
+  --ds-alert-success-fg: #3a3a3a;
+  --ds-alert-success-accent: #8a8a8a;
+  --ds-alert-warning-bg: #f3f3f3;
+  --ds-alert-warning-fg: #3a3a3a;
+  --ds-alert-warning-accent: #8a8a8a;
+  --ds-alert-error-bg: #f3f3f3;
+  --ds-alert-error-fg: #3a3a3a;
+  --ds-alert-error-accent: #8a8a8a;
 }

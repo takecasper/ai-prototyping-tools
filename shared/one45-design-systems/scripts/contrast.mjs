@@ -150,3 +150,18 @@ section("one45 legacy Modal [D] — title on the grey header band, body on white
 row("modal title $one45_black / band #F5F5F5", "#27304B", "#F5F5F5", "(title on .modal-header band)");
 row("modal title $one45_black / white", "#27304B", WHITE, "(same title over the white body)");
 row("header band #F5F5F5 / panel #FFFFFF", "#F5F5F5", WHITE, "(decorative band vs panel — not text)");
+
+// ── Feedback & status slice — Alert (native-both). Acuity is a tinted-bg banner: text is
+// each semantic family's darkest on its lightest tint [D families / I rendering]. Legacy is
+// the real .one45-alert: $one45_black text on the solid pale fills, white on the purple info
+// fill [D] (new_branding.scss:65-170). All are body text → judged on the 4.5 threshold.
+section("Acuity Alert [D fam / I render] — family darkest text on family lightest tint");
+row("info  info-blue-darkest / lightest", "#0D556D", "#EBF4F8");
+row("success green-darkest / lightest", "#24590A", "#EEF8EB");
+row("warning yellow-darkest / lightest", "#816E09", "#FEFBE0");
+row("error red-darkest / lightest", "#720202", "#FFECE8");
+section("one45 legacy Alert [D] — .one45-alert solid fills (success/warning/error/info)");
+row("success $one45_black / $teal_light", "#27304B", "#B0F0E9");
+row("warning $one45_black / $yellow_light", "#27304B", "#FCE0A7");
+row("error $one45_black / pink #FFC8D7", "#27304B", "#FFC8D7");
+row("info  white / $primary_purple", WHITE, "#42507D", "(solid purple fill, white text)");

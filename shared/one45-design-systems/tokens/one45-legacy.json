@@ -90,15 +90,15 @@
     },
     "alert": {
       "$source": "WidgetBundle Error/*.twig (154 uses) + new_branding.scss:66-170 (.one45-alert)",
-      "$status": "REAL legacy alert — NOT acuity-only as the tool currently models it",
+      "$status": "REAL legacy alert — NATIVE in the tool (corrected from the earlier acuity-only model)",
       "variants": {
-        "success": { "bg": "#B0F0E9", "fg": "#27304B", "icon": "#2FAEA1" },
-        "warning": { "bg": "#FCE0A7", "fg": "#27304B", "icon": "#F8B223" },
-        "error":   { "bg": "#FFC8D7", "fg": "#27304B", "icon": "#F12F62" },
-        "info":    { "bg": "#42507D", "fg": "#FFFFFF", "icon": "#B3B9CB" }
+        "success": { "bg": "#B0F0E9", "fg": "#27304B", "icon": "#2FAEA1", "ratio": "10.24:1" },
+        "warning": { "bg": "#FCE0A7", "fg": "#27304B", "icon": "#F8B223", "ratio": "10.16:1" },
+        "error":   { "bg": "#FFC8D7", "fg": "#27304B", "icon": "#F12F62", "ratio": "9.00:1" },
+        "info":    { "bg": "#42507D", "fg": "#FFFFFF", "icon": "#B3B9CB", "ratio": "7.85:1" }
       },
       "markup": "div.one45-alert.alert.alert-{type} > strong(title) + description + a.close",
-      "note": "radius 0, padding 16px. The Error/* partials (error/warning/info/success/sorry/errors) are the de-facto canonical legacy alert. Recommend reworking the tool's Alert to native-both; see reconciliation §4d."
+      "note": "radius 0, padding 16px, solid pale fills (info is a solid $primary_purple fill, white text). The Error/* partials (error/warning/info/success/sorry/errors) are the de-facto canonical legacy alert. Now enshrined native-both — all four variants pass AA (contrast.mjs); see reconciliation §4e."
     },
     "badge": null,
     "spinner": {
