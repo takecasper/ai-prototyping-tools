@@ -1447,12 +1447,10 @@ body {
   letter-spacing: 0.06em;
   color: #111827;
 }
-/* Component Bridge, nested under System Divergence as a sub-section. Indented
- * with a rule on the left so it reads as subordinate to the section above it. */
+/* Component Bridge, a sub-section under System Divergence. Sits flush; the
+ * "Component Bridge" heading carries the grouping on its own. */
 .ov__sub {
   margin-top: 1rem;
-  padding-left: 0.75rem;
-  border-left: 2px solid #ececf1;
 }
 .ov__subh {
   margin: 0 0 0.6rem;

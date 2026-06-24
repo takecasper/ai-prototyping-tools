@@ -24,8 +24,8 @@ export function Library() {
   const { prototypes, activeId, setActive, active, current, goTo } = usePrototypes();
   const { mode, viewedSystemId, showPrototype, showSystem } = useView();
   const [tab, setTab] = useState<Tab>("prototypes");
-  const [sortKey, setSortKey] = useState<SortKey>("name");
-  const [dir, setDir] = useState<"asc" | "desc">("asc");
+  const [sortKey, setSortKey] = useState<SortKey>("createdAt");
+  const [dir, setDir] = useState<"asc" | "desc">("desc");
   const tablistRef = useRef<HTMLDivElement>(null);
 
   const sorted = [...prototypes].sort((a, b) => {

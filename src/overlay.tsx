@@ -46,10 +46,10 @@ export function ControlOverlay({ onClose }: { onClose: () => void }) {
       </div>
 
       <section className="ov__sec">
-        <h3 className="ov__h">Design System</h3>
+        <h3 className="ov__h">System to show in</h3>
         <select
           className="ov__select"
-          aria-label="Design system"
+          aria-label="System to show in"
           value={systemId}
           onChange={(e) => setSystemId(e.target.value as SystemId)}
         >
@@ -63,10 +63,10 @@ export function ControlOverlay({ onClose }: { onClose: () => void }) {
 
       <section className="ov__sec">
         <h3 className="ov__h">System Divergence</h3>
-        <div className="ov__label">Compare to</div>
+        <div className="ov__label">System to compare to</div>
         <select
           className="ov__select ov__select--compare"
-          aria-label="Compare to"
+          aria-label="System to compare to"
           value={compareId ?? ""}
           onChange={(e) => setCompareId(e.target.value ? (e.target.value as SystemId) : null)}
         >
