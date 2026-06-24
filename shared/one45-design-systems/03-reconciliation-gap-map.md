@@ -405,6 +405,37 @@ panel idiom — a recorded gap.
 
 ---
 
+## 4k. Data display slice — Avatar enshrined 2026-06-23 [D]
+
+Seventh slice (third data-display piece). Canonical **`Avatar`** added — a person photo with a
+**`shape` variant** (`circle` default / `card`) carrying BOTH real legacy photo shapes. Native in
+one45-legacy + lowfi, token-driven (`--ds-avatar-*`); the **Acuity DS ships no avatar**, so acuity
+resolves a **flagged bridge build** (`INTERIM_BUILDS`) — the mirror of Breadcrumb. Lint-gate-clean,
+browser-verified across all three (annotations on → flagged in acuity, off → clear; legacy + lowfi
+native, never flagged). Pattern prototype `src/prototypes/reviewer-roster/` (a selectable faculty
+roster led by a circle `Avatar` → a photo wall of the chosen reviewers as card `Avatar`s — the real
+people-picker → roster shape). Prop is **`personName`** (not `name` — `name` selects the canonical
+piece, the same collision `Icon`'s `iconName` / `Radio`'s `group` avoid).
+
+**New findings from this slice (the handoff's `.badge-details` lead was wrong):**
+
+| Finding | Evidence |
+|---|---|
+| `.badge-details` is **NOT** a profile-photo widget — it is a name-dropdown text panel (no `<img>`); the handoff mislabelled it | `themes/one45.scss:483-499`, `userprofile_badge.js:1-50` [D] |
+| **Two** real legacy photo shapes, both enshrined as the one Avatar: the inline **circle** `.profile-img` (circular, 25px sm / 60px lg, 2px ring, `blank.gif` fallback) and the yearbook **card** `.photo` (a 75-wide `#bbb`-bordered `#fff` card, 3px pad, square corners, holding a 75×98 image with a name caption beneath in `#666` at 9px) | `_list_picker.scss:26-31,41-54` [D]; `photoGallery.css:8-60`, `photo.php:14-62` [D] |
+| **Acuity DS ships NO avatar/profile-photo component** — the DS demo page enumerates every component and has none; zero island usages; no avatar token in the theme | `designSystemTest/main.jsx:3-23` [D]; theme `tailwind_acuity_theme.js` [D] |
+| **No initials fallback in either widget** — a missing photo shows a placeholder IMAGE (`blank.gif` / `add_photo.gif` / `person_outline.gif`), so the skin renders a placeholder image, never a monogram | `photo.php`, `PersonInfoPage.php:2390-2406` [D] |
+| The circle ring is `2px solid` with **no authored colour** (renders `currentColor`) — reproduced faithfully as `currentColor`, flagged `[I]` (colour not separately sourced) | `_list_picker.scss:41-54` [D] |
+| Card border `#bbb` / white **fails 1.4.11** (a thin decorative border, flagged, the real token) | `contrast.mjs` |
+
+**Anatomy result — Avatar is a present-vs-absent (axis b) divergence, the Breadcrumb mirror.**
+A real legacy piece (two real shapes) with no Acuity DS counterpart, so legacy + lowfi render it
+natively and the bridge fills acuity with a flagged token-driven build — never a fabricated
+stand-in (Spencer's rule: a bridge demo needs a genuinely one-system-only real component, which
+Avatar is). The single canonical API absorbs both shapes via one `shape` variant; no API break.
+
+---
+
 ## 5. Convergence read [I]
 
 The divergence between the two systems is **largely token/brand at the API level** —
@@ -434,7 +465,10 @@ there is **inventory** (axis b — the Acuity DS owns no table component; legacy
 `_tables.scss` skin), not API or structure. **Card (§4j) repeats the pattern with the axes
 inverted**: Acuity owns a real first-party Card while legacy owns none (borrowing Bootstrap + the
 `.dashboard-widget` tile) — native-both inventory divergence, a near-pure token swap with the one
-legacy grey-band flourish (like the legacy box tabs). The broader 7-system
+legacy grey-band flourish (like the legacy box tabs). **Avatar (§4k) is the cleanest axis-b case
+yet** — a real legacy piece (two real photo shapes) with no Acuity DS counterpart at all, so it is
+the genuine one-system-only bridge demo (the Breadcrumb mirror): legacy + lowfi native, acuity a
+flagged interim, one `shape` variant absorbing both shapes with no API break. The broader 7-system
 reality (Semantic UI / Bootstrap 2 / jQuery-UI / webeval) **is** structurally
 divergent — but six of seven die in the rebuild, so the convergence target is
 Acuity, and this map is the list of what to fix in it first.

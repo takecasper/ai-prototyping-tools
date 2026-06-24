@@ -73,7 +73,7 @@ The pieces, by slice:
 - **Actions & containers** — Button, Card, IconButton
 - **Inputs & controls** — TextField, Textarea, Select, Checkbox, Radio, Toggle, SearchField
 - **Navigation** — Tabs, Link, Breadcrumb
-- **Data display** — Table
+- **Data display** — Table, Avatar
 - **Feedback & status** — Badge, Alert, Modal
 - **Media** — Image, Icon
 
@@ -109,6 +109,15 @@ adds a full-bleed grey header band (the one per-system flourish, like the box ta
 dashed sketch. `iconName` renders the per-system token glyph stand-in (real artwork is a recorded
 asset gap, like Icon). The divergence is again **inventory** (Acuity owns a real Card; legacy borrows
 Bootstrap + the `.dashboard-widget` tile). See `shared/one45-design-systems/01`/`02` L "Data display" / §4j.
+
+**Avatar** is the data-display group's third piece — a person photo with a **`shape` variant**
+(`personName`, `src?`, `shape?` ∈ circle/card, `size?` ∈ sm/lg). The person name is **`personName`**,
+NOT `name` (`name` selects the canonical piece, the same collision `Icon`'s `iconName` avoids). It is
+**legacy-only**: legacy owns two real photo widgets (the inline `.profile-img` circle + the webeval
+`.photo` yearbook card), the Acuity DS ships **none**, so in `acuity` it resolves through the bridge to
+a flagged build — the mirror of `Badge`. Native in legacy + lowfi. A missing `src` falls back to a
+placeholder **image** (the real `blank.gif` behaviour), never an initials monogram. See
+`shared/one45-design-systems/01`/`02` L "Data display" / §4k.
 
 The Feedback & status pieces:
 

@@ -444,6 +444,36 @@ Card alike, so Card is native-both — no bridge. (Reconciliation map §4j.)
 
 ---
 
+## Data display — enshrined slice (Avatar) [D]
+
+Third data-display piece (2026-06-23). **Legacy owns the only real person-photo widgets** in One45 —
+the Acuity DS ships none — so `Avatar` is a legacy-native, **present-vs-absent** piece (axis b), the
+Breadcrumb mirror. Pattern prototype `src/prototypes/reviewer-roster/` (a selectable faculty roster
+led by a circle `Avatar` → a photo wall of the chosen reviewers as card `Avatar`s).
+
+**Inventory reality — TWO real shapes, both enshrined as the one canonical Avatar** (a `shape`
+variant). The handoff's `.badge-details` lead was **wrong** — that is a name-dropdown text panel
+(no `<img>`, `themes/one45.scss:483-499`), not a photo widget. The real widgets are:
+
+| Shape | Source | Real rendered values |
+|---|---|---|
+| **circle** (`shape="circle"`, default) | people-picker / self-send `.profile-img` (`_list_picker.scss:26-31,41-54`) | circular, **25px** (sm) / **60px** (lg), border **2px** (`2px solid` = `currentColor`, no authored colour — `[I]`), `blank.gif` placeholder, **no initials** |
+| **card** (`shape="card"`) | webeval yearbook tile `.photo` (`photoGallery.css:8-60`, `photo.php:14-62`) | a **75px**-wide `#FFF` card, 1px **`#BBB`** border, 3px pad, square corners, holding a **75×98** image with a name caption beneath in **`#666`** at **9px**; `blank.gif` / `person_outline.gif` fallbacks |
+
+**Tokens enshrined** (`--ds-avatar-*`): the values above, verbatim. The circle ring is reproduced as
+`currentColor` (faithful to the un-authored `2px solid`); the card caption / border carry the real
+`#666` / `#BBB`. **Computed contrast** (`contrast.mjs`, "legacy Avatar"): caption `#666`/white
+**5.74** (AA text); card border `#BBB`/white **1.92** — fails 3:1 (thin decorative border, flagged).
+
+**Intent-vs-reality [R]:** not separately re-captured on staging this slice — the people-picker
+circle is a non-DS hand-rolled widget and the `.photo` tile is a webeval (classic-app) view; values
+are `[D]`-sourced from the SCSS / tag implementation, the recorded basis. The Acuity DS ships no
+avatar at all, so acuity gets a flagged bridge build (`INTERIM_BUILDS`) — never a fabricated
+component (Spencer's rule). One canonical API absorbs both shapes via `shape`; no API break.
+(See `01` for the acuity inventory gap and reconciliation map §4k.)
+
+---
+
 ## Carry-forward verdict
 
 The legacy brand is a **migration source, not a target** — it is being replaced by

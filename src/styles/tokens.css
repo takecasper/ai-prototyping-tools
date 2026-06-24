@@ -188,6 +188,25 @@
   --ds-table-cell-pad-y: 0.5rem;
   --ds-table-cell-pad-x: 0.6rem;
   --ds-table-radius: 6px; /* outer corner (real tables are mostly square — overridden) */
+
+  /* ---- data display (the Data display slice — Avatar) ----
+   * Generic fallbacks; legacy overrides below from its real sourced values (it owns the
+   * only real avatars), acuity sets bridge-interim values (the DS ships no avatar), lowfi
+   * the sketch. Two shapes: a circle (size-sm / size-lg + ring) and a fixed yearbook card
+   * (card-width / card-img-height + caption). See 01/02 L "Data display", 03 §4k. */
+  --ds-avatar-size-sm: 28px; /* circle small */
+  --ds-avatar-size-lg: 60px; /* circle large */
+  --ds-avatar-ring-width: 2px; /* circle border */
+  --ds-avatar-ring: var(--ds-border-color); /* circle border colour */
+  --ds-avatar-radius: 50%; /* circular */
+  --ds-avatar-card-width: 75px; /* yearbook card width */
+  --ds-avatar-card-img-height: 98px; /* card image height */
+  --ds-avatar-card-pad: 3px; /* card padding */
+  --ds-avatar-card-bg: var(--ds-bg); /* card background */
+  --ds-avatar-card-border: var(--ds-border-color); /* card border */
+  --ds-avatar-card-radius: 0; /* square-cornered card */
+  --ds-avatar-name-color: var(--ds-fg-muted); /* card caption text */
+  --ds-avatar-name-size: 0.7rem; /* card caption size */
 }
 
 /* Acuity (One45 modern) — real token set from tailwind_acuity_theme.js.
@@ -355,6 +374,18 @@
   --ds-table-cell-pad-y: 0.4rem;
   --ds-table-cell-pad-x: 0.5rem; /* 8px — matches the real form-control pad [R] */
   --ds-table-radius: 0; /* real Acuity tables carry no radius [R] */
+
+  /* Avatar — the Acuity DS ships NO avatar/profile-photo component ([D] the DS demo page
+   * enumerates every component — designSystemTest/main.jsx:3-23 — and has none; zero island
+   * usages; no avatar token in tailwind_acuity_theme.js). So Avatar is legacy-only and the
+   * bridge builds a FLAGGED interim for acuity — these --ds-avatar-* values only style that
+   * interim so it reads on-brand (the same handling as --ds-crumb-* for the bridged
+   * Breadcrumb), NOT a status-quo Acuity component. The closest real Acuity-app photo is the
+   * hand-rolled NON-DS .profile-img circle (25/60px, 2px ring, blank.gif fallback —
+   * WidgetBundle _list_picker.scss), used to shape the interim; neutrals-light borders [R]. */
+  --ds-avatar-ring: #b8b8b8; /* neutrals-light ring (bridge interim) */
+  --ds-avatar-card-border: #b8b8b8; /* neutrals-light card border (bridge interim) */
+  --ds-avatar-name-color: #5f5f5f; /* muted caption — real accessible grey (--ds-fg-muted) */
 
   /* Iconography — [D] the Acuity DS Icon/IconButton API (designSystemTest/main.jsx): a NAMED
    * size scale small|medium + the iconName/iconSize convenience props. The icon-name vocabulary
@@ -544,6 +575,29 @@
   --ds-table-cell-pad-x: 5px; /* $table_cell_padding_unit [D] */
   --ds-table-radius: 0; /* no legacy table radius [D] */
 
+  /* Avatar — [D] the real legacy person-photo widgets (legacy owns the only real avatars).
+   * Circle = the inline people-picker .profile-img: 25×25 (sm) / 60×60 (lg), border 2px,
+   * border-radius circular ([D] WidgetBundle _list_picker.scss:26-31,41-54). The .profile-img
+   * border is declared `2px solid` with NO explicit colour, so it renders in currentColor —
+   * reproduced faithfully as currentColor (flagged [I]: colour not separately authored). Card =
+   * the webeval yearbook tile .photo: a 75px-wide #fff card, 1px #bbb border, 3px padding, square
+   * corners, holding a 75×98 image with a name caption beneath in #666 at 9px ([D] webeval
+   * photoGallery.css:8-60). Neither widget uses initials — fallbacks are placeholder IMAGES
+   * (blank.gif / person_outline.gif, photo.php / PersonInfoPage.php). See 02 L "Data display", 03 §4k. */
+  --ds-avatar-size-sm: 25px; /* .profile-img 25×25 [D] _list_picker.scss:41-54 */
+  --ds-avatar-size-lg: 60px; /* .profile-img 60×60 variant [D] _list_picker.scss:26-31 */
+  --ds-avatar-ring-width: 2px; /* .profile-img border 2px [D] */
+  --ds-avatar-ring: currentColor; /* .profile-img `2px solid` = currentColor (colour not authored) [I] */
+  --ds-avatar-radius: 50%; /* circular [D] (border-radius:32px on a 25px box) */
+  --ds-avatar-card-width: 75px; /* .photo card 75px [D] photoGallery.css:8-19 */
+  --ds-avatar-card-img-height: 98px; /* .photo img 98px [D] photoGallery.css:47-52 */
+  --ds-avatar-card-pad: 3px; /* .photo padding 3px [D] */
+  --ds-avatar-card-bg: #ffffff; /* .photo background #fff [D] */
+  --ds-avatar-card-border: #bbbbbb; /* .photo border #bbb [D] — fails 3:1 as a border (flagged) */
+  --ds-avatar-card-radius: 0; /* square-cornered [D] */
+  --ds-avatar-name-color: #666666; /* .photo span #666 [D] photoGallery.css:54-60 */
+  --ds-avatar-name-size: 0.5625rem; /* .photo span 9px [D] */
+
   /* Iconography — [D] FontAwesome Pro 5.15.3 (fontawesome.scss:2-16) is the legacy icon
    * webfont: default size 0.9rem (the fa-icon mixin, fontawesome.scss:16), alert icons 1.5rem
    * (new_branding.scss:86); the only scale class in use is fa-2x. The older famfamfam Silk set
@@ -690,6 +744,14 @@
   --ds-table-cell-pad-y: 0.4rem;
   --ds-table-cell-pad-x: 0.55rem;
   --ds-table-radius: 2px;
+
+  /* Avatar — deliberate greyscale sketch. lowfi is not a status-quo system, so these are
+   * hand-authored sketch values; LowfiAvatar draws a dashed circle / sketch image box (the
+   * sk-img--lowfi idiom, app.css per-system rule) instead of loading a placeholder photo. */
+  --ds-avatar-ring: #8a8a8a;
+  --ds-avatar-card-bg: #ffffff;
+  --ds-avatar-card-border: #8a8a8a;
+  --ds-avatar-name-color: #6a6a6a;
 
   /* Iconography — deliberate sketch. A two-step size scale + a square icon button; the
    * stand-in glyph is a dashed box (no brand glyph, no semantic hue). */

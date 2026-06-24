@@ -176,6 +176,13 @@
       "render": "the legacy panel/modal grey-band idiom (already enshrined for the legacy Modal, _bootstrap.scss): white body with a #F5F5F5 grey header band + #EEE bottom rule, $grey #D1D1D9 border, 4px base radius, $one45_black #27304B title at 16px (the .dashboard-widget h3 size). The grey band is full-bleed (the one per-system structural flourish, like the legacy box tabs).",
       "contrast": "title #27304B on band #F5F5F5 11.96 (AAA) and on white body 13.04 (AAA); border $grey #D1D1D9/white 1.52 (fails 3:1 — thin decorative border, flagged, the real $grey). contrast.mjs 'legacy Card'."
     },
-    "gaps": "No CSS `marksheet` class exists (the colloquial marksheet renders via the generic report-tabular/DataTables skin). No position:sticky header. Legacy ships no bespoke card (§4j — modelled on the panel idiom). List/accordion/avatar/tree/timeline/stat/code-block/key-value = FOLLOW-UP slice. Tag/chip/empty-state/toast remain both-systems gaps."
+    "avatar": {
+      "$meta": "[D] legacy owns the only real person-photo widgets (the Acuity DS ships none), so Avatar is legacy-native, a present-vs-absent (axis b) piece — the Breadcrumb mirror. TWO real shapes enshrined as one canonical Avatar (a shape variant). The handoff's `.badge-details` lead was WRONG — that is a name-dropdown text panel (no <img>, themes/one45.scss:483-499), not a photo widget. No initials fallback in either shape (placeholder IMAGES: blank.gif/add_photo.gif/person_outline.gif). Reconciliation map §4k.",
+      "api": ["personName", "src", "shape(circle|card)", "size(sm|lg)"],
+      "circle": "$source _list_picker.scss:26-31,41-54 — the inline people-picker/self-send .profile-img: circular, 25px (sm) / 60px (lg), border 2px (`2px solid` = currentColor, no authored colour [I]), blank.gif placeholder",
+      "card": "$source photoGallery.css:8-60, photo.php:14-62 — the webeval yearbook tile .photo: a 75px-wide #FFF card, 1px #BBB border, 3px pad, square corners, holding a 75x98 image with a name caption beneath in #666 at 9px",
+      "contrast": "card caption #666/white 5.74 (AA text); card border #BBB/white 1.92 (fails 3:1 — thin decorative border, flagged). The circle ring is currentColor (no fixed pair). contrast.mjs 'legacy Avatar'."
+    },
+    "gaps": "No CSS `marksheet` class exists (the colloquial marksheet renders via the generic report-tabular/DataTables skin). No position:sticky header. Legacy ships no bespoke card (§4j — modelled on the panel idiom). Avatar IS native (the .profile-img circle + the .photo yearbook card, §4k). List/accordion/tree/timeline/stat/code-block/key-value = FOLLOW-UP slice. Tag/chip/empty-state/toast remain both-systems gaps."
   }
 }

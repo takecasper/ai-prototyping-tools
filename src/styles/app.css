@@ -320,6 +320,81 @@ body {
   border-bottom-style: dashed;
 }
 
+/* ---- Data display: Avatar (legacy-only → acuity bridges; both shape variants) ----
+ * Two real legacy person-photo shapes enshrined as one canonical Avatar with a `shape`
+ * variant (Spencer's call): the inline CIRCLE (.profile-img — 25/60px, 2px ring,
+ * WidgetBundle _list_picker.scss) and the rectangular yearbook CARD (.photo — a 75-wide
+ * #bbb-bordered card holding a 75×98 image with a name caption, webeval photoGallery.css).
+ * The Acuity DS ships NO avatar (its DS demo lists none) → acuity gets a FLAGGED bridge
+ * build (INTERIM_BUILDS); legacy + lowfi render it natively. All look comes from the
+ * --ds-avatar-* tokens. No initials — a missing photo shows a placeholder image (the real
+ * blank.gif reality), never a monogram. See 01/02 L "Data display", 03 §4k. */
+.sk-avatar--circle {
+  display: inline-block;
+  width: var(--ds-avatar-size-sm);
+  height: var(--ds-avatar-size-sm);
+  border-radius: var(--ds-avatar-radius);
+  border: var(--ds-avatar-ring-width) solid var(--ds-avatar-ring);
+  object-fit: cover;
+  background: var(--ds-surface);
+  vertical-align: middle;
+}
+.sk-avatar--lg {
+  width: var(--ds-avatar-size-lg);
+  height: var(--ds-avatar-size-lg);
+}
+.sk-avatar--card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: var(--ds-avatar-card-width);
+  padding: var(--ds-avatar-card-pad);
+  margin: 0;
+  background: var(--ds-avatar-card-bg);
+  border: 1px solid var(--ds-avatar-card-border);
+  border-radius: var(--ds-avatar-card-radius);
+  vertical-align: top;
+}
+.sk-avatar__img {
+  display: block;
+  width: 100%;
+  height: var(--ds-avatar-card-img-height);
+  object-fit: cover;
+}
+.sk-avatar__name {
+  margin-top: 2px;
+  font-size: var(--ds-avatar-name-size);
+  color: var(--ds-avatar-name-color);
+  line-height: 1.2;
+  word-break: break-word;
+}
+/* lowfi: a wireframe avatar reads as a dashed sketch, not a loaded photo (the Image/Table
+ * sketch idiom). The circle is a dashed ring over a grey fill; the card image box is the
+ * diagonal-cross sketch from .sk-img--lowfi. The bare [data-ds=…] variant also applies
+ * inside a gallery stage scoped to lowfi, not just when lowfi is the root active system. */
+:root[data-ds="lowfi"] .sk-avatar--circle,
+[data-ds="lowfi"] .sk-avatar--circle {
+  border-style: dashed;
+  background: #f0f0f0;
+}
+:root[data-ds="lowfi"] .sk-avatar__img--lowfi,
+[data-ds="lowfi"] .sk-avatar__img--lowfi {
+  background-color: #f0f0f0;
+  background-image:
+    linear-gradient(
+      to top right,
+      transparent calc(50% - 1px),
+      var(--ds-border-color) 50%,
+      transparent calc(50% + 1px)
+    ),
+    linear-gradient(
+      to top left,
+      transparent calc(50% - 1px),
+      var(--ds-border-color) 50%,
+      transparent calc(50% + 1px)
+    );
+}
+
 .sk-img {
   display: block;
   max-width: 100%;

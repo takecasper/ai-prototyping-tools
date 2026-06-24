@@ -226,3 +226,16 @@ row("card title $one45_black / band #F5F5F5", "#27304B", "#F5F5F5", "(title on t
 row("card title $one45_black / white", "#27304B", WHITE, "(same title over the white body)");
 row("card border $grey #D1D1D9 / white", "#D1D1D9", WHITE, "(1px border — fails 3:1, flagged)");
 row("header band #F5F5F5 / panel #FFFFFF", "#F5F5F5", WHITE, "(decorative band vs panel — not text)");
+
+// ── Data display slice (2026-06-23) — Avatar. Legacy owns the only real avatars. Circle is
+// .profile-img (_list_picker.scss); card is the webeval .photo yearbook tile (photoGallery.css) —
+// its caption #666 is body TEXT (judged 4.5), its #BBB border is a thin UI rule (3:1, 1.4.11). The
+// circle ring is `2px solid` = currentColor (no authored colour) so there is no fixed pair to test.
+// The Acuity DS ships NO avatar, so the acuity values style only the flagged bridge interim — the
+// neutrals-light border (3:1 UI) + the accessible #5f5f5f caption (4.5 text).
+section("one45 legacy Avatar [D] — .photo yearbook card caption + border on white");
+row("card caption #666 / white", "#666666", WHITE, "(9px caption text)");
+row("card border #BBB / white", "#BBBBBB", WHITE, "(1px border — fails 3:1, flagged)");
+section("Acuity Avatar [bridge interim] — flagged build styling on white (DS ships no avatar)");
+row("interim caption #5f5f5f / white", "#5F5F5F", WHITE, "(--ds-fg-muted caption text)");
+row("interim ring/border neutrals-light / white", "#B8B8B8", WHITE, "(1px border — fails 3:1, flagged)");

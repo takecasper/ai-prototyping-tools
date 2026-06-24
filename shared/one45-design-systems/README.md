@@ -71,8 +71,8 @@ These are **live, usable skinned systems** in the tool, not just docs:
   Alert is **native in both** systems: the tool renders each system's own skin
   (Acuity tinted banner, legacy solid pale fill), and the bridge fills only **lowfi**.
   This is the "different mechanism, same surface" case (§4d/§4e). The genuine
-  *present-vs-absent* bridge cases are **Breadcrumb** (legacy-only) and **Badge**
-  (acuity-only). The bridge itself has evolved (`INTERIM_BUILDS`): a missing piece
+  *present-vs-absent* bridge cases are **Breadcrumb** (legacy-only), **Avatar**
+  (legacy-only) and **Badge** (acuity-only). The bridge itself has evolved (`INTERIM_BUILDS`): a missing piece
   resolves to a flagged token-driven build of *that* piece, not an unrelated
   component.
 
@@ -138,6 +138,17 @@ panel grey-band idiom — native-both, "different mechanism, same surface" (like
 token swap with one legacy grey-band flourish. `learner-profile` prototype (directory `Table` →
 icon/title/footer profile Cards). Card borders fail 1.4.11 (`#B8B8B8` 1.98 / `#D1D1D9` 1.52,
 flagged). Gap map §4j.
+
+**Data display slice — Avatar (2026-06-23):** `Avatar` enshrined — a person photo with a `shape`
+variant (`circle` default / `card`). **Legacy-only**: legacy owns two real photo widgets — the inline
+`.profile-img` circle (25/60px, 2px ring) and the webeval `.photo` yearbook card (75×98 image, `#BBB`
+border, `#666` 9px caption) — while the Acuity DS ships **no avatar** at all (`[D]`: not in the DS
+component list, zero island usages), so it is the cleanest present-vs-absent bridge case, the mirror
+of Breadcrumb: native in legacy + lowfi, a flagged bridge build in `acuity`. One canonical API absorbs
+both shapes via `shape`; no API break. No initials fallback — a missing photo shows a placeholder
+**image** (the real `blank.gif` behaviour). `reviewer-roster` prototype (a selectable faculty roster
+with circle avatars → a photo wall of card avatars). Card border `#BBB` fails 1.4.11 (1.92, flagged).
+Gap map §4k.
 
 **Honest scope:** between `acuity` and `one45-legacy`, most pieces are the **same
 component re-skinned by tokens**, not structurally different — so a single

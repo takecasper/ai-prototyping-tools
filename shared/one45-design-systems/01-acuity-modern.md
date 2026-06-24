@@ -554,6 +554,26 @@ tile, so Card is native-both ("different mechanism, same surface", like Alert) �
 
 ---
 
+## Data display — Avatar (inventory gap, bridge-filled) [D]
+
+Third data-display piece (2026-06-23). **The Acuity DS ships NO avatar / profile-photo / user-image
+component.** The DS demo page enumerates every component it backs and there is none
+(`designSystemTest/main.jsx:3-23`: Alert, Button, Card, Checkbox, Heading, Icon, IconButton, Link,
+Radio, Modal, Badge, TextInput, Textarea, Dropdown, ProgressBar, Spinner, Tabs, Tab — no Avatar);
+zero island usages of any avatar export; no avatar sizing/radius token in `tailwind_acuity_theme.js`.
+The only person photos in the modern app are **hand-rolled, non-DS** markup — the jQuery
+people-picker / self-send `.profile-img` circle (`_list_picker.scss:41-54`, copy-pasted per feature)
+and a few raw `<img>`s — never a shared component.
+
+So `Avatar` is **legacy-only**, and in the tool acuity resolves it through the **bridge** to a
+flagged token-driven interim (`INTERIM_BUILDS`, the same path as Breadcrumb) — never a fabricated
+"Acuity avatar". The `--ds-avatar-*` values in the acuity token block style ONLY that interim so it
+reads on-brand (neutrals-light ring/border, accessible `#5f5f5f` caption); they are **not** a
+status-quo Acuity component. This is the present-vs-absent (axis b) mirror of legacy lacking nothing
+here — see `02` for the real legacy widgets and reconciliation map §4k.
+
+---
+
 ## Carry-forward verdict
 
 Carry the **token set verbatim, collapse the 4× duplication to one source**. Add

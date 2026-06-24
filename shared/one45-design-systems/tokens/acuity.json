@@ -153,6 +153,12 @@
       "render": "headerless white flex-column: ds-rounded-lg ds-border ds-border-neutrals-light ds-p-5 -> border 1px neutrals-light #B8B8B8, radius 8px, padding 24px, ~24px inter-block gap, NO box-shadow; header row = 24px icon (neutrals-darker #333) + Lato 20px/weight 600 title #333 (gap 12px, items-center); footer holds the action Buttons. radius/shadow are RENDERED values (the Acuity set tokenizes neither).",
       "contrast": "title #333/white 12.63 (AAA); border neutrals-light #B8B8B8/white 1.98 (fails 3:1 — thin decorative border, flagged, the real token). contrast.mjs 'Acuity Card'."
     },
-    "gaps": "The Acuity DS owns no dedicated table — its tables are app-level react-table over Bootstrap. Card IS first-party (formalised §4j). The rest of the data-display group (list, accordion, avatar, tree, timeline, stat/metric, code block, key-value) is a FOLLOW-UP slice, not enshrined here. Toast/tag-chip/empty-state remain both-systems gaps (the Pagination rule)."
+    "avatar": {
+      "$meta": "[D] the Acuity DS ships NO avatar/profile-photo/user-image component. The DS demo page enumerates every component it backs and has none (designSystemTest/main.jsx:3-23); zero island usages of any avatar export; no avatar sizing/radius token in tailwind_acuity_theme.js. The only person photos in the modern app are hand-rolled NON-DS markup (the jQuery people-picker/self-send .profile-img circle, _list_picker.scss:41-54, copy-pasted per feature). So Avatar is legacy-only and acuity resolves it through the BRIDGE to a flagged interim (INTERIM_BUILDS) — the present-vs-absent (axis b) mirror of legacy lacking Badge. Reconciliation map §4k.",
+      "api": ["personName", "src", "shape(circle|card)", "size(sm|lg)"],
+      "render": "NOT a status-quo Acuity component — the --ds-avatar-* acuity values style ONLY the flagged bridge interim so it reads on-brand: neutrals-light #B8B8B8 ring/border, accessible #5f5f5f (--ds-fg-muted) caption. Shape/size come from the shared circle (25/60px) + card (75x98) reference, modelled on the non-DS .profile-img.",
+      "contrast": "interim caption #5f5f5f/white 6.39 (AA text); interim ring/border neutrals-light #B8B8B8/white 1.98 (fails 3:1 — thin border, flagged). contrast.mjs 'Acuity Avatar'."
+    },
+    "gaps": "The Acuity DS owns no dedicated table — its tables are app-level react-table over Bootstrap. Card IS first-party (formalised §4j). The Acuity DS ships NO avatar (Avatar is legacy-only, bridge-filled §4k). The rest of the data-display group (list, accordion, tree, timeline, stat/metric, code block, key-value) is a FOLLOW-UP slice, not enshrined here. Toast/tag-chip/empty-state remain both-systems gaps (the Pagination rule)."
   }
 }

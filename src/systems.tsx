@@ -58,7 +58,12 @@ export type CanonicalName =
   // Data display slice — Table is native in all three (the Acuity DS ships no table
   // component, so its skin reproduces the real app-level table reality; legacy carries
   // the real _tables.scss skin). One canonical columns+rows+sort API across systems.
-  | "Table";
+  | "Table"
+  // Avatar is legacy-only (the Acuity DS ships no avatar/profile-photo component → bridge
+  // fills acuity, the mirror of Breadcrumb). One canonical piece carries BOTH real legacy
+  // photo shapes via a `shape` variant: the inline circle (.profile-img) + the yearbook
+  // card (.photo).
+  | "Avatar";
 export type SystemId = "lowfi" | "acuity" | "one45-legacy";
 
 // The documentation slices the gallery groups by. New canonical pieces slot into
@@ -114,6 +119,7 @@ export const CANONICAL: CanonicalDef[] = [
   { name: "Breadcrumb", label: "Breadcrumb", category: "Navigation", description: "Trail of ancestor links; legacy-only (bridge fills acuity)", props: "items", notes: "items: string[] or {label,href?}[]; last item is the current page; legacy-only" },
   { name: "Modal", label: "Modal", category: "Feedback & status", description: "Centred dialog overlay (title, body, footer actions); shared API across systems", props: "open, title?, onClose?, dismissible?, icon?, footer?, children", notes: "one API across all systems; footer holds the action Buttons; closes on Esc / scrim click when dismissible" },
   { name: "Table", label: "Table", category: "Data display", description: "Data table with sortable columns + optional row selection", props: "columns, rows, rowKey?, sort?, onSort?, selectable?, selected?, onSelectionChange?, empty?, caption?", notes: "columns: {key, header, align?, width?, sortable?, cell?}[]; table-wide sort — onSort(key) toggles; selectable adds a bulk-select column (select-all header); native in all three. The Acuity DS ships NO table component ([R] — real app tables inherit base type only over react-table), so its skin reproduces that minimal reality; legacy carries the real _tables.scss skin. One canonical API + pure token swap — the predicted data-grid API break did not happen" },
+  { name: "Avatar", label: "Avatar", category: "Data display", description: "Person photo — inline circle or yearbook card; legacy-only (bridge fills acuity)", props: "personName, src?, shape?, size?", notes: "personName (NOT name — name selects the canonical piece, like Icon's iconName); src? falls back to a placeholder image; shape: circle (default) / card; size: sm (default) / lg — circle only (the card is a fixed thumbnail). Legacy-only: the real circle is .profile-img (25/60px, 2px ring), the card is the webeval .photo yearbook tile (75×98 img, #bbb border, name caption). The Acuity DS ships NO avatar → acuity resolves a flagged bridge build (the Breadcrumb mirror). No initials fallback — a missing photo shows a placeholder IMAGE (the real blank.gif / person_outline.gif reality), never a monogram" },
   { name: "Image", label: "Image", category: "Media", description: "Placeholder image (placehold.co)", props: "w, h, label?", notes: "never commit binary image files" },
   { name: "Icon", label: "Icon", category: "Media", description: "Named icon (real DS name/size vocabulary)", props: "iconName, size?, altText?, tone?", notes: "size: small / medium; iconName is the real DS vocabulary (add, edit, delete, checkCircle, warning…); tone: success / warning / error / info; renders a token-sized stand-in glyph — real glyph artwork is a recorded asset gap (no DS icon font is vendored)" },
 ];
@@ -627,6 +633,60 @@ const Table: Skin = ({
   );
 };
 
+// ---- Data display: Avatar (legacy-only → acuity bridges; both shape variants) ----
+// Sourced [D] from the legacy code: TWO real person-photo shapes, kept as ONE canonical
+// Avatar with a `shape` variant (Spencer's call — "Both as variants"):
+//   circle  the inline people-picker avatar .profile-img — circular, 25px (sm) / 60px (lg),
+//           2px ring, blank.gif placeholder (WidgetBundle _list_picker.scss:26-31,41-54).
+//   card    the webeval yearbook tile .photo — a 75-wide #bbb-bordered card holding a 75×98
+//           image with a name caption beneath (#666, 9px), square corners, image fallbacks
+//           (blank.gif / person_outline.gif) (webeval photoGallery.css:8-60, photo.php:14-62).
+// The Acuity DS ships NO avatar/profile-photo component (the DS demo page enumerates every
+// component and has none; zero island usages; no theme token — [D] designSystemTest/main.jsx:3-23),
+// so Avatar is legacy-only and the bridge builds a FLAGGED interim for acuity (INTERIM_BUILDS) —
+// the mirror of acuity lacking Breadcrumb. legacy + lowfi render it natively. NEITHER real widget
+// uses an initials monogram: a missing photo falls back to a placeholder IMAGE, so the skin shows a
+// placeholder image (the blank.gif reality), never a monogram. The dimensions/ring/caption come
+// from the --ds-avatar-* tokens. See shared/one45-design-systems/01/02 L "Data display", 03 §4k.
+// The person-name prop is `personName`, NOT `name` — `name` selects the canonical piece in
+// <Canonical name="Avatar">, the same collision Icon's `iconName` and Radio's `group` avoid.
+const Avatar: Skin = ({ src, personName, shape, size }) => {
+  const card = shape === "card";
+  const label = personName != null ? String(personName) : "";
+  const dims = card ? { w: 75, h: 98 } : size === "lg" ? { w: 60, h: 60 } : { w: 28, h: 28 };
+  const img = src ? String(src) : placeholderImage(dims.w, dims.h);
+  if (card) {
+    return (
+      <figure className="sk-avatar sk-avatar--card">
+        <img className="sk-avatar__img" src={img} alt={label || "person"} width={dims.w} height={dims.h} />
+        {label ? <figcaption className="sk-avatar__name">{label}</figcaption> : null}
+      </figure>
+    );
+  }
+  const cls = size === "lg" ? "sk-avatar sk-avatar--circle sk-avatar--lg" : "sk-avatar sk-avatar--circle";
+  return <img className={cls} src={img} alt={label || "person"} width={dims.w} height={dims.h} />;
+};
+
+// lowfi draws the avatar as a sketch (no network request), like LowfiImage: a dashed
+// circle, or a card with a sketch image box + the name caption. Same --ds-avatar-* sizing.
+const LowfiAvatar: Skin = ({ personName, shape, size }) => {
+  const card = shape === "card";
+  const label = personName != null ? String(personName) : "";
+  if (card) {
+    return (
+      <figure className="sk-avatar sk-avatar--card sk-avatar--lowfi">
+        <span className="sk-avatar__img sk-avatar__img--lowfi" role="img" aria-label={label || "person photo"} />
+        {label ? <figcaption className="sk-avatar__name">{label}</figcaption> : null}
+      </figure>
+    );
+  }
+  const cls =
+    size === "lg"
+      ? "sk-avatar sk-avatar--circle sk-avatar--lowfi sk-avatar--lg"
+      : "sk-avatar sk-avatar--circle sk-avatar--lowfi";
+  return <span className={cls} role="img" aria-label={label || "person photo"} />;
+};
+
 // Image and Icon differ structurally per system. The brand systems pull a
 // placehold.co image / draw a token-coloured glyph; low-fi draws a sketch box and
 // an outline glyph with no network request.
@@ -774,8 +834,10 @@ const FEEDBACK_CONTROLS = { Modal };
 // component, so its skin reproduces the minimal real app reality (Lato, #333, thin
 // dividers — [R] marksOverview2.php) while legacy carries its real _tables.scss skin.
 // Native in all three → never bridged (03 §4i). Toast/tag-chip/empty-state remain
-// un-built both-systems gaps; the rest of the data-display group (list, accordion,
-// avatar, tree, timeline, stat, code block, key-value) is a follow-up slice.
+// un-built both-systems gaps. Avatar is NOT here: it is legacy-only (the Acuity DS ships
+// no avatar), so it is added to legacy + lowfi below and the bridge fills acuity — the same
+// shape as Breadcrumb. The rest of the data-display group (list, accordion, tree, timeline,
+// stat, code block, key-value) is a follow-up slice.
 const DATA_DISPLAY = { Table };
 
 export const SYSTEMS: Record<SystemId, DesignSystem> = {
@@ -787,8 +849,9 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // Alert resolves to a flagged token-driven build via the bridge (INTERIM_BUILDS);
     // Badge demonstrates the older first-native-piece fallback. lowfi is the ONLY system
     // that bridges Alert now — both brand systems ship a real one. Breadcrumb IS present —
-    // it is legacy-era and renders fine in the sketch skin.
-    skins: { Button, Card, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Breadcrumb, Image: LowfiImage, Icon: LowfiIcon, IconButton: LowfiIconButton },
+    // it is legacy-era and renders fine in the sketch skin. Avatar IS present (the sketch
+    // LowfiAvatar) — like Breadcrumb, the legacy-only piece still draws in the wireframe.
+    skins: { Button, Card, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Breadcrumb, Avatar: LowfiAvatar, Image: LowfiImage, Icon: LowfiIcon, IconButton: LowfiIconButton },
   },
   acuity: {
     id: "acuity",
@@ -796,7 +859,9 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     blurb: "Rebuilt from the real token set",
     // Breadcrumb is deliberately absent: the Acuity DS package ships no Breadcrumb
     // component (zero usages recovered from the islands), so it resolves through the
-    // bridge to a flagged AI build — the mirror of legacy lacking Alert.
+    // bridge to a flagged AI build — the mirror of legacy lacking Alert. Avatar is ALSO
+    // absent for the same reason (the DS ships no avatar/profile-photo component), so it
+    // too resolves to a flagged bridge build — the second acuity bridge demo.
     skins: { Button, Card, Badge, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Image: BrandImage, Icon: BrandIcon, IconButton: BrandIconButton },
   },
   "one45-legacy": {
@@ -807,8 +872,10 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // read was wrong; 03 §4d). Badge is NOT here — legacy has no status badge (its
     // .badge-details is a profile-photo widget), so Badge is the genuine acuity-only piece
     // and the bridge fills it. Breadcrumb IS native — the legacy app has a real (bespoke
-    // chevron) breadcrumb the Acuity DS never built. Form + nav controls re-skin cleanly.
-    skins: { Button, Card, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Breadcrumb, Image: BrandImage, Icon: BrandIcon, IconButton: BrandIconButton },
+    // chevron) breadcrumb the Acuity DS never built. Avatar IS native — the legacy app has
+    // real person-photo widgets (the .profile-img circle + the .photo yearbook card) the
+    // Acuity DS never built. Form + nav controls re-skin cleanly.
+    skins: { Button, Card, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Breadcrumb, Avatar, Image: BrandImage, Icon: BrandIcon, IconButton: BrandIconButton },
   },
 };
 
@@ -824,9 +891,12 @@ export const SYSTEM_IDS = Object.keys(SYSTEMS) as SystemId[];
 //   Alert       native in acuity + legacy → built (flagged) for lowfi ONLY (lowfi has
 //               no real alert; both brand systems do, so they render native).
 //   Breadcrumb  legacy-only piece         → built (flagged) for acuity.
+//   Avatar      legacy-only piece         → built (flagged) for acuity (the Breadcrumb
+//               mirror — the Acuity DS ships no avatar; the token-driven build re-skins
+//               to acuity-blue/Lato so the flagged interim reads on-brand).
 // A piece NOT listed here (e.g. Badge in legacy + lowfi) still falls back to the cruder
 // first-native substitution below, so both bridge behaviours stay observable.
-export const INTERIM_BUILDS: Partial<Record<CanonicalName, Skin>> = { Alert, Breadcrumb };
+export const INTERIM_BUILDS: Partial<Record<CanonicalName, Skin>> = { Alert, Breadcrumb, Avatar };
 
 // The crude fallback the bridge uses ONLY when a missing piece has no INTERIM_BUILDS
 // entry: substitute the first native piece. The real tool would always build the

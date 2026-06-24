@@ -139,6 +139,15 @@ export const SPECIMENS: Partial<Record<CanonicalName, Specimen>> = {
   Breadcrumb: { items: ["Home", "Programs", "Biology"] },
   Modal: (system) => <ModalDemo system={system} />,
   Table: (system) => <TableDemo system={system} />,
+  // Avatar is legacy-only → native in legacy + lowfi, a flagged bridge build in acuity.
+  // Both shapes + sizes document the surface AND, in acuity, the per-shape bridge flag.
+  Avatar: (system) => (
+    <div className="proto__row">
+      <Canonical name="Avatar" system={system} personName="Amara Okafor" />
+      <Canonical name="Avatar" system={system} personName="Daniel Reyes" size="lg" />
+      <Canonical name="Avatar" system={system} shape="card" personName="Priya Nair" />
+    </div>
+  ),
   Image: { w: 240, h: 120, label: "Image" },
   // Real DS icon-name vocabulary at both sizes, plus two semantic tones. The glyph is a
   // token-sized stand-in (the DS icon fonts are not vendored — see systems.tsx / README).

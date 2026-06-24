@@ -6,7 +6,7 @@
 // mapping the missing piece to an existing component, or revert to the interim.
 
 import { useEffect, useRef } from "react";
-import { CANONICAL, SYSTEMS, SYSTEM_IDS, interimTarget, type CanonicalName, type SystemId } from "./systems";
+import { CANONICAL, SYSTEMS, SYSTEM_IDS, INTERIM_BUILDS, interimTarget, type CanonicalName, type SystemId } from "./systems";
 import { useStore } from "./store";
 import { DesignNotes } from "./notes";
 
@@ -107,6 +107,11 @@ export function ControlOverlay({ onClose }: { onClose: () => void }) {
                   {name}
                   {mapped ? (
                     <span className="ov__pill is-map">mapped → {mapped}</span>
+                  ) : INTERIM_BUILDS[name] ? (
+                    // A piece with its own INTERIM_BUILDS entry renders a token-driven
+                    // self-build of THAT piece (resolver status "interim"), not a substitute
+                    // — so no "→ X". Only the cruder first-native fallback substitutes.
+                    <span className="ov__pill is-ai">Claude interim</span>
                   ) : (
                     <span className="ov__pill is-ai">
                       Claude interim{interim ? ` → ${interim}` : ""}
