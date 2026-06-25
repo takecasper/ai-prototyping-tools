@@ -804,12 +804,22 @@ body {
   display: flex;
   flex-direction: column;
 }
+/* The bar overlays the canvas rather than displacing it: like the side panels
+ * (.lib / .ov) it is fixed, so opening "/" never shifts .app__main down. No
+ * z-index — the later-in-DOM panels keep painting over its ends, so the dark bar
+ * shows only in the gap between them. Its height stays within .app__main's 2.5rem
+ * top padding, so the canvas content keeps its position and is not occluded. */
 .app__bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  padding: 0.6rem 1rem;
+  padding: 0 1rem;
   background: #14161a;
   color: #fff;
   font-family: ui-sans-serif, system-ui, sans-serif;
