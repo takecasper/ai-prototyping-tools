@@ -16,6 +16,12 @@ Deliberately dependency-light (React + Vite + TypeScript + CSS vars). Author new
 prototypes against [`AGENTS.md`](AGENTS.md); raw markup is blocked by a hard lint
 gate (`npm run lint`).
 
+## Getting started
+
+- **Run the app:** see [Run it](#run-it) below.
+- **Connect to Figma:** to reuse Acuity's real design system from Figma, follow the
+  [Figma connection guide](shared/one45-design-systems/figma-connection-runbook.md).
+
 ## Run it
 
 Prerequisites: **Node 20+** and a package manager (`npm` ships with Node).
