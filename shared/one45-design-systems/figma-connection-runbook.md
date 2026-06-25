@@ -23,7 +23,7 @@ through the sections in order.
 | You need | Why | How to check | Looks right when |
 |---|---|---|---|
 | **Organization or Enterprise plan** | Code Connect (§4) and usable rate limits (§6) | run `whoami` once connected (§2) | plan reads Organization or Enterprise |
-| **One Dev or Full seat** | View/Collab caps at ~6 reads a month, too few to work | Figma → avatar → account, or ask your admin; `whoami` shows it | seat shows Dev or Full |
+| **One Dev or Full seat** | View/Collab licenses cap at ~6 reads a month, too few to work | Figma → avatar → account, or ask your admin; `whoami` shows it | seat shows Dev or Full |
 | **Admin approval of the connector** | Enterprise tenants can block AI connectors | try the OAuth step (§2); if blocked, an admin must approve it | OAuth finishes with no block message |
 
 On the Organization plan everything here works except bulk token export over REST,
@@ -33,7 +33,7 @@ which is Enterprise-only (see §5). ([rate limits & access][rate-limits])
 
 ## 2. Install and connect over OAuth
 
-Use Figma's **official** plugin over OAuth, not a personal token or a third-party
+Use Figma's **official** plugin over OAuth, not a personal access token or a third-party
 server. Access is scoped to what you can already see, and it is revocable.
 ([set up the MCP server][mcp-setup])
 
@@ -50,8 +50,7 @@ server. Access is scoped to what you can already see, and it is revocable.
 
 > [!WARNING]
 > Don't point your first tests at a production or shared library. Make your own
-> scratch Figma file (a few frames) and use its file key, the string in the URL:
-> `figma.com/design/<FILE_KEY>/<name>`. Reads never change a file, but a sandbox
+> scratch Figma file (a few frames) OR use this test file: https://www.figma.com/design/91jjTHwPb1eIszmAPKstTT/Claude-test-file?node-id=2907-33&t=uU0wDJvCbe0easva-1. Reads never change a file, but a sandbox
 > keeps the first run low-stakes.
 
 Run each with the file key:
@@ -77,7 +76,7 @@ seat. ([Code Connect][code-connect])
 
 > [!IMPORTANT]
 > This only pays off if Acuity publishes a real Figma component library (published
-> components plus Variables), not a one-off file. Confirm that exists first.
+> components plus Variables), not a one-off file. You can ask Claude which design system or other component files it sees and tell it which to use. Ensure that's working first.
 
 1. `get_code_connect_map` returns `{}` before setup. That is the gap, not an error.
 2. Pick a path: the **Figma UI** (map to a repo path or name) or the **CLI** in this
