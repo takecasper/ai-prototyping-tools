@@ -60,7 +60,12 @@ export function PrototypesProvider({
   prototypes: Prototype[];
   children: ReactNode;
 }) {
-  const [activeId, setActiveId] = useState(prototypes[0].id);
+  // Open the newest prototype by createdAt on load, matching the prototypes
+  // table's newest-first default (T-019). Stable sort keeps discover.ts's
+  // alphabetical order for equal/missing dates, so the choice is deterministic.
+  const [activeId, setActiveId] = useState(
+    () => [...prototypes].sort((a, b) => (b.createdAt ?? "").localeCompare(a.createdAt ?? ""))[0].id,
+  );
   const active = prototypes.find((p) => p.id === activeId) ?? prototypes[0];
 
   const [history, setHistory] = useState<string[]>([active.start]);
