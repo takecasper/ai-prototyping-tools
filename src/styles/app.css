@@ -980,11 +980,6 @@ body {
   color: #6b7280;
   margin-bottom: 0.5rem;
 }
-.notes__prompt {
-  font-size: 0.8rem;
-  color: #6b7280;
-  margin: 0;
-}
 .ov__select--compare {
   margin-bottom: 0.85rem;
 }
@@ -1473,6 +1468,67 @@ body {
   font-weight: 600;
   color: #374151;
   margin-bottom: 0.5rem;
+}
+/* Label row: the field label plus its info affordance, sharing one baseline.
+ * The row owns the bottom spacing so the inline label can shed its own. */
+.ov__labelrow {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+.ov__labelrow .ov__label {
+  margin-bottom: 0;
+}
+.ov__tipwrap {
+  position: relative;
+  display: inline-flex;
+}
+.ov__info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  border: 1px solid #9ca3af;
+  border-radius: 50%;
+  background: #fff;
+  color: #4b5563;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: help;
+}
+.ov__info:hover,
+.ov__info:focus-visible {
+  border-color: #4b5563;
+  color: #111827;
+}
+/* Tooltip bubble: always in the DOM (so aria-describedby resolves for screen
+ * readers); visibility — not opacity — toggles the visual state. */
+.ov__tip {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: max-content;
+  max-width: 15rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: 6px;
+  background: #111827;
+  color: #f9fafb;
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.35;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  visibility: hidden;
+}
+.ov__tip.is-open {
+  visibility: visible;
 }
 .ov__blurb {
   font-size: 0.74rem;

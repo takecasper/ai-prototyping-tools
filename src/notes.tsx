@@ -10,11 +10,10 @@ export function DesignNotes() {
   const { systemId, compareId, used } = useStore();
   const active = SYSTEMS[systemId];
 
-  if (!compareId) {
-    return (
-      <p className="notes__prompt">Pick a system above to compare against {active.label}.</p>
-    );
-  }
+  // No baseline picked yet → render nothing. The guidance that used to live here
+  // now sits in the always-present info tooltip beside the "System to compare to"
+  // field label (see overlay.tsx), so it reads before a comparison exists too.
+  if (!compareId) return null;
 
   const compare = SYSTEMS[compareId];
 

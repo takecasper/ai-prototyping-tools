@@ -5,10 +5,41 @@
 // interim (auto-flagged). The user's action here is to OVERRIDE that interim by
 // mapping the missing piece to an existing component, or revert to the interim.
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CANONICAL, SYSTEMS, SYSTEM_IDS, INTERIM_BUILDS, interimTarget, type CanonicalName, type SystemId } from "./systems";
 import { useStore } from "./store";
 import { DesignNotes } from "./notes";
+
+// InfoTip — a small "i" affordance that reveals a hint on hover AND keyboard
+// focus (WAI-ARIA tooltip pattern: focusable trigger, Escape dismisses, the hint
+// text is always in the DOM and linked via aria-describedby so screen readers
+// reach it whether or not it is visually shown). Tool chrome, so it does not go
+// through the canonical Icon/resolver — that layer is for prototype content.
+function InfoTip({ id, label, text }: { id: string; label: string; text: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <span className="ov__tipwrap">
+      <button
+        type="button"
+        className="ov__info"
+        aria-label={label}
+        aria-describedby={id}
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setOpen(false)}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") setOpen(false);
+        }}
+      >
+        i
+      </button>
+      <span id={id} role="tooltip" className={"ov__tip" + (open ? " is-open" : "")}>
+        {text}
+      </span>
+    </span>
+  );
+}
 
 export function ControlOverlay({ onClose }: { onClose: () => void }) {
   const panelRef = useRef<HTMLDivElement>(null);
@@ -63,7 +94,14 @@ export function ControlOverlay({ onClose }: { onClose: () => void }) {
 
       <section className="ov__sec">
         <h3 className="ov__h">System Divergence</h3>
-        <div className="ov__label">System to compare to</div>
+        <div className="ov__labelrow">
+          <span className="ov__label">System to compare to</span>
+          <InfoTip
+            id="compare-tip"
+            label="About the compare field"
+            text={`Pick a system above to compare against ${system.label}.`}
+          />
+        </div>
         <select
           className="ov__select ov__select--compare"
           aria-label="System to compare to"
