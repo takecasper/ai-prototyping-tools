@@ -174,6 +174,7 @@ shared/one45-design-systems/
   01-acuity-modern.md            System B — 3 layers + computed contrast
   02-one45-legacy.md             System A — 3 layers + computed contrast
   03-reconciliation-gap-map.md   keep / dedupe / untokened / contrast-fix + 4× dup
+  figma-connection-runbook.md    step-by-step: connect the tool to Figma (MCP + OAuth)
   tokens/acuity.json             portable Acuity token set (documented intent)
   tokens/one45-legacy.json       portable legacy token set (documented intent)
   scripts/contrast.mjs           deterministic WCAG contrast (ratios of record)
