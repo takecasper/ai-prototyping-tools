@@ -1,202 +1,131 @@
----
-title: "Connect this prototyping tool to Figma: step-by-step runbook"
-tags: figma, mcp, oauth, code-connect, design-tokens, runbook, setup, claude-code
-verified: true
----
+# How to connect the prototyping tool to Figma
 
-# Connect the prototyping tool to Figma
+Connect **Claude Code** (the terminal AI coding agent) to Acuity's Figma so
+generated prototypes reuse the real design system instead of re-deriving it. Work
+through the sections in order.
 
-A step-by-step guide for connecting **Claude Code** (the terminal AI coding
-agent that edits this repo) to Acuity's Figma, so generated prototypes reuse the
-real design system instead of re-deriving it. Follow it top to bottom. You do not
-need the background research to use it.
-
-**Terms you'll see throughout:**
-
-- **MCP** (Model Context Protocol) is a standard way for an AI agent to call an
-  external tool. Figma ships an MCP "server" that lets Claude Code read your Figma
-  files. ([Figma: Set up the MCP server][mcp-setup])
-- **OAuth** is the "Sign in with…" browser pop-up that grants access without you
-  pasting a secret key into a file. Figma's official server uses it, so there is no
-  long-lived token to leak. ([Figma: Set up the MCP server][mcp-setup])
-- **Code Connect** is a Figma feature that links a Figma component to the matching
-  React component in *this* repo, so the agent reaches for our real `Button`
-  instead of inventing one. ([Figma: Code Connect][code-connect])
-- **Plan / seat**: Figma bills two ways. The **plan** is the whole org's tier
-  (Starter, Professional, Organization, or Enterprise). The **seat** is the access
-  level on *your* account (View, Collab, Dev, or Full). Both gate what you can do.
-  ([Figma: Rate limits & access][rate-limits])
+> [!NOTE]
+> **Terms used below**
+>
+> - **MCP** (Model Context Protocol): how an AI agent calls an external tool.
+>   Figma's MCP "server" lets Claude Code read your Figma files.
+> - **OAuth**: the "Sign in with…" browser pop-up. Nothing secret gets pasted into
+>   a file, and nothing long-lived can leak.
+> - **Code Connect**: links a Figma component to its real React component in this
+>   repo, so the agent uses our `Button` instead of inventing one.
+> - **Plan / seat**: the **plan** is the org's tier (Starter up to Enterprise); the
+>   **seat** is your account level (View, Collab, Dev, or Full). Both gate access.
 
 ---
 
-## 1. Prerequisites Acuity must provide
+## 1. Prerequisites (ask Acuity for these)
 
-You need three things in place before anything else works. Check each:
+| You need | Why | How to check | Looks right when |
+|---|---|---|---|
+| **Organization or Enterprise plan** | Code Connect (§4) and usable rate limits (§6) | run `whoami` once connected (§2) | plan reads Organization or Enterprise |
+| **One Dev or Full seat** | View/Collab caps at ~6 reads a month, too few to work | Figma → avatar → account, or ask your admin; `whoami` shows it | seat shows Dev or Full |
+| **Admin approval of the connector** | Enterprise tenants can block AI connectors | try the OAuth step (§2); if blocked, an admin must approve it | OAuth finishes with no block message |
 
-1. **An Organization or Enterprise plan.** Code Connect (section 4) and the usable
-   rate limits (section 6) require it.
-   **How to check:** run `whoami` through the Figma MCP tools once connected
-   (section 2, step 5). It reports the org's plan tier. If you land on Organization
-   rather than Enterprise, everything here still works except bulk token export over
-   REST, which is Enterprise-only (section 5).
-   **Success:** the plan reads Organization or Enterprise.
-2. **One Dev or Full seat** on Acuity's Figma org for whoever runs Claude Code. View
-   and Collab seats are capped at roughly 6 design reads per month, far too few for
-   real work. ([Figma: Rate limits & access][rate-limits])
-   **How to check:** Figma → your avatar → account, or ask the Figma admin to
-   confirm your seat. `whoami` also reports it.
-   **Success:** your seat shows **Dev** or **Full**.
-3. **Admin approval of the official Figma connector.** Enterprise tenants can
-   require an admin to allow third-party or AI connectors before they authenticate.
-   **How to check:** attempt the OAuth step (section 2, step 3). If it is blocked,
-   the admin must approve the Figma plugin/MCP connector for the tenant.
-   **Success:** the OAuth browser flow completes without an admin-block message.
+On the Organization plan everything here works except bulk token export over REST,
+which is Enterprise-only (see §5). ([rate limits & access][rate-limits])
 
 ---
 
-## 2. Install and authenticate the official Figma MCP plugin
+## 2. Install and connect over OAuth
 
-Use Figma's **official** plugin, authenticated over OAuth, not a personal access
-token or a third-party community server. The official path is OAuth-scoped to what
-you can already see, and the access is revocable. There is no static token sitting
-in a file for a security review to worry about.
-([Figma: Set up the MCP server][mcp-setup])
+Use Figma's **official** plugin over OAuth, not a personal token or a third-party
+server. Access is scoped to what you can already see, and it is revocable.
+([set up the MCP server][mcp-setup])
 
-1. **Install** (installs at user scope):
-   ```
-   claude plugin install figma@claude-plugins-official
-   ```
-2. **Register the server** without a full restart:
-   ```
-   /reload-plugins
-   ```
-   **Success:** Claude Code reports `1 plugin MCP server` registered.
-3. **Authenticate over OAuth:**
-   ```
-   /mcp
-   ```
-   Select **figma** → **Authenticate** → a browser opens → **Allow access** with
-   the Acuity Figma account. (`/plugin` → Installed → figma reaches the same auth.)
-   **Success:** the browser shows access granted and returns you to Claude Code.
-4. **Confirm the connection:**
-   ```
-   claude mcp list
-   ```
-   **Success:** `plugin:figma:figma … ✔ Connected`.
-5. **Confirm account, plan, and seat:** run the `whoami` Figma tool.
-   **Success:** it returns the signed-in account plus the plan tier and seat from
-   section 1. (`whoami` is rate-limit-exempt, so it is a free sanity check.)
+1. Install: `claude plugin install figma@claude-plugins-official`
+2. Register it: `/reload-plugins` → Claude Code reports `1 plugin MCP server`.
+3. Authenticate: `/mcp` → **figma** → **Authenticate** → browser → **Allow access**
+   with the Acuity account.
+4. Confirm: `claude mcp list` shows `plugin:figma:figma … ✔ Connected`.
+5. Check plan and seat: run `whoami`. It is rate-limit-exempt, so it is a free check.
 
 ---
 
-## 3. Verify the connection against a safe sandbox file
+## 3. Test on a throwaway file first
 
-Prove reads work before going near anything important. **Create your own throwaway
-Figma file** (a couple of frames with text and colours) and use its file key. Do
-**not** point these first tests at a production or shared library. A file's "key"
-is the string in its URL: `figma.com/design/<FILE_KEY>/<name>`. Reads never modify
-a file, but a sandbox keeps your first attempt low-stakes.
-([Figma: Rate limits & access][rate-limits])
+> [!WARNING]
+> Don't point your first tests at a production or shared library. Make your own
+> scratch Figma file (a few frames) and use its file key, the string in the URL:
+> `figma.com/design/<FILE_KEY>/<name>`. Reads never change a file, but a sandbox
+> keeps the first run low-stakes.
 
-1. **Structure read:** run `get_metadata` with the file key and a page or canvas
-   node id. It returns an XML outline of layer ids, types, names, and sizes, with no
-   styling.
-   **Success:** you get a node tree back, no selection required.
-2. **Code read:** run `get_design_context` with the file key and a **leaf** node id
-   (an actual component or layer, not the page). It returns reference code for that
-   selection. ([Figma: Tools and prompts][tools])
-   **Success:** you get a code representation back. It defaults to React + Tailwind
-   (see section 6).
-3. **Token read:** run `get_variable_defs` with the file key and a **leaf** node id.
-   It returns the design tokens used there (colours, spacing, typography) as data,
-   separate from the code. ([Figma: Tools and prompts][tools])
-   **Success:** you get a token map such as `{ "White": "#FFFFFF", … }`.
+Run each with the file key:
 
-If step 2 or 3 errors with "nothing selected," you targeted a page node. See
-section 6.
+1. `get_metadata` + a page node returns an XML outline of layers, no styling. No
+   selection needed.
+2. `get_design_context` + a **leaf** node (a real layer, not the page) returns
+   reference code. It comes back as React + Tailwind (see §6).
+3. `get_variable_defs` + a **leaf** node returns the tokens used there, for example
+   `{ "White": "#FFFFFF", … }`.
+
+A "nothing selected" error means you targeted a page node instead of a leaf (see §6).
+([tools and prompts][tools])
 
 ---
 
-## 4. Set up Code Connect (Figma components → `CANONICAL`)
+## 4. Map components with Code Connect
 
-This is the step that turns "generate a button" into "use *our* button." Code
-Connect maps each Figma library component to the matching React component in this
-repo's `CANONICAL` set (`src/systems.tsx`), so the agent reuses real pieces. It
-requires Organization or Enterprise plus a Dev or Full seat (section 1).
-([Figma: Code Connect][code-connect])
+Code Connect points the agent at our real components. It maps each Figma library
+component to a `CANONICAL` React component (`src/systems.tsx`), so "generate a
+button" becomes "use *our* `Button`." Needs an Org/Enterprise plan and a Dev/Full
+seat. ([Code Connect][code-connect])
 
-> **Prerequisite to confirm first:** Code Connect only pays off if Acuity publishes
-> a real Figma **component library** (published components plus Variables), not just
-> an ad-hoc file. Confirm that library exists before investing the mapping effort.
+> [!IMPORTANT]
+> This only pays off if Acuity publishes a real Figma component library (published
+> components plus Variables), not a one-off file. Confirm that exists first.
 
-1. **Check the current state:** run `get_code_connect_map`. Before setup it returns
-   `{}`. That is empty and expected, not an error. It is the gap this section closes.
-2. **Pick the setup path** ([Figma: Code Connect][code-connect]):
-   - **UI flow:** inside Figma, map components to a repo path or name (optionally via
-     GitHub).
-   - **CLI flow:** runs in this repo, with richer property mappings and dynamic
-     examples. React/Vite is first-class, so the CLI flow fits this codebase.
-3. **Map one component end to end first.** For example, the Figma `Button` to this
-   repo's canonical `Button`. Mapping is per-component, so start with one to learn
-   the loop before doing the set.
-4. **Verify:** run `get_code_connect_map` again.
-   **Success:** it now returns your mapping (component name to source path), and
-   `get_design_context` on that component references the real `CANONICAL` piece
-   instead of generic markup.
+1. `get_code_connect_map` returns `{}` before setup. That is the gap, not an error.
+2. Pick a path: the **Figma UI** (map to a repo path or name) or the **CLI** in this
+   repo (richer mappings; React/Vite is first-class).
+3. Map one component end to end first (Figma `Button` to our `Button`) to learn the
+   loop before doing the rest.
+4. `get_code_connect_map` now returns the mapping, and `get_design_context` cites the
+   real `CANONICAL` piece instead of generic markup.
 
 ---
 
-## 5. Pull tokens into the `--ds-*` model
+## 5. Pull tokens into `--ds-*`
 
-Figma **Variables** are the native token primitive: colours, numbers, typography,
-with "modes" for theming. Bring them into this tool's `--ds-*` CSS variables in
-`src/styles/tokens.css`. ([Figma: Guide to variables][variables])
+Figma **Variables** are the tokens: colours, numbers, and type, with "modes" for
+theming. Map them into the tool's `--ds-*` CSS variables in `src/styles/tokens.css`.
+([guide to variables][variables])
 
-1. **Read tokens per node:** run `get_variable_defs` with the file key and a leaf
-   node id (as in section 3, step 3).
-   **Success:** a token map for that selection.
-2. **Map into the token model:** translate each returned value to the matching
-   `--ds-*` variable for the right system. New `data-ds` blocks must include **both**
-   `:root[data-ds="…"]` and the bare `[data-ds="…"]` selector. The second scopes
-   tokens to the Systems-tab gallery (see the tokens invariant in the project docs).
-   Add any new colour pair to `scripts/contrast.mjs` with computed ratios, never
-   hand-written.
-3. **Bulk export (Enterprise only):** Figma's **REST Variables** endpoint
-   (`file_variables:read`) can dump all variables in one scripted call, but it is
-   **Enterprise-plan-only**. ([Figma: REST API scopes][scopes]) On the Organization
-   tier this pipe is **closed**, so use per-node `get_variable_defs` over MCP instead.
-   **Success (either route):** the system's `--ds-*` values match Figma, the gallery
-   renders the right system's tokens, and `contrast.mjs` carries every new pair.
+1. `get_variable_defs` + a leaf node returns a token map (as in §3).
+2. Translate each value to its `--ds-*` variable. New `data-ds` blocks need **both**
+   `:root[data-ds="…"]` and the bare `[data-ds="…"]` selector (the bare one scopes the
+   Systems-tab gallery). Add new colour pairs to `scripts/contrast.mjs` with computed
+   ratios.
+3. No bulk export on Org: the REST Variables endpoint (`file_variables:read`) is
+   Enterprise-only, so read per node with `get_variable_defs`. ([REST API scopes][scopes])
 
 ---
 
-## 6. Troubleshooting and known limits
+## 6. Troubleshooting
 
-- **`get_variable_defs` / `get_design_context` says "You currently have nothing
-  selected. You need to select a layer first."** You passed a page or canvas node id.
-  These tools need a **concrete leaf node**, an actual layer or component instance.
-  Pass a real layer id and it works. It is not a selection bug.
-- **Generated code comes back as React + Tailwind even though this repo uses CSS
-  variables.** `get_design_context` defaults to React + Tailwind regardless of stack,
-  and the response itself says to convert it. Treat the output as a **starting point**
-  to wire onto `CANONICAL` + `--ds-*`, never a drop-in. ([Figma: Tools and prompts][tools])
-- **Image and asset URLs stop working after a few days.** Asset URLs in
-  `get_design_context` are remote and **expire after 7 days**, so download anything
-  you need to keep.
-- **Rate limits.** Read tools are capped per seat and plan. **Organization + Dev/Full
-  = 600 reads/day, 20/min**. That is plenty of headroom for prototyping. (`whoami`,
-  `add_code_connect_map`, and `generate_figma_design` are exempt.)
-  ([Figma: Rate limits & access][rate-limits])
-- **No bulk token export on Organization.** The REST Variables endpoint is
-  Enterprise-only, so per-node `get_variable_defs` is the supported token path on Org
-  (section 5). ([Figma: REST API scopes][scopes])
-- **Reads never modify a file**, and access is permission-scoped to what your account
-  can already view. Even so, practise any write or unfamiliar tool on a sandbox file
-  first. ([Figma: Rate limits & access][rate-limits])
-- **Avoid third-party PAT servers** (for example Framelink) for Acuity. They hold a
-  static token to your Figma content and offer no Code Connect, so the agent still
-  re-derives components. The official OAuth server is the sanctioned path.
-  ([Figma: Set up the MCP server][mcp-setup])
+<details>
+<summary>Common errors and limits</summary>
+
+- **"You currently have nothing selected"** from `get_variable_defs` or
+  `get_design_context`: you passed a page node. Pass a real **leaf** layer id. It is
+  not a bug.
+- **Code comes back as React + Tailwind** whatever your stack. Treat it as a starting
+  point to adapt onto `CANONICAL` + `--ds-*`, not a drop-in. ([tools and prompts][tools])
+- **Asset URLs expire after 7 days.** Download anything you want to keep.
+- **Rate limits:** Org + Dev/Full = 600 reads a day, 20 a minute. Plenty for
+  prototyping. (`whoami`, `add_code_connect_map`, and `generate_figma_design` are
+  exempt.) ([rate limits & access][rate-limits])
+- **No bulk token export on Org** (the REST route is Enterprise-only); use per-node
+  `get_variable_defs`. ([REST API scopes][scopes])
+- **Skip third-party PAT servers** such as Framelink: a static token over your Figma
+  content, no Code Connect, so the agent still re-derives components. The official
+  OAuth server is the sanctioned path. ([set up the MCP server][mcp-setup])
+
+</details>
 
 ---
 
@@ -204,16 +133,16 @@ with "modes" for theming. Bring them into this tool's `--ds-*` CSS variables in
 
 Official Figma documentation:
 
+- [Set up the MCP server][mcp-setup]
+- [Tools and prompts][tools]
+- [Rate limits & access][rate-limits]
+- [REST API scopes][scopes]
+- [Code Connect][code-connect]
+- [Guide to variables][variables]
+
 [mcp-setup]: https://help.figma.com/hc/en-us/articles/39888612464151-Claude-Code-and-Figma-Set-up-the-MCP-server
 [tools]: https://developers.figma.com/docs/figma-mcp-server/tools-and-prompts/
 [rate-limits]: https://developers.figma.com/docs/figma-mcp-server/rate-limits-access/
 [scopes]: https://developers.figma.com/docs/rest-api/scopes/
 [code-connect]: https://help.figma.com/hc/en-us/articles/23920389749655-Code-Connect
 [variables]: https://help.figma.com/hc/en-us/articles/15339657135383-Guide-to-variables-in-Figma
-
-- Set up the MCP server: <https://help.figma.com/hc/en-us/articles/39888612464151-Claude-Code-and-Figma-Set-up-the-MCP-server>
-- Tools and prompts: <https://developers.figma.com/docs/figma-mcp-server/tools-and-prompts/>
-- Rate limits & access: <https://developers.figma.com/docs/figma-mcp-server/rate-limits-access/>
-- REST API scopes: <https://developers.figma.com/docs/rest-api/scopes/>
-- Code Connect: <https://help.figma.com/hc/en-us/articles/23920389749655-Code-Connect>
-- Guide to variables: <https://help.figma.com/hc/en-us/articles/15339657135383-Guide-to-variables-in-Figma>

@@ -48,3 +48,6 @@
 
 # AI codex index files (regenerated on session start and pre-commit)
 ai-codex/
+
+# Codex path-rules config — local tooling only, never shared.
+/codex.yaml
