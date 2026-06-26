@@ -37,9 +37,9 @@ const verdict = (r) => {
 
 const WHITE = "#FFFFFF";
 
-// ── Acuity (System B) — every family DEFAULT + the shades most likely used as
+// ── one45 (2020s) (System B) — every family DEFAULT + the shades most likely used as
 // fg/bg, measured on white and (for white-on-X buttons) on the colour itself.
-const ACUITY = {
+const ONE45_2020S = {
   "acuity-blue": { darkest: "#161E4A", dark: "#253170", DEFAULT: "#364699", light: "#7779B8", lighter: "#B0B1D7", lightest: "#E9ECF6" },
   "acuity-green": { darkest: "#00514B", dark: "#007A72", DEFAULT: "#00A59B", light: "#70C0B8", lighter: "#B0DBD6", lightest: "#EBF6F5" },
   "acuity-red": { darkest: "#5C0924", dark: "#8A1339", DEFAULT: "#BA1E50", light: "#D66D80", lighter: "#ECACB5", lightest: "#FBEAEC" },
@@ -70,20 +70,20 @@ const row = (label, fg, bg, note = "") =>
 console.log("# One45 token contrast — computed (WCAG sRGB), not hand-written\n");
 console.log("Method: WCAG 1.4.3 relative-luminance. Thresholds: text 4.5 · UI/large 3 · AAA 7.\n");
 
-section("Acuity (System B) — each family DEFAULT on white, and white on it (button case)");
-for (const [fam, shades] of Object.entries(ACUITY)) {
+section("one45 (2020s) (System B) — each family DEFAULT on white, and white on it (button case)");
+for (const [fam, shades] of Object.entries(ONE45_2020S)) {
   if (fam === "neutrals") continue;
   row(`${fam} DEFAULT / white`, shades.DEFAULT, WHITE);
   row(`white / ${fam} DEFAULT`, WHITE, shades.DEFAULT);
 }
 
-section("Acuity neutrals on white (text/border greys)");
-for (const k of ["black", "darker", "dark", "DEFAULT", "light"]) row(`neutrals ${k} / white`, ACUITY.neutrals[k], WHITE);
+section("one45 (2020s) neutrals on white (text/border greys)");
+for (const k of ["black", "darker", "dark", "DEFAULT", "light"]) row(`neutrals ${k} / white`, ONE45_2020S.neutrals[k], WHITE);
 
-section("Acuity light/lighter shades on white (where used as text — the risk set)");
-for (const fam of Object.keys(ACUITY)) {
+section("one45 (2020s) light/lighter shades on white (where used as text — the risk set)");
+for (const fam of Object.keys(ONE45_2020S)) {
   if (fam === "neutrals") continue;
-  row(`${fam} light / white`, ACUITY[fam].light, WHITE);
+  row(`${fam} light / white`, ONE45_2020S[fam].light, WHITE);
 }
 
 section("one45 legacy (System A) — brand colours on white, and text on brand chrome");
@@ -99,16 +99,16 @@ row("config nav #e46b6b / white", "#e46b6b", WHITE, "(runtime-confirmed 3.17)");
 row("My eDossier #2196f3 / #27304b", "#2196f3", "#27304b", "(runtime-confirmed 4.17)");
 
 // ── Inputs & controls slice — the form-control pairs, [R] from the live DS gallery
-// (/test/designSystem, 2026-06-22) for Acuity and [D] from _forms.scss for legacy.
+// (/test/designSystem, 2026-06-22) for one45 (2020s) and [D] from _forms.scss for legacy.
 // Borders are judged against the 3:1 UI threshold (WCAG 1.4.11), text against 4.5.
-section("Acuity form controls [R] — DS .ds-form-input/.ds-form-select on white");
+section("one45 (2020s) form controls [R] — DS .ds-form-input/.ds-form-select on white");
 row("input border #949494 / white", "#949494", WHITE, "(border, 3:1 UI) — DS already uses the accessible grey");
 row("input text neutrals-darker / white", "#333333", WHITE);
 row("error border danger-red / white", "#E40A0A", WHITE, "(border 3:1)");
 row("error text danger-red-darkest / white", "#720202", WHITE);
 row("success border success-green / white", "#4DA81F", WHITE, "(border 3:1)");
 row("focus ring acuity-blue / white", "#364699", WHITE, "(3:1 non-text contrast)");
-section("Acuity shell search [R] — Find-a-person field (top-bar)");
+section("one45 (2020s) shell search [R] — Find-a-person field (top-bar)");
 row("search text $purple / bg #EBEDF2", "#42507D", "#EBEDF2");
 row("focus ring $purple / white", "#42507D", WHITE);
 
@@ -118,12 +118,12 @@ row("input text #333 / white", "#333333", WHITE);
 row("error label #B94A48 / white", "#B94A48", WHITE);
 row("legacy button #364699 / white", WHITE, "#364699", "(buttons converged to acuity-blue)");
 
-// ── Navigation slice — tab/link/breadcrumb/pagination pairs. Acuity values are [R]
+// ── Navigation slice — tab/link/breadcrumb/pagination pairs. one45 (2020s) values are [R]
 // from the live DS gallery (/test/designSystem, 2026-06-22) cross-checked to
 // tailwind_acuity_theme.js; legacy values are [D] from the legacy skin (themes/one45.scss,
 // styles_overwrite.scss, _colors.scss). Tab active-indicator + pagination active-bg are
 // judged on the 3:1 UI threshold; tab/link/crumb label text on 4.5.
-section("Acuity navigation [R] — Tabs/Link on white (underline-indicator tabs)");
+section("one45 (2020s) navigation [R] — Tabs/Link on white (underline-indicator tabs)");
 row("tab label neutrals-black / white", "#000000", WHITE);
 row("active-tab indicator acuity-green", "#00A59B", WHITE, "(2px underline, 3:1 UI)");
 row("tab strip rule #949494 / white", "#949494", WHITE, "(3:1 UI)");
@@ -139,23 +139,23 @@ row("link hover $link_hover / white", "#064E89", WHITE);
 row("crumb link $primary_purple / white", "#42507D", WHITE);
 row("crumb current $one45_black / white", "#27304B", WHITE);
 
-// ── Feedback & status slice — Modal. Acuity values are [R] from the live DS gallery
+// ── Feedback & status slice — Modal. one45 (2020s) values are [R] from the live DS gallery
 // (/test/designSystem, 2026-06-22, getComputedStyle on the headlessui Dialog panel);
 // legacy values are [D] from _bootstrap.scss (.modal / .modal-header). The modal title
 // is the only TEXT pair (judged on 4.5); the grey-band-vs-panel and panel-shadow pairs
 // are decorative surfaces, reported for completeness, not held to a text threshold.
-section("Acuity Modal [R] — headerless dialog, title on the white panel");
+section("one45 (2020s) Modal [R] — headerless dialog, title on the white panel");
 row("modal title neutrals-darker / white", "#333333", WHITE, "(23px title on #fff panel)");
 section("one45 legacy Modal [D] — title on the grey header band, body on white");
 row("modal title $one45_black / band #F5F5F5", "#27304B", "#F5F5F5", "(title on .modal-header band)");
 row("modal title $one45_black / white", "#27304B", WHITE, "(same title over the white body)");
 row("header band #F5F5F5 / panel #FFFFFF", "#F5F5F5", WHITE, "(decorative band vs panel — not text)");
 
-// ── Feedback & status slice — Alert (native-both). Acuity is a tinted-bg banner: text is
+// ── Feedback & status slice — Alert (native-both). one45 (2020s) is a tinted-bg banner: text is
 // each semantic family's darkest on its lightest tint [D families / I rendering]. Legacy is
 // the real .one45-alert: $one45_black text on the solid pale fills, white on the purple info
 // fill [D] (new_branding.scss:65-170). All are body text → judged on the 4.5 threshold.
-section("Acuity Alert [D fam / I render] — family darkest text on family lightest tint");
+section("one45 (2020s) Alert [D fam / I render] — family darkest text on family lightest tint");
 row("info  info-blue-darkest / lightest", "#0D556D", "#EBF4F8");
 row("success green-darkest / lightest", "#24590A", "#EEF8EB");
 row("warning yellow-darkest / lightest", "#816E09", "#FEFBE0");
@@ -180,9 +180,9 @@ row("fg-muted lowfi #6a6a6a / white", "#6A6A6A", WHITE);
 // colour IS the small glyph on white, so it is judged on the 3:1 non-text/UI threshold (WCAG
 // 1.4.11). Several warm hues FAIL 3:1 at icon scale — a real, recorded finding: a semantic icon
 // must not rely on hue alone, so the tool always pairs it with shape + an altText/adjacent label.
-// (Acuity tones [D fam] = tailwind_acuity_theme.js DEFAULT shades; legacy tones [D] = the FA
+// (one45 (2020s) tones [D fam] = tailwind_acuity_theme.js DEFAULT shades; legacy tones [D] = the FA
 // alert-icon palette, new_branding.scss:100/119/140/159.)
-section("Acuity icon tones [D fam] — semantic accent as the glyph on white (3:1 UI)");
+section("one45 (2020s) icon tones [D fam] — semantic accent as the glyph on white (3:1 UI)");
 row("success-green DEFAULT / white", "#4DA81F", WHITE, "(icon glyph, 3:1 UI)");
 row("warning-yellow DEFAULT / white", "#FCE833", WHITE, "(icon glyph, 3:1 UI)");
 row("danger-red DEFAULT / white", "#E40A0A", WHITE, "(icon glyph, 3:1 UI)");
@@ -193,13 +193,13 @@ row("yellow / white (warning)", "#F8B223", WHITE, "(icon glyph, 3:1 UI)");
 row("red / white (error)", "#F12F62", WHITE, "(icon glyph, 3:1 UI)");
 row("purple_light / white (info)", "#B3B9CB", WHITE, "(icon glyph, 3:1 UI)");
 
-// ── Data display slice (2026-06-23) — Table. Acuity values are [R] from staging (signed in:
+// ── Data display slice (2026-06-23) — Table. one45 (2020s) values are [R] from staging (signed in:
 // a bare .table inherits Lato 14px #333 / th 700 with NO authored skin; the real marksheet
 // admin/pages/marksOverview2.php renders 1px #666 row dividers). Legacy values are [D] from
 // the real _tables.scss / _constants.scss skin. Cell TEXT is judged on 4.5; header/cell
 // border rules on the 3:1 UI threshold (1.4.11); hover/selected fills are decorative
 // surfaces, reported for completeness, not held to a text threshold.
-section("Acuity Table [R] — text + dividers on white (the DS ships no table; app reality)");
+section("one45 (2020s) Table [R] — text + dividers on white (the DS ships no table; app reality)");
 row("cell/header text neutrals-darker / white", "#333333", WHITE);
 row("header rule #666 / white", "#666666", WHITE, "(marksheet header border, 3:1 UI)");
 row("row divider neutrals-light / white", "#B8B8B8", WHITE, "(1px divider — fails 3:1, flagged)");
@@ -211,14 +211,14 @@ row("header rule #999 / white", "#999999", WHITE, "(border 3:1 UI)");
 row("cell border #BBB / white", "#BBBBBB", WHITE, "(border — fails 3:1, flagged)");
 row("hover #FEFEFE / white", "#FEFEFE", WHITE, "(decorative fill — not text)");
 
-// ── Data display slice (2026-06-23) — Card (formalised). Acuity values are [R] from staging
+// ── Data display slice (2026-06-23) — Card (formalised). one45 (2020s) values are [R] from staging
 // (signed in, getComputedStyle on /test/designSystem: the DS Card is a headerless white panel,
 // neutrals-light #B8B8B8 1px border, neutrals-darker #333 title). Legacy values are [D] — the
 // custom skin ships no bespoke card, so the tool models the legacy panel idiom ($one45_black
 // title on the #F5F5F5 grey header band over the white body, $grey #D1D1D9 border). Title TEXT
 // is judged on 4.5; the card border + header rule on the 3:1 UI threshold (1.4.11); the header
 // band vs panel is a decorative surface, reported for completeness, not held to a text threshold.
-section("Acuity Card [R] — title + border on the white panel (headerless DS Card)");
+section("one45 (2020s) Card [R] — title + border on the white panel (headerless DS Card)");
 row("card title neutrals-darker / white", "#333333", WHITE, "(20px/600 title on #fff panel)");
 row("card border neutrals-light / white", "#B8B8B8", WHITE, "(1px border — fails 3:1, flagged)");
 section("one45 legacy Card [D] — title on the grey header band, body on white");
@@ -231,11 +231,11 @@ row("header band #F5F5F5 / panel #FFFFFF", "#F5F5F5", WHITE, "(decorative band v
 // .profile-img (_list_picker.scss); card is the webeval .photo yearbook tile (photoGallery.css) —
 // its caption #666 is body TEXT (judged 4.5), its #BBB border is a thin UI rule (3:1, 1.4.11). The
 // circle ring is `2px solid` = currentColor (no authored colour) so there is no fixed pair to test.
-// The Acuity DS ships NO avatar, so the acuity values style only the flagged bridge interim — the
+// The Acuity DS ships NO avatar, so the one45-2020s values style only the flagged bridge interim — the
 // neutrals-light border (3:1 UI) + the accessible #5f5f5f caption (4.5 text).
 section("one45 legacy Avatar [D] — .photo yearbook card caption + border on white");
 row("card caption #666 / white", "#666666", WHITE, "(9px caption text)");
 row("card border #BBB / white", "#BBBBBB", WHITE, "(1px border — fails 3:1, flagged)");
-section("Acuity Avatar [bridge interim] — flagged build styling on white (DS ships no avatar)");
+section("one45 (2020s) Avatar [bridge interim] — flagged build styling on white (DS ships no avatar)");
 row("interim caption #5f5f5f / white", "#5F5F5F", WHITE, "(--ds-fg-muted caption text)");
 row("interim ring/border neutrals-light / white", "#B8B8B8", WHITE, "(1px border — fails 3:1, flagged)");

@@ -21,18 +21,18 @@ let ran = false;
 // matching reality (shared/one45-design-systems/03 §4d/§4e). Each entry is the
 // status a piece MUST resolve to in a given system; a mismatch is a sourcing
 // regression the gallery would otherwise paint as if it were correct.
-//   Alert   native-both (acuity DS component + legacy .one45-alert) → lowfi bridge.
-//   Badge   acuity-only (legacy has no status badge) → legacy + lowfi bridge.
-//   Avatar  legacy-only (the Acuity DS ships no avatar) → native legacy + lowfi, acuity
+//   Alert   native-both (one45-2020s DS component + legacy .one45-alert) → lowfi bridge.
+//   Badge   one45-2020s-only (legacy has no status badge) → legacy + lowfi bridge.
+//   Avatar  legacy-only (the Acuity DS ships no avatar) → native legacy + lowfi, one45-2020s
 //           bridge (INTERIM_BUILDS) — the Breadcrumb mirror.
 const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar"; system: (typeof SYSTEM_IDS)[number]; expect: PieceStatus }> = [
-  { name: "Alert", system: "acuity", expect: "native" },
+  { name: "Alert", system: "one45-2020s", expect: "native" },
   { name: "Alert", system: "one45-legacy", expect: "native" },
   { name: "Alert", system: "lowfi", expect: "interim" },
-  { name: "Badge", system: "acuity", expect: "native" },
+  { name: "Badge", system: "one45-2020s", expect: "native" },
   { name: "Badge", system: "one45-legacy", expect: "substitute" },
   { name: "Badge", system: "lowfi", expect: "substitute" },
-  { name: "Avatar", system: "acuity", expect: "interim" },
+  { name: "Avatar", system: "one45-2020s", expect: "interim" },
   { name: "Avatar", system: "one45-legacy", expect: "native" },
   { name: "Avatar", system: "lowfi", expect: "native" },
 ];

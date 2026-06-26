@@ -61,7 +61,7 @@ fails the check.
 Open the running app for the second half:
 
 - **One prototype, every system.** Switch a single prototype between Low-fi
-  wireframe, Acuity (One45 modern), and one45 legacy. The screen re-skins; the
+  wireframe, one45 (2020s), and one45 legacy. The screen re-skins; the
   prototype itself doesn't change.
 - **Gaps are shown, not hidden.** When a system is missing a component, the tool
   fills it with a clearly flagged stand-in, so you can see exactly where systems

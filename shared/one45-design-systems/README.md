@@ -1,6 +1,6 @@
 ---
 title: One45 Design Systems — Documented (for the prototyping tool)
-tags: design-system, one45, acuity, legacy, tokens, handoff, index
+tags: design-system, one45, one45-2020s, legacy, tokens, handoff, index
 verified: true
 ---
 
@@ -23,13 +23,13 @@ session, reproduce to the digit) and `path:line` source citations.
 
 | System | id | Brand | Where it's live | Report | Tokens |
 |---|---|---|---|---|---|
-| **Acuity** (modern) | `acuity` | Lato, acuity-blue, 8 colour families | main interface pages (default brand) | [01-acuity-modern.md](01-acuity-modern.md) | [tokens/acuity.json](tokens/acuity.json) |
+| **one45 (2020s)** | `one45-2020s` | Lato, acuity-blue, 8 colour families | main interface pages (default brand) | [01-one45-2020s.md](01-one45-2020s.md) | [tokens/one45-2020s.json](tokens/one45-2020s.json) |
 | **one45** (legacy) | `one45-legacy` | Cabin, primary-purple | auth / password / self-send / React-shell pages | [02-one45-legacy.md](02-one45-legacy.md) | [tokens/one45-legacy.json](tokens/one45-legacy.json) |
 
 Selected in the product by the page-template toggle
 `design_system_style = 'acuity' | 'one45' | 'none'`
 (`React/react_page_base.html.twig:14`) — a **migration toggle** (old one45 brand →
-new Acuity brand), not a tenant skin. The split is by **page-type**, so a user
+new one45 (2020s) brand), not a tenant skin. The split is by **page-type**, so a user
 crossing flows sees both.
 
 Each report keeps **three layers separate**:
@@ -47,11 +47,11 @@ Each report keeps **three layers separate**:
 untokened / contrast-fix, plus the **4× token duplication** and a convergence read.
 Headline facts it carries (all [D] unless marked):
 
-- Acuity tokens exist in **4 hand-synced copies** (JS theme / CSS vars / compiled /
+- one45 (2020s) tokens exist in **4 hand-synced copies** (JS theme / CSS vars / compiled /
   SCSS), no single source; `_colors.scss` also holds the whole legacy palette.
 - **222 unique raw hex** in Symfony source, **727** in webeval, **1,367** webeval
   `!important` — the rendered surface is mostly untokened. Token coverage ~10–20%.
-- The deliberate Acuity palette has **real contrast failures** (green 3.06,
+- The deliberate one45 (2020s) palette has **real contrast failures** (green 3.06,
   warning-yellow 1.26, neutrals 3.36) — computed, not asserted.
 - Rendered colours in **no token file** [R]: `#e46b6b`, `#2196f3`, `#27304b`.
 
@@ -61,36 +61,36 @@ Headline facts it carries (all [D] unless marked):
 
 These are **live, usable skinned systems** in the tool, not just docs:
 
-- `src/systems.tsx` — `acuity`, `one45-legacy`, `lowfi` as real skins.
+- `src/systems.tsx` — `one45-2020s`, `one45-legacy`, `lowfi` as real skins.
 - `src/styles/tokens.css` — the rendered token blocks (single source of
   truth; the reports cite it). Real values, with faithful choices and known
   weaknesses commented inline.
-- **Real, sourced divergence:** `Alert` is the worked example. Acuity ships a DS
+- **Real, sourced divergence:** `Alert` is the worked example. one45 (2020s) ships a DS
   `Alert` (14 uses); legacy ships a *different mechanism* for the same surface — the
   `Error/*` Twig partials skinned by `.one45-alert` (154 uses). Both are real, so
   Alert is **native in both** systems: the tool renders each system's own skin
-  (Acuity tinted banner, legacy solid pale fill), and the bridge fills only **lowfi**.
+  (one45 (2020s) tinted banner, legacy solid pale fill), and the bridge fills only **lowfi**.
   This is the "different mechanism, same surface" case (§4d/§4e). The genuine
   *present-vs-absent* bridge cases are **Breadcrumb** (legacy-only), **Avatar**
-  (legacy-only) and **Badge** (acuity-only). The bridge itself has evolved (`INTERIM_BUILDS`): a missing piece
+  (legacy-only) and **Badge** (one45-2020s-only). The bridge itself has evolved (`INTERIM_BUILDS`): a missing piece
   resolves to a flagged token-driven build of *that* piece, not an unrelated
   component.
 
 **Inputs & controls slice (enshrined 2026-06-22):** the first slice of the full
 component surface is live — `TextField, Textarea, Select, Checkbox, Radio, Toggle,
 SearchField` + `Button` variants (primary/secondary/danger/inline), token-driven,
-present in all three systems, lint-gate-clean, browser-verified across acuity /
+present in all three systems, lint-gate-clean, browser-verified across one45-2020s /
 one45-legacy / lowfi, with a real `learner-enrolment` form+validation prototype.
 Sourced from the real DS API (React-island usage) + the live DS gallery
 (`/test/designSystem`) and the legacy skin; deltas recorded (legacy buttons converged
 to acuity-blue while inputs stayed grey; the DS input border is the accessible
-`#949494`; purple persists in the Acuity shell search). Result: **the
+`#949494`; purple persists in the one45 (2020s) shell search). Result: **the
 single-canonical-API + token-swap model survives the whole inputs group** — no bridge
 needed for any input. See each report's "Inputs & controls — enshrined slice" and gap
 map §4b. The remaining component groups + patterns are tracked in internal analysis.
 
 **Navigation slice (2026-06-22):** `Tabs`, `Link` (all systems) + `Breadcrumb`
-(legacy-only → bridge fills acuity). First place pure token-swap broke — Acuity underline
+(legacy-only → bridge fills one45-2020s). First place pure token-swap broke — one45 (2020s) underline
 tabs vs legacy Bootstrap box tabs share the API but render a per-system visual model. The
 bridge **evolved** here (`INTERIM_BUILDS`): a missing divergent piece now resolves to a
 flagged token-driven build of *that* piece, not an unrelated component. `program-explorer`
@@ -98,17 +98,17 @@ prototype; gap map §4c.
 
 **Feedback & status slice (2026-06-22):** `Modal` enshrined (native in all three systems),
 the structural API-survival test — **it passed, and so did pure token-swap**: one canonical
-API absorbs the Acuity headlessui Dialog and the legacy Bootstrap modal, and the only visual
-difference (legacy grey header band vs Acuity headerless title) is two tokens, no structural
+API absorbs the one45 (2020s) headlessui Dialog and the legacy Bootstrap modal, and the only visual
+difference (legacy grey header band vs one45 (2020s) headerless title) is two tokens, no structural
 override. `learner-withdrawal` prototype (confirm-modal over a roster). Toast / tag-chip /
 empty-state are gaps in **both** systems (not enshrined). Gap map §4d.
 
-**Alert + Badge correction (2026-06-23):** sourcing found **Alert is NOT acuity-only** —
+**Alert + Badge correction (2026-06-23):** sourcing found **Alert is NOT one45-2020s-only** —
 legacy ships a real alert (`.one45-alert` + 154 `Error/*` Twig uses), now enshrined
-**native-both** (variant info/success/warning/error; Acuity tinted-family banners, legacy
+**native-both** (variant info/success/warning/error; one45 (2020s) tinted-family banners, legacy
 solid pale fills — "different mechanism, same surface": one API + per-system skin). And
-**Badge is acuity-only** — legacy has no status badge, so it now resolves through the bridge
-in legacy + lowfi (the genuine present-vs-absent piece, mirror of acuity lacking Breadcrumb).
+**Badge is one45-2020s-only** — legacy has no status badge, so it now resolves through the bridge
+in legacy + lowfi (the genuine present-vs-absent piece, mirror of one45 (2020s) lacking Breadcrumb).
 Gap map §4e.
 
 **Iconography slice (2026-06-23):** the last open foundation category. `Icon` reworked from a
@@ -144,25 +144,25 @@ variant (`circle` default / `card`). **Legacy-only**: legacy owns two real photo
 `.profile-img` circle (25/60px, 2px ring) and the webeval `.photo` yearbook card (75×98 image, `#BBB`
 border, `#666` 9px caption) — while the Acuity DS ships **no avatar** at all (`[D]`: not in the DS
 component list, zero island usages), so it is the cleanest present-vs-absent bridge case, the mirror
-of Breadcrumb: native in legacy + lowfi, a flagged bridge build in `acuity`. One canonical API absorbs
+of Breadcrumb: native in legacy + lowfi, a flagged bridge build in `one45-2020s`. One canonical API absorbs
 both shapes via `shape`; no API break. No initials fallback — a missing photo shows a placeholder
 **image** (the real `blank.gif` behaviour). `reviewer-roster` prototype (a selectable faculty roster
 with circle avatars → a photo wall of card avatars). Card border `#BBB` fails 1.4.11 (1.92, flagged).
 Gap map §4k.
 
-**Honest scope:** between `acuity` and `one45-legacy`, most pieces are the **same
+**Honest scope:** between `one45-2020s` and `one45-legacy`, most pieces are the **same
 component re-skinned by tokens**, not structurally different — so a single
 canonical API + token swap is the right model at the brand level (and the tool
 proves it). The genuine anatomy divergences are narrower and named in the gap map
 §5. The broader 7-system reality is structurally divergent, but six of seven die in
-the rebuild, so the convergence target is Acuity.
+the rebuild, so the convergence target is one45 (2020s).
 
 ---
 
 ## Reproduce
 
 - **Contrast** (computed, not hand-written): `node shared/one45-design-systems/scripts/contrast.mjs`
-- **Source token files:** `symfony/tailwind_acuity_theme.js` (Acuity) and
+- **Source token files:** `symfony/tailwind_acuity_theme.js` (one45 (2020s)) and
   `symfony/src/One45/PageBundle/Resources/public/css/src/includes/_colors.scss:1-35`
   (legacy).
 
@@ -171,11 +171,11 @@ the rebuild, so the convergence target is Acuity.
 ```
 shared/one45-design-systems/
   README.md                      this index
-  01-acuity-modern.md            System B — 3 layers + computed contrast
+  01-one45-2020s.md              System B — 3 layers + computed contrast
   02-one45-legacy.md             System A — 3 layers + computed contrast
   03-reconciliation-gap-map.md   keep / dedupe / untokened / contrast-fix + 4× dup
   figma-connection-runbook.md    step-by-step: connect the tool to Figma (MCP + OAuth)
-  tokens/acuity.json             portable Acuity token set (documented intent)
+  tokens/one45-2020s.json        portable one45 (2020s) token set (documented intent)
   tokens/one45-legacy.json       portable legacy token set (documented intent)
   scripts/contrast.mjs           deterministic WCAG contrast (ratios of record)
 ```
@@ -189,7 +189,7 @@ the governing rule is **never fabricate a component, token, or asset to tidy the
 (no fabrication; the Pagination rule). The honest omissions:
 
 - **Icon glyph artwork.** The tool enshrines the real iconography *API*, size scale, and
-  colour rule, but **not** the actual glyphs. The sizes are confirmed (Acuity SVG icons render
+  colour rule, but **not** the actual glyphs. The sizes are confirmed (one45 (2020s) SVG icons render
   small 16px / medium 24px, IconButton 38×38px — `/test/designSystem` [R]), but neither system's
   glyph artwork is available to ship: the Acuity DS package (`@takecasper/acuity-design-system`)
   is not vendored, so its SVG paths are unrecoverable; legacy draws on **FontAwesome Pro 5.15.3**
@@ -204,5 +204,5 @@ the governing rule is **never fabricate a component, token, or asset to tidy the
   to a later bridge-interim slice, not faked now.
 - **`[R]`-pending values (the discipline).** Where a value needs a signed-in staging read to
   confirm, it is flagged as a tool default in `src/styles/tokens.css` and recorded as pending,
-  never silently invented. (None currently open — the Acuity icon `small`/`medium` px and the
+  never silently invented. (None currently open — the one45 (2020s) icon `small`/`medium` px and the
   IconButton box were confirmed 2026-06-23.)

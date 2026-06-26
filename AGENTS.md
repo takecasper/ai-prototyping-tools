@@ -81,13 +81,13 @@ The Inputs & controls pieces (TextField … SearchField) are token-driven and pr
 in all three systems — they re-skin by tokens, not by structure. Their look is
 reverse-engineered from the real Acuity DS form API + the live DS gallery
 (`/test/designSystem`) and the legacy skin; see
-`shared/one45-design-systems/01-acuity-modern.md` / `02-one45-legacy.md`.
+`shared/one45-design-systems/01-one45-2020s.md` / `02-one45-legacy.md`.
 
 The Navigation pieces Tabs and Link are present in all three systems. Link re-skins purely
-by tokens; **Tabs shares one API but renders a per-system visual model** (Acuity's underline
+by tokens; **Tabs shares one API but renders a per-system visual model** (one45 (2020s)'s underline
 indicator vs legacy's Bootstrap box tabs) — accurate to each system, not a flattened shared
-skin. **Breadcrumb is legacy-only** (the Acuity DS ships none): in `acuity` it resolves
-through the bridge to a flagged AI build — the mirror of **`Badge` being acuity-only**. There is
+skin. **Breadcrumb is legacy-only** (the Acuity DS ships none): in `one45-2020s` it resolves
+through the bridge to a flagged AI build — the mirror of **`Badge` being one45-2020s-only**. There is
 **no Pagination piece**: neither One45 system defines one, so the tool does not fabricate it.
 
 The Data display piece **Table** is present in all three systems. It carries one canonical
@@ -103,18 +103,18 @@ all three, so it never bridges. See `shared/one45-design-systems/01`/`02` L "Dat
 
 **Card** (in the Actions & containers slice) is the data-display group's second piece, **formalised**
 to the real Acuity DS Card API — `title?`, `iconName?`, `children` (body), `footer?` (put the action
-`Button`s here). It is present in all three systems and never bridges: `acuity` renders a headerless
+`Button`s here). It is present in all three systems and never bridges: `one45-2020s` renders a headerless
 white card (icon + title row on the panel — `[R]` border 1px, radius 8px, **no shadow**), `legacy`
 adds a full-bleed grey header band (the one per-system flourish, like the box tabs), `lowfi` is the
 dashed sketch. `iconName` renders the per-system token glyph stand-in (real artwork is a recorded
-asset gap, like Icon). The divergence is again **inventory** (Acuity owns a real Card; legacy borrows
+asset gap, like Icon). The divergence is again **inventory** (one45 (2020s) owns a real Card; legacy borrows
 Bootstrap + the `.dashboard-widget` tile). See `shared/one45-design-systems/01`/`02` L "Data display" / §4j.
 
 **Avatar** is the data-display group's third piece — a person photo with a **`shape` variant**
 (`personName`, `src?`, `shape?` ∈ circle/card, `size?` ∈ sm/lg). The person name is **`personName`**,
 NOT `name` (`name` selects the canonical piece, the same collision `Icon`'s `iconName` avoids). It is
 **legacy-only**: legacy owns two real photo widgets (the inline `.profile-img` circle + the webeval
-`.photo` yearbook card), the Acuity DS ships **none**, so in `acuity` it resolves through the bridge to
+`.photo` yearbook card), the Acuity DS ships **none**, so in `one45-2020s` it resolves through the bridge to
 a flagged build — the mirror of `Badge`. Native in legacy + lowfi. A missing `src` falls back to a
 placeholder **image** (the real `blank.gif` behaviour), never an initials monogram. See
 `shared/one45-design-systems/01`/`02` L "Data display" / §4k.
@@ -123,15 +123,15 @@ The Feedback & status pieces:
 
 - **Modal** is present in all three systems — the structural API-survival test: one canonical
   API absorbs both the Acuity DS dialog and the legacy Bootstrap modal, and the look (including
-  legacy's grey header band vs Acuity's headerless title) is a **pure token swap**, no per-system
+  legacy's grey header band vs one45 (2020s)'s headerless title) is a **pure token swap**, no per-system
   override unlike Tabs. Pass the action buttons via the `footer` prop.
-- **Alert** is native in **acuity + legacy** (the bridge fills lowfi). One canonical API
+- **Alert** is native in **one45-2020s + legacy** (the bridge fills lowfi). One canonical API
   (`variant` ∈ info/success/warning/error + `title` + body), but — like Tabs — the skin is
-  **per-system**: Acuity a tinted banner with an accent border, legacy a solid pale fill (the
+  **per-system**: one45 (2020s) a tinted banner with an accent border, legacy a solid pale fill (the
   real `.one45-alert`). "Different mechanism, same surface."
-- **Badge** is **acuity-only** (legacy has no status badge): in `legacy` + `lowfi` it resolves
+- **Badge** is **one45-2020s-only** (legacy has no status badge): in `legacy` + `lowfi` it resolves
   through the bridge to a flagged build — the genuine present-vs-absent piece, the mirror of
-  acuity lacking Breadcrumb.
+  one45 (2020s) lacking Breadcrumb.
 
 **Toast, tag/chip and empty-state are not enshrined**: they exist in neither One45 system, so
 the tool does not fabricate them (the Pagination rule).

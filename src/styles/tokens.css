@@ -4,12 +4,12 @@
  * on <html data-ds="…"> (see store.tsx). Every component reads these vars, so a
  * toggle re-skins everything with zero prototype edits.
  *
- * The acuity and one45-legacy values are REVERSE-ENGINEERED from the One45
+ * The one45-2020s and one45-legacy values are REVERSE-ENGINEERED from the One45
  * staging repo (documented under shared/one45-design-systems/), lifted verbatim
  * from the token sources:
- *   acuity        symfony/tailwind_acuity_theme.js (Lato; acuity-* families)
+ *   one45-2020s   symfony/tailwind_acuity_theme.js (Lato; acuity-* families)
  *   one45-legacy  _colors.scss:1-35 + new_branding.scss (Cabin; $primary_purple)
- * Faithful choices and known weaknesses (Acuity defines no radius/shadow token;
+ * Faithful choices and known weaknesses (one45 (2020s) defines no radius/shadow token;
  * neutrals-light borders fail WCAG 1.4.11) are explained in the per-system
  * reports. The lowfi values stay hand-authored — it is a deliberate sketch. */
 
@@ -34,7 +34,7 @@
    * Generic fallbacks; each system overrides below from its real, sourced values.
    * The Acuity DS Card is headerless (icon + title row on the white panel); legacy
    * renders a grey header band (-header-bg / -header-border), the one per-system
-   * structural flourish (a full-bleed band, app.css) — acuity + lowfi stay headerless,
+   * structural flourish (a full-bleed band, app.css) — one45-2020s + lowfi stay headerless,
    * a pure token swap. See shared/one45-design-systems/01/02 L "Data display", 03 §4j. */
   --ds-card-bg: var(--ds-bg);
   --ds-card-border: var(--ds-border-color);
@@ -50,12 +50,12 @@
 
   /* ---- foundation scales (radii / elevation / motion / z-index / opacity) ----
    * Completes the token layer (Foundations slice, 2026-06-23). Generic tool
-   * defaults; acuity + legacy override the radius + elevation steps from their
+   * defaults; one45-2020s + legacy override the radius + elevation steps from their
    * real/sourced values below (or record an explicit gap). NEITHER One45 system
    * defines a scale for motion, z-index, or opacity (sourced gap — see 01/02
    * §Foundation, 03 §4f), so those are STRUCTURAL and live here once, not
    * re-skinned per system. The radius/shadow -sm/-lg steps complete the scale the
-   * Acuity theme never tokenized; future component slices (data grid, dropdown,
+   * one45 (2020s) theme never tokenized; future component slices (data grid, dropdown,
    * drawer) read them instead of inventing values. */
   --ds-radius-sm: 4px;
   --ds-radius-lg: 12px; /* --ds-radius (base, 8px) is defined above */
@@ -73,7 +73,7 @@
   --ds-fg-muted: #5f5f5f; /* muted text via a REAL colour (never opacity — see css rule) */
 
   /* ---- iconography (the Iconography slice) ----
-   * Acuity exposes a NAMED size scale (small|medium) on Icon/IconButton; legacy sizes
+   * one45 (2020s) exposes a NAMED size scale (small|medium) on Icon/IconButton; legacy sizes
    * FontAwesome by rem (0.9rem default / 1.5rem in alerts) + a 25px .icon-button. Both
    * map to a two-step icon size scale + an icon-button box, per system. Glyph ARTWORK is a
    * recorded asset gap in BOTH systems (no DS icon font is vendored — see README "Gaps and
@@ -86,7 +86,7 @@
 
   /* ---- layout & grid foundation (the Breakpoints / grid & layout slice) ----
    * NEITHER One45 system authored a responsive breakpoint, container, or grid-column
-   * token. Acuity's Tailwind theme defines no `screens` / `container` /
+   * token. one45 (2020s)'s Tailwind theme defines no `screens` / `container` /
    * `gridTemplateColumns` key (tailwind.config.js spreads it with empty extend:{}), and the
    * islands compile ZERO responsive prefixes — flexbox + the spacing gap scale do all layout.
    * Legacy is Bootstrap 2 and inherits the BS2 grid/breakpoints without overriding them,
@@ -103,13 +103,13 @@
   --ds-bp-md: 768px; /* tablet — coincides with legacy's one real authored breakpoint */
   --ds-bp-lg: 1024px; /* desktop */
   --ds-bp-xl: 1280px; /* wide */
-  --ds-grid-columns: 12; /* de-facto column count (legacy BS2 grid; Acuity uses flex, not a grid) */
+  --ds-grid-columns: 12; /* de-facto column count (legacy BS2 grid; one45 (2020s) uses flex, not a grid) */
   --ds-grid-gutter: 1rem; /* default grid/flex gap; legacy overrides to its real BS2 20px */
   --ds-container-max: 75rem; /* reference page content max-width (1200px); no One45 system authors one */
 
   /* ---- form-control foundation (the Inputs & controls slice) ----
    * Generic fallbacks; each system overrides below from its real, sourced values.
-   * See shared/one45-design-systems/01-acuity-modern.md / 02-one45-legacy.md L "Inputs". */
+   * See shared/one45-design-systems/01-one45-2020s.md / 02-one45-legacy.md L "Inputs". */
   --ds-input-bg: #ffffff;
   --ds-input-fg: #1a1a1a;
   --ds-input-border: #767676;
@@ -127,7 +127,7 @@
 
   /* ---- navigation foundation (the Navigation slice) ----
    * Generic fallbacks; each system overrides below from its real, sourced values.
-   * See shared/one45-design-systems/01-acuity-modern.md / 02-one45-legacy.md L "Navigation". */
+   * See shared/one45-design-systems/01-one45-2020s.md / 02-one45-legacy.md L "Navigation". */
   --ds-tab-fg: #444444; /* inactive tab label */
   --ds-tab-active-fg: #1a1a1a; /* active tab label */
   --ds-tab-active-indicator: #2563eb; /* active-tab underline */
@@ -142,7 +142,7 @@
    * Generic fallbacks; each system overrides below from its real, sourced values.
    * The legacy grey header band is just two tokens (-header-bg / -header-border), so
    * the modal divergence is a pure token swap, not a per-system structural override.
-   * See shared/one45-design-systems/01-acuity-modern.md / 02-one45-legacy.md L "Feedback". */
+   * See shared/one45-design-systems/01-one45-2020s.md / 02-one45-legacy.md L "Feedback". */
   --ds-modal-bg: #ffffff;
   --ds-modal-radius: 8px;
   --ds-modal-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
@@ -155,7 +155,7 @@
   /* ---- alert variants (Feedback & status slice — Alert) ----
    * Generic fallbacks; each system overrides below from its real, sourced values.
    * variant ∈ info / success / warning / error; each carries -bg / -fg / -accent.
-   * See shared/one45-design-systems/01-acuity-modern.md / 02-one45-legacy.md L "Feedback". */
+   * See shared/one45-design-systems/01-one45-2020s.md / 02-one45-legacy.md L "Feedback". */
   --ds-alert-info-bg: #eef2ff;
   --ds-alert-info-fg: #1e3a8a;
   --ds-alert-info-accent: #2563eb;
@@ -191,7 +191,7 @@
 
   /* ---- data display (the Data display slice — Avatar) ----
    * Generic fallbacks; legacy overrides below from its real sourced values (it owns the
-   * only real avatars), acuity sets bridge-interim values (the DS ships no avatar), lowfi
+   * only real avatars), one45-2020s sets bridge-interim values (the DS ships no avatar), lowfi
    * the sketch. Two shapes: a circle (size-sm / size-lg + ring) and a fixed yearbook card
    * (card-width / card-img-height + caption). See 01/02 L "Data display", 03 §4k. */
   --ds-avatar-size-sm: 28px; /* circle small */
@@ -209,19 +209,19 @@
   --ds-avatar-name-size: 0.7rem; /* card caption size */
 }
 
-/* Acuity (One45 modern) — real token set from tailwind_acuity_theme.js.
+/* one45 (2020s) — real token set from tailwind_acuity_theme.js.
  * Primary text is neutrals-darker #333 (12.63:1), NOT neutrals DEFAULT #8C8C8C
  * (3.36:1, fails AA) — a faithful choice for body text; the muted-grey failure is
  * documented in the contrast-fix map. Accent acuity-blue #364699 (white-on-it
- * 8.42:1). radius and shadow are NOT Acuity tokens (the set covers colour / type
+ * 8.42:1). radius and shadow are NOT one45 (2020s) tokens (the set covers colour / type
  * / spacing / weight only) — values below are tool defaults, flagged in the
- * report, not invented Acuity tokens. */
+ * report, not invented one45 (2020s) tokens. */
 /* The `[data-ds="X"]` selector (added alongside `:root[...]`) lets a token set
  * scope to ANY subtree, not just <html> — the Systems-tab gallery renders a piece
  * in an arbitrary system (and two systems side by side) by wrapping each stage in
  * a `data-ds` element, independent of the root's active system. */
-:root[data-ds="acuity"],
-[data-ds="acuity"] {
+:root[data-ds="one45-2020s"],
+[data-ds="one45-2020s"] {
   --ds-font: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --ds-bg: #ffffff; /* neutrals-white */
   --ds-fg: #333333; /* neutrals-darker */
@@ -229,12 +229,12 @@
   --ds-border-color: #b8b8b8; /* neutrals-light — real token; fails 1.4.11 (1.98), flagged */
   --ds-border-width: 1px;
   --ds-border-style: solid;
-  --ds-radius: 6px; /* NOT an Acuity token — tool default */
+  --ds-radius: 6px; /* NOT a one45 (2020s) token — tool default */
   --ds-accent: #364699; /* acuity-blue DEFAULT */
   --ds-accent-fg: #ffffff;
   --ds-badge-bg: #e9ecf6; /* acuity-blue-lightest */
   --ds-badge-fg: #253170; /* acuity-blue-dark */
-  --ds-shadow: 0 1px 2px rgba(0, 0, 0, 0.08); /* NOT an Acuity token — tool default */
+  --ds-shadow: 0 1px 2px rgba(0, 0, 0, 0.08); /* NOT a one45 (2020s) token — tool default */
   --ds-card-rotate: 0deg;
   --ds-letter-spacing: normal;
 
@@ -246,7 +246,7 @@
    * gap 12px, items-center. There is NO header band — icon + title sit on the white
    * panel (so -header-bg / -header-border stay transparent). The neutrals-light border
    * fails 1.4.11 (1.98:1) but is the real token, flagged. radius/shadow are the real
-   * RENDERED values, not theme-file tokens (the Acuity set tokenizes neither). */
+   * RENDERED values, not theme-file tokens (the one45 (2020s) set tokenizes neither). */
   --ds-card-bg: #ffffff; /* neutrals-white [R] */
   --ds-card-border: #b8b8b8; /* neutrals-light [R] — real token; 1px border fails 1.4.11 (1.98), flagged */
   --ds-card-radius: 8px; /* ds-rounded-lg [R] */
@@ -259,16 +259,16 @@
   --ds-card-header-bg: transparent; /* headerless [R] */
   --ds-card-header-border: transparent;
 
-  /* Foundation scales — the Acuity theme defines NONE of radius / shadow / motion /
+  /* Foundation scales — the one45 (2020s) theme defines NONE of radius / shadow / motion /
    * z-index / opacity (tailwind_acuity_theme.js has no borderRadius/boxShadow/
    * transition/zIndex/opacity key — [D]; the islands use exactly one radius class,
    * ds-rounded, which resolves to a Tailwind framework default). So these are
-   * framework or tool defaults, flagged, never Acuity tokens; motion/z-index/opacity
-   * fall through to the :root structural scale. The only REAL rendered Acuity
+   * framework or tool defaults, flagged, never one45 (2020s) tokens; motion/z-index/opacity
+   * fall through to the :root structural scale. The only REAL rendered one45 (2020s)
    * radius/elevation are the modal's (--ds-modal-* below, [R]). */
-  --ds-radius-sm: 4px; /* Tailwind DEFAULT (rounded) — framework default, not an Acuity token */
+  --ds-radius-sm: 4px; /* Tailwind DEFAULT (rounded) — framework default, not a one45 (2020s) token */
   --ds-radius-lg: 8px; /* the modal's rendered ds-rounded-lg [R] */
-  --ds-shadow-lg: 0 2px 8px rgba(0, 0, 0, 0.12); /* modal ds-shadow-modal [R] — the one real Acuity elevation */
+  --ds-shadow-lg: 0 2px 8px rgba(0, 0, 0, 0.12); /* modal ds-shadow-modal [R] — the one real one45 (2020s) elevation */
 
   /* Form controls — [R] from the live DS gallery (/test/designSystem, 2026-06-22):
    * .ds-form-input / .ds-form-select render border 1px #949494, radius 4px, pad 8px,
@@ -294,15 +294,15 @@
   --ds-control-size: 1.1rem;
 
   /* Navigation — [R] /test/designSystem 2026-06-22 + [D] tailwind_acuity_theme.js.
-   * Acuity Tabs render label text #000 (black), 16px, weight 400, pad 8px; the ACTIVE
+   * one45 (2020s) Tabs render label text #000 (black), 16px, weight 400, pad 8px; the ACTIVE
    * underline is acuity-green #00A59B (tailwind_acuity_theme.js:42 / _colors.scss:46),
    * 2px [R] — NOT acuity-blue; inactive underline is transparent. Strip rule neutrals
    * #949494. Link is acuity-blue #364699 underlined, hover removes the underline,
    * active → acuity-blue-darkest #161E4A [R] (class ds-text-acuity-blue active:…darkest).
    * INVENTORY GAP: the Acuity DS package ships NO Breadcrumb component (recovered: zero
-   * usages in the React islands) — so Breadcrumb is absent from acuity's skins and the
-   * bridge builds it, the mirror of legacy lacking Alert. The acuity --ds-crumb-* values
-   * below are NOT a status-quo Acuity component; they only style the bridge's flagged
+   * usages in the React islands) — so Breadcrumb is absent from one45-2020s's skins and the
+   * bridge builds it, the mirror of legacy lacking Alert. The one45-2020s --ds-crumb-* values
+   * below are NOT a status-quo one45 (2020s) component; they only style the bridge's flagged
    * interim build so it reads on-brand. Pagination is NOT enshrined: neither DS ships one. */
   --ds-tab-fg: #000000; /* tab label black [R] */
   --ds-tab-active-fg: #000000; /* active label also black [R] */
@@ -310,7 +310,7 @@
   --ds-tab-strip-border: #949494; /* neutrals strip rule [R] */
   --ds-link-fg: #364699; /* acuity-blue [R] */
   --ds-link-hover: #161e4a; /* acuity-blue-darkest [R] */
-  --ds-crumb-fg: #364699; /* bridge interim only (no Acuity breadcrumb) — acuity-blue */
+  --ds-crumb-fg: #364699; /* bridge interim only (no one45 (2020s) breadcrumb) — acuity-blue */
   --ds-crumb-current: #333333; /* neutrals-darker */
   --ds-crumb-sep: #949494; /* neutrals */
 
@@ -318,9 +318,9 @@
    * Panel: bg neutrals-white #fff, border-radius 8px (ds-rounded-lg), shadow
    * 0 2px 8px rgba(0,0,0,.12) (ds-shadow-modal). Scrim is neutrals-transparent-medium
    * rgba(0,0,0,.25) [R] (the real token). Title is neutrals-darker #333 at 23px (the 2xl
-   * header-medium step), weight 600, set on the WHITE panel with NO header band — Acuity
+   * header-medium step), weight 600, set on the WHITE panel with NO header band — one45 (2020s)
    * modals are headerless (a horizontalRule is optional, omitted). radius/shadow are real
-   * RENDERED values, not theme-file tokens (the Acuity set defines neither). */
+   * RENDERED values, not theme-file tokens (the one45 (2020s) set defines neither). */
   --ds-modal-bg: #ffffff; /* neutrals-white [R] */
   --ds-modal-radius: 8px; /* ds-rounded-lg [R] */
   --ds-modal-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); /* ds-shadow-modal [R] */
@@ -330,7 +330,7 @@
   --ds-modal-header-bg: transparent; /* headerless: title sits on the white panel [R] */
   --ds-modal-header-border: transparent;
 
-  /* Alert — [D] the acuity semantic colour FAMILIES (tailwind_acuity_theme.js) +
+  /* Alert — [D] the one45 (2020s) semantic colour FAMILIES (tailwind_acuity_theme.js) +
    * the real Alert variant API (designSystemTest/main.jsx: variant info/success/warning/
    * error). The bg=lightest / fg=darkest / accent=DEFAULT pairing is the tool's faithful
    * RENDERING [I] — the acuity-DS Alert component CSS is not vendored, so the families are
@@ -353,7 +353,7 @@
    * Acuity DS ships NO table component (the /test/designSystem demo renders ZERO tables;
    * the consumed-export set has none), and on the live app a bare .table gets NO authored
    * skin — real tables inherit only body type: Lato 14px, neutrals-darker #333, th weight
-   * 700, NO header fill ([R]). The one real rendered Acuity table (the marksheet,
+   * 700, NO header fill ([R]). The one real rendered one45 (2020s) table (the marksheet,
    * admin/pages/marksOverview2.php) is border-collapse with 1px #666 row dividers, tight
    * padding. So the skin reproduces that minimal reality, not an invented DS table: #333
    * text, transparent header, the marksheet #666 header rule, neutrals-light #b8b8b8 row
@@ -373,14 +373,14 @@
   --ds-table-caret: #364699; /* acuity-blue active sort caret */
   --ds-table-cell-pad-y: 0.4rem;
   --ds-table-cell-pad-x: 0.5rem; /* 8px — matches the real form-control pad [R] */
-  --ds-table-radius: 0; /* real Acuity tables carry no radius [R] */
+  --ds-table-radius: 0; /* real one45 (2020s) tables carry no radius [R] */
 
   /* Avatar — the Acuity DS ships NO avatar/profile-photo component ([D] the DS demo page
    * enumerates every component — designSystemTest/main.jsx:3-23 — and has none; zero island
    * usages; no avatar token in tailwind_acuity_theme.js). So Avatar is legacy-only and the
-   * bridge builds a FLAGGED interim for acuity — these --ds-avatar-* values only style that
+   * bridge builds a FLAGGED interim for one45-2020s — these --ds-avatar-* values only style that
    * interim so it reads on-brand (the same handling as --ds-crumb-* for the bridged
-   * Breadcrumb), NOT a status-quo Acuity component. The closest real Acuity-app photo is the
+   * Breadcrumb), NOT a status-quo one45 (2020s) component. The closest real one45 (2020s)-app photo is the
    * hand-rolled NON-DS .profile-img circle (25/60px, 2px ring, blank.gif fallback —
    * WidgetBundle _list_picker.scss), used to shape the interim; neutrals-light borders [R]. */
   --ds-avatar-ring: #b8b8b8; /* neutrals-light ring (bridge interim) */
@@ -399,12 +399,12 @@
   --ds-icon-size-md: 24px; /* medium — [R] /test/designSystem 2026-06-23 */
   --ds-iconbtn-size: 38px; /* IconButton box — [R] 38×38 (pad 10px, radius 4px) */
 
-  /* Layout & grid — the Acuity theme authors NO breakpoint / container / grid token
+  /* Layout & grid — the one45 (2020s) theme authors NO breakpoint / container / grid token
    * (tailwind.config.js spreads the theme with empty extend:{}; no `screens`/`container`/
    * `gridTemplateColumns` key) and the islands compile ZERO responsive prefixes (sm:/md:/lg:) —
    * layout is flexbox (ds-flex ×91) + the spacing gap scale (0/4/8/12/16/24/48px), not a column
-   * grid. So Acuity overrides NONE of the structural layout tokens above; the reference
-   * breakpoint scale + 12-col grid are framework/tool defaults, never Acuity tokens (recorded
+   * grid. So one45 (2020s) overrides NONE of the structural layout tokens above; the reference
+   * breakpoint scale + 12-col grid are framework/tool defaults, never one45 (2020s) tokens (recorded
    * gap — 01 §Layout, 03 §4h). The structural --ds-grid-gutter 1rem coincides with the real
    * spacing-4 (16px) step. [D] tailwind_acuity_theme.js (no screens/container/grid keys). */
 }
@@ -475,7 +475,7 @@
    * (_forms.scss:193-199); the skin has no success input state (the tool borrows acuity-green,
    * flagged). Focus ring uses $primary_purple — the legacy brand colour, still live on the
    * datepicker. INTENT-VS-REALITY: legacy .btn-primary actually renders acuity-blue #364699
-   * in prod (new_branding.scss:299-316) — buttons converged to Acuity while text inputs did
+   * in prod (new_branding.scss:299-316) — buttons converged to one45 (2020s) while text inputs did
    * not. The tool keeps purple as the legacy brand token so the toggle stays legible; the
    * button convergence is recorded in 03-reconciliation-gap-map.md. */
   --ds-input-bg: #fefefe; /* $form_input_background_color [D] */
@@ -488,13 +488,13 @@
   --ds-focus-ring: #42507d; /* $primary_purple — legacy brand focus */
   --ds-state-error: #b94a48; /* .alert-error label colour [D] */
   --ds-state-error-fg: #b94a48; /* [D] */
-  --ds-state-success: #4da81f; /* NO legacy success state — the tool borrows acuity success-green, flagged */
+  --ds-state-success: #4da81f; /* NO legacy success state — the tool borrows one45 (2020s) success-green, flagged */
   --ds-label-fg: #555555; /* checkbox/radio label, neutrals-dark [D] */
   --ds-label-weight: 700; /* required labels bold [D] */
   --ds-control-size: 1.05rem;
 
   /* Navigation — [D] legacy skin. Tabs are Bootstrap nav-tabs: BOX folder tabs, NOT an
-   * underline indicator (this is a real structural divergence from Acuity's underline
+   * underline indicator (this is a real structural divergence from one45 (2020s)'s underline
    * tabs — the legacy skin renders the box model via per-system CSS in app.css). The
    * React-page override only recolours the link: .nav-link $primary_purple #42507D,
    * active/.show $one45_black #27304B (styles_overwrite.scss:32-40); the strip + active
@@ -504,7 +504,7 @@
    * with link colour acuity-blue #364699 (themes/one45.scss:339-345); the tool renders a
    * flat trail (CSS-triangle chevron geometry simplified — flagged), purple crumb link,
    * one45_black current. Pagination is NOT enshrined: legacy defines no pagination skin
-   * (only a margin reset, themes/one45.scss:553-559) and neither does Acuity. */
+   * (only a margin reset, themes/one45.scss:553-559) and neither does one45 (2020s). */
   --ds-tab-fg: #42507d; /* .nav-link $primary_purple [D] */
   --ds-tab-active-fg: #27304b; /* active .nav-link $one45_black [D] */
   --ds-tab-active-indicator: transparent; /* legacy box tabs use no underline indicator [D] */
@@ -519,7 +519,7 @@
    * Bootstrap/react-bootstrap dialog: .modal border-radius 6px + box-shadow 0 3px 7px
    * rgba(0,0,0,.3) (_bootstrap.scss:103); .modal-header is a GREY BAND (bg #f5f5f5, 1px #eee
    * bottom rule, radius 3px 3px 0 0); .modal-body bg #fff padding 14px. Title is $one45_black
-   * #27304B. The grey header band is the ONLY thing that differs from Acuity's headerless
+   * #27304B. The grey header band is the ONLY thing that differs from one45 (2020s)'s headerless
    * modal, and it is captured purely as tokens (-header-bg / -header-border) — no structural
    * override needed. Scrim: the SCSS declares the backdrop via opacity, not a colour, so a
    * solid Bootstrap-2-default rgba is used per the no-opacity rule — flagged [I]. */
@@ -536,7 +536,7 @@
    * WidgetBundle Error/* Twig partials (154 uses). Solid pale fills over $one45_black
    * #27304B (info is a solid $primary_purple fill with white text), radius 0, padding
    * 16px (the structural override lives in app.css). accent = the variant icon colour.
-   * Legacy ships a REAL alert — the tool's earlier "acuity-only" model was wrong (03 §4d). */
+   * Legacy ships a REAL alert — the tool's earlier "one45-2020s-only" model was wrong (03 §4d). */
   --ds-alert-success-bg: #b0f0e9; /* $primary_teal_light */
   --ds-alert-success-fg: #27304b; /* $one45_black */
   --ds-alert-success-accent: #2faea1; /* $primary_teal_dark (icon) */
@@ -559,7 +559,7 @@
    * sort-column bg #FEFEFE ($table_cell_hover_bg_color). No radius (border-collapse, square).
    * The legacy app authors no selected-ROW colour, so selected reuses --ds-surface
    * (purple-pale) — flagged tool default. NOTE this custom skin is NOT live on the modern
-   * Acuity-rebranded staging ([R]: legacy table classes render inert there) — it is sourced
+   * one45 (2020s)-rebranded staging ([R]: legacy table classes render inert there) — it is sourced
    * from the legacy SCSS, the documented legacy-pole reality. See 02 L "Data display", 03 §4i. */
   --ds-table-font-size: 0.875rem; /* 14px [D] _tables.scss:5 */
   --ds-table-text: #444444; /* $table_cell_text_color [D] */
@@ -644,7 +644,7 @@
   --ds-card-rotate: -0.4deg;
 
   /* Card — deliberate greyscale sketch. White panel, dashed border (via --ds-border-*),
-   * minimal radius, no shadow, the slight tilt. Headerless like Acuity — a wireframe
+   * minimal radius, no shadow, the slight tilt. Headerless like one45 (2020s) — a wireframe
    * doesn't assert a brand header band. */
   --ds-card-bg: #ffffff;
   --ds-card-border: #8a8a8a;

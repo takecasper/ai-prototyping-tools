@@ -1,7 +1,7 @@
 // RosterScreen — the Avatar slice's pattern entry point, modelled on the real One45
 // people-picker the circle avatar (.profile-img) comes from: pick faculty as reviewers.
 // A selectable Table whose leading column is a circle Avatar (native in legacy / lowfi,
-// a flagged bridge build in acuity). The chosen reviewers are written to shared state and
+// a flagged bridge build in one45-2020s). The chosen reviewers are written to shared state and
 // shown as a photo wall of card Avatars on the next screen.
 
 import { useState } from "react";

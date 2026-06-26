@@ -1,5 +1,5 @@
 // ConfirmScreen — enrolment summary after a valid submit. Reads the shared bag
-// written by FormScreen and shows a success Alert (native in acuity + legacy; the
+// written by FormScreen and shows a success Alert (native in one45-2020s + legacy; the
 // bridge fills it for lowfi).
 
 import { Canonical } from "../../resolver";

@@ -2,7 +2,7 @@
 // A selectable roster of faculty led by a circle Avatar (the real people-picker .profile-img)
 // → a photo wall of the chosen reviewers as card Avatars (the webeval .photo yearbook tile).
 // Toggleable across all three systems: Avatar is native in legacy + lowfi, and a FLAGGED
-// bridge build in acuity (the Acuity DS ships no avatar) — the mirror of Breadcrumb.
+// bridge build in one45-2020s (the Acuity DS ships no avatar) — the mirror of Breadcrumb.
 
 import type { Prototype } from "../context";
 import { RosterScreen } from "./RosterScreen";

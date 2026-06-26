@@ -1,7 +1,7 @@
 // Learner Profile — a 2-screen prototype for the Data display slice's Card
 // (formalised). A directory Table of learners → a profile built from icon/title/footer
 // Cards (the real DS person-panel pattern, domain_demo_person_info.jsx). Toggleable
-// across all three systems; Card is native in each (acuity headerless / legacy grey
+// across all three systems; Card is native in each (one45-2020s headerless / legacy grey
 // band / lowfi sketch), so nothing here is bridged.
 
 import type { Prototype } from "../context";

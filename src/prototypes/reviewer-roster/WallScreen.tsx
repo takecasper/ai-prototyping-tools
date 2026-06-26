@@ -2,7 +2,7 @@
 // .photo yearbook tile the card variant reproduces): a 75-wide bordered card with the
 // image and a name caption beneath. Reads the selection from shared state (falls back to
 // the first two reviewers for a direct open). Card Avatar is native in legacy / lowfi and
-// a flagged bridge build in acuity, the same as the circle on the roster screen.
+// a flagged bridge build in one45-2020s, the same as the circle on the roster screen.
 
 import { Canonical } from "../../resolver";
 import { usePrototypes } from "../context";

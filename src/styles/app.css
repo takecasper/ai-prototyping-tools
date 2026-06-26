@@ -25,7 +25,7 @@ body {
   box-shadow: var(--ds-shadow);
 }
 /* Card — formalised to the real DS Card surface (Data display slice, 03 §4j). A
- * token-driven flex-column: header row (icon + title), body, footer actions. acuity is
+ * token-driven flex-column: header row (icon + title), body, footer actions. one45-2020s is
  * headerless (icon + title on the white panel, --ds-card-header-* transparent); legacy
  * adds a full-bleed grey header band (the one per-system structural flourish below, like
  * the legacy box tabs); lowfi is the dashed sketch. All look comes from --ds-card-* tokens. */
@@ -61,7 +61,7 @@ body {
 /* Legacy panel idiom: a full-bleed grey header band with a bottom rule (the real
  * .dashboard-widget / bootstrap panel / modal-header band — _bootstrap.scss, one45.scss).
  * It breaks out of the card padding to span edge-to-edge; overflow:hidden clips the band to
- * the card radius. The one per-system structural override (acuity + lowfi stay headerless,
+ * the card radius. The one per-system structural override (one45-2020s + lowfi stay headerless,
  * a pure token swap), mirroring the legacy box-tab override. */
 [data-ds="one45-legacy"] .sk-card {
   overflow: hidden;
@@ -81,9 +81,9 @@ body {
   border-radius: 999px;
   border: var(--ds-border-width) var(--ds-border-style) var(--ds-border-color);
 }
-/* Alert — native in acuity + legacy (token-driven, per-system look). "Different
+/* Alert — native in one45-2020s + legacy (token-driven, per-system look). "Different
  * mechanism, same surface" (03 §4d/§4e): one canonical API, variant ∈ info / success /
- * warning / error. Acuity renders a tinted-bg banner with an accent left border (the
+ * warning / error. one45 (2020s) renders a tinted-bg banner with an accent left border (the
  * semantic colour families); legacy renders a solid pale fill, radius 0, pad 16px, no
  * border (the real .one45-alert). lowfi gets a flagged bridge build (greyscale). The
  * variant colours come from the --ds-alert-<variant>-* tokens in tokens.css. */
@@ -129,7 +129,7 @@ body {
 
 /* Legacy .one45-alert is structurally different: a SOLID pale fill, radius 0,
  * padding 16px, no border or left accent (new_branding.scss:65-170). Rendered
- * per-system, not flattened into the acuity tinted-banner model — the Tabs rule. */
+ * per-system, not flattened into the one45-2020s tinted-banner model — the Tabs rule. */
 :root[data-ds="one45-legacy"] .sk-alert,
 [data-ds="one45-legacy"] .sk-alert {
   border: none;
@@ -140,7 +140,7 @@ body {
 /* ---- Feedback & status: Modal (token-driven; the API-survival test) ----
  * One canonical Modal API absorbs both the Acuity DS headlessui Dialog and the legacy
  * react-bootstrap/Bootstrap .modal — scrim + centred panel + title + body + footer
- * actions. The legacy grey header band vs Acuity's headerless title is a PURE token
+ * actions. The legacy grey header band vs one45 (2020s)'s headerless title is a PURE token
  * swap (--ds-modal-header-bg/-border), so unlike Tabs no per-system structural override
  * is needed (only lowfi adds its sketch border). [D]+[R] 2026-06-22. */
 .sk-modal {
@@ -212,7 +212,7 @@ body {
   padding: 0.8rem 1rem;
   border-top: 1px solid var(--ds-modal-header-border);
 }
-/* lowfi panel gets the sketch border (acuity/legacy modals are borderless, shadow only).
+/* lowfi panel gets the sketch border (one45-2020s/legacy modals are borderless, shadow only).
  * The bare `[data-ds=...]` variant lets the rule also apply inside a gallery stage
  * scoped to that system, not just when lowfi is the root active system. */
 :root[data-ds="lowfi"] .sk-modal__panel,
@@ -223,11 +223,11 @@ body {
 /* ---- Data display: Table (token-driven; the data-display slice opener) ----
  * One canonical columns+rows+sort API, re-skinned by the --ds-table-* tokens. The
  * predicted data-grid API break did NOT happen: the skin is a PURE token swap (no
- * per-system structural override like Tabs needed) — Acuity reproduces its minimal real
+ * per-system structural override like Tabs needed) — one45 (2020s) reproduces its minimal real
  * app-table reality (Lato, #333, thin dividers, no header fill — the DS ships no table),
  * legacy the real _tables.scss skin (#999 header rule, #444 text, #BBB cells, 5px pad),
  * lowfi a dashed sketch. The sort caret is a token-coloured text glyph (the legacy PNG
- * arrow / Acuity FA caret geometry simplified — the Breadcrumb-chevron handling). */
+ * arrow / one45 (2020s) FA caret geometry simplified — the Breadcrumb-chevron handling). */
 .sk-table-wrap {
   width: 100%;
   overflow-x: auto;
@@ -320,12 +320,12 @@ body {
   border-bottom-style: dashed;
 }
 
-/* ---- Data display: Avatar (legacy-only → acuity bridges; both shape variants) ----
+/* ---- Data display: Avatar (legacy-only → one45-2020s bridges; both shape variants) ----
  * Two real legacy person-photo shapes enshrined as one canonical Avatar with a `shape`
  * variant (Spencer's call): the inline CIRCLE (.profile-img — 25/60px, 2px ring,
  * WidgetBundle _list_picker.scss) and the rectangular yearbook CARD (.photo — a 75-wide
  * #bbb-bordered card holding a 75×98 image with a name caption, webeval photoGallery.css).
- * The Acuity DS ships NO avatar (its DS demo lists none) → acuity gets a FLAGGED bridge
+ * The Acuity DS ships NO avatar (its DS demo lists none) → one45-2020s gets a FLAGGED bridge
  * build (INTERIM_BUILDS); legacy + lowfi render it natively. All look comes from the
  * --ds-avatar-* tokens. No initials — a missing photo shows a placeholder image (the real
  * blank.gif reality), never a monogram. See 01/02 L "Data display", 03 §4k. */
@@ -479,7 +479,7 @@ body {
   color: var(--ds-alert-info-accent);
 }
 
-/* IconButton — the real DS icon-only button (Acuity IconButton / legacy 25px .icon-button),
+/* IconButton — the real DS icon-only button (one45 (2020s) IconButton / legacy 25px .icon-button),
  * native in all three systems (token-driven). The inner glyph is the per-system Icon stand-in;
  * the button carries the accessible `label`, so the glyph stays decorative. */
 .sk-iconbtn {
@@ -681,7 +681,7 @@ body {
 /* ---- canonical navigation (Navigation slice, token-driven) ----
  * Tabs / Link / Pagination share one skin per piece, re-skinned by the nav tokens
  * in tokens.css. Tabs reproduce the real DS strip: a bottom rule, an active-tab
- * underline indicator (acuity-green on Acuity, purple on legacy), label text in the
+ * underline indicator (acuity-green on one45 (2020s), purple on legacy), label text in the
  * active/inactive tab colour. */
 .sk-tabs {
   max-width: 40rem;
@@ -773,7 +773,7 @@ body {
   outline-offset: 1px;
 }
 
-/* Per-system tab MODEL. The default (above) is Acuity's underline-indicator tab. Legacy
+/* Per-system tab MODEL. The default (above) is one45 (2020s)'s underline-indicator tab. Legacy
  * one45 tabs are Bootstrap nav-tabs — BOX folder tabs — a genuinely different visual
  * structure that does NOT token-swap, so it is rendered faithfully here rather than
  * flattened into the underline model. [D] themes/one45.scss:759-775, styles_overwrite.scss:32-40. */

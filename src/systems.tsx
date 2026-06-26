@@ -7,23 +7,23 @@
 //
 // THREE systems now ship:
 //   lowfi          a zero-dependency Balsamiq-style wireframe baseline.
-//   acuity         One45's modern, deliberate "Acuity" design system, rebuilt
+//   one45-2020s    One45's modern, deliberate "one45 (2020s)" design system, rebuilt
 //                  from its real token set (Lato, the acuity-* colour families).
 //   one45-legacy   One45's older "one45" brand still live on auth / self-send /
 //                  React-shell pages (Cabin, the $primary_purple palette).
 //
-// The acuity / one45-legacy tokens are reverse-engineered from the One45 staging
+// The one45-2020s / one45-legacy tokens are reverse-engineered from the One45 staging
 // repo and documented under shared/one45-design-systems/. The values here are the
 // single source of truth the tool renders from; the reports cite this file.
 //
 // Component divergence is REAL, not cosmetic, and splits along two axes:
-//   (a) different mechanism, same surface — BOTH systems ship a real Alert (Acuity
+//   (a) different mechanism, same surface — BOTH systems ship a real Alert (one45 (2020s)
 //       a dedicated DS component; legacy the .one45-alert skin over 154 WidgetBundle
 //       Twig Error/* partials), so one canonical API absorbs both, rendered per
 //       system (native-both).
 //   (b) present vs absent — the Acuity DS ships a Badge the legacy one45 brand never
 //       had (legacy's .badge-details is a profile-photo widget, not a status badge),
-//       so Badge is acuity-only and toggling a Badge screen to one45-legacy makes the
+//       so Badge is one45-2020s-only and toggling a Badge screen to one45-legacy makes the
 //       bridge fill the gap.
 // This is the anatomy-divergence question, exercised on two real systems rather than
 // toy ones. (Sourced: shared/one45-design-systems/03 §4d/§4e.)
@@ -49,7 +49,7 @@ export type CanonicalName =
   | "SearchField"
   // Navigation slice — token-driven. Tabs/Link are shared across all
   // systems; Breadcrumb is legacy-only (the Acuity DS ships none → bridge fills it,
-  // the mirror of acuity-only Badge).
+  // the mirror of one45-2020s-only Badge).
   | "Tabs"
   | "Link"
   | "Breadcrumb"
@@ -60,11 +60,11 @@ export type CanonicalName =
   // the real _tables.scss skin). One canonical columns+rows+sort API across systems.
   | "Table"
   // Avatar is legacy-only (the Acuity DS ships no avatar/profile-photo component → bridge
-  // fills acuity, the mirror of Breadcrumb). One canonical piece carries BOTH real legacy
+  // fills one45-2020s, the mirror of Breadcrumb). One canonical piece carries BOTH real legacy
   // photo shapes via a `shape` variant: the inline circle (.profile-img) + the yearbook
   // card (.photo).
   | "Avatar";
-export type SystemId = "lowfi" | "acuity" | "one45-legacy";
+export type SystemId = "lowfi" | "one45-2020s" | "one45-legacy";
 
 // The documentation slices the gallery groups by. New canonical pieces slot into
 // their slice automatically — adding a piece is just giving it a `category`.
@@ -103,10 +103,10 @@ export interface CanonicalDef {
 // `category`) and it appears in every system's gallery automatically.
 export const CANONICAL: CanonicalDef[] = [
   { name: "Button", label: "Button", category: "Actions & containers", description: "Primary action control", props: "children, variant?, onClick", notes: "variant: primary (default) / secondary / danger / inline" },
-  { name: "Card", label: "Card", category: "Actions & containers", description: "Content container (icon, title, body, footer actions)", props: "title?, iconName?, children, footer?", notes: "real DS Card surface — acuity: headerless white card (icon + title row, body, footer); legacy: a grey header band over the body; footer holds the action Buttons; iconName renders the per-system token glyph stand-in (real artwork is a recorded asset gap)" },
+  { name: "Card", label: "Card", category: "Actions & containers", description: "Content container (icon, title, body, footer actions)", props: "title?, iconName?, children, footer?", notes: "real DS Card surface — one45-2020s: headerless white card (icon + title row, body, footer); legacy: a grey header band over the body; footer holds the action Buttons; iconName renders the per-system token glyph stand-in (real artwork is a recorded asset gap)" },
   { name: "IconButton", label: "Icon button", category: "Actions & containers", description: "Icon-only button (real DS iconName/iconSize API)", props: "iconName, iconSize?, label, onClick?, variant?, disabled?", notes: "iconSize: small / medium; label is the accessible name; native in all three; the glyph is a token-sized stand-in (real artwork is a recorded asset gap)" },
   { name: "Badge", label: "Badge", category: "Feedback & status", description: "Small inline status label", props: "children" },
-  { name: "Alert", label: "Alert", category: "Feedback & status", description: "Inline message banner (info, success, warning, error)", props: "title?, children, variant?", notes: "variant: info (default) / success / warning / error; native in acuity + legacy (the bridge fills lowfi)" },
+  { name: "Alert", label: "Alert", category: "Feedback & status", description: "Inline message banner (info, success, warning, error)", props: "title?, children, variant?", notes: "variant: info (default) / success / warning / error; native in one45-2020s + legacy (the bridge fills lowfi)" },
   { name: "TextField", label: "Text field", category: "Inputs & controls", description: "Labelled text input with validation state", props: "label, type?, value, onChange, state?, message?, helpText?, optionalityLabel?", notes: "state: default / error / success" },
   { name: "Textarea", label: "Textarea", category: "Inputs & controls", description: "Multi-line text input with validation state", props: "label, value, onChange, state?, message?, rows?", notes: "same validation surface as TextField" },
   { name: "Select", label: "Select", category: "Inputs & controls", description: "Labelled dropdown (native options)", props: "label, value, onChange, state?, message?, options", notes: "options: string[] or {value,label}[]" },
@@ -114,12 +114,12 @@ export const CANONICAL: CanonicalDef[] = [
   { name: "Radio", label: "Radio", category: "Inputs & controls", description: "Radio option (grouped by name)", props: "label, group, value, checked, onChange", notes: "group by shared name" },
   { name: "Toggle", label: "Toggle", category: "Inputs & controls", description: "On/off switch with label", props: "label, checked, onChange" },
   { name: "SearchField", label: "Search field", category: "Inputs & controls", description: "Pill search input with leading icon", props: "value, onChange, placeholder?" },
-  { name: "Tabs", label: "Tabs", category: "Navigation", description: "Tabbed navigation (id-based active tab)", props: "tabs, active, onSelect, children", notes: "tabs: string[] or {id,label,badge?}[]; per-system visual model (acuity underline / legacy box tabs)" },
+  { name: "Tabs", label: "Tabs", category: "Navigation", description: "Tabbed navigation (id-based active tab)", props: "tabs, active, onSelect, children", notes: "tabs: string[] or {id,label,badge?}[]; per-system visual model (one45-2020s underline / legacy box tabs)" },
   { name: "Link", label: "Link", category: "Navigation", description: "Hyperlink (default / inline variant)", props: "children (or text), href?, variant?, external?", notes: "variant: default / inline; external opens a new tab" },
-  { name: "Breadcrumb", label: "Breadcrumb", category: "Navigation", description: "Trail of ancestor links; legacy-only (bridge fills acuity)", props: "items", notes: "items: string[] or {label,href?}[]; last item is the current page; legacy-only" },
+  { name: "Breadcrumb", label: "Breadcrumb", category: "Navigation", description: "Trail of ancestor links; legacy-only (bridge fills one45-2020s)", props: "items", notes: "items: string[] or {label,href?}[]; last item is the current page; legacy-only" },
   { name: "Modal", label: "Modal", category: "Feedback & status", description: "Centred dialog overlay (title, body, footer actions); shared API across systems", props: "open, title?, onClose?, dismissible?, icon?, footer?, children", notes: "one API across all systems; footer holds the action Buttons; closes on Esc / scrim click when dismissible" },
   { name: "Table", label: "Table", category: "Data display", description: "Data table with sortable columns + optional row selection", props: "columns, rows, rowKey?, sort?, onSort?, selectable?, selected?, onSelectionChange?, empty?, caption?", notes: "columns: {key, header, align?, width?, sortable?, cell?}[]; table-wide sort — onSort(key) toggles; selectable adds a bulk-select column (select-all header); native in all three. The Acuity DS ships NO table component ([R] — real app tables inherit base type only over react-table), so its skin reproduces that minimal reality; legacy carries the real _tables.scss skin. One canonical API + pure token swap — the predicted data-grid API break did not happen" },
-  { name: "Avatar", label: "Avatar", category: "Data display", description: "Person photo — inline circle or yearbook card; legacy-only (bridge fills acuity)", props: "personName, src?, shape?, size?", notes: "personName (NOT name — name selects the canonical piece, like Icon's iconName); src? falls back to a placeholder image; shape: circle (default) / card; size: sm (default) / lg — circle only (the card is a fixed thumbnail). Legacy-only: the real circle is .profile-img (25/60px, 2px ring), the card is the webeval .photo yearbook tile (75×98 img, #bbb border, name caption). The Acuity DS ships NO avatar → acuity resolves a flagged bridge build (the Breadcrumb mirror). No initials fallback — a missing photo shows a placeholder IMAGE (the real blank.gif / person_outline.gif reality), never a monogram" },
+  { name: "Avatar", label: "Avatar", category: "Data display", description: "Person photo — inline circle or yearbook card; legacy-only (bridge fills one45-2020s)", props: "personName, src?, shape?, size?", notes: "personName (NOT name — name selects the canonical piece, like Icon's iconName); src? falls back to a placeholder image; shape: circle (default) / card; size: sm (default) / lg — circle only (the card is a fixed thumbnail). Legacy-only: the real circle is .profile-img (25/60px, 2px ring), the card is the webeval .photo yearbook tile (75×98 img, #bbb border, name caption). The Acuity DS ships NO avatar → one45-2020s resolves a flagged bridge build (the Breadcrumb mirror). No initials fallback — a missing photo shows a placeholder IMAGE (the real blank.gif / person_outline.gif reality), never a monogram" },
   { name: "Image", label: "Image", category: "Media", description: "Placeholder image (placehold.co)", props: "w, h, label?", notes: "never commit binary image files" },
   { name: "Icon", label: "Icon", category: "Media", description: "Named icon (real DS name/size vocabulary)", props: "iconName, size?, altText?, tone?", notes: "size: small / medium; iconName is the real DS vocabulary (add, edit, delete, checkCircle, warning…); tone: success / warning / error / info; renders a token-sized stand-in glyph — real glyph artwork is a recorded asset gap (no DS icon font is vendored)" },
 ];
@@ -127,7 +127,7 @@ export const CANONICAL: CanonicalDef[] = [
 export type Skin = ComponentType<Record<string, any> & { children?: ReactNode; title?: string }>;
 
 // Token-driven pieces. Their look comes entirely from the active system's CSS
-// vars (styles/tokens.css), so the same component renders as Acuity blue/Lato or
+// vars (styles/tokens.css), so the same component renders as one45 (2020s) blue/Lato or
 // one45 purple/Cabin depending on the active system — the real app's own brand
 // mechanism (a root data attribute switching token sets) generalised to N systems.
 // Button carries the real DS variant surface (statefulButton.jsx PropTypes:
@@ -158,8 +158,8 @@ const Button: Skin = ({ children, variant, ...rest }) => {
 // grey-band idiom (#f5f5f5 fill / #eee rule, _bootstrap.scss). So Card is native-both
 // "different mechanism, same surface" (like Alert), and the look is a pure token swap
 // EXCEPT legacy's full-bleed grey header band, the one per-system structural flourish
-// (app.css) — acuity + lowfi stay headerless. The icon is the per-system token glyph
-// stand-in (artwork asset gap, like Icon/Modal). Divergence axis = INVENTORY (Acuity
+// (app.css) — one45-2020s + lowfi stay headerless. The icon is the per-system token glyph
+// stand-in (artwork asset gap, like Icon/Modal). Divergence axis = INVENTORY (one45 (2020s)
 // owns a real Card; legacy borrows bootstrap/tile). See 01/02 L "Data display", 03 §4j.
 const Card: Skin = ({ children, title, iconName, footer }) => (
   <div className="sk-card">
@@ -180,13 +180,13 @@ const Card: Skin = ({ children, title, iconName, footer }) => (
 
 const Badge: Skin = ({ children }) => <span className="sk-badge">{children}</span>;
 
-// Native in acuity AND legacy — "different mechanism, same surface" (03 §4d/§4e):
+// Native in one45-2020s AND legacy — "different mechanism, same surface" (03 §4d/§4e):
 // the Acuity DS Alert component and legacy's .one45-alert skin (over WidgetBundle
 // Error/* Twig partials) absorb into ONE canonical API, rendered per system from
-// tokens (acuity tinted-bg + accent border from the semantic families; legacy solid
+// tokens (one45-2020s tinted-bg + accent border from the semantic families; legacy solid
 // pale fills, radius 0, pad 16px — see app.css / tokens.css). lowfi has no Alert →
 // the bridge fills it (INTERIM_BUILDS, flagged). variant ∈ info | success | warning |
-// error (the legacy Error/* set and the acuity Alert `variant` prop); default info.
+// error (the legacy Error/* set and the one45-2020s Alert `variant` prop); default info.
 const Alert: Skin = ({ children, title, variant }) => {
   const v = typeof variant === "string" ? variant : "info";
   return (
@@ -201,7 +201,7 @@ const Alert: Skin = ({ children, title, variant }) => {
 // These mirror the Acuity DS form API recovered from the React islands: the
 // validation surface is `state` ∈ default|error|success + `message` + `helpText`
 // (NOT an `error` boolean and NOT `placeholder` in the real DS) — see
-// shared/one45-design-systems/01-acuity-modern.md L "Inputs". Legacy renders the
+// shared/one45-design-systems/01-one45-2020s.md L "Inputs". Legacy renders the
 // same markup re-skinned by tokens (the old grey input look), which is why one
 // canonical API holds for the whole group.
 
@@ -319,19 +319,19 @@ const SearchField: Skin = ({ placeholder, ...rest }) => (
 // Recovered from the Acuity DS islands + the legacy skin (see
 // shared/one45-design-systems/01/02 L "Navigation"). Two real divergences this group
 // surfaces, both honoured rather than flattened:
-//   1. API vs SKIN — the canonical id-based Tabs API absorbs both Acuity's index-based
+//   1. API vs SKIN — the canonical id-based Tabs API absorbs both one45 (2020s)'s index-based
 //      API (activeTabIndex/handleTabChange, designSystemTest/main.jsx:935) AND legacy's
 //      key-based .nav-tabs, so the API survives. But the VISUAL model does NOT token-swap:
-//      Acuity tabs are an underline indicator (acuity-green) while legacy tabs are
+//      one45 (2020s) tabs are an underline indicator (acuity-green) while legacy tabs are
 //      Bootstrap BOX folder tabs. That structural difference is rendered per-system in
 //      app.css (:root[data-ds="one45-legacy"] .sk-tab), not faked with one shared skin —
 //      this is the first piece where pure token-swap stops being enough.
 //   2. INVENTORY — the Acuity DS package ships no Breadcrumb component (zero island
 //      usages), while legacy has a real chevron breadcrumb. So Breadcrumb is legacy-only
-//      and the bridge fills acuity (the mirror of acuity-only Badge). Pagination is NOT
+//      and the bridge fills one45-2020s (the mirror of one45-2020s-only Badge). Pagination is NOT
 //      enshrined: neither system defines one, so fabricating it would misrepresent both.
 
-// `tabs` is an array of strings or {id,label,badge}. The Acuity Tab `badgeText`
+// `tabs` is an array of strings or {id,label,badge}. The one45 (2020s) Tab `badgeText`
 // (e.g. "CA"/"FR" on the live gallery) maps to `badge`. Active tab is by id, with
 // onSelect(id) — index vs key is an implementation detail the canonical API hides.
 const Tabs: Skin = ({ tabs, active, onSelect, children }) => {
@@ -368,7 +368,7 @@ const Tabs: Skin = ({ tabs, active, onSelect, children }) => {
   );
 };
 
-// Acuity Link API: `text` + `type` (default|inline) + `href`/`target`. The canonical
+// one45 (2020s) Link API: `text` + `type` (default|inline) + `href`/`target`. The canonical
 // piece accepts children OR `text`, and maps `type` → `variant`. `external` opens a
 // new tab (the real DS pairs target=_blank with iconName="linkNewTab").
 const Link: Skin = ({ children, text, href, variant, external, ...rest }) => {
@@ -428,7 +428,7 @@ const Breadcrumb: Skin = ({ items }) => {
 // Footer, _bootstrap.scss + mappingModal.jsx) are the SAME surface: scrim + centred panel
 // + title + body + footer actions. So ONE canonical API absorbs both — the second
 // structural piece to survive after Tabs. And UNLIKE Tabs, even the header divergence
-// (legacy grey band #f5f5f5 vs Acuity's headerless title on white) is PURE token swap
+// (legacy grey band #f5f5f5 vs one45 (2020s)'s headerless title on white) is PURE token swap
 // (--ds-modal-header-bg/-border), so no per-system structural override is needed: both
 // the single-canonical-API model AND pure token-swap survive Modal. radius / shadow /
 // scrim / title size also token-swap. See shared/one45-design-systems/01/02 L "Feedback".
@@ -479,7 +479,7 @@ const Modal: Skin = ({ open, title, onClose, dismissible, icon, footer, children
 };
 
 // ---- Data display: Table (token-driven; the data-display group opener) ----
-// Sourced [D] from the Acuity islands (react-table v7 over raw <table class="table
+// Sourced [D] from the one45 (2020s) islands (react-table v7 over raw <table class="table
 // table-hover">; the common SortableTable wrapper — columns {Header,accessor,Cell},
 // table-wide useSortBy, caller-managed data/filter, optional useRowSelect bulk-select
 // with onChange) + the legacy _tables.scss skin (table.report/.standard — header
@@ -488,13 +488,13 @@ const Modal: Skin = ({ open, title, onClose, dismissible, icon, footer, children
 // the Acuity DS ships NO table component (the /test/designSystem demo renders ZERO
 // tables; the consumed-export list has none), and on the live app a bare .table gets
 // NO skin — real tables inherit only body type (Lato 14px #333, th 700). The one real
-// rendered Acuity table (the marksheet, admin/pages/marksOverview2.php) is
+// rendered one45 (2020s) table (the marksheet, admin/pages/marksOverview2.php) is
 // border-collapse with 1px #666 row dividers, 11px headers, 12px bold key rows, tight
-// padding. So Table is the INVENTORY divergence (Acuity owns no dedicated table; legacy
+// padding. So Table is the INVENTORY divergence (one45 (2020s) owns no dedicated table; legacy
 // owns a real skin) — but the canonical columns+rows+sort API SURVIVES all three and the
 // look is a pure token swap. The predicted data-grid API break did NOT happen here.
 // Native in all three; no bridge. The sort caret is a token-coloured text glyph (the
-// legacy PNG arrow / Acuity FA caret geometry simplified — flagged, the Breadcrumb
+// legacy PNG arrow / one45 (2020s) FA caret geometry simplified — flagged, the Breadcrumb
 // chevron handling). See shared/one45-design-systems/01/02 L "Data display", 03 §4i.
 type TableColumn = {
   key: string;
@@ -633,7 +633,7 @@ const Table: Skin = ({
   );
 };
 
-// ---- Data display: Avatar (legacy-only → acuity bridges; both shape variants) ----
+// ---- Data display: Avatar (legacy-only → one45-2020s bridges; both shape variants) ----
 // Sourced [D] from the legacy code: TWO real person-photo shapes, kept as ONE canonical
 // Avatar with a `shape` variant (Spencer's call — "Both as variants"):
 //   circle  the inline people-picker avatar .profile-img — circular, 25px (sm) / 60px (lg),
@@ -643,8 +643,8 @@ const Table: Skin = ({
 //           (blank.gif / person_outline.gif) (webeval photoGallery.css:8-60, photo.php:14-62).
 // The Acuity DS ships NO avatar/profile-photo component (the DS demo page enumerates every
 // component and has none; zero island usages; no theme token — [D] designSystemTest/main.jsx:3-23),
-// so Avatar is legacy-only and the bridge builds a FLAGGED interim for acuity (INTERIM_BUILDS) —
-// the mirror of acuity lacking Breadcrumb. legacy + lowfi render it natively. NEITHER real widget
+// so Avatar is legacy-only and the bridge builds a FLAGGED interim for one45-2020s (INTERIM_BUILDS) —
+// the mirror of one45-2020s lacking Breadcrumb. legacy + lowfi render it natively. NEITHER real widget
 // uses an initials monogram: a missing photo falls back to a placeholder IMAGE, so the skin shows a
 // placeholder image (the blank.gif reality), never a monogram. The dimensions/ring/caption come
 // from the --ds-avatar-* tokens. See shared/one45-design-systems/01/02 L "Data display", 03 §4k.
@@ -713,7 +713,7 @@ const LowfiImage: Skin = ({ w = 320, h = 160, label }) => (
 
 // ---- Iconography (the Iconography foundation slice) ----
 // Sourced [D] from the islands + the legacy skin (shared/one45-design-systems/01/02 L
-// "Iconography", 03 §4g). Acuity ships a custom NAMED icon vocabulary on a standalone
+// "Iconography", 03 §4g). one45 (2020s) ships a custom NAMED icon vocabulary on a standalone
 // <Icon name=… size=… altText=…> (size ∈ small | medium) plus iconName/iconSize convenience
 // props on Button/IconButton/Modal/Link (designSystemTest/main.jsx). Legacy uses FontAwesome
 // Pro 5.15.3 (+ famfamfam 16px PNG sprites + Semantic UI) sized 0.9rem default / 1.5rem in
@@ -809,25 +809,25 @@ export interface DesignSystem {
 const FORM_CONTROLS = { TextField, Textarea, Select, Checkbox, Radio, Toggle, SearchField };
 
 // Navigation pieces present in every system. Link re-skins purely by tokens; Tabs shares
-// one API but renders a per-system VISUAL model (Acuity underline vs legacy box tabs, in
+// one API but renders a per-system VISUAL model (one45 (2020s) underline vs legacy box tabs, in
 // app.css) — accurate to each system, not a flattened shared skin. Breadcrumb is NOT here:
-// it is legacy-only (acuity has no breadcrumb component), added to legacy + lowfi below so
-// acuity exercises the bridge.
+// it is legacy-only (one45-2020s has no breadcrumb component), added to legacy + lowfi below so
+// one45-2020s exercises the bridge.
 const NAV_CONTROLS = { Tabs, Link };
 
 // Feedback & status. Modal is token-driven and present in every system — the
 // API-survival test PASSED here (one canonical Modal API absorbs the Acuity DS Dialog
 // AND the legacy Bootstrap Modal, and the look is a pure token swap). Alert is NOT in
-// this shared group: it is native in acuity + legacy but NOT lowfi, so it is added per
-// system below (acuity + legacy skins) rather than spread into all three — the earlier
-// "acuity-only + bridge" model was corrected to native-both once sourcing found legacy's
+// this shared group: it is native in one45-2020s + legacy but NOT lowfi, so it is added per
+// system below (one45-2020s + legacy skins) rather than spread into all three — the earlier
+// "one45-2020s-only + bridge" model was corrected to native-both once sourcing found legacy's
 // real .one45-alert (154 Error/* Twig uses; 03 §4d/§4e). Toast, tag/chip and empty-state
 // are gaps in BOTH systems → not enshrined (the Pagination rule).
 const FEEDBACK_CONTROLS = { Modal };
 
 // Data display. Table is token-driven and present in EVERY system — the first
 // data-display piece, and the long-predicted "first true API break" test. Result:
-// the canonical columns+rows+sort API SURVIVED all three (it absorbs the Acuity
+// the canonical columns+rows+sort API SURVIVED all three (it absorbs the one45 (2020s)
 // react-table-v7 column model AND the legacy DataTables/.report grid), and the look
 // is a PURE token swap — no per-system structural override (unlike Tabs). The real
 // divergence is INVENTORY, not API/skin: the Acuity DS package ships no table
@@ -835,7 +835,7 @@ const FEEDBACK_CONTROLS = { Modal };
 // dividers — [R] marksOverview2.php) while legacy carries its real _tables.scss skin.
 // Native in all three → never bridged (03 §4i). Toast/tag-chip/empty-state remain
 // un-built both-systems gaps. Avatar is NOT here: it is legacy-only (the Acuity DS ships
-// no avatar), so it is added to legacy + lowfi below and the bridge fills acuity — the same
+// no avatar), so it is added to legacy + lowfi below and the bridge fills one45-2020s — the same
 // shape as Breadcrumb. The rest of the data-display group (list, accordion, tree, timeline,
 // stat, code block, key-value) is a follow-up slice.
 const DATA_DISPLAY = { Table };
@@ -853,24 +853,24 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // LowfiAvatar) — like Breadcrumb, the legacy-only piece still draws in the wireframe.
     skins: { Button, Card, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Breadcrumb, Avatar: LowfiAvatar, Image: LowfiImage, Icon: LowfiIcon, IconButton: LowfiIconButton },
   },
-  acuity: {
-    id: "acuity",
-    label: "Acuity (One45 modern)",
+  "one45-2020s": {
+    id: "one45-2020s",
+    label: "one45 (2020s)",
     blurb: "Rebuilt from the real token set",
     // Breadcrumb is deliberately absent: the Acuity DS package ships no Breadcrumb
     // component (zero usages recovered from the islands), so it resolves through the
     // bridge to a flagged AI build — the mirror of legacy lacking Alert. Avatar is ALSO
     // absent for the same reason (the DS ships no avatar/profile-photo component), so it
-    // too resolves to a flagged bridge build — the second acuity bridge demo.
+    // too resolves to a flagged bridge build — the second one45-2020s bridge demo.
     skins: { Button, Card, Badge, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Image: BrandImage, Icon: BrandIcon, IconButton: BrandIconButton },
   },
   "one45-legacy": {
     id: "one45-legacy",
     label: "one45 legacy",
     blurb: "One45's older brand and style",
-    // Alert IS native here — legacy ships a real .one45-alert (the earlier "acuity-only"
+    // Alert IS native here — legacy ships a real .one45-alert (the earlier "one45-2020s-only"
     // read was wrong; 03 §4d). Badge is NOT here — legacy has no status badge (its
-    // .badge-details is a profile-photo widget), so Badge is the genuine acuity-only piece
+    // .badge-details is a profile-photo widget), so Badge is the genuine one45-2020s-only piece
     // and the bridge fills it. Breadcrumb IS native — the legacy app has a real (bespoke
     // chevron) breadcrumb the Acuity DS never built. Avatar IS native — the legacy app has
     // real person-photo widgets (the .profile-img circle + the .photo yearbook card) the
@@ -888,10 +888,10 @@ export const SYSTEM_IDS = Object.keys(SYSTEMS) as SystemId[];
 // system is active (acuity-blue/Lato, one45 purple/Cabin, or the sketch) — but the
 // resolver flags them as AI-built interims, never passed off as the system's real
 // component. The divergent pieces with a build here:
-//   Alert       native in acuity + legacy → built (flagged) for lowfi ONLY (lowfi has
+//   Alert       native in one45-2020s + legacy → built (flagged) for lowfi ONLY (lowfi has
 //               no real alert; both brand systems do, so they render native).
-//   Breadcrumb  legacy-only piece         → built (flagged) for acuity.
-//   Avatar      legacy-only piece         → built (flagged) for acuity (the Breadcrumb
+//   Breadcrumb  legacy-only piece         → built (flagged) for one45-2020s.
+//   Avatar      legacy-only piece         → built (flagged) for one45-2020s (the Breadcrumb
 //               mirror — the Acuity DS ships no avatar; the token-driven build re-skins
 //               to acuity-blue/Lato so the flagged interim reads on-brand).
 // A piece NOT listed here (e.g. Badge in legacy + lowfi) still falls back to the cruder

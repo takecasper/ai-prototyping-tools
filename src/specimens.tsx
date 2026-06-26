@@ -88,7 +88,7 @@ function TableDemo({ system }: { system: SystemId }) {
 export const SPECIMENS: Partial<Record<CanonicalName, Specimen>> = {
   Button: { children: "Save changes" },
   // Card formalised to the real DS surface: icon + title header, body, footer action.
-  // acuity renders headerless (icon + title on white); legacy adds a grey header band.
+  // one45-2020s renders headerless (icon + title on white); legacy adds a grey header band.
   Card: (system) => (
     <Canonical
       name="Card"
@@ -105,7 +105,7 @@ export const SPECIMENS: Partial<Record<CanonicalName, Specimen>> = {
     </Canonical>
   ),
   Badge: { children: "New" },
-  // Alert is native in acuity + legacy and bridged (flagged) in lowfi. Showing all four
+  // Alert is native in one45-2020s + legacy and bridged (flagged) in lowfi. Showing all four
   // variants documents the surface AND, in lowfi, the per-variant bridge flag.
   Alert: (system) => (
     <div>
@@ -139,8 +139,8 @@ export const SPECIMENS: Partial<Record<CanonicalName, Specimen>> = {
   Breadcrumb: { items: ["Home", "Programs", "Biology"] },
   Modal: (system) => <ModalDemo system={system} />,
   Table: (system) => <TableDemo system={system} />,
-  // Avatar is legacy-only → native in legacy + lowfi, a flagged bridge build in acuity.
-  // Both shapes + sizes document the surface AND, in acuity, the per-shape bridge flag.
+  // Avatar is legacy-only → native in legacy + lowfi, a flagged bridge build in one45-2020s.
+  // Both shapes + sizes document the surface AND, in one45-2020s, the per-shape bridge flag.
   Avatar: (system) => (
     <div className="proto__row">
       <Canonical name="Avatar" system={system} personName="Amara Okafor" />

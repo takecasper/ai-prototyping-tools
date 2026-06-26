@@ -8,8 +8,8 @@ verified: true
 
 The older "one45" brand, still LIVE today on auth / password / self-send /
 React-shell pages. Not deprecated in the running product — a user crossing flows
-sees both this and Acuity. Three layers, kept separate, same evidence labels as
-`01-acuity-modern.md` (**[D]**/**[R]**/**[I]**).
+sees both this and one45 (2020s). Three layers, kept separate, same evidence labels as
+`01-one45-2020s.md` (**[D]**/**[R]**/**[I]**).
 
 Live in the prototyping tool as system id **`one45-legacy`**
 (`src/systems.tsx`, `src/styles/tokens.css`). Portable token export:
@@ -41,12 +41,12 @@ Full values in [`tokens/one45-legacy.json`](tokens/one45-legacy.json).
 
 **Type** [D] (`new_branding.scss:1-...`): family **Cabin** (Google-Fonts remote
 `@import`, `new_branding.scss:1` — a different family and a remote-font dependency
-distinct from Acuity's Lato); base 16px; body **letter-spacing 0.4px**; `h1`
+distinct from one45 (2020s)'s Lato); base 16px; body **letter-spacing 0.4px**; `h1`
 `text-transform: capitalize`; link/`.ltsk` colour `$primary_purple`.
 
 **Drift note** [D]: `_colors.scss` carries this legacy palette **plus** a verbatim
-copy of the 49 Acuity colours (`:37-95`), so two unrelated colour systems live in
-one include and both feed `new_branding.scss`. The legacy half has **no Acuity
+copy of the 49 one45 (2020s) colours (`:37-95`), so two unrelated colour systems live in
+one include and both feed `new_branding.scss`. The legacy half has **no one45 (2020s)
 equivalent**.
 
 ---
@@ -56,7 +56,7 @@ equivalent**.
 **There is no "one45-legacy component library."** Legacy is a **CSS/brand skin**
 applied — via `design_system_style = 'one45' | 'none'`
 (`React/react_page_base.html.twig:14,105-129`) — over the SAME shared component
-stacks Acuity uses, plus the deep-legacy webeval engine:
+stacks one45 (2020s) uses, plus the deep-legacy webeval engine:
 
 - **Server UI (Twig):** no component library at all — template inheritance + ad-hoc
   `{% include %}` partials, 15% line duplication. The de-facto alert primitive is
@@ -69,10 +69,10 @@ stacks Acuity uses, plus the deep-legacy webeval engine:
   itself full of forked-variant duplication (`chunk_table`+`chunkTable`,
   `datepicker`+`datepicker2`). OUT for rebuild; the tag list is a coverage
   checklist, not code to port.
-- **React-shell pages** render the `one45` brand over the same React islands Acuity
+- **React-shell pages** render the `one45` brand over the same React islands one45 (2020s)
   uses (the toggle only swaps the stylesheet).
 
-**Implication for the bridge (the anatomy question):** between `acuity` and
+**Implication for the bridge (the anatomy question):** between `one45-2020s` and
 `one45-legacy`, most pieces are the **same component re-skinned by tokens** — so a
 single canonical API + token swap is the right model **at the brand level**, and
 the prototyping tool proves it (toggle re-skins Button/Card/Badge/Image/Icon with
@@ -80,11 +80,11 @@ zero prototype edits). The genuine divergences are where a piece exists as a rea
 component in one system and a *different mechanism* in the other — e.g. **Alert**
 (Acuity DS component, 14 uses) vs legacy's `Error/*` Twig partials skinned by
 `.one45-alert` (154 uses). Both are real, so Alert is **native in both** systems:
-the tool renders each system's own skin — Acuity a tinted banner, legacy a solid
+the tool renders each system's own skin — one45 (2020s) a tinted banner, legacy a solid
 pale fill — and the bridge fills only **lowfi**, not legacy. This is the "different
 mechanism, same surface" case (axis a; see the Alert section below and reconciliation
 §4d/§4e). The genuine *present-vs-absent* cases that the bridge actually fills are
-**Breadcrumb** (legacy-only → bridged in acuity) and **Badge** (acuity-only →
+**Breadcrumb** (legacy-only → bridged in one45-2020s) and **Badge** (one45-2020s-only →
 bridged in legacy + lowfi).
 
 ---
@@ -137,12 +137,12 @@ live in the tool as the same canonical pieces, re-skinned to the legacy look.
 | **`.btn` / `.btn-primary`** | **re-skinned to the Acuity DS**: `.btn-primary` bg `#364699`, hover `#253170`, active `#161E4A`; radius 3px, pad 12×16, weight 600 | `new_branding.scss:206-318`, `_actions.scss:233-330` |
 | datepicker | `$primary_purple #42507D` trigger + selected-day | `_forms.scss:47-110` |
 
-**The key intent-vs-reality delta:** legacy **buttons converged to Acuity-blue
+**The key intent-vs-reality delta:** legacy **buttons converged to acuity-blue
 `#364699`** in production while legacy **text inputs stayed the old grey one45 look**
-(`#DDD` border, no radius). So at the *button* level legacy ≈ Acuity already; the real,
-enshrine-able divergence is the **input chrome** (grey/no-radius/no-focus vs Acuity's
+(`#DDD` border, no radius). So at the *button* level legacy ≈ one45 (2020s) already; the real,
+enshrine-able divergence is the **input chrome** (grey/no-radius/no-focus vs one45 (2020s)'s
 `#949494`/radius-4/state-coloured). The tool keeps `$primary_purple` as the legacy
-brand token (still live on the datepicker + the Acuity shell search) so the toggle stays
+brand token (still live on the datepicker + the one45 (2020s) shell search) so the toggle stays
 legible, and records the button convergence here and in the gap map.
 
 **Untokened/flagged** [D]: legacy declares **no** radius, padding, focus, or success-state
@@ -152,8 +152,8 @@ tokens (`tokens.css` comments). The input border `#DDD` computes **1.36:1** on w
 (legacy is a migration source).
 
 **Anatomy result:** the inputs re-skin cleanly through one canonical API + tokens — no
-structural divergence in this group between legacy and Acuity (the divergence is colour
-only). Confirms the single-canonical-API model for inputs; see `01-acuity-modern.md` and
+structural divergence in this group between legacy and one45 (2020s) (the divergence is colour
+only). Confirms the single-canonical-API model for inputs; see `01-one45-2020s.md` and
 reconciliation map §5.
 
 ---
@@ -180,8 +180,8 @@ component); stepper is deferred until a real instance is sourced.
 
 **The headline divergence this group adds:** `Breadcrumb` is a **legacy-only** piece — the
 legacy app has a real (chevron) breadcrumb the Acuity DS never built, the exact mirror of
-`Alert` being acuity-only. So the tool makes `Breadcrumb` native to legacy + lowfi and
-**absent from acuity**, where the bridge builds it (flagged AI). The tool flattens the
+`Alert` being one45-2020s-only. So the tool makes `Breadcrumb` native to legacy + lowfi and
+**absent from one45-2020s**, where the bridge builds it (flagged AI). The tool flattens the
 chevron geometry to a `/`-separated trail (simplification flagged in `tokens.css`).
 
 **Computed contrast** (`scripts/contrast.mjs`, "one45 legacy navigation"): tab label
@@ -191,8 +191,8 @@ the 3:1 UI threshold** (1.4.11); recorded, not fixed (legacy is a migration sour
 class of failure as the `#DDD` input border.
 
 **Anatomy result — the first crack:** the canonical `Tabs`/`Link` **API** holds (legacy's
-key-based tabs absorb into the same id-based contract as Acuity's index-tabs), but legacy
-tabs are a **structurally different visual model** — Bootstrap box folder tabs vs Acuity's
+key-based tabs absorb into the same id-based contract as one45 (2020s)'s index-tabs), but legacy
+tabs are a **structurally different visual model** — Bootstrap box folder tabs vs one45 (2020s)'s
 underline indicator. That does **not** token-swap, so the tool renders each system's real
 tab model via a per-system skin (`app.css`), not a flattened shared one. On top of that the
 **inventory** diverges (`Breadcrumb` here, `Alert` there, neither with a real `Pagination`).
@@ -225,17 +225,17 @@ radius 6px, shadow `0 3px 7px rgba(0,0,0,.3)`, header band `#F5F5F5` + `#EEE` ru
 on the band `#F5F5F5` **11.96** (AAA); on white **13.04** (AAA).
 
 **Anatomy result — the API-survival test PASSED.** The legacy Bootstrap/react-bootstrap
-modal and the Acuity headlessui Dialog absorb into **one canonical Modal API**. The one
-visual difference — legacy's grey header band vs Acuity's headerless title — is a **pure
+modal and the one45 (2020s) headlessui Dialog absorb into **one canonical Modal API**. The one
+visual difference — legacy's grey header band vs one45 (2020s)'s headerless title — is a **pure
 token swap** (`--ds-modal-header-bg`/`-border`), so unlike Tabs **no per-system structural
 override is needed**. Modal is the cleanest both-systems result so far.
 
-**Headline finding (reworked the next slice) — Alert is NOT acuity-only.** Sourcing the
+**Headline finding (reworked the next slice) — Alert is NOT one45-2020s-only.** Sourcing the
 feedback group found legacy ships a **real** alert: the WidgetBundle `Error/*` Twig partials
 (154 includes: error/warning/info/success/sorry/errors) skinned by `.one45-alert`
 (`new_branding.scss:65-170`) with sourced fills — success `#B0F0E9`, warning `#FCE0A7`,
 error `#FFC8D7`, info `#42507D` (all over `#27304B` except info over `#FFF`), radius 0,
-padding 16px. The tool's earlier acuity-only-with-bridge model was inaccurate; Alert is now
+padding 16px. The tool's earlier one45-2020s-only-with-bridge model was inaccurate; Alert is now
 **native-both** (see the Alert section below and reconciliation §4d/§4e).
 
 **Recorded gaps** [D]: legacy has **no status badge** (`.badge-details` is a profile-photo
@@ -248,7 +248,7 @@ not enshrined.
 
 ## Feedback & status — Alert enshrined (native here) [D]
 
-Fourth slice (2026-06-23). `Alert` is now **native** in legacy — the earlier acuity-only model
+Fourth slice (2026-06-23). `Alert` is now **native** in legacy — the earlier one45-2020s-only model
 was wrong. Browser-verified across all three systems (annotations on/off); lint-gate-clean.
 
 **Layer 1 — the real legacy alert** [D] (`new_branding.scss:65-170`, `.alert.one45-alert`,
@@ -266,7 +266,7 @@ fill). Each variant carries a FontAwesome icon colour.
 (`scripts/contrast.mjs`, "one45 legacy Alert" section.)
 
 **Anatomy result — "different mechanism, same surface" (axis a).** Legacy's `.one45-alert`
-(solid fill, radius 0) and Acuity's tinted banner absorb into **one canonical API** (variant +
+(solid fill, radius 0) and one45 (2020s)'s tinted banner absorb into **one canonical API** (variant +
 title + body), but the look does **not** token-swap — the structural difference is rendered
 per-system in `app.css` (the Tabs rule), not flattened. The mirror of Tabs: API survives, skin
 diverges. The earlier "Claude interim → Button" bridge fill in legacy is gone — legacy renders
@@ -298,7 +298,7 @@ so they fall through to the structural `:root` defaults (recorded gap). The lega
 opacity-based backdrop is rendered as a solid `rgba` per the no-opacity rule (already flagged
 in the Modal slice).
 
-**Two-speed confirmation:** like the Inputs slice (buttons converged to Acuity, inputs did
+**Two-speed confirmation:** like the Inputs slice (buttons converged to one45 (2020s), inputs did
 not), foundations are two-speed — buttons carry a real 3px radius and the modal a real 6px,
 but the system never grew a motion/elevation/z-index scale, leaning on Bootstrap defaults. The
 gap is recorded, not invented.
@@ -331,18 +331,18 @@ semantic icon colours.
 
 **Layer 3 — the asset gap** [D]: FontAwesome Pro is a **paid webfont** and the famfamfam set is
 **binary PNGs** — neither is shipped by the tool (no-binary rule). So the legacy glyph **artwork**
-is a recorded asset gap, the same kind as Acuity's un-vendored package. The tool sizes its
+is a recorded asset gap, the same kind as one45 (2020s)'s un-vendored package. The tool sizes its
 stand-in at the real sourced sizes (`--ds-icon-size-sm 0.9rem` / `-md 1.5rem`, `--ds-iconbtn-size
 25px`) but renders a token-driven sketch/monogram, never the real glyph.
 
 **Icon-tone contrast** (`scripts/contrast.mjs`, "legacy icon tones", glyph on white, 3:1 UI):
 red `#F12F62` **3.95**, **teal `#2FAEA1` 2.73 (FAIL)**, **yellow `#F8B223` 1.84 (FAIL)**,
-**purple-light `#B3B9CB` 1.96 (FAIL)** — same finding as Acuity: a small semantic glyph can't
+**purple-light `#B3B9CB` 1.96 (FAIL)** — same finding as one45 (2020s): a small semantic glyph can't
 carry meaning on hue alone, so the tool pairs shape + label.
 
 **Anatomy result [D] — "axis a" with a shared asset gap.** Legacy's FontAwesome/sprite stack and
-Acuity's named-vocabulary component absorb into **one canonical API**, and a two-step size token
-scale absorbs legacy's rem sizing vs Acuity's named sizes. The real glyph artwork is unavailable
+one45 (2020s)'s named-vocabulary component absorb into **one canonical API**, and a two-step size token
+scale absorbs legacy's rem sizing vs one45 (2020s)'s named sizes. The real glyph artwork is unavailable
 in both systems — the fidelity gap is the assets, recorded honestly, not fabricated.
 (Reconciliation map §4g.)
 
@@ -371,10 +371,10 @@ In the tool, legacy carries only its real rendered grid gutter (`--ds-grid-gutte
 value, flagged framework default); columns, container, and the breakpoint scale stay structural
 (`:root`), with `--ds-bp-md 768px` coinciding with legacy's one authored breakpoint. The real
 authored component sizes (sidebar 250px, page floor 1100px) are layout **facts** recorded here,
-not promoted to shared `--ds-*` tokens — no component consumes them and Acuity has no equivalent,
+not promoted to shared `--ds-*` tokens — no component consumes them and one45 (2020s) has no equivalent,
 so they would be dead per-system vars.
 
-**Two-speed confirmation:** as elsewhere (buttons converged to Acuity while inputs did not;
+**Two-speed confirmation:** as elsewhere (buttons converged to one45 (2020s) while inputs did not;
 buttons carry a real radius while no motion scale grew), the legacy layout is BS2-inherited with
 one bespoke breakpoint and a desktop floor bolted on — never a real responsive grid system. The
 gap is recorded, not invented. (Reconciliation map §4h.)
@@ -408,11 +408,11 @@ CSS class), rotation listings.
 rule `#999`/white **2.85** — **fails 3:1**, added to the legacy fix list alongside the `#DDD` input
 border and `#AAA` tab rule; cell border `#BBB`/white **1.92** (fails, thin decorative).
 
-**Intent-vs-reality [R]:** this custom legacy skin is **not live on the modern Acuity-rebranded
+**Intent-vs-reality [R]:** this custom legacy skin is **not live on the modern one45 (2020s)-rebranded
 staging** — injected `table.report`/`.standard` classes render inert there (the staging runs the
 modern build). The values above are the documented **legacy-pole** reality, sourced from SCSS, the
 same handling as other legacy-only chrome. The canonical Table API + a pure token swap absorb this
-skin and the Acuity react-table model alike. (Reconciliation map §4i.)
+skin and the one45 (2020s) react-table model alike. (Reconciliation map §4i.)
 
 ## Data display — enshrined slice (Card, formalised) [D]
 
@@ -468,16 +468,16 @@ variant). The handoff's `.badge-details` lead was **wrong** — that is a name-d
 **Intent-vs-reality [R]:** not separately re-captured on staging this slice — the people-picker
 circle is a non-DS hand-rolled widget and the `.photo` tile is a webeval (classic-app) view; values
 are `[D]`-sourced from the SCSS / tag implementation, the recorded basis. The Acuity DS ships no
-avatar at all, so acuity gets a flagged bridge build (`INTERIM_BUILDS`) — never a fabricated
+avatar at all, so one45-2020s gets a flagged bridge build (`INTERIM_BUILDS`) — never a fabricated
 component (Spencer's rule). One canonical API absorbs both shapes via `shape`; no API break.
-(See `01` for the acuity inventory gap and reconciliation map §4k.)
+(See `01` for the one45-2020s inventory gap and reconciliation map §4k.)
 
 ---
 
 ## Carry-forward verdict
 
 The legacy brand is a **migration source, not a target** — it is being replaced by
-Acuity (mid-flight). Preserve it in the prototyping tool as a real toggle target so
+one45 (2020s) (mid-flight). Preserve it in the prototyping tool as a real toggle target so
 a screen can be shown old-vs-new (the convergence signal), and so the
 One45-legacy ↔ One45-new comparison has a faithful "legacy" pole. Do **not** carry
 its tokens forward into the unified system. The 175-tag webeval list is the
