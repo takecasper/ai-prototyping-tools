@@ -19,6 +19,15 @@ const CELL: Record<PieceStatus, { glyph: string; cls: string; title: string }> =
   none: { glyph: "·", cls: "is-none", title: "Unavailable" },
 };
 
+// Coverage-matrix legend rows — one per line, each glyph coloured to match the
+// matrix cells via the shared is-* colour classes. interim/substitute share a row.
+const LEGEND: { glyph: string; cls: string; label: string }[] = [
+  { glyph: CELL.native.glyph, cls: "is-native", label: "native" },
+  { glyph: CELL.mapped.glyph, cls: "is-map", label: "mapped" },
+  { glyph: CELL.interim.glyph, cls: "is-ai", label: "AI interim / substitute" },
+  { glyph: CELL.none.glyph, cls: "is-none", label: "unavailable" },
+];
+
 export function SystemInfo({ onClose }: { onClose: () => void }) {
   const panelRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -109,9 +118,19 @@ export function SystemInfo({ onClose }: { onClose: () => void }) {
             ))}
           </tbody>
         </table>
+        <ul className="mtx__legend">
+          {LEGEND.map((item) => (
+            <li className="mtx__legend-item" key={item.cls}>
+              <span className={"mtx__key " + item.cls} aria-hidden="true">
+                {item.glyph}
+              </span>
+              <span>{item.label}</span>
+            </li>
+          ))}
+        </ul>
         <p className="ov__foot">
-          ● native · ↔ mapped · ~ AI interim / substitute · · unavailable. Native pieces render
-          plainly; every bridged piece is flagged on the canvas while annotations are on.
+          Native pieces render plainly; every bridged piece is flagged on the canvas while
+          annotations are on.
         </p>
       </section>
     </div>

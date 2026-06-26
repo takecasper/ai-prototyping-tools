@@ -1393,20 +1393,46 @@ body {
 .mtx__cell {
   font-size: 0.85rem;
 }
-.mtx__cell.is-native {
+.mtx__cell.is-native,
+.mtx__key.is-native {
   color: #059669;
 }
-.mtx__cell.is-map {
+.mtx__cell.is-map,
+.mtx__key.is-map {
   color: #4f46e5;
 }
-.mtx__cell.is-ai {
+.mtx__cell.is-ai,
+.mtx__key.is-ai {
   color: #db2777;
 }
-.mtx__cell.is-none {
+.mtx__cell.is-none,
+.mtx__key.is-none {
   color: #9ca3af;
 }
 .mtx__cell.is-viewed {
   background: #f8fafc;
+}
+.mtx__legend {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.mtx__legend-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+.mtx__key {
+  flex: none;
+  width: 1rem;
+  text-align: center;
+  font-size: 0.85rem;
 }
 
 /* ---- control overlay ---- */
