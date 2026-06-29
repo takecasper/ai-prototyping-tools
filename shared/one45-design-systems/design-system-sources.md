@@ -17,9 +17,15 @@ complete: rows get added and confirmed as sources are located.
 > current, not canonical, and not equivalent** to one another. Do not assume two
 > things are the same system because they share a name — confirm by **source**,
 > not by label. The tool's `one45-2020s` system was reverse-engineered from one
-> such package and is **not** "the" Acuity DS. The likely promotion target (the
-> canonical system the project intends to move toward) is the **Platform Design
-> System**, not any of the others.
+> such package and is **not** "the" Acuity DS.
+>
+> **Direction is still settling (stakeholder preference, not a final decision):**
+> engineering (Jason et al.) want to converge on the **`acuity-design-system`** —
+> the code system behind `one45-2020s` (GitHub repo + Chromatic) — and would
+> prefer that **Isabella's "Platform Design System"** work (which lives **purely
+> in Figma**) be used to **update that code system**, rather than adopting the
+> Platform system standalone. So neither is "canonical" yet; confirm the target
+> with stakeholders before treating any system as the one to promote.
 
 **A system can have multiple sources.** The same design system may exist as a
 Figma library *and* a Git repo *and* a Storybook / Chromatic site. Record every
@@ -29,10 +35,10 @@ known link per system; the census reconciles which sources back the same system.
 
 | System | In the tool? | Source links | Notes |
 |---|---|---|---|
-| **Platform Design System** | no — likely promotion target | Figma org library "Platform design system" (URL `<<TBD>>`) | The likely canonical system. Spacing is a numbered scale (`spacing/0`–`spacing/7` in a "dimensions" variable collection) — see [DE-450]. |
+| **Platform Design System** | no — Figma-only | Figma org library "Platform design system" (URL `<<TBD>>`) | **Isabella's** work, purely in Figma. Engineering preference (Jason et al.) is to use it to **update the `acuity-design-system`** (the `one45-2020s` upstream), **not** adopt it standalone. Spacing is a numbered scale (`spacing/0`–`spacing/7` in a "dimensions" collection) — see [DE-450]. |
 | **Fahad's design system** | not yet — incorporate for comparison ([DE-444]) | https://ds.acuityinsights.io/ | Hosted DS site. Brought in to compare against / interpret Fahad's work, **not** to promote to canonical. |
 | **A One45 system** | maybe — fingerprint pending | https://bitbucket.org/one45/one45-design-system/src/master/ | "One of the One45 systems." Which tool system (if any) this backs — `one45-2020s`, `one45-legacy`, or neither — is a census question; do not assume. |
-| `one45-2020s` | yes | • GitHub: https://github.com/takecasper/acuity-design-system — the repo for the `@takecasper/acuity-design-system` package this system was reverse-engineered from (same `takecasper` org as this tool's repo). Provided mid-2025; **confirm currency** — likely newer than the staging snapshot the tool was built from.<br>• Chromatic (maybe): https://www.chromatic.com/builds?appId=6603321f619950844820974b — *possibly* this system's published Storybook builds, **unconfirmed** (could be a different system).<br>• Originally reverse-engineered from the One45 staging repo. Figma source `<<TBD>>`. | The system formerly mislabelled `acuity` ([DE-454]). The repo name "acuity-design-system" is itself part of the naming confusion: it is one package, not a company-wide canonical DS. |
+| `one45-2020s` | yes (its upstream code system) | • GitHub: https://github.com/takecasper/acuity-design-system — the repo for the `@takecasper/acuity-design-system` package this system was reverse-engineered from (same `takecasper` org as this tool's repo). Provided mid-2025; **confirm currency** vs the staging snapshot the tool was built from.<br>• Chromatic: https://www.chromatic.com/builds?appId=6603321f619950844820974b — **confirmed the same system** (the repo's published Storybook builds).<br>• Originally reverse-engineered from the One45 staging repo. Figma source `<<TBD>>`. | The system formerly mislabelled `acuity` ([DE-454]). **Direction:** this `acuity-design-system` is the system Jason and the engineers want to use going forward; the preference is to **update it from Isabella's "Platform system" Figma work** (see the Platform DS row), not to adopt the Platform system standalone. The repo name "acuity-design-system" is part of the naming confusion — one package, not a company-wide canonical DS. |
 | `one45-legacy` | yes | Reverse-engineered from the One45 staging repo (`_colors.scss`, `new_branding.scss`). Figma source `<<TBD>>`. | The older one45 brand. |
 | *(remaining systems)* | — | `<<TBD via census — [DE-448]>>` | ~7 systems total; the rest are not yet located. |
 
