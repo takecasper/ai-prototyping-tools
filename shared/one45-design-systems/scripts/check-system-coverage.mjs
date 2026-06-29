@@ -3,6 +3,13 @@
 // (an INTERIM_BUILDS entry, or — as a last resort — a first-native substitute).
 // A piece that would resolve to "none" (no skin, no bridge) fails the build.
 // Static-parses src/systems.tsx (node cannot import TSX), like check-system-scopes.
+//
+// STRICT_SYSTEMS — dependency-backed full systems where a missing adapter is a
+// wiring bug, not a bridge gap. These systems must cover every canonical piece
+// by a real native skin OR an INTERIM_BUILDS entry; the first-native substitute
+// is NOT accepted. When another full/dependency-backed system is added, it
+// joins this list.
+const STRICT_SYSTEMS = ["acuity-canon"];
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
@@ -86,8 +93,8 @@ for (const sys of systems) {
   const native = new Set(sys.explicit.filter((k) => canonical.includes(k)));
   for (const grp of sys.spreads) groupKeys(grp).forEach((k) => native.add(k));
   for (const piece of canonical) {
-    const ok = native.has(piece) || interim.includes(piece) || hasAnyNative(sys); // first-native substitute exists if the system has ANY skin
-    if (!ok) problems.push(`  • system "${sys.id}" cannot resolve "${piece}" (no skin, no INTERIM_BUILDS, no native to substitute)`);
+    const ok = native.has(piece) || interim.includes(piece) || (!STRICT_SYSTEMS.includes(sys.id) && hasAnyNative(sys));
+    if (!ok) problems.push(`  • system "${sys.id}" cannot resolve "${piece}" (no native skin and no INTERIM_BUILDS entry — add an adapter or an INTERIM_BUILDS entry)`);
   }
 }
 
@@ -95,4 +102,4 @@ if (problems.length) {
   console.error("check-system-coverage: a system cannot resolve a canonical piece:\n" + problems.join("\n"));
   process.exit(1);
 }
-console.log(`check-system-coverage: OK — ${systems.length} systems each cover all ${canonical.length} canonical pieces (native or bridged).`);
+console.log(`check-system-coverage: OK — ${systems.length} systems each cover all ${canonical.length} canonical pieces (native, INTERIM_BUILDS, or first-native substitute where permitted).`);
