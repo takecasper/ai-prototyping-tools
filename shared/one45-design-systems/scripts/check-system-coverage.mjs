@@ -18,8 +18,10 @@ if (!nameUnion) { console.error("check-system-coverage: CanonicalName union not 
 const canonical = [...nameUnion[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]);
 
 // INTERIM_BUILDS keys (bridge can build these in any system).
-const interimBlock = src.match(/INTERIM_BUILDS[^{]*\{([\s\S]*?)\}/);
-const interim = interimBlock ? [...interimBlock[1].matchAll(/(\w+)\s*:/g)].map((m) => m[1]) : [];
+const interimBlock = src.match(/export const INTERIM_BUILDS[^{]*=\s*\{([\s\S]*?)\n\}/);
+const interim = interimBlock
+  ? [...interimBlock[1].matchAll(/^\s+(\w+)\s*[:,]/gm)].map((m) => m[1])
+  : [];
 
 // Each system's skins object: the keys it provides natively. Match each
 // `"<id>": { ... skins: { ... } }` entry inside the SYSTEMS record.
