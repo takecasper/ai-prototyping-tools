@@ -189,6 +189,18 @@
   --ds-table-cell-pad-x: 0.6rem;
   --ds-table-radius: 6px; /* outer corner (real tables are mostly square — overridden) */
 
+  /* ---- data display (the Data display slice — List) ----
+   * Generic fallbacks; each system overrides below from its real, sourced values. List is a
+   * vertical item list (bulleted / numbered / plain). Neither DS ships a List component, so
+   * one45-2020s reproduces the real ad-hoc <ul>/<ol> reality and acuity-canon bridges a flagged
+   * interim; one45-legacy has the real .list-widget. See 01/02 L "Data display", 03 §4l. */
+  --ds-list-item-fg: var(--ds-fg); /* item text */
+  --ds-list-marker: var(--ds-fg); /* bullet / number ink */
+  --ds-list-link-fg: var(--ds-link-fg); /* item link colour */
+  --ds-list-gap: 0.4rem; /* vertical gap between items */
+  --ds-list-indent: 1.25rem; /* left padding for the marker hang */
+  --ds-list-font-size: 1rem;
+
   /* ---- data display (the Data display slice — Avatar) ----
    * Generic fallbacks; legacy overrides below from its real sourced values (it owns the
    * only real avatars), one45-2020s sets bridge-interim values (the DS ships no avatar), lowfi
@@ -374,6 +386,21 @@
   --ds-table-cell-pad-y: 0.4rem;
   --ds-table-cell-pad-x: 0.5rem; /* 8px — matches the real form-control pad [R] */
   --ds-table-radius: 0; /* real one45 (2020s) tables carry no radius [R] */
+
+  /* List — [R] 2026-06-29 (signed in, /test/designSystem) + [D] islands. The Acuity DS ships
+   * no List component; the real app renders ad-hoc <ul>/<ol> with ds-* utilities: disc lists
+   * (ds-list-disc, privacyPolicyEn.jsx:79), decimal (ds-list-decimal, main.jsx:557), and flex
+   * lists gap-3 = 12px (main.jsx:318). [R] DELTA: the intended `text-acuity-blue` flex list
+   * paints BLACK #000 (the un-prefixed utility is not in the compiled ds- build), so list TEXT
+   * is the real neutrals-darker #333 body, NOT brand — used here. Marker is body #333; item
+   * links use the real acuity-blue link #364699 (ds-text-acuity-blue IS compiled). Gap 12px
+   * (ds-gap-3), indent 16px (ds-ml-4 / ds-pl-4), font 16px (ds-text-base). */
+  --ds-list-item-fg: #333333; /* neutrals-darker body text [R] — acuity-blue intent does not paint */
+  --ds-list-marker: #333333; /* neutrals-darker marker [R] */
+  --ds-list-link-fg: #364699; /* acuity-blue link [R] */
+  --ds-list-gap: 12px; /* ds-gap-3 [D] main.jsx:318 */
+  --ds-list-indent: 16px; /* ds-ml-4 / ds-pl-4 [D] privacyPolicyEn.jsx:79 */
+  --ds-list-font-size: 16px; /* ds-text-base [D] */
 
   /* Avatar — the Acuity DS ships NO avatar/profile-photo component ([D] the DS demo page
    * enumerates every component — designSystemTest/main.jsx:3-23 — and has none; zero island
@@ -575,6 +602,22 @@
   --ds-table-cell-pad-x: 5px; /* $table_cell_padding_unit [D] */
   --ds-table-radius: 0; /* no legacy table radius [D] */
 
+  /* List — [D] the real .list-widget (themes/one45.scss:457-467): an unstyled <ul>, list-style
+   * none, margin/padding 0, each <li> padded-left 25px ($inline_list_spacing_unit,
+   * _constants.scss:15); used for page-header/footer nav lists, items as links. Item text is
+   * $one45_black #27304b body; markers (when a variant adds them) take the same ink. Links are
+   * $link_color #0a6cbd (the React-page link, _colors.scss:34). The legacy default is markerless
+   * (plain) — the canonical `plain` variant matches it exactly; bulleted/numbered add a standard
+   * marker. Gap is tight (real list line-height ~20px); indent 25px is the real authored value.
+   * [R] not separately captured (the webeval frameset loads list-widgets in nav chrome, not a DS
+   * gallery) — values are [D]-sourced, recorded in 02 / 03 §4l. */
+  --ds-list-item-fg: #27304b; /* $one45_black [D] */
+  --ds-list-marker: #27304b; /* $one45_black [D] */
+  --ds-list-link-fg: #0a6cbd; /* $link_color [D] _colors.scss:34 */
+  --ds-list-gap: 0.25rem; /* tight rows (line-height ~20px) [D] */
+  --ds-list-indent: 25px; /* $inline_list_spacing_unit [D] _constants.scss:15 */
+  --ds-list-font-size: 1rem;
+
   /* Avatar — [D] the real legacy person-photo widgets (legacy owns the only real avatars).
    * Circle = the inline people-picker .profile-img: 25×25 (sm) / 60×60 (lg), border 2px,
    * border-radius circular ([D] WidgetBundle _list_picker.scss:26-31,41-54). The .profile-img
@@ -745,6 +788,15 @@
   --ds-table-cell-pad-x: 0.55rem;
   --ds-table-radius: 2px;
 
+  /* List — deliberate greyscale sketch. lowfi is not a status-quo system, so these are
+   * hand-authored sketch values; markers and links read by ink, not brand hue. */
+  --ds-list-item-fg: #3a3a3a;
+  --ds-list-marker: #6a6a6a;
+  --ds-list-link-fg: #3a3a3a;
+  --ds-list-gap: 0.4rem;
+  --ds-list-indent: 1.25rem;
+  --ds-list-font-size: 0.95rem;
+
   /* Avatar — deliberate greyscale sketch. lowfi is not a status-quo system, so these are
    * hand-authored sketch values; LowfiAvatar draws a dashed circle / sketch image box (the
    * sk-img--lowfi idiom, app.css per-system rule) instead of loading a placeholder photo. */
@@ -860,6 +912,15 @@
   --ds-table-cell-pad-y: 0.4rem;
   --ds-table-cell-pad-x: 0.5rem;
   --ds-table-radius: 0;
+
+  /* List — bridge interim (the ADS package ships no List component). Same neutrals / accent
+   * family as one45-2020s real-app lists. */
+  --ds-list-item-fg: #333333; /* neutrals.darker */
+  --ds-list-marker: #333333; /* neutrals.darker */
+  --ds-list-link-fg: #364699; /* acuity-blue.DEFAULT */
+  --ds-list-gap: 12px;
+  --ds-list-indent: 16px;
+  --ds-list-font-size: 16px;
 
   /* Avatar — bridge interim (ADS ships no avatar). Same neutrals as one45-2020s. */
   --ds-avatar-ring: #b8b8b8; /* neutrals.light */

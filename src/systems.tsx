@@ -80,7 +80,13 @@ export type CanonicalName =
   // fills one45-2020s, the mirror of Breadcrumb). One canonical piece carries BOTH real legacy
   // photo shapes via a `shape` variant: the inline circle (.profile-img) + the yearbook
   // card (.photo).
-  | "Avatar";
+  | "Avatar"
+  // List is the data-display item list (bulleted / numbered / plain). Native-minimal in
+  // one45-2020s — the Acuity DS ships NO List component, so its skin reproduces the real
+  // ad-hoc <ul>/<ol> reality (the Table precedent); native in one45-legacy (the real
+  // .list-widget) + lowfi. The Acuity DS package ships no List either, so acuity-canon
+  // bridges it (INTERIM_BUILDS, flagged) — the Table mirror.
+  | "List";
 export type SystemId = "lowfi" | "one45-2020s" | "one45-legacy" | "acuity-canon";
 
 // The documentation slices the gallery groups by. New canonical pieces slot into
@@ -137,6 +143,7 @@ export const CANONICAL: CanonicalDef[] = [
   { name: "Modal", label: "Modal", category: "Feedback & status", description: "Centred dialog overlay (title, body, footer actions); shared API across systems", props: "open, title?, onClose?, dismissible?, icon?, footer?, children", notes: "one API across all systems; footer holds the action Buttons; closes on Esc / scrim click when dismissible" },
   { name: "Table", label: "Table", category: "Data display", description: "Data table with sortable columns + optional row selection", props: "columns, rows, rowKey?, sort?, onSort?, selectable?, selected?, onSelectionChange?, empty?, caption?", notes: "columns: {key, header, align?, width?, sortable?, cell?}[]; table-wide sort — onSort(key) toggles; selectable adds a bulk-select column (select-all header); native in all three. The Acuity DS ships NO table component ([R] — real app tables inherit base type only over react-table), so its skin reproduces that minimal reality; legacy carries the real _tables.scss skin. One canonical API + pure token swap — the predicted data-grid API break did not happen" },
   { name: "Avatar", label: "Avatar", category: "Data display", description: "Person photo — inline circle or yearbook card; legacy-only (bridge fills one45-2020s)", props: "personName, src?, shape?, size?", notes: "personName (NOT name — name selects the canonical piece, like Icon's iconName); src? falls back to a placeholder image; shape: circle (default) / card; size: sm (default) / lg — circle only (the card is a fixed thumbnail). Legacy-only: the real circle is .profile-img (25/60px, 2px ring), the card is the webeval .photo yearbook tile (75×98 img, #bbb border, name caption). The Acuity DS ships NO avatar → one45-2020s resolves a flagged bridge build (the Breadcrumb mirror). No initials fallback — a missing photo shows a placeholder IMAGE (the real blank.gif / person_outline.gif reality), never a monogram" },
+  { name: "List", label: "List", category: "Data display", description: "Vertical item list — bulleted, numbered, or plain (items as text or links)", props: "items, variant?", notes: "items: string[] or {label, href?}[]; variant: bulleted (default, disc) / numbered (ordered, decimal) / plain (no marker). Native-minimal in one45-2020s (the Acuity DS ships no List component — real app uses ad-hoc <ul>/<ol>), native in one45-legacy (the real .list-widget — list-style none, 25px indent, link items) + lowfi; acuity-canon bridges a flagged interim (the package ships no List). One canonical API, pure token swap" },
   { name: "Image", label: "Image", category: "Media", description: "Placeholder image (placehold.co)", props: "w, h, label?", notes: "never commit binary image files" },
   { name: "Icon", label: "Icon", category: "Media", description: "Named icon (real DS name/size vocabulary)", props: "iconName, size?, altText?, tone?", notes: "size: small / medium; iconName is the real DS vocabulary (add, edit, delete, checkCircle, warning…); tone: success / warning / error / info; renders a token-sized stand-in glyph — real glyph artwork is a recorded asset gap (no DS icon font is vendored)" },
 ];
@@ -650,6 +657,51 @@ const Table: Skin = ({
   );
 };
 
+// ---- Data display: List (token-driven; the data-display item list) ----
+// Sourced [D] both poles + [R] 2026-06-29 (signed in, getComputedStyle on /test/designSystem).
+// one45-2020s: the Acuity DS package ships NO List component (designSystemTest/main.jsx:3-23
+// enumerates every DS export — none is a List); the real app renders ad-hoc <ul>/<ol> with the
+// ds-* Tailwind utilities (ds-list-disc privacyPolicyEn.jsx:79, ds-list-decimal main.jsx:557,
+// flex flex-col gap-3 main.jsx:318). [R] DELTA: on the live DS page the intended
+// `text-acuity-blue` flex list paints BLACK #000 (the un-prefixed utility is not in the compiled
+// ds- build), so list TEXT is effectively neutrals-darker body text, NOT brand — the skin uses
+// the real body token, not an invented acuity-blue. So List is native-MINIMAL for one45-2020s
+// (the Table precedent: the DS ships none → reproduce the real ad-hoc reality).
+// one45-legacy: a REAL .list-widget (themes/one45.scss:457-467) — an unstyled <ul>, list-style
+// none, 25px left indent ($inline_list_spacing_unit), items as nav links ($link_color #0a6cbd).
+// (.records_list is table styling — the Table slice; canned_list is a picker, not data-display.)
+// One canonical API (items + variant bulleted|numbered|plain) survives as a PURE token swap; the
+// divergence is INVENTORY (neither DS ships a List component) + the legacy markerless default,
+// both honoured via tokens. Native in lowfi / one45-2020s / one45-legacy; the Acuity DS package
+// ships no List → acuity-canon bridges a flagged interim (INTERIM_BUILDS, the Table mirror).
+// `items` is an array of strings or {label, href}. `variant`: bulleted (disc, default) /
+// numbered (ordered, decimal) / plain (no marker — the legacy .list-widget + the 2020s flex
+// list). See shared/one45-design-systems/01/02 L "Data display", 03 §4l.
+const List: Skin = ({ items, variant }) => {
+  const list = Array.isArray(items) ? items : [];
+  const v = variant === "numbered" ? "numbered" : variant === "plain" ? "plain" : "bulleted";
+  const Tag = (v === "numbered" ? "ol" : "ul") as "ol" | "ul";
+  return (
+    <Tag className={`sk-list sk-list--${v}`}>
+      {list.map((it: any, i: number) => {
+        const label = typeof it === "object" ? it.label : it;
+        const href = typeof it === "object" ? it.href : undefined;
+        return (
+          <li className="sk-list__item" key={String(label) + i}>
+            {href ? (
+              <a className="sk-list__link" href={String(href)}>
+                {String(label)}
+              </a>
+            ) : (
+              String(label)
+            )}
+          </li>
+        );
+      })}
+    </Tag>
+  );
+};
+
 // ---- Data display: Avatar (legacy-only → one45-2020s bridges; both shape variants) ----
 // Sourced [D] from the legacy code: TWO real person-photo shapes, kept as ONE canonical
 // Avatar with a `shape` variant (Spencer's call — "Both as variants"):
@@ -1068,9 +1120,12 @@ const FEEDBACK_CONTROLS = { Modal };
 // Native in all three → never bridged (03 §4i). Toast/tag-chip/empty-state remain
 // un-built both-systems gaps. Avatar is NOT here: it is legacy-only (the Acuity DS ships
 // no avatar), so it is added to legacy + lowfi below and the bridge fills one45-2020s — the same
-// shape as Breadcrumb. The rest of the data-display group (list, accordion, tree, timeline,
-// stat, code block, key-value) is a follow-up slice.
-const DATA_DISPLAY = { Table };
+// shape as Breadcrumb. List joins this group (2026-06-29): native-minimal in one45-2020s (the
+// Acuity DS ships no List component — real app uses ad-hoc <ul>/<ol>), native in one45-legacy
+// (the real .list-widget) + lowfi, a flagged bridge interim in acuity-canon (the Table mirror —
+// the package ships no List). One canonical API (items + variant), pure token swap. The rest of
+// the data-display group (accordion, tree, timeline, stat, code block, key-value) is a follow-up.
+const DATA_DISPLAY = { Table, List };
 
 export const SYSTEMS: Record<SystemId, DesignSystem> = {
   lowfi: {
@@ -1150,6 +1205,8 @@ export const SYSTEM_IDS = Object.keys(SYSTEMS) as SystemId[];
 //   Avatar      legacy-only piece         → built (flagged) for one45-2020s (the Breadcrumb
 //               mirror — the Acuity DS ships no avatar; the token-driven build re-skins
 //               to acuity-blue/Lato so the flagged interim reads on-brand).
+//   List        no DS-component piece      → built (flagged) for acuity-canon (the Table
+//               mirror — the Acuity DS package ships no List; native in the other three).
 // A piece NOT listed here (e.g. Badge in legacy + lowfi) still falls back to the cruder
 // first-native substitution below, so both bridge behaviours stay observable.
 export const INTERIM_BUILDS: Partial<Record<CanonicalName, Skin>> = {
@@ -1159,6 +1216,7 @@ export const INTERIM_BUILDS: Partial<Record<CanonicalName, Skin>> = {
   Toggle,
   SearchField,
   Table,
+  List,
   Image: BrandImage,
 };
 

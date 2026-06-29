@@ -25,7 +25,10 @@ let ran = false;
 //   Badge   one45-2020s-only (legacy has no status badge) → legacy + lowfi bridge.
 //   Avatar  legacy-only (the Acuity DS ships no avatar) → native legacy + lowfi, one45-2020s
 //           bridge (INTERIM_BUILDS) — the Breadcrumb mirror.
-const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar" | "Breadcrumb"; system: (typeof SYSTEM_IDS)[number]; expect: PieceStatus }> = [
+//   List    no DS-component piece (neither DS ships a List) → native-minimal one45-2020s,
+//           native legacy (.list-widget) + lowfi, acuity-canon bridge (INTERIM_BUILDS) — the
+//           Table mirror.
+const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar" | "Breadcrumb" | "List"; system: (typeof SYSTEM_IDS)[number]; expect: PieceStatus }> = [
   { name: "Alert", system: "one45-2020s", expect: "native" },
   { name: "Alert", system: "one45-legacy", expect: "native" },
   { name: "Alert", system: "lowfi", expect: "interim" },
@@ -39,6 +42,10 @@ const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar" | "Breadcrumb"; syste
   { name: "Badge", system: "acuity-canon", expect: "native" },
   { name: "Avatar", system: "acuity-canon", expect: "interim" },
   { name: "Breadcrumb", system: "acuity-canon", expect: "interim" },
+  { name: "List", system: "one45-2020s", expect: "native" },
+  { name: "List", system: "one45-legacy", expect: "native" },
+  { name: "List", system: "lowfi", expect: "native" },
+  { name: "List", system: "acuity-canon", expect: "interim" },
 ];
 
 export function runGallerySelfCheck(): void {

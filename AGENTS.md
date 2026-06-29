@@ -79,7 +79,7 @@ The pieces, by slice:
 - **Actions & containers** — Button, Card, IconButton
 - **Inputs & controls** — TextField, Textarea, Select, Checkbox, Radio, Toggle, SearchField
 - **Navigation** — Tabs, Link, Breadcrumb
-- **Data display** — Table, Avatar
+- **Data display** — Table, Avatar, List
 - **Feedback & status** — Badge, Alert, Modal
 - **Media** — Image, Icon
 
@@ -124,6 +124,16 @@ NOT `name` (`name` selects the canonical piece, the same collision `Icon`'s `ico
 a flagged build — the mirror of `Badge`. Native in legacy + lowfi. A missing `src` falls back to a
 placeholder **image** (the real `blank.gif` behaviour), never an initials monogram. See
 `shared/one45-design-systems/01`/`02` L "Data display" / §4k.
+
+**List** is the data-display group's fourth piece — a vertical item list (`items`: `string[]` or
+`{label, href?}[]`; `variant?` ∈ bulleted/numbered/plain). It is present in all three One45 systems
+and **never** bridges there: **neither DS ships a List component**, so `one45-2020s` reproduces the
+real ad-hoc `<ul>`/`<ol>` reality (the Table precedent — `[R]` the intended `text-acuity-blue` even
+paints black, so list text is body, not brand) and `legacy` renders the real `.list-widget`
+(markerless, 25px indent, link items); `lowfi` is the sketch. The **Acuity Design System package**
+ships no List either, so `acuity-canon` resolves it through the bridge to a flagged interim — the
+mirror of `Table`. One canonical API + a **pure token swap**. Build list items from the `items`
+prop, never raw `<ul>`/`<li>` markup. See `shared/one45-design-systems/01`/`02` L "Data display" / §4l.
 
 The Feedback & status pieces:
 

@@ -474,6 +474,30 @@ component (Spencer's rule). One canonical API absorbs both shapes via `shape`; n
 
 ---
 
+## Data display — enshrined slice (List) [D]
+
+Fourth data-display piece (2026-06-29). **Legacy owns a real, distinct general list — `.list-widget`**
+(`themes/one45.scss:457-467`): an unstyled `<ul>` (`list-style: none`, margin/padding 0) whose `<li>`s
+are padded-left **25px** (`$inline_list_spacing_unit`, `_constants.scss:15`), used for page-header /
+footer navigation lists with link items; the footer variant adds a `folder.png` bullet
+(`one45.scss:648-651`). So List is **native** here — the markerless default maps exactly to the
+canonical `plain` variant.
+
+**Not the same as Table or the picker.** `.records_list` / `.bordered` is **table** styling
+(`_tables.scss` — the Table slice §4i), not a list. `canned_list` / `.ul_canned` (`uls.css`,
+`canned_list.css`) is a search / picker dropdown UI (`#1c3caa` links, `#4275d0` selected) — a control,
+not a data-display list — so it is **not** enshrined as List. The genuine general list is `.list-widget`.
+
+**Tokens enshrined** (`--ds-list-*`): item / marker `$one45_black` **#27304B**, link `$link_color`
+**#0A6CBD** (`_colors.scss:34`), indent **25px**, tight rows. **Computed contrast** (`contrast.mjs`,
+"legacy List"): item text `#27304B`/white **13.04** (AAA); link `#0A6CBD`/white **5.39** (AA text).
+**Intent-vs-reality [R]:** not separately re-captured — list-widgets render in nav chrome, not a DS
+gallery; values are `[D]`-sourced from the SCSS. One canonical API (`items` + `variant`) holds across
+both poles as a pure token swap; the divergence is **inventory** (neither DS ships a List *component*).
+(See `01` for the one45-2020s ad-hoc reality and reconciliation map §4l.)
+
+---
+
 ## Carry-forward verdict
 
 The legacy brand is a **migration source, not a target** — it is being replaced by

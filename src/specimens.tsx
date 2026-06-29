@@ -148,6 +148,25 @@ export const SPECIMENS: Partial<Record<CanonicalName, Specimen>> = {
       <Canonical name="Avatar" system={system} shape="card" personName="Priya Nair" />
     </div>
   ),
+  // List is native in lowfi / one45-2020s / one45-legacy and a flagged bridge interim in
+  // acuity-canon (the package ships no List). All three variants document the surface AND, in
+  // acuity-canon, the per-list bridge flag. Plain items are links (the legacy .list-widget +
+  // 2020s flex-list reality).
+  List: (system) => (
+    <div className="proto__stack">
+      <Canonical name="List" system={system} variant="bulleted" items={["Gradable activity", "Learner summary", "Assessment history"]} />
+      <Canonical name="List" system={system} variant="numbered" items={["Complete the form", "Review your answers", "Submit for review"]} />
+      <Canonical
+        name="List"
+        system={system}
+        variant="plain"
+        items={[
+          { label: "View details", href: "#" },
+          { label: "Edit profile", href: "#" },
+        ]}
+      />
+    </div>
+  ),
   Image: { w: 240, h: 120, label: "Image" },
   // Real DS icon-name vocabulary at both sizes, plus two semantic tones. The glyph is a
   // token-sized stand-in (the DS icon fonts are not vendored — see systems.tsx / README).

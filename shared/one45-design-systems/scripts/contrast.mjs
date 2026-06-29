@@ -266,6 +266,29 @@ section("one45 (2020s) Avatar [bridge interim] — flagged build styling on whit
 row("interim caption #5f5f5f / white", "#5F5F5F", WHITE, "(--ds-fg-muted caption text)");
 row("interim ring/border neutrals-light / white", "#B8B8B8", WHITE, "(1px border — fails 3:1, flagged)");
 
+// ── Data display slice (2026-06-29) — List. Neither DS ships a List component, so one45 (2020s)
+// reproduces the real ad-hoc <ul>/<ol> reality and acuity-canon bridges a flagged interim; legacy
+// has the real .list-widget (themes/one45.scss:457-467). one45 (2020s) item text is neutrals-darker
+// #333 — [R] DELTA 2026-06-29: the intended `text-acuity-blue` flex list paints BLACK on the live
+// DS page (the un-prefixed utility is not compiled), so list TEXT is body, not brand; links use the
+// compiled acuity-blue #364699. Legacy items are $one45_black #27304b with $link_color #0a6cbd links
+// (_colors.scss:34). Item/link TEXT judged on 4.5; the bullet/number MARKER is a small adjacent glyph,
+// judged on the 3:1 UI threshold (1.4.11).
+section("one45 (2020s) List [R/D] — item text + link + marker on white (the DS ships no list)");
+row("item text neutrals-darker / white", "#333333", WHITE);
+row("item link acuity-blue / white", "#364699", WHITE);
+row("marker neutrals-darker / white", "#333333", WHITE, "(bullet/number glyph, 3:1 UI)");
+section("one45 legacy List [D] — .list-widget item text + link + marker on white");
+row("item text $one45_black / white", "#27304B", WHITE);
+row("item link $link_color #0a6cbd / white", "#0A6CBD", WHITE);
+row("marker $one45_black / white", "#27304B", WHITE, "(bullet/number glyph, 3:1 UI)");
+section("lowfi List [sketch] — greyscale item text + marker on white");
+row("item text #3a3a3a / white", "#3A3A3A", WHITE);
+row("marker #6a6a6a / white", "#6A6A6A", WHITE, "(bullet/number glyph, 3:1 UI)");
+section("acuity-canon List [bridge interim] — flagged build item text + link on white (package ships no list)");
+row("item text neutrals.darker / white", "#333333", WHITE);
+row("item link acuity-blue / white", "#364699", WHITE);
+
 // ── Acuity Design System (acuity-canon) — brand + semantic families on white, and white
 // on brand (button case). Values sourced from dist/assets/index.css (compiled Tailwind).
 // Light tints (lightest) are backgrounds, not foregrounds — excluded from this set

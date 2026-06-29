@@ -436,6 +436,35 @@ Avatar is). The single canonical API absorbs both shapes via one `shape` variant
 
 ---
 
+## 4l. Data display slice — List enshrined 2026-06-29 [R][D]
+
+Fourth data-display piece. **Neither DS ships a List component** — so List is the second
+inventory-gap-on-both-poles piece after Table, resolved per pole because each One45 system genuinely
+renders lists, just without a component:
+
+- **one45-2020s — native-minimal.** The Acuity DS package exports no List
+  (`designSystemTest/main.jsx:3-23`); the app uses ad-hoc `<ul>`/`<ol>` + `ds-*` utilities
+  (`ds-list-disc` `privacyPolicyEn.jsx:79`, `ds-list-decimal` `main.jsx:557`, `flex gap-3`
+  `main.jsx:318`). **[R] 2026-06-29 delta:** the intended `text-acuity-blue` flex list paints **black
+  `#000`, no gap** on the live DS page — the un-prefixed utilities are not in the compiled `ds-` build
+  — so list text is **body, not brand**. The skin reproduces that reality (text `#333`, links the
+  compiled `#364699`, gap 12px, indent 16px) — the **Table precedent**.
+- **one45-legacy — native.** A real `.list-widget` (`themes/one45.scss:457-467`): markerless `<ul>`,
+  25px indent (`$inline_list_spacing_unit`), link items (`$link_color #0A6CBD`). `.records_list` is
+  **table** styling (§4i); `canned_list`/`.ul_canned` a **picker** control — neither is the general
+  list, so the genuine `.list-widget` is what's enshrined.
+- **lowfi** — greyscale sketch. **acuity-canon** — the **package** ships no List, so it resolves
+  through the bridge to a flagged interim (`INTERIM_BUILDS`) — the **Table mirror**.
+
+One canonical API (`items` + `variant` ∈ bulleted/numbered/plain) absorbs both poles as a **pure
+token swap**; the divergence is **inventory** (axis b on both sides — neither owns a List component)
+plus the legacy markerless default (the canonical `plain` variant). **Computed contrast**
+(`contrast.mjs`): one45-2020s text `#333`/white **12.63** (AAA) + link `#364699` **8.42** (AAA); legacy
+text `#27304B` **13.04** (AAA) + link `#0A6CBD` **5.39** (AA text); lowfi text **11.37**. No new
+contrast failures. Tokens `--ds-list-*`; pattern `src/prototypes/rotation-checklist/` (numbered steps
++ bulleted assessments → plain link list), browser-verified across all four systems with the
+annotations toggle on (acuity-canon flagged "AI approx") and off (all plain) — native never flagged.
+
 ## 5. Convergence read [I]
 
 The divergence between the two systems is **largely token/brand at the API level** —

@@ -320,6 +320,51 @@ body {
   border-bottom-style: dashed;
 }
 
+/* ---- Data display: List (token-driven; the data-display item list) ----
+ * One canonical API (items + variant bulleted|numbered|plain) re-skinned by the --ds-list-*
+ * tokens — a PURE token swap, like Table. Neither DS ships a List component, so one45 (2020s)
+ * reproduces the real ad-hoc <ul>/<ol> reality (the disc/decimal markers + ds-* indent/gap)
+ * and acuity-canon bridges a flagged interim; one45-legacy renders the real .list-widget (the
+ * markerless `plain` default, 25px indent, link items); lowfi a greyscale sketch. NOTE: a flex
+ * container suppresses ::marker, so only `plain` uses flex+gap; bulleted/numbered keep normal
+ * list display and space items with margin. See 01/02 L "Data display", 03 §4l. */
+.sk-list {
+  margin: 0;
+  padding-left: var(--ds-list-indent);
+  font-size: var(--ds-list-font-size);
+  color: var(--ds-list-item-fg);
+}
+.sk-list--bulleted {
+  list-style: disc outside;
+}
+.sk-list--numbered {
+  list-style: decimal outside;
+}
+.sk-list--plain {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-list-gap);
+}
+.sk-list--bulleted .sk-list__item + .sk-list__item,
+.sk-list--numbered .sk-list__item + .sk-list__item {
+  margin-top: var(--ds-list-gap);
+}
+.sk-list__item {
+  color: var(--ds-list-item-fg);
+}
+.sk-list__item::marker {
+  color: var(--ds-list-marker);
+}
+.sk-list__link {
+  color: var(--ds-list-link-fg);
+  text-decoration: none;
+}
+.sk-list__link:hover {
+  text-decoration: underline;
+}
+
 /* ---- Data display: Avatar (legacy-only → one45-2020s bridges; both shape variants) ----
  * Two real legacy person-photo shapes enshrined as one canonical Avatar with a `shape`
  * variant (Spencer's call): the inline CIRCLE (.profile-img — 25/60px, 2px ring,

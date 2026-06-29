@@ -183,6 +183,12 @@
       "card": "$source photoGallery.css:8-60, photo.php:14-62 — the webeval yearbook tile .photo: a 75px-wide #FFF card, 1px #BBB border, 3px pad, square corners, holding a 75x98 image with a name caption beneath in #666 at 9px",
       "contrast": "card caption #666/white 5.74 (AA text); card border #BBB/white 1.92 (fails 3:1 — thin decorative border, flagged). The circle ring is currentColor (no fixed pair). contrast.mjs 'legacy Avatar'."
     },
-    "gaps": "No CSS `marksheet` class exists (the colloquial marksheet renders via the generic report-tabular/DataTables skin). No position:sticky header. Legacy ships no bespoke card (§4j — modelled on the panel idiom). Avatar IS native (the .profile-img circle + the .photo yearbook card, §4k). List/accordion/tree/timeline/stat/code-block/key-value = FOLLOW-UP slice. Tag/chip/empty-state/toast remain both-systems gaps."
+    "list": {
+      "$meta": "[D] the real .list-widget (themes/one45.scss:457-467) — an unstyled <ul>, list-style none, margin/padding 0, each <li> padded-left 25px ($inline_list_spacing_unit, _constants.scss:15); used for page-header/footer nav lists with link items. The page-footer variant adds a folder.png bullet (one45.scss:648-651). .records_list is table styling (the Table slice, NOT a list); canned_list (.ul_canned, uls.css) is a search/picker UI, not a data-display list. So legacy HAS a real general list (.list-widget) — native, the markerless `plain` canonical default. [R] not separately captured (list-widgets render in nav chrome, not a DS gallery). Reconciliation map §4l.",
+      "api": ["items(string[] | {label,href}[])", "variant(bulleted|numbered|plain)"],
+      "render": "token-driven <ul>/<ol>: item text $one45_black #27304B; marker #27304B; item links $link_color #0A6CBD (_colors.scss:34); indent 25px ($inline_list_spacing_unit); tight rows (line-height ~20px). The legacy default is markerless = the canonical `plain` variant; bulleted/numbered add a standard marker. One canonical API, pure token swap.",
+      "contrast": "item text #27304B/white 13.04 (AAA); item link #0A6CBD/white 5.39 (AA text); marker #27304B/white 13.04 (UI pass). contrast.mjs 'legacy List'."
+    },
+    "gaps": "No CSS `marksheet` class exists (the colloquial marksheet renders via the generic report-tabular/DataTables skin). No position:sticky header. Legacy ships no bespoke card (§4j — modelled on the panel idiom). Avatar IS native (the .profile-img circle + the .photo yearbook card, §4k). List IS native (the real .list-widget, §4l). Accordion/tree/timeline/stat/code-block/key-value = FOLLOW-UP slice. Tag/chip/empty-state/toast remain both-systems gaps."
   }
 }
