@@ -61,6 +61,12 @@ export function FirstScreen() {
 
 ## Canonical components (the only pieces you may use)
 
+Prototypes are authored against **`acuity-canon`** — the real Acuity Design System
+(`@takecasper/acuity-design-system`) — by default. It is the tool's active system
+on boot and the reference all canonical coverage is measured against. Other systems
+(Low-fi, one45 (2020s), one45 legacy) re-skin the same prototype; they do not change
+what you author against.
+
 The catalogue is the `CANONICAL` array in `src/systems.tsx` — the single source of
 truth for the canonical name, its props, and its notes. Do not maintain a second
 copy of that table here; it would drift. To see every piece with its props and a
