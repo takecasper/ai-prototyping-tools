@@ -786,8 +786,6 @@
   --ds-border-style: solid;
   --ds-accent: #364699; /* acuity-blue.DEFAULT */
   --ds-accent-fg: #ffffff; /* neutrals.white */
-  --ds-badge-bg: #e9ecf6; /* acuity-blue-lightest (same as one45-2020s — confirmed identical) */
-  --ds-badge-fg: #253170; /* acuity-blue-dark (same as one45-2020s — confirmed identical) */
 
   /* Card — same palette as one45-2020s; --ds-radius / --ds-shadow not set (ADS has no token for them). */
   --ds-card-bg: #ffffff; /* neutrals.white */
@@ -854,7 +852,7 @@
   --ds-table-header-fg: #333333; /* neutrals.darker */
   --ds-table-header-bg: transparent;
   --ds-table-header-weight: 700;
-  --ds-table-header-border: #666666; /* between neutrals.dark and neutrals.darker */
+  --ds-table-header-border: #949494; /* neutrals.DEFAULT */
   --ds-table-row-border: #b8b8b8; /* neutrals.light */
   --ds-table-hover-bg: #f5f5f5; /* neutrals.lighter */
   --ds-table-selected-bg: #e9ecf6; /* acuity-blue-lightest */
