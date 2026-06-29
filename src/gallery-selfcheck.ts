@@ -25,7 +25,7 @@ let ran = false;
 //   Badge   one45-2020s-only (legacy has no status badge) → legacy + lowfi bridge.
 //   Avatar  legacy-only (the Acuity DS ships no avatar) → native legacy + lowfi, one45-2020s
 //           bridge (INTERIM_BUILDS) — the Breadcrumb mirror.
-const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar"; system: (typeof SYSTEM_IDS)[number]; expect: PieceStatus }> = [
+const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar" | "Breadcrumb"; system: (typeof SYSTEM_IDS)[number]; expect: PieceStatus }> = [
   { name: "Alert", system: "one45-2020s", expect: "native" },
   { name: "Alert", system: "one45-legacy", expect: "native" },
   { name: "Alert", system: "lowfi", expect: "interim" },
@@ -35,6 +35,10 @@ const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar"; system: (typeof SYST
   { name: "Avatar", system: "one45-2020s", expect: "interim" },
   { name: "Avatar", system: "one45-legacy", expect: "native" },
   { name: "Avatar", system: "lowfi", expect: "native" },
+  { name: "Alert", system: "acuity-canon", expect: "native" },
+  { name: "Badge", system: "acuity-canon", expect: "native" },
+  { name: "Avatar", system: "acuity-canon", expect: "interim" },
+  { name: "Breadcrumb", system: "acuity-canon", expect: "interim" },
 ];
 
 export function runGallerySelfCheck(): void {
