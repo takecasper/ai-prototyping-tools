@@ -1,7 +1,7 @@
 {
   "$meta": {
-    "system": "acuity",
-    "label": "Acuity (One45 modern)",
+    "system": "one45-2020s",
+    "label": "one45 (2020s)",
     "layer": "documented intent [D]",
     "source": "symfony/tailwind_acuity_theme.js (== web/vendor/webeval_ss/acuity_branding.css --ds-*; == _colors.scss $acuity-* 49 of them; == tailwind_final.css subset). Four hand-synced copies, no single source — see reconciliation map.",
     "note": "This is the full DOCUMENTED token set. The tool renders a curated --ds-* subset of it (src/styles/tokens.css). The set covers colour / type / spacing / weight; it defines NO radius or shadow token.",
@@ -75,7 +75,7 @@
     "shellSearch": { "$meta": "[R] top-bar Find-a-person field — note the purple", "bg": "#EBEDF2", "fg": "#42507D", "radius": "80px", "height": "38px" }
   },
   "navigation": {
-    "$meta": "[R] from the live DS gallery /test/designSystem (2026-06-22), getComputedStyle on Tabs/Link, cross-checked to tailwind_acuity_theme.js. INVENTORY GAP: the Acuity DS package ships NO Breadcrumb component (zero usages recovered from the React islands) — it is filled by the bridge for acuity. NO Pagination is enshrined (neither DS defines one). The tool renders these in src/styles/tokens.css.",
+    "$meta": "[R] from the live DS gallery /test/designSystem (2026-06-22), getComputedStyle on Tabs/Link, cross-checked to tailwind_acuity_theme.js. INVENTORY GAP: the Acuity DS package ships NO Breadcrumb component (zero usages recovered from the React islands) — it is filled by the bridge for one45-2020s. NO Pagination is enshrined (neither DS defines one). The tool renders these in src/styles/tokens.css.",
     "tabs": { "model": "underline-indicator", "labelFg": "#000000", "activeFg": "#000000", "activeIndicator": "#00A59B", "activeIndicatorToken": "acuity-green DEFAULT", "stripBorder": "#949494", "fontSize": "16px", "weight": "400", "padding": "8px", "note": "active underline is acuity-green 2px (3.06:1 UI), NOT acuity-blue; nested tabs are a boxed variant (#949494 1px + white bg). Visual model differs from legacy's Bootstrap box tabs — rendered per-system, not token-swapped." },
     "link": { "fg": "#364699", "fgToken": "acuity-blue", "active": "#161E4A", "activeToken": "acuity-blue-darkest", "decoration": "underline; hover removes underline", "variants": ["default", "inline"], "note": "Acuity Link API is text + type(default|inline) + href/target; iconName=linkNewTab pairs with target=_blank" },
     "breadcrumb": null,
@@ -101,22 +101,22 @@
         "warning": { "bg": "#FEFBE0", "fg": "#816E09", "accent": "#FCE833", "ratio": "4.82:1" },
         "error":   { "bg": "#FFECE8", "fg": "#720202", "accent": "#E40A0A", "ratio": "10.68:1" }
       },
-      "note": "native-both: Acuity ships a real Alert AND legacy ships .one45-alert (154 Error/* Twig uses) — corrected from the earlier acuity-only model; see reconciliation §4d/§4e. Acuity renders a tinted-bg banner with an accent left border; legacy a solid pale fill (radius 0, pad 16px)."
+      "note": "native-both: one45 (2020s) ships a real Alert AND legacy ships .one45-alert (154 Error/* Twig uses) — corrected from the earlier one45-2020s-only model; see reconciliation §4d/§4e. one45 (2020s) renders a tinted-bg banner with an accent left border; legacy a solid pale fill (radius 0, pad 16px)."
     },
     "badge": {
-      "$status": "imported, demo-page only (zero production islands) — acuity-only (the genuine present-vs-absent piece)",
+      "$status": "imported, demo-page only (zero production islands) — one45-2020s-only (the genuine present-vs-absent piece)",
       "props": ["label", "color(default|red|gray|blue|yellow|green)", "type(regular|small)", "dismissible", "onDismiss"],
       "note": "the real Badge is acuity-DS only — legacy has no status badge (.badge-details is a profile-photo widget), so Badge resolves through the bridge in legacy + lowfi. Corrected from the earlier mis-shared-to-legacy model; see reconciliation §4e."
     },
     "progressBar": {
       "$status": "imported, demo-page only",
       "props": ["size(large|small)", "state(indeterminate|in-progress|error|success)", "label", "helperMessage", "maxValue", "value"],
-      "note": "not enshrined this slice — acuity-real, legacy near-absent (deferred to a bridge-interim slice)."
+      "note": "not enshrined this slice — one45-2020s-real, legacy near-absent (deferred to a bridge-interim slice)."
     },
     "spinner": {
       "$status": "imported, demo-page only",
       "props": ["size(small|medium|large|extra-large)", "label", "ariaLive", "focusable"],
-      "note": "not enshrined this slice — acuity-real, legacy uses a webeval `busy` cog GIF with no CSS (deferred)."
+      "note": "not enshrined this slice — one45-2020s-real, legacy uses a webeval `busy` cog GIF with no CSS (deferred)."
     },
     "gaps": "Toast/snackbar, tooltip (react-bootstrap, not DS), popover (react-bootstrap), tag/chip, empty-state — NOT in the acuity DS package (zero usages). Tag/chip + empty-state + toast are gaps in BOTH systems -> not enshrined (the Pagination rule)."
   },
@@ -145,19 +145,19 @@
       "api": ["columns({key,header,align,width,sortable,cell})", "rows", "rowKey", "sort({key,dir})", "onSort", "selectable", "selected", "onSelectionChange", "empty", "caption"],
       "sourceShape": "react-table v7: column {Header,accessor,Cell,width,hidden}; table-wide useSortBy; caller-managed data/filter; optional useRowSelect bulk-select -> onChange (groupTable.jsx). NO usePagination/useFilters (filter is done before the table).",
       "render": "text neutrals-darker #333 [R]; header weight 700, no fill [R]; header rule #666 [R marksheet]; row divider neutrals-light #B8B8B8 (--ds-border-color); hover neutrals-lighter #F5F5F5; selected acuity-blue-lightest #E9ECF6; font 14px; radius 0; sort caret = token-coloured text glyph (PNG/FA arrow simplified)",
-      "contrast": "text #333/white 12.63 (AAA); header rule #666/white 5.74 (UI pass); row divider #B8B8B8/white 1.98 (fails 3:1 — thin decorative divider, flagged). contrast.mjs 'Acuity Table'."
+      "contrast": "text #333/white 12.63 (AAA); header rule #666/white 5.74 (UI pass); row divider #B8B8B8/white 1.98 (fails 3:1 — thin decorative divider, flagged). contrast.mjs 'one45 (2020s) Table'."
     },
     "card": {
       "$meta": "[R] 2026-06-23 (signed in, getComputedStyle on /test/designSystem). Card IS a real first-party Acuity DS component (in the consumed-export set), used with title/content/footer/iconName in genuine med-ed domains (domain_demo_person_info.jsx:24-90 person info / group rosters / current-user; designSystemTest/main.jsx:307-334). The tool's stub Card was FORMALISED to this API (added iconName + footer). Reconciliation map §4j.",
       "api": ["title", "iconName", "children(content)", "footer"],
       "render": "headerless white flex-column: ds-rounded-lg ds-border ds-border-neutrals-light ds-p-5 -> border 1px neutrals-light #B8B8B8, radius 8px, padding 24px, ~24px inter-block gap, NO box-shadow; header row = 24px icon (neutrals-darker #333) + Lato 20px/weight 600 title #333 (gap 12px, items-center); footer holds the action Buttons. radius/shadow are RENDERED values (the Acuity set tokenizes neither).",
-      "contrast": "title #333/white 12.63 (AAA); border neutrals-light #B8B8B8/white 1.98 (fails 3:1 — thin decorative border, flagged, the real token). contrast.mjs 'Acuity Card'."
+      "contrast": "title #333/white 12.63 (AAA); border neutrals-light #B8B8B8/white 1.98 (fails 3:1 — thin decorative border, flagged, the real token). contrast.mjs 'one45 (2020s) Card'."
     },
     "avatar": {
       "$meta": "[D] the Acuity DS ships NO avatar/profile-photo/user-image component. The DS demo page enumerates every component it backs and has none (designSystemTest/main.jsx:3-23); zero island usages of any avatar export; no avatar sizing/radius token in tailwind_acuity_theme.js. The only person photos in the modern app are hand-rolled NON-DS markup (the jQuery people-picker/self-send .profile-img circle, _list_picker.scss:41-54, copy-pasted per feature). So Avatar is legacy-only and acuity resolves it through the BRIDGE to a flagged interim (INTERIM_BUILDS) — the present-vs-absent (axis b) mirror of legacy lacking Badge. Reconciliation map §4k.",
       "api": ["personName", "src", "shape(circle|card)", "size(sm|lg)"],
-      "render": "NOT a status-quo Acuity component — the --ds-avatar-* acuity values style ONLY the flagged bridge interim so it reads on-brand: neutrals-light #B8B8B8 ring/border, accessible #5f5f5f (--ds-fg-muted) caption. Shape/size come from the shared circle (25/60px) + card (75x98) reference, modelled on the non-DS .profile-img.",
-      "contrast": "interim caption #5f5f5f/white 6.39 (AA text); interim ring/border neutrals-light #B8B8B8/white 1.98 (fails 3:1 — thin border, flagged). contrast.mjs 'Acuity Avatar'."
+      "render": "NOT a status-quo one45 (2020s) component — the --ds-avatar-* one45-2020s values style ONLY the flagged bridge interim so it reads on-brand: neutrals-light #B8B8B8 ring/border, accessible #5f5f5f (--ds-fg-muted) caption. Shape/size come from the shared circle (25/60px) + card (75x98) reference, modelled on the non-DS .profile-img.",
+      "contrast": "interim caption #5f5f5f/white 6.39 (AA text); interim ring/border neutrals-light #B8B8B8/white 1.98 (fails 3:1 — thin border, flagged). contrast.mjs 'one45 (2020s) Avatar'."
     },
     "gaps": "The Acuity DS owns no dedicated table — its tables are app-level react-table over Bootstrap. Card IS first-party (formalised §4j). The Acuity DS ships NO avatar (Avatar is legacy-only, bridge-filled §4k). The rest of the data-display group (list, accordion, tree, timeline, stat/metric, code block, key-value) is a FOLLOW-UP slice, not enshrined here. Toast/tag-chip/empty-state remain both-systems gaps (the Pagination rule)."
   }

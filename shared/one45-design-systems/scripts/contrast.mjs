@@ -171,7 +171,7 @@ row("info  white / $primary_purple", WHITE, "#42507D", "(solid purple fill, whit
 // (the css-conventions rule: never use opacity to reduce prominence). These are the
 // muted-text greys; judged on the 4.5 text threshold (chrome over the white canvas).
 section("Foundations — muted text (--ds-fg-muted) on white");
-row("fg-muted acuity/legacy #5f5f5f / white", "#5F5F5F", WHITE);
+row("fg-muted one45-2020s/legacy #5f5f5f / white", "#5F5F5F", WHITE);
 row("fg-muted lowfi #6a6a6a / white", "#6A6A6A", WHITE);
 
 // ── Iconography slice (2026-06-23) — the semantic icon TONE colours rendered as the glyph on

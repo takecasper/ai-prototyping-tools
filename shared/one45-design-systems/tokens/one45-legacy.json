@@ -108,14 +108,14 @@
       "panelBg": "#FFFFFF", "radius": "6px", "shadow": "0 3px 7px rgba(0,0,0,.3)",
       "scrim": "rgba(0,0,0,.5)", "scrimNote": "[I] Bootstrap-2 default — the SCSS declares the backdrop via opacity, not a colour; the tool uses a solid rgba per the no-opacity rule",
       "titleColor": "#27304B", "titleColorToken": "$one45_black",
-      "header": { "bg": "#F5F5F5", "borderBottom": "#EEEEEE", "radius": "3px 3px 0 0", "note": "the GREY BAND — the ONLY divergence from Acuity's headerless modal, captured as pure tokens (no structural override)" },
+      "header": { "bg": "#F5F5F5", "borderBottom": "#EEEEEE", "radius": "3px 3px 0 0", "note": "the GREY BAND — the ONLY divergence from one45 (2020s)'s headerless modal, captured as pure tokens (no structural override)" },
       "body": { "bg": "#FFFFFF", "padding": "14px" },
       "api": ["show", "onHide", "size", "backdrop(static)", "centered", "Modal.Header/Title/Body/Footer"],
-      "note": "react-bootstrap dialog; one canonical Modal API absorbs both this AND the Acuity Dialog — the API-survival test PASSED."
+      "note": "react-bootstrap dialog; one canonical Modal API absorbs both this AND the one45 (2020s) Dialog — the API-survival test PASSED."
     },
     "alert": {
       "$source": "WidgetBundle Error/*.twig (154 uses) + new_branding.scss:66-170 (.one45-alert)",
-      "$status": "REAL legacy alert — NATIVE in the tool (corrected from the earlier acuity-only model)",
+      "$status": "REAL legacy alert — NATIVE in the tool (corrected from the earlier one45-2020s-only model)",
       "variants": {
         "success": { "bg": "#B0F0E9", "fg": "#27304B", "icon": "#2FAEA1", "ratio": "10.24:1" },
         "warning": { "bg": "#FCE0A7", "fg": "#27304B", "icon": "#F8B223", "ratio": "10.16:1" },
@@ -150,7 +150,7 @@
       "success": "#2FAEA1 (2.73 FAIL)", "warning": "#F8B223 (1.84 FAIL)", "error": "#F12F62 (3.95)", "info": "#B3B9CB (1.96 FAIL)"
     },
     "glyphicons": "NOT used (one stray animation class only — settings.html.twig:55)",
-    "note": "reconciliation map §4g. One canonical Icon/IconButton API + a two-step size token scale absorb both this FA/sprite stack and the Acuity named-vocabulary component."
+    "note": "reconciliation map §4g. One canonical Icon/IconButton API + a two-step size token scale absorb both this FA/sprite stack and the one45 (2020s) named-vocabulary component."
   },
   "dataDisplay": {
     "$meta": "[D] the real legacy table skin (_tables.scss + _constants.scss). Legacy authors a custom table skin keyed on table.report/.standard/.bordered (NOT the Bootstrap .table* classes, which it inherits unchanged from vendored BS2). Sort is DataTables (PNG up/down arrows under .dataTables_wrapper). NOTE: this skin is NOT live on the modern Acuity-rebranded staging ([R]: the legacy table classes render inert there) — it is the documented legacy-pole reality, sourced from SCSS. Reconciliation map §4i.",
