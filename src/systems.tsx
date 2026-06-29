@@ -948,20 +948,33 @@ const AcuityCanonSelect: Skin = ({ label, state, message, optionalityLabel, opti
   );
 };
 
-const AcuityCanonCheckbox: Skin = ({ label, id, ...rest }) => {
+const AcuityCanonCheckbox: Skin = ({ label, id, defaultChecked, checked, onChange, ...rest }) => {
   const genId = useId();
   return (
     <Preflight>
-      <ADSCheckbox id={id ? String(id) : genId} label={label ? String(label) : undefined} {...rest} />
+      <ADSCheckbox
+        id={id ? String(id) : genId}
+        label={label ? String(label) : undefined}
+        checked={checked ?? Boolean(defaultChecked)}
+        onChange={onChange ?? (() => {})}
+        {...rest}
+      />
     </Preflight>
   );
 };
 
-const AcuityCanonRadio: Skin = ({ label, group, id, ...rest }) => {
+const AcuityCanonRadio: Skin = ({ label, group, id, defaultChecked, checked, onChange, ...rest }) => {
   const genId = useId();
   return (
     <Preflight>
-      <ADSRadio id={id ? String(id) : genId} name={group ? String(group) : genId} label={label ? String(label) : undefined} {...rest} />
+      <ADSRadio
+        id={id ? String(id) : genId}
+        name={group ? String(group) : genId}
+        label={label ? String(label) : undefined}
+        checked={checked ?? Boolean(defaultChecked)}
+        onChange={onChange ?? (() => {})}
+        {...rest}
+      />
     </Preflight>
   );
 };
