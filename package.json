@@ -7,10 +7,11 @@
     "dev": "vite",
     "lint": "eslint src/prototypes",
     "build": "tsc --noEmit && vite build",
-    "check": "npm run lint && node shared/one45-design-systems/scripts/check-system-scopes.mjs && npm run build",
+    "check": "npm run lint && node shared/one45-design-systems/scripts/check-system-scopes.mjs && node shared/one45-design-systems/scripts/check-system-coverage.mjs && npm run build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@takecasper/acuity-design-system": "1.27.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

@@ -12,21 +12,18 @@ complete: rows get added and confirmed as sources are located.
 
 > [!WARNING]
 > **The names collide and will mislead you.** Acuity has ~seven design systems in
-> varied states, and there is **no single canonical "Acuity Design System."**
-> Several are *named* "Acuity Design System" (or close to it) but are **not
-> current, not canonical, and not equivalent** to one another. Do not assume two
-> things are the same system because they share a name — confirm by **source**,
-> not by label. The tool's `one45-2020s` system was reverse-engineered from one
-> such package and is **not** "the" Acuity DS.
+> varied states. Several are *named* "Acuity Design System" (or close to it) but
+> are **not current, not canonical, and not equivalent** to one another. Do not
+> assume two things are the same system because they share a name — confirm by
+> **source**, not by label. The tool's `one45-2020s` system was reverse-engineered
+> from one such package and is **not** "the" Acuity DS.
 >
-> **Direction is still settling (stakeholder preference, not a final decision):**
-> engineering (Jason et al.) want to use the **engineering "Acuity Design System"**
-> — a **mid-2025** system they built (GitHub + Chromatic + Confluence + Figma; its
-> own row below), **unrelated to one45 or `one45-2020s`** — and would prefer that
-> **Isabella's "Platform Design System"** work (which lives **purely in Figma**) be
-> used to **update that engineering system**, rather than adopting the Platform
-> system standalone. So neither is "canonical" yet; confirm the target with
-> stakeholders before treating any system as the one to promote.
+> **Direction is decided:** the mid-2025 engineering "Acuity Design System"
+> (GitHub + Chromatic + Confluence + Figma; its own row below) is the canonical
+> target — now live in the tool as `acuity-canon`. It is **unrelated to one45 or
+> `one45-2020s`** despite the shared name. Isabella's "Platform Design System"
+> (purely in Figma) is preferred as a source for updating that engineering system,
+> not for standalone adoption.
 >
 > *(Cautionary example, already hit on this very map: the mid-2025 engineering
 > "Acuity Design System" was at first wrongly merged into `one45-2020s` because the
@@ -40,7 +37,7 @@ known link per system; the census reconciles which sources back the same system.
 
 | System | In the tool? | Source links | Notes |
 |---|---|---|---|
-| **Acuity Design System** (engineering, mid-2025) | no | • GitHub: https://github.com/takecasper/acuity-design-system<br>• Chromatic: https://www.chromatic.com/builds?appId=6603321f619950844820974b (the repo's published Storybook)<br>• Confluence: https://acuityinsights.atlassian.net/wiki/spaces/DS/overview (docs; links to Figma)<br>• Figma: https://www.figma.com/design/WSahvnapDG7dHoJS3tHcqk/Acuity-Design-system?node-id=3-5 | The system **Jason and the engineers built (mid-2025) and want to use**. All four links are confirmed the **same** system. **Unrelated to one45 / `one45-2020s`** despite the "acuity-design-system" name. Preference: **update it from Isabella's Platform Design System Figma work** (row below), not adopt Platform standalone. ⚠ The Figma file still has **branches with never-completed draft components** — don't treat draft/branch work as canonical. |
+| **Acuity Design System** (engineering, mid-2025) | **yes (`acuity-canon`)** | • npm: `@takecasper/acuity-design-system@1.27.13` (pinned)<br>• GitHub: https://github.com/takecasper/acuity-design-system<br>• Chromatic: https://www.chromatic.com/builds?appId=6603321f619950844820974b (the repo's published Storybook)<br>• Confluence: https://acuityinsights.atlassian.net/wiki/spaces/DS/overview (docs; links to Figma)<br>• Figma: https://www.figma.com/design/WSahvnapDG7dHoJS3tHcqk/Acuity-Design-system?node-id=3-5 | The system **Jason and the engineers built (mid-2025)**. All four sources are confirmed the **same** system. **Unrelated to one45 / `one45-2020s`** despite the "acuity-design-system" name. **Decided: the canonical target** — live in the tool as `acuity-canon`, the store default, with 14 canonical pieces native and 6 gaps (Toggle, SearchField, Breadcrumb, Table, Avatar, Image) filled by flagged bridge interims. Preference: **update it from Isabella's Platform Design System Figma work** (row below), not adopt Platform standalone. ⚠ The Figma file still has **branches with never-completed draft components** — don't treat draft/branch work as canonical. |
 | **Platform Design System** | no — Figma-only | Figma org library "Platform design system" (URL `<<TBD>>`) | **Isabella's** work, purely in Figma. Engineering preference (Jason et al.) is to use it to **update the engineering "Acuity Design System"** (mid-2025; row above), **not** adopt it standalone. Spacing is a numbered scale (`spacing/0`–`spacing/7` in a "dimensions" collection) — see [DE-450]. |
 | **Fahad's design system** | not yet — incorporate for comparison ([DE-444]) | https://ds.acuityinsights.io/ | Hosted DS site. Brought in to compare against / interpret Fahad's work, **not** to promote to canonical. |
 | **A One45 system** | maybe — fingerprint pending | https://bitbucket.org/one45/one45-design-system/src/master/ | "One of the One45 systems." Which tool system (if any) this backs — `one45-2020s`, `one45-legacy`, or neither — is a census question; do not assume. |

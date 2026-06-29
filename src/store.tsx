@@ -60,7 +60,7 @@ export function useStore(): Store {
 }
 
 export function StoreProvider({ children }: { children: ReactNode }) {
-  const [systemId, setSystemIdRaw] = useState<SystemId>("one45-2020s");
+  const [systemId, setSystemIdRaw] = useState<SystemId>("acuity-canon");
   const [compareId, setCompareId] = useState<SystemId | null>(null);
   const [maps, setMaps] = useState<MapRegistry>(() => loadMaps());
 

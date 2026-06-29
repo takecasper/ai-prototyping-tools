@@ -51,6 +51,32 @@ const ONE45_2020S = {
   neutrals: { black: "#000000", darker: "#333333", dark: "#555555", DEFAULT: "#8C8C8C", light: "#B8B8B8", lighter: "#F5F5F5", white: "#FFFFFF" },
 };
 
+// ── Acuity Design System (acuity-canon) — values from
+//    node_modules/@takecasper/acuity-design-system@1.27.13/dist/assets/index.css.
+//    Shades absent from the compiled CSS are omitted.
+const ACUITY_CANON = {
+  "acuity-blue":              "#364699",  // .ds-bg-acuity-blue          rgb(54 70 153)
+  "acuity-blue-darkest":      "#161E4A",  // .ds-bg-acuity-blue-darkest  rgb(22 30 74)
+  "acuity-green":             "#00A59B",  // .ds-text-acuity-green       rgb(0 165 155)
+  "information-blue":         "#1E93BA",  // .ds-text-information-blue   rgb(30 147 186)
+  "information-blue-dark":    "#157393",  // .ds-text-information-blue-dark  rgb(21 115 147)
+  "information-blue-darkest": "#0D556D",  // .ds-bg-information-blue-darkest rgb(13 85 109)
+  "success-green":            "#4DA81F",  // .ds-bg-success-green        rgb(77 168 31)
+  "success-green-dark":       "#387F14",  // .ds-text-success-green-dark rgb(56 127 20)
+  "success-green-darkest":    "#24590A",  // .ds-text-success-green-darkest rgb(36 89 10)
+  "warning-yellow-darkest":   "#816E09",  // .ds-text-warning-yellow-darkest rgb(129 110 9)
+  "danger-red":               "#E40A0A",  // .ds-bg-danger-red           rgb(228 10 10)
+  "danger-red-dark":          "#A90508",  // .ds-bg-danger-red-dark      rgb(169 5 8)
+  "danger-red-darkest":       "#720202",  // .ds-stroke-danger-red-darkest stroke:#720202
+  "neutrals-black":           "#000000",  // .ds-bg-neutrals-black       rgb(0 0 0)
+  "neutrals-darker":          "#333333",  // .ds-bg-neutrals-darker      rgb(51 51 51)
+  "neutrals-dark":            "#555555",  // .ds-text-neutrals-dark      rgb(85 85 85)
+  "neutrals":                 "#949494",  // .ds-border-neutrals         rgb(148 148 148)
+  "neutrals-light":           "#B8B8B8",  // .ds-bg-neutrals-light       rgb(184 184 184)
+  "neutrals-lighter":         "#F5F5F5",  // .ds-bg-neutrals-lighter     rgb(245 245 245)
+  "neutrals-white":           "#FFFFFF",  // .ds-bg-neutrals-white       rgb(255 255 255)
+};
+
 // ── one45 legacy (System A) — _colors.scss:1-35.
 const ONE45 = {
   one45_black: "#27304B",
@@ -239,3 +265,15 @@ row("card border #BBB / white", "#BBBBBB", WHITE, "(1px border — fails 3:1, fl
 section("one45 (2020s) Avatar [bridge interim] — flagged build styling on white (DS ships no avatar)");
 row("interim caption #5f5f5f / white", "#5F5F5F", WHITE, "(--ds-fg-muted caption text)");
 row("interim ring/border neutrals-light / white", "#B8B8B8", WHITE, "(1px border — fails 3:1, flagged)");
+
+// ── Acuity Design System (acuity-canon) — brand + semantic families on white, and white
+// on brand (button case). Values sourced from dist/assets/index.css (compiled Tailwind).
+// Light tints (lightest) are backgrounds, not foregrounds — excluded from this set
+// (they render white-on-white < 1.5:1). Dark shades (darkest/dark) are the text-safe
+// members; DEFAULT shades are the saturated brand/button colours.
+section("Acuity Design System (acuity-canon) — brand + semantic families on white, and white on brand");
+for (const [name, hex] of Object.entries(ACUITY_CANON)) {
+  if (name === "neutrals-white") continue; // white-on-white is trivial (1:1)
+  row(`${name} / white`, hex, WHITE);
+}
+row("white / acuity-blue (primary button)", WHITE, ACUITY_CANON["acuity-blue"]);

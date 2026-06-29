@@ -1,0 +1,53 @@
+{
+  "$meta": {
+    "system": "acuity-canon",
+    "label": "Acuity Design System (mid-2025)",
+    "layer": "compiled CSS [C]",
+    "source": "node_modules/@takecasper/acuity-design-system@1.27.13/dist/assets/index.css — Tailwind-compiled utility classes. Each value is traced to a ds-bg-*/ds-text-*/ds-border-*/ds-stroke-* rule. Shades absent from the compiled output are omitted (no fabrication).",
+    "note": "This is the COMPILED palette. The ds- Tailwind classes encode role+shade in the class name; hex values are extracted from rgb() notation in the matching rule. The same theme colours underlie both one45-2020s and acuity-canon — the values are confirmed identical where both have coverage. Shades present in one45-2020s.json but absent from the compiled CSS (e.g. warning-yellow DEFAULT, many mid-scale shades) are NOT included here.",
+    "font": "Lato (Lato,Helvetica Neue,Helvetica,Arial,sans-serif) — .preflight :host :where(.preflight) { font-family:Lato,… }"
+  },
+  "fontFamily": {
+    "sans": ["Lato", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"]
+  },
+  "colors": {
+    "acuity-blue": {
+      "DEFAULT": "#364699",
+      "darkest": "#161E4A"
+    },
+    "acuity-green": {
+      "DEFAULT": "#00A59B"
+    },
+    "information-blue": {
+      "DEFAULT": "#1E93BA",
+      "dark": "#157393",
+      "darkest": "#0D556D",
+      "lightest": "#EBF4F8"
+    },
+    "success-green": {
+      "DEFAULT": "#4DA81F",
+      "dark": "#387F14",
+      "darkest": "#24590A",
+      "lightest": "#EEF8EB"
+    },
+    "warning-yellow": {
+      "darkest": "#816E09",
+      "lightest": "#FEFBE0"
+    },
+    "danger-red": {
+      "DEFAULT": "#E40A0A",
+      "dark": "#A90508",
+      "darkest": "#720202",
+      "lightest": "#FFECE8"
+    },
+    "neutrals": {
+      "black": "#000000",
+      "darker": "#333333",
+      "dark": "#555555",
+      "DEFAULT": "#949494",
+      "light": "#B8B8B8",
+      "lighter": "#F5F5F5",
+      "white": "#FFFFFF"
+    }
+  }
+}

@@ -30,6 +30,23 @@
 
 import { useEffect, useId, useRef, type ComponentType, type ReactNode } from "react";
 import { placeholderImage } from "./placeholder";
+import {
+  Button as ADSButton,
+  Card as ADSCard,
+  Badge as ADSBadge,
+  Alert as ADSAlert,
+  Icon as ADSIcon,
+  IconButton as ADSIconButton,
+  TextInput as ADSTextInput,
+  Textarea as ADSTextarea,
+  Dropdown as ADSDropdown,
+  Checkbox as ADSCheckbox,
+  Radio as ADSRadio,
+  Tabs as ADSTabs,
+  Tab as ADSTab,
+  Link as ADSLink,
+  Modal as ADSModal,
+} from "@takecasper/acuity-design-system";
 
 export type CanonicalName =
   | "Button"
@@ -64,7 +81,7 @@ export type CanonicalName =
   // photo shapes via a `shape` variant: the inline circle (.profile-img) + the yearbook
   // card (.photo).
   | "Avatar";
-export type SystemId = "lowfi" | "one45-2020s" | "one45-legacy";
+export type SystemId = "lowfi" | "one45-2020s" | "one45-legacy" | "acuity-canon";
 
 // The documentation slices the gallery groups by. New canonical pieces slot into
 // their slice automatically — adding a piece is just giving it a `category`.
@@ -794,6 +811,221 @@ const LowfiIconButton: Skin = ({ iconName, iconSize, label, ...rest }) => (
   </button>
 );
 
+// acuity-canon adapters — the canonical pieces resolve to the REAL Acuity Design
+// System components (npm: @takecasper/acuity-design-system). Each adapter maps the
+// canonical prop surface to the ADS component's props and wraps the output in
+// `.preflight` so the ADS Tailwind reset applies to its subtree (and only there).
+const Preflight = ({ children }: { children: ReactNode }) => (
+  <span className="preflight" style={{ display: "contents" }}>
+    {children}
+  </span>
+);
+
+const AcuityCanonButton: Skin = ({ children, variant, onClick, ...rest }) => (
+  <Preflight>
+    <ADSButton
+      variant={(typeof variant === "string" ? variant : "primary") as any}
+      text={typeof children === "string" ? children : undefined}
+      onClick={(onClick as any) ?? (() => {})}
+      {...rest}
+    >
+      {children}
+    </ADSButton>
+  </Preflight>
+);
+
+const AcuityCanonCard: Skin = ({ title, iconName, children, footer }) => (
+  <Preflight>
+    <ADSCard
+      title={title ? String(title) : undefined}
+      iconName={iconName as any}
+      content={children}
+      footer={footer}
+    />
+  </Preflight>
+);
+
+const AcuityCanonBadge: Skin = ({ children }) => (
+  <Preflight>
+    <ADSBadge label={String(children ?? "")} />
+  </Preflight>
+);
+
+const AcuityCanonAlert: Skin = ({ title, children, variant }) => (
+  <Preflight>
+    <ADSAlert
+      variant={(typeof variant === "string" ? variant : "info") as any}
+      title={title ? String(title) : undefined}
+      content={children}
+    />
+  </Preflight>
+);
+
+const AcuityCanonIcon: Skin = ({ iconName, size, altText }) => (
+  <Preflight>
+    <ADSIcon
+      name={String(iconName ?? "") as any}
+      size={size === "small" ? "small" : "medium"}
+      altText={altText ? String(altText) : undefined}
+    />
+  </Preflight>
+);
+
+const AcuityCanonIconButton: Skin = ({ iconName, iconSize, label, onClick, disabled, ...rest }) => (
+  <Preflight>
+    <ADSIconButton
+      variant="default"
+      iconName={String(iconName ?? "") as any}
+      iconSize={iconSize === "small" ? "small" : "medium"}
+      label={label ? String(label) : undefined}
+      disabled={Boolean(disabled)}
+      onClick={(onClick as any) ?? (() => {})}
+      {...rest}
+    />
+  </Preflight>
+);
+
+const AcuityCanonTextField: Skin = ({ label, type, state, message, helpText, optionalityLabel, id, ...rest }) => {
+  const genId = useId();
+  return (
+    <Preflight>
+      <ADSTextInput
+        id={id ? String(id) : genId}
+        label={label ? String(label) : ""}
+        type={type as any}
+        state={(state as any) ?? "default"}
+        message={message ? String(message) : undefined}
+        helpText={helpText ? (Array.isArray(helpText) ? helpText.map(String) : [String(helpText)]) : undefined}
+        optionalityLabel={optionalityLabel ? String(optionalityLabel) : undefined}
+        {...rest}
+      />
+    </Preflight>
+  );
+};
+
+const AcuityCanonTextarea: Skin = ({ label, state, message, rows, id, ...rest }) => {
+  const genId = useId();
+  return (
+    <Preflight>
+      <ADSTextarea
+        id={id ? String(id) : genId}
+        label={label ? String(label) : ""}
+        state={(state as any) ?? "default"}
+        message={message ? String(message) : undefined}
+        rows={typeof rows === "number" ? rows : undefined}
+        {...rest}
+      />
+    </Preflight>
+  );
+};
+
+const AcuityCanonSelect: Skin = ({ label, state, message, optionalityLabel, options, children, id, ...rest }) => {
+  const genId = useId();
+  const opts = Array.isArray(options) ? options : null;
+  return (
+    <Preflight>
+      <ADSDropdown
+        id={id ? String(id) : genId}
+        label={label ? String(label) : ""}
+        state={(state as any) ?? "default"}
+        message={message ? String(message) : undefined}
+        optionalityLabel={optionalityLabel ? String(optionalityLabel) : undefined}
+        {...rest}
+      >
+        {opts
+          ? opts.map((o: any) => {
+              const value = typeof o === "object" ? o.value : o;
+              const text = typeof o === "object" ? o.label : o;
+              return (
+                <option key={String(value)} value={value}>
+                  {String(text)}
+                </option>
+              );
+            })
+          : children}
+      </ADSDropdown>
+    </Preflight>
+  );
+};
+
+const AcuityCanonCheckbox: Skin = ({ label, id, defaultChecked, checked, onChange, ...rest }) => {
+  const genId = useId();
+  return (
+    <Preflight>
+      <ADSCheckbox
+        id={id ? String(id) : genId}
+        label={label ? String(label) : undefined}
+        checked={checked ?? Boolean(defaultChecked)}
+        onChange={onChange ?? (() => {})}
+        {...rest}
+      />
+    </Preflight>
+  );
+};
+
+const AcuityCanonRadio: Skin = ({ label, group, id, defaultChecked, checked, onChange, ...rest }) => {
+  const genId = useId();
+  return (
+    <Preflight>
+      <ADSRadio
+        id={id ? String(id) : genId}
+        name={group ? String(group) : genId}
+        label={label ? String(label) : undefined}
+        checked={checked ?? Boolean(defaultChecked)}
+        onChange={onChange ?? (() => {})}
+        {...rest}
+      />
+    </Preflight>
+  );
+};
+
+const AcuityCanonLink: Skin = ({ children, text, href, variant, ...rest }) => (
+  <Preflight>
+    <ADSLink
+      text={String(children ?? text ?? "")}
+      href={href ? String(href) : "#"}
+      type={variant === "inline" ? "inline" : "default"}
+      {...rest}
+    />
+  </Preflight>
+);
+
+const AcuityCanonModal: Skin = ({ open, title, onClose, dismissible, footer, children }) => (
+  <Preflight>
+    <ADSModal
+      open={Boolean(open)}
+      title={title ? String(title) : ""}
+      onClose={(onClose as any) ?? (() => {})}
+      backdrop={dismissible ? "dismissible" : "static"}
+      content={children}
+      footer={footer}
+      dismissible={Boolean(dismissible)}
+    />
+  </Preflight>
+);
+
+const AcuityCanonTabs: Skin = ({ tabs, active, onSelect, children }) => {
+  const list = Array.isArray(tabs) ? tabs : [];
+  const ids = list.map((t: any) => (typeof t === "object" ? t.id : t));
+  const activeIndex = Math.max(0, ids.findIndex((id: any) => String(id) === String(active)));
+  return (
+    <Preflight>
+      <ADSTabs activeTabIndex={activeIndex} handleTabChange={(i: number) => onSelect && onSelect(ids[i])}>
+        {list.map((t: any, i: number) => {
+          const id = typeof t === "object" ? t.id : t;
+          const label = typeof t === "object" ? t.label : t;
+          const badge = typeof t === "object" ? t.badge : undefined;
+          return (
+            <ADSTab key={String(id)} id={String(id)} title={String(label)} badgeText={badge ? String(badge) : undefined}>
+              {i === activeIndex ? children : null}
+            </ADSTab>
+          );
+        })}
+      </ADSTabs>
+    </Preflight>
+  );
+};
+
 export interface DesignSystem {
   id: SystemId;
   label: string;
@@ -877,6 +1109,30 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // Acuity DS never built. Form + nav controls re-skin cleanly.
     skins: { Button, Card, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Breadcrumb, Avatar, Image: BrandImage, Icon: BrandIcon, IconButton: BrandIconButton },
   },
+  "acuity-canon": {
+    id: "acuity-canon",
+    label: "Acuity Design System",
+    blurb: "The canonical system — real components, imported",
+    // Skins are adapters over the REAL ADS components. Pieces the ADS package does
+    // not ship (Toggle, SearchField, Breadcrumb, Table, Avatar, Image) are omitted →
+    // the bridge fills them as flagged interims (the canonical coverage deficit).
+    skins: {
+      Button: AcuityCanonButton,
+      Card: AcuityCanonCard,
+      Badge: AcuityCanonBadge,
+      Alert: AcuityCanonAlert,
+      Icon: AcuityCanonIcon,
+      IconButton: AcuityCanonIconButton,
+      TextField: AcuityCanonTextField,
+      Textarea: AcuityCanonTextarea,
+      Select: AcuityCanonSelect,
+      Checkbox: AcuityCanonCheckbox,
+      Radio: AcuityCanonRadio,
+      Tabs: AcuityCanonTabs,
+      Link: AcuityCanonLink,
+      Modal: AcuityCanonModal,
+    },
+  },
 };
 
 export const SYSTEM_IDS = Object.keys(SYSTEMS) as SystemId[];
@@ -896,7 +1152,15 @@ export const SYSTEM_IDS = Object.keys(SYSTEMS) as SystemId[];
 //               to acuity-blue/Lato so the flagged interim reads on-brand).
 // A piece NOT listed here (e.g. Badge in legacy + lowfi) still falls back to the cruder
 // first-native substitution below, so both bridge behaviours stay observable.
-export const INTERIM_BUILDS: Partial<Record<CanonicalName, Skin>> = { Alert, Breadcrumb, Avatar };
+export const INTERIM_BUILDS: Partial<Record<CanonicalName, Skin>> = {
+  Alert,
+  Breadcrumb,
+  Avatar,
+  Toggle,
+  SearchField,
+  Table,
+  Image: BrandImage,
+};
 
 // The crude fallback the bridge uses ONLY when a missing piece has no INTERIM_BUILDS
 // entry: substitute the first native piece. The real tool would always build the
