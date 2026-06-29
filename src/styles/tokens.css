@@ -763,3 +763,113 @@
    * through to the structural reference scale (breakpoints / 12-col grid / 1rem gutter). A
    * wireframe asserts no responsive brand. */
 }
+
+/* Acuity Design System (acuity-canon) — the canonical dependency-backed system.
+ * The real ADS components (@takecasper/acuity-design-system) are Tailwind-styled and
+ * ignore --ds-*; this block styles the BRIDGED gaps (Breadcrumb, Avatar, Table,
+ * Toggle, SearchField, Image) + tool chrome so they read on-brand. Values are sourced
+ * from shared/one45-design-systems/tokens/acuity-canon.json (cited there).
+ *
+ * The ADS palette is identical to one45-2020s (same acuity-blue, same neutrals family —
+ * independently confirmed from the compiled CSS in
+ * node_modules/@takecasper/acuity-design-system/dist/assets/index.css). The ADS
+ * ships no radius, shadow, or motion tokens (Tailwind framework defaults only), so
+ * those lines are omitted below — the :root structural defaults apply. */
+:root[data-ds="acuity-canon"],
+[data-ds="acuity-canon"] {
+  --ds-font: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif; /* acuity-canon.json fontFamily.sans */
+  --ds-bg: #ffffff; /* neutrals.white */
+  --ds-fg: #333333; /* neutrals.darker */
+  --ds-surface: #f5f5f5; /* neutrals.lighter */
+  --ds-border-color: #b8b8b8; /* neutrals.light */
+  --ds-border-width: 1px;
+  --ds-border-style: solid;
+  --ds-accent: #364699; /* acuity-blue.DEFAULT */
+  --ds-accent-fg: #ffffff; /* neutrals.white */
+  --ds-badge-bg: #e9ecf6; /* acuity-blue-lightest (same as one45-2020s — confirmed identical) */
+  --ds-badge-fg: #253170; /* acuity-blue-dark (same as one45-2020s — confirmed identical) */
+
+  /* Card — same palette as one45-2020s; --ds-radius / --ds-shadow not set (ADS has no token for them). */
+  --ds-card-bg: #ffffff; /* neutrals.white */
+  --ds-card-border: #b8b8b8; /* neutrals.light */
+  --ds-card-pad: 24px;
+  --ds-card-gap: 24px;
+  --ds-card-title-color: #333333; /* neutrals.darker */
+  --ds-card-title-size: 20px;
+  --ds-card-title-weight: 600;
+  --ds-card-header-bg: transparent;
+  --ds-card-header-border: transparent;
+
+  /* Form controls — same neutrals/accent family as one45-2020s. */
+  --ds-input-bg: #ffffff; /* neutrals.white */
+  --ds-input-fg: #333333; /* neutrals.darker */
+  --ds-input-border: #949494; /* neutrals.DEFAULT */
+  --ds-input-radius: 4px;
+  --ds-input-pad-y: 0.5rem;
+  --ds-input-pad-x: 0.5rem;
+  --ds-input-font-size: 1rem;
+  --ds-focus-ring: #364699; /* acuity-blue.DEFAULT */
+  --ds-state-error: #e40a0a; /* danger-red.DEFAULT */
+  --ds-state-error-fg: #720202; /* danger-red.darkest */
+  --ds-state-success: #4da81f; /* success-green.DEFAULT */
+  --ds-label-fg: #333333; /* neutrals.darker */
+  --ds-label-weight: 600;
+  --ds-control-size: 1.1rem;
+
+  /* Navigation — same palette as one45-2020s. Breadcrumb styles the bridged interim. */
+  --ds-tab-fg: #000000; /* neutrals.black */
+  --ds-tab-active-fg: #000000; /* neutrals.black */
+  --ds-tab-active-indicator: #00a59b; /* acuity-green.DEFAULT */
+  --ds-tab-strip-border: #949494; /* neutrals.DEFAULT */
+  --ds-link-fg: #364699; /* acuity-blue.DEFAULT */
+  --ds-link-hover: #161e4a; /* acuity-blue.darkest */
+  --ds-crumb-fg: #364699; /* bridge interim only — acuity-blue.DEFAULT */
+  --ds-crumb-current: #333333; /* neutrals.darker */
+  --ds-crumb-sep: #949494; /* neutrals.DEFAULT */
+
+  /* Feedback & status — Alert colours match one45-2020s (same semantic families in JSON). */
+  --ds-modal-bg: #ffffff; /* neutrals.white */
+  --ds-modal-scrim: rgba(0, 0, 0, 0.25);
+  --ds-modal-title-color: #333333; /* neutrals.darker */
+  --ds-modal-title-size: 1.4375rem;
+  --ds-modal-header-bg: transparent;
+  --ds-modal-header-border: transparent;
+
+  --ds-alert-info-bg: #ebf4f8; /* information-blue.lightest */
+  --ds-alert-info-fg: #0d556d; /* information-blue.darkest */
+  --ds-alert-info-accent: #1e93ba; /* information-blue.DEFAULT */
+  --ds-alert-success-bg: #eef8eb; /* success-green.lightest */
+  --ds-alert-success-fg: #24590a; /* success-green.darkest */
+  --ds-alert-success-accent: #4da81f; /* success-green.DEFAULT */
+  --ds-alert-warning-bg: #fefbe0; /* warning-yellow.lightest */
+  --ds-alert-warning-fg: #816e09; /* warning-yellow.darkest */
+  --ds-alert-error-bg: #ffece8; /* danger-red.lightest */
+  --ds-alert-error-fg: #720202; /* danger-red.darkest */
+  --ds-alert-error-accent: #e40a0a; /* danger-red.DEFAULT */
+
+  /* Data display — Table styles the bridged interim (ADS ships no table component).
+   * Same palette as one45-2020s real-app tables (neutrals family). */
+  --ds-table-font-size: 0.875rem;
+  --ds-table-text: #333333; /* neutrals.darker */
+  --ds-table-header-fg: #333333; /* neutrals.darker */
+  --ds-table-header-bg: transparent;
+  --ds-table-header-weight: 700;
+  --ds-table-header-border: #666666; /* between neutrals.dark and neutrals.darker */
+  --ds-table-row-border: #b8b8b8; /* neutrals.light */
+  --ds-table-hover-bg: #f5f5f5; /* neutrals.lighter */
+  --ds-table-selected-bg: #e9ecf6; /* acuity-blue-lightest */
+  --ds-table-caret: #364699; /* acuity-blue.DEFAULT */
+  --ds-table-cell-pad-y: 0.4rem;
+  --ds-table-cell-pad-x: 0.5rem;
+  --ds-table-radius: 0;
+
+  /* Avatar — bridge interim (ADS ships no avatar). Same neutrals as one45-2020s. */
+  --ds-avatar-ring: #b8b8b8; /* neutrals.light */
+  --ds-avatar-card-border: #b8b8b8; /* neutrals.light */
+  --ds-avatar-name-color: #555555; /* neutrals.dark */
+
+  /* Iconography — real ADS icon sizes (same as one45-2020s). */
+  --ds-icon-size-sm: 16px;
+  --ds-icon-size-md: 24px;
+  --ds-iconbtn-size: 38px;
+}
