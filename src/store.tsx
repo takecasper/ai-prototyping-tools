@@ -37,6 +37,35 @@ function loadMaps(): MapRegistry {
   }
 }
 
+// Pure, ordered set of canonical pieces a single prototype has rendered. Extracted
+// from the provider so the accumulate/reset semantics (DE-473) are unit-testable
+// without a DOM or React-effect harness. `register` returns whether the membership
+// changed so the provider only re-renders when the emitted list actually grows;
+// `reset` is called when the active prototype changes so one prototype's usage never
+// leaks into another's "Components missing here" readout.
+export interface UsageTracker {
+  register: (name: CanonicalName) => boolean;
+  reset: () => void;
+  list: () => CanonicalName[];
+}
+
+export function createUsageTracker(): UsageTracker {
+  let set = new Set<CanonicalName>();
+  return {
+    register(name) {
+      if (set.has(name)) return false;
+      set.add(name);
+      return true;
+    },
+    reset() {
+      set = new Set<CanonicalName>();
+    },
+    list() {
+      return Array.from(set);
+    },
+  };
+}
+
 interface Store {
   systemId: SystemId;
   setSystemId: (id: SystemId) => void;
@@ -49,6 +78,9 @@ interface Store {
   setAnnotations: (v: boolean) => void;
   used: CanonicalName[];
   registerUsed: (name: CanonicalName) => void;
+  // Clear the tracked `used` set. Called when the active prototype changes so the
+  // set reflects only the current prototype's components (DE-473).
+  resetUsed: () => void;
 }
 
 const Ctx = createContext<Store | null>(null);
@@ -71,7 +103,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     setCompareId((prev) => (prev === id ? null : prev));
   }, []);
   const [annotations, setAnnotations] = useState(true);
-  const usedRef = useRef<Set<CanonicalName>>(new Set());
+  const trackerRef = useRef<UsageTracker>();
+  if (!trackerRef.current) trackerRef.current = createUsageTracker();
   const [used, setUsed] = useState<CanonicalName[]>([]);
 
   useEffect(() => {
@@ -83,10 +116,17 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, [maps]);
 
   const registerUsed = useCallback((name: CanonicalName) => {
-    if (!usedRef.current.has(name)) {
-      usedRef.current.add(name);
-      setUsed(Array.from(usedRef.current));
+    if (trackerRef.current!.register(name)) {
+      setUsed(trackerRef.current!.list());
     }
+  }, []);
+
+  // Reset tracked usage when the active prototype changes. The PrototypesProvider
+  // drives this (it owns the active id); resetting both the tracker and the emitted
+  // array keeps `used` scoped to the current prototype (DE-473).
+  const resetUsed = useCallback(() => {
+    trackerRef.current!.reset();
+    setUsed([]);
   }, []);
 
   const setMap = useCallback((s: SystemId, n: CanonicalName, t: CanonicalName) => {
@@ -114,8 +154,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       setAnnotations,
       used,
       registerUsed,
+      resetUsed,
     }),
-    [systemId, setSystemId, compareId, maps, annotations, used, setMap, clearMap, registerUsed],
+    [systemId, setSystemId, compareId, maps, annotations, used, setMap, clearMap, registerUsed, resetUsed],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

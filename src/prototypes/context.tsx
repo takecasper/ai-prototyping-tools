@@ -9,11 +9,14 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
+  useRef,
   useState,
   type FC,
   type ReactNode,
 } from "react";
+import { useStore } from "../store";
 
 export interface FlowScreen {
   id: string;
@@ -81,6 +84,22 @@ export function PrototypesProvider({
     },
     [prototypes],
   );
+
+  // When the active prototype changes, reset the store's tracked `used` set so the
+  // Controls "Components missing here" list reflects only the now-active prototype,
+  // not a session-wide union of every prototype visited (DE-473). Skip the initial
+  // mount: there is nothing to clear yet, and clearing here would race the active
+  // screen's own usage registration on first render. The gallery's exclusion of
+  // `used` (resolver only tracks when no explicit `system` is passed) is untouched.
+  const { resetUsed } = useStore();
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
+    resetUsed();
+  }, [activeId, resetUsed]);
 
   const current = history[history.length - 1];
   const currentScreen = active.screens.find((s) => s.id === current) ?? active.screens[0];
