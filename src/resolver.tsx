@@ -17,6 +17,7 @@
 
 import { useEffect, type ReactNode } from "react";
 import {
+  CANONICAL,
   SYSTEMS,
   interimTarget,
   INTERIM_BUILDS,
@@ -26,6 +27,18 @@ import {
 import { useStore, type MapRegistry } from "./store";
 
 export type PieceStatus = "native" | "mapped" | "interim" | "substitute" | "none";
+
+// Pure: how many of the CANONICAL catalogue a system ships natively (everything
+// else bridges to a flagged interim/substitute). Derived from pieceStatus with
+// empty maps so the count can never drift from the resolver's own classifier or
+// be hand-maintained — adding a piece to CANONICAL updates it automatically. Used
+// by the Controls picker to surface a system's real authoring-time coverage.
+const NO_MAPS: MapRegistry = {};
+export function nativeCount(systemId: SystemId): number {
+  return CANONICAL.filter(
+    (c) => pieceStatus(systemId, c.name, NO_MAPS).status === "native",
+  ).length;
+}
 
 // Pure: which outcome a piece resolves to in a given system, and (for mapped /
 // substitute) the target piece. No rendering, no store access — safe to call in
