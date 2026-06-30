@@ -289,6 +289,27 @@ section("acuity-canon List [bridge interim] — flagged build item text + link o
 row("item text neutrals.darker / white", "#333333", WHITE);
 row("item link acuity-blue / white", "#364699", WHITE);
 
+// ── Data display slice — Accordion. The ADS package exports no Accordion, so one45 (2020s)
+// renders the app's react-bootstrap <Accordion> over <Card> (syncJob.jsx) — its header colours are
+// pinned to the real DS Card surface (§4j); legacy renders the real .subheader-sticky.collapsible
+// (collapsibleHeaders.css): navy #27304B label/underline, hover #787C88; acuity-canon bridges a
+// flagged interim. Header label TEXT judged on 4.5; the chevron + the section/underline rule are
+// non-text UI, judged on the 3:1 threshold (1.4.11). The card-header fill is decorative.
+section("one45 (2020s) Accordion [D §4j] — header label + chevron + card border on white");
+row("header label neutrals-darker / white", "#333333", WHITE);
+row("chevron acuity-blue / white", "#364699", WHITE, "(chevron glyph, 3:1 UI)");
+row("card border neutrals-light / white", "#B8B8B8", WHITE, "(decorative 1px card border, 1.4.11)");
+section("one45 legacy Accordion [D] — .subheader-sticky.collapsible label + hover + 2px underline on white");
+row("header label $one45_black / white", "#27304B", WHITE);
+row("header hover #787C88 / white", "#787C88", WHITE);
+row("underline rule $one45_black / white", "#27304B", WHITE, "(2px header rule, 3:1 UI)");
+section("lowfi Accordion [sketch] — greyscale header label + chevron on white");
+row("header label #3a3a3a / white", "#3A3A3A", WHITE);
+row("chevron #6a6a6a / white", "#6A6A6A", WHITE, "(chevron glyph, 3:1 UI)");
+section("acuity-canon Accordion [bridge interim] — flagged build header + chevron on white (package ships no accordion)");
+row("header label neutrals.darker / white", "#333333", WHITE);
+row("chevron acuity-blue / white", "#364699", WHITE, "(chevron glyph, 3:1 UI)");
+
 // ── Acuity Design System (acuity-canon) — brand + semantic families on white, and white
 // on brand (button case). Values sourced from dist/assets/index.css (compiled Tailwind).
 // Light tints (lightest) are backgrounds, not foregrounds — excluded from this set

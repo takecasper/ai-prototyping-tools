@@ -167,6 +167,21 @@ export const SPECIMENS: Partial<Record<CanonicalName, Specimen>> = {
       />
     </div>
   ),
+  // Accordion is native in lowfi / one45-2020s / one45-legacy and a flagged bridge interim in
+  // acuity-canon (the ADS package exports no Accordion). Single-open by default — opening one
+  // panel closes the others; the first panel starts open. In acuity-canon the whole accordion
+  // carries the per-bridge "AI approx" flag.
+  Accordion: (system) => (
+    <Canonical
+      name="Accordion"
+      system={system}
+      items={[
+        { header: "Eligibility", body: <p className="proto__text">Applicants must have completed the prerequisite coursework and hold a valid registration.</p>, defaultOpen: true },
+        { header: "Required documents", body: <p className="proto__text">A transcript, two references, and a personal statement are submitted through the portal.</p> },
+        { header: "Key dates", body: <p className="proto__text">Applications open in September and close at the end of November.</p> },
+      ]}
+    />
+  ),
   Image: { w: 240, h: 120, label: "Image" },
   // Real DS icon-name vocabulary at both sizes, plus two semantic tones. The glyph is a
   // token-sized stand-in (the DS icon fonts are not vendored — see systems.tsx / README).

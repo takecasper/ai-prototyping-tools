@@ -498,6 +498,33 @@ both poles as a pure token swap; the divergence is **inventory** (neither DS shi
 
 ---
 
+## Data display — enshrined slice (Accordion) [D]
+
+Fifth data-display piece (2026-06-30), the second structural-divergence case after Tabs. **Legacy owns
+a real, distinct accordion — `.subheader-sticky.collapsible`** (`webeval collapsibleHeaders.js` +
+`collapsibleHeaders.css`; the canonical example is `admin/pages/classes/curricGroups.php`). A sticky
+`<h2>` header carries a **2px `#27304B` underline** (border-bottom, NOT a card border), a navy `#27304B`
+bold 1.2rem label, white background, and a right-floated chevron (`i.angle.right.icon`) that **rotates
+90° open**; the `.section-content` body is hidden by a `.closed` modifier and sections sit 15px apart
+(`.closed` margin). Hover swaps the label/rule to `#787C88`. So Accordion is **native** here.
+
+**A second, simpler disclosure exists** — the `collapsible_section` tag (`[+] show` / `[-] hide` links,
+`admin/pages/classes/tags/collapsible_section.php`) — but it is a one-region show/hide, not the
+multi-section accordion; the `.collapsible` pattern is the enshrined general accordion.
+
+**Tokens enshrined** (`--ds-accordion-*`, the underline-header model — an `app.css` structural override,
+the Tabs precedent): label `$one45_black` **#27304B** bold 1.2rem over a 2px `#27304B` rule, chevron
+`#27304B`, hover **#787C88**, header pad 16px/0/5px, sections 15px apart. **Computed contrast**
+(`contrast.mjs`, "one45 legacy Accordion"): label/underline `#27304B`/white **13.04** (AAA); hover
+`#787C88`/white **4.17** — fails AA as normal text, but the header is **1.2rem bold = large text**, judged
+on 3:1, which it passes. **Intent-vs-reality [R]:** not separately re-captured (renders in curriculum
+admin chrome, not a DS gallery); values are `[D]`-sourced from the CSS. One canonical API (`items` +
+`single?`) holds across both poles, but the **skin diverges structurally** (legacy underline vs 2020s
+card — the Tabs case), and the divergence is **inventory on both poles** (neither DS ships an Accordion
+*component*). (See `01` for the one45-2020s react-bootstrap reality and reconciliation map §4m.)
+
+---
+
 ## Carry-forward verdict
 
 The legacy brand is a **migration source, not a target** — it is being replaced by

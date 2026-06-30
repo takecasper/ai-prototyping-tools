@@ -28,7 +28,7 @@
 // This is the anatomy-divergence question, exercised on two real systems rather than
 // toy ones. (Sourced: shared/one45-design-systems/03 §4d/§4e.)
 
-import { useEffect, useId, useRef, type ComponentType, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ComponentType, type ReactNode } from "react";
 import { placeholderImage } from "./placeholder";
 import {
   Button as ADSButton,
@@ -86,7 +86,15 @@ export type CanonicalName =
   // ad-hoc <ul>/<ol> reality (the Table precedent); native in one45-legacy (the real
   // .list-widget) + lowfi. The Acuity DS package ships no List either, so acuity-canon
   // bridges it (INTERIM_BUILDS, flagged) — the Table mirror.
-  | "List";
+  | "List"
+  // Accordion is the data-display collapsible-sections piece (single-open by default;
+  // `single={false}` for independent collapsibles). Native in all three non-canon systems,
+  // each a genuine status quo: one45-legacy the real .subheader-sticky.collapsible pattern
+  // (collapsibleHeaders.js/.css — navy underline header + rotating chevron), one45-2020s the
+  // app's react-bootstrap <Accordion> over <Card> (syncJob.jsx — the Table native-via-vendor
+  // precedent), lowfi the sketch. The Acuity DS package exports no Accordion, so acuity-canon
+  // bridges it (INTERIM_BUILDS, flagged) — the Table/List mirror.
+  | "Accordion";
 export type SystemId = "lowfi" | "one45-2020s" | "one45-legacy" | "acuity-canon";
 
 // The documentation slices the gallery groups by. New canonical pieces slot into
@@ -144,6 +152,7 @@ export const CANONICAL: CanonicalDef[] = [
   { name: "Table", label: "Table", category: "Data display", description: "Data table with sortable columns + optional row selection", props: "columns, rows, rowKey?, sort?, onSort?, selectable?, selected?, onSelectionChange?, empty?, caption?", notes: "columns: {key, header, align?, width?, sortable?, cell?}[]; table-wide sort — onSort(key) toggles; selectable adds a bulk-select column (select-all header); native in all three. The Acuity DS ships NO table component ([R] — real app tables inherit base type only over react-table), so its skin reproduces that minimal reality; legacy carries the real _tables.scss skin. One canonical API + pure token swap — the predicted data-grid API break did not happen" },
   { name: "Avatar", label: "Avatar", category: "Data display", description: "Person photo — inline circle or yearbook card; legacy-only (bridge fills one45-2020s)", props: "personName, src?, shape?, size?", notes: "personName (NOT name — name selects the canonical piece, like Icon's iconName); src? falls back to a placeholder image; shape: circle (default) / card; size: sm (default) / lg — circle only (the card is a fixed thumbnail). Legacy-only: the real circle is .profile-img (25/60px, 2px ring), the card is the webeval .photo yearbook tile (75×98 img, #bbb border, name caption). The Acuity DS ships NO avatar → one45-2020s resolves a flagged bridge build (the Breadcrumb mirror). No initials fallback — a missing photo shows a placeholder IMAGE (the real blank.gif / person_outline.gif reality), never a monogram" },
   { name: "List", label: "List", category: "Data display", description: "Vertical item list — bulleted, numbered, or plain (items as text or links)", props: "items, variant?", notes: "items: string[] or {label, href?}[]; variant: bulleted (default, disc) / numbered (ordered, decimal) / plain (no marker). Native-minimal in one45-2020s (the Acuity DS ships no List component — real app uses ad-hoc <ul>/<ol>), native in one45-legacy (the real .list-widget — list-style none, 25px indent, link items) + lowfi; acuity-canon bridges a flagged interim (the package ships no List). One canonical API, pure token swap" },
+  { name: "Accordion", label: "Accordion", category: "Data display", description: "Collapsible sections — single-open by default, or independent panels", props: "items, single?", notes: "items: {header, body, defaultOpen?}[]; single (default true) opens one panel at a time (the 2020s react-bootstrap defaultActiveKey model), single={false} lets every section toggle independently (the legacy collapsibleHeaders model). Native in all three non-canon systems — legacy the real .subheader-sticky.collapsible underline-header + rotating chevron (collapsibleHeaders.css), one45-2020s the app's react-bootstrap Accordion-over-Card (the Table native-via-vendor precedent), lowfi the sketch; acuity-canon bridges a flagged interim (the ADS package exports no Accordion). One canonical API; legacy keeps its structural underline-header skin (the Tabs precedent)" },
   { name: "Image", label: "Image", category: "Media", description: "Placeholder image (placehold.co)", props: "w, h, label?", notes: "never commit binary image files" },
   { name: "Icon", label: "Icon", category: "Media", description: "Named icon (real DS name/size vocabulary)", props: "iconName, size?, altText?, tone?", notes: "size: small / medium; iconName is the real DS vocabulary (add, edit, delete, checkCircle, warning…); tone: success / warning / error / info; renders a token-sized stand-in glyph — real glyph artwork is a recorded asset gap (no DS icon font is vendored)" },
 ];
@@ -702,6 +711,75 @@ const List: Skin = ({ items, variant }) => {
   );
 };
 
+// ---- Data display: Accordion (collapsible sections; single-open default) ----
+// Sourced [D]: one45-legacy renders the real .subheader-sticky.collapsible pattern
+// (webeval collapsibleHeaders.js/.css — a sticky <h2> with a 2px #27304B underline, navy
+// #27304B bold label, a right-floated chevron that rotates 90° open, and a .section-content
+// body hidden by a .closed modifier; example curricGroups.php); one45-2020s renders the
+// app's react-bootstrap <Accordion> over <Card> (syncJob.jsx — Accordion.Toggle as
+// Card.Header + Accordion.Collapse, defaultActiveKey single-open), the Table native-via-vendor
+// precedent. The Acuity DS package exports no Accordion (index.d.ts), so acuity-canon bridges a
+// flagged interim (INTERIM_BUILDS) — the Table/List mirror. One canonical API; like Tabs the
+// look is per-system (legacy underline header vs 2020s/lowfi card) so the skin reads a structural
+// override in app.css. See shared/one45-design-systems/01/02 L "Data display", 03 §4m.
+const Accordion: Skin = ({ items, single }) => {
+  const list = Array.isArray(items) ? items : [];
+  const singleOpen = single !== false; // default true — one panel at a time
+  const baseId = useId();
+  const [open, setOpen] = useState<Set<number>>(() => {
+    const set = new Set<number>();
+    list.forEach((it: any, i: number) => {
+      if (it && typeof it === "object" && it.defaultOpen) set.add(i);
+    });
+    // Single-open must not start with two panels open: keep the first defaultOpen only.
+    if (singleOpen && set.size > 1) return new Set<number>([Math.min(...set)]);
+    return set;
+  });
+  const toggle = (i: number) => {
+    setOpen((prev) => {
+      const next = new Set(prev);
+      if (next.has(i)) {
+        next.delete(i);
+      } else {
+        if (singleOpen) next.clear();
+        next.add(i);
+      }
+      return next;
+    });
+  };
+  return (
+    <div className="sk-accordion">
+      {list.map((it: any, i: number) => {
+        const header = typeof it === "object" ? it.header : it;
+        const body = typeof it === "object" ? it.body : undefined;
+        const isOpen = open.has(i);
+        const hid = `${baseId}-h-${i}`;
+        const pid = `${baseId}-p-${i}`;
+        return (
+          <div className={isOpen ? "sk-acc__section is-open" : "sk-acc__section"} key={i}>
+            <h3 className="sk-acc__heading">
+              <button
+                type="button"
+                id={hid}
+                className="sk-acc__trigger"
+                aria-expanded={isOpen}
+                aria-controls={pid}
+                onClick={() => toggle(i)}
+              >
+                <span className="sk-acc__label">{String(header)}</span>
+                <span className="sk-acc__chevron" aria-hidden="true">›</span>
+              </button>
+            </h3>
+            <div id={pid} role="region" aria-labelledby={hid} className="sk-acc__panel" hidden={!isOpen}>
+              {body}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 // ---- Data display: Avatar (legacy-only → one45-2020s bridges; both shape variants) ----
 // Sourced [D] from the legacy code: TWO real person-photo shapes, kept as ONE canonical
 // Avatar with a `shape` variant (Spencer's call — "Both as variants"):
@@ -1125,7 +1203,7 @@ const FEEDBACK_CONTROLS = { Modal };
 // (the real .list-widget) + lowfi, a flagged bridge interim in acuity-canon (the Table mirror —
 // the package ships no List). One canonical API (items + variant), pure token swap. The rest of
 // the data-display group (accordion, tree, timeline, stat, code block, key-value) is a follow-up.
-const DATA_DISPLAY = { Table, List };
+const DATA_DISPLAY = { Table, List, Accordion };
 
 export const SYSTEMS: Record<SystemId, DesignSystem> = {
   lowfi: {
@@ -1207,6 +1285,8 @@ export const SYSTEM_IDS = Object.keys(SYSTEMS) as SystemId[];
 //               to acuity-blue/Lato so the flagged interim reads on-brand).
 //   List        no DS-component piece      → built (flagged) for acuity-canon (the Table
 //               mirror — the Acuity DS package ships no List; native in the other three).
+//   Accordion   no DS-component piece      → built (flagged) for acuity-canon (the Table/List
+//               mirror — the ADS package exports no Accordion; native in the other three).
 // A piece NOT listed here (e.g. Badge in legacy + lowfi) still falls back to the cruder
 // first-native substitution below, so both bridge behaviours stay observable.
 export const INTERIM_BUILDS: Partial<Record<CanonicalName, Skin>> = {
@@ -1217,6 +1297,7 @@ export const INTERIM_BUILDS: Partial<Record<CanonicalName, Skin>> = {
   SearchField,
   Table,
   List,
+  Accordion,
   Image: BrandImage,
 };
 

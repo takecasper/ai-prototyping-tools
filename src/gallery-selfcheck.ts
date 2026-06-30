@@ -28,7 +28,10 @@ let ran = false;
 //   List    no DS-component piece (neither DS ships a List) → native-minimal one45-2020s,
 //           native legacy (.list-widget) + lowfi, acuity-canon bridge (INTERIM_BUILDS) — the
 //           Table mirror.
-const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar" | "Breadcrumb" | "List"; system: (typeof SYSTEM_IDS)[number]; expect: PieceStatus }> = [
+//   Accordion no DS-component piece (the ADS package exports none) → native legacy
+//           (.subheader-sticky.collapsible), native-via-vendor one45-2020s (react-bootstrap
+//           Accordion-over-Card) + lowfi, acuity-canon bridge (INTERIM_BUILDS) — the Table/List mirror.
+const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar" | "Breadcrumb" | "List" | "Accordion"; system: (typeof SYSTEM_IDS)[number]; expect: PieceStatus }> = [
   { name: "Alert", system: "one45-2020s", expect: "native" },
   { name: "Alert", system: "one45-legacy", expect: "native" },
   { name: "Alert", system: "lowfi", expect: "interim" },
@@ -46,6 +49,10 @@ const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar" | "Breadcrumb" | "Lis
   { name: "List", system: "one45-legacy", expect: "native" },
   { name: "List", system: "lowfi", expect: "native" },
   { name: "List", system: "acuity-canon", expect: "interim" },
+  { name: "Accordion", system: "one45-2020s", expect: "native" },
+  { name: "Accordion", system: "one45-legacy", expect: "native" },
+  { name: "Accordion", system: "lowfi", expect: "native" },
+  { name: "Accordion", system: "acuity-canon", expect: "interim" },
 ];
 
 export function runGallerySelfCheck(): void {

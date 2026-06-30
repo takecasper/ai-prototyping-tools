@@ -365,6 +365,91 @@ body {
   text-decoration: underline;
 }
 
+/* ---- Data display: Accordion (token-driven; collapsible sections) ----
+ * One canonical API (items {header, body, defaultOpen?} + single?, single-open by default) re-skinned
+ * by the --ds-accordion-* tokens. The BASE is the card model (one45-2020s + acuity-canon + lowfi:
+ * bordered sections, a filled header row, a chevron that rotates 90° open) — the real 2020s app renders
+ * react-bootstrap <Accordion> over <Card> (syncJob.jsx). Like Tabs the look is per-system, so
+ * one45-legacy OVERRIDES to its real underline-header model below (.subheader-sticky.collapsible —
+ * a 2px navy rule under a sticky header, no card box). See 01/02 L "Data display", 03 §4m. */
+.sk-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-accordion-section-gap, 0.5rem);
+}
+.sk-acc__section {
+  border: var(--ds-accordion-border-width) solid var(--ds-accordion-border);
+  border-radius: var(--ds-accordion-radius);
+  overflow: hidden;
+  background: var(--ds-accordion-surface, var(--ds-surface));
+}
+.sk-acc__heading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+.sk-acc__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--ds-accordion-header-pad);
+  border: 0;
+  background: var(--ds-accordion-header-bg);
+  color: var(--ds-accordion-header-fg);
+  font-family: inherit;
+  font-size: var(--ds-accordion-header-font-size, 1rem);
+  font-weight: var(--ds-accordion-header-weight, 600);
+  text-align: left;
+  cursor: pointer;
+}
+.sk-acc__trigger:hover {
+  color: var(--ds-accordion-header-fg-hover);
+}
+.sk-acc__chevron {
+  flex: none;
+  color: var(--ds-accordion-chevron);
+  transform: rotate(0deg);
+  transition: transform var(--ds-motion-fast) var(--ds-motion-ease);
+}
+.sk-acc__section.is-open .sk-acc__chevron {
+  transform: rotate(90deg);
+}
+.sk-acc__panel {
+  padding: var(--ds-accordion-panel-pad);
+  color: var(--ds-fg);
+  border-top: var(--ds-accordion-border-width) solid var(--ds-accordion-border);
+}
+.sk-acc__panel[hidden] {
+  display: none;
+}
+
+/* one45-legacy structural override — the real .subheader-sticky.collapsible underline model
+ * (collapsibleHeaders.css): no card border/radius/header-fill, a 2px navy rule UNDER the header,
+ * sections spaced by the --ds-accordion-section-gap (the .closed margin). The Tabs precedent. */
+:root[data-ds="one45-legacy"] .sk-acc__section,
+[data-ds="one45-legacy"] .sk-acc__section {
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
+}
+:root[data-ds="one45-legacy"] .sk-acc__trigger,
+[data-ds="one45-legacy"] .sk-acc__trigger {
+  border-bottom: var(--ds-accordion-border-width) solid var(--ds-accordion-border);
+}
+:root[data-ds="one45-legacy"] .sk-acc__trigger:hover,
+[data-ds="one45-legacy"] .sk-acc__trigger:hover {
+  border-bottom-color: var(--ds-accordion-header-fg-hover);
+}
+:root[data-ds="one45-legacy"] .sk-acc__panel,
+[data-ds="one45-legacy"] .sk-acc__panel {
+  border-top: 0;
+}
+
 /* ---- Data display: Avatar (legacy-only → one45-2020s bridges; both shape variants) ----
  * Two real legacy person-photo shapes enshrined as one canonical Avatar with a `shape`
  * variant (Spencer's call): the inline CIRCLE (.profile-img — 25/60px, 2px ring,

@@ -465,6 +465,48 @@ contrast failures. Tokens `--ds-list-*`; pattern `src/prototypes/rotation-checkl
 + bulleted assessments → plain link list), browser-verified across all four systems with the
 annotations toggle on (acuity-canon flagged "AI approx") and off (all plain) — native never flagged.
 
+## 4m. Data display slice — Accordion enshrined 2026-06-30 [D][R]
+
+Fifth data-display piece, and the second structural-divergence case after Tabs. **Neither
+system ships a dedicated Accordion component** — the third inventory-gap-on-both-poles piece
+after Table and List — but each renders collapsible sections, by different mechanisms:
+
+- **one45-legacy — native.** A real authored pattern: `.subheader-sticky.collapsible`
+  (`collapsibleHeaders.js` + `collapsibleHeaders.css`, example `curricGroups.php`). A sticky `<h2>`
+  header carries a **2px `#27304B` underline** (border-bottom, NOT a card border), a navy
+  `#27304B` bold 1.2rem label, white background, and a right-floated chevron that **rotates 90° open**;
+  the `.section-content` body is hidden by a `.closed` modifier and sections sit 15px apart
+  (`.closed` margin). Hover swaps the label/rule to `#787C88`.
+- **one45-2020s — native-via-vendor.** The app renders **react-bootstrap** `<Accordion>` over
+  `<Card>` (`syncJob.jsx:2-71` — `Accordion.Toggle` as `Card.Header` + `Accordion.Collapse` +
+  `useAccordionToggle`, `defaultActiveKey` single-open). The Acuity DS package exports no Accordion
+  (`index.d.ts`), so this is the **Table precedent**: a real status quo built from a vendor lib, not
+  a DS component. The skin reproduces the bootstrap card-accordion, its colours pinned to the real
+  DS Card surface (§4j): `#B8B8B8` border, 8px radius, `#333` label, `#364699` chevron.
+- **lowfi** — greyscale sketch card. **acuity-canon** — the **package** ships no Accordion, so it
+  resolves through the bridge to a flagged interim (`INTERIM_BUILDS`) — the **Table/List mirror**.
+
+One canonical API (`items` {header, body, defaultOpen?} + `single?`, single-open by default — the
+2020s `defaultActiveKey` model; `single={false}` gives the legacy independent-collapsibles model).
+**Computed contrast** (`contrast.mjs`): legacy label/underline `#27304B`/white **13.04** (AAA) +
+hover `#787C88` **4.17** (fails AA as normal text, but the header is **1.2rem bold = large text**,
+judged on 3:1, which it passes); 2020s + acuity-canon label `#333` **12.63** (AAA) + chevron
+`#364699` **8.42** (AAA); lowfi label `#3a3a3a` **11.37**. The `#B8B8B8` card border is a thin
+decorative 1px rule (1.98, flagged 1.4.11). No new AA-text failures. Tokens `--ds-accordion-*`;
+pattern `src/prototypes/curriculum-groups/` (single-open groups → an independent-panel planner,
+mirroring `curricGroups.php`), browser-verified across all four systems with the annotations toggle
+on (acuity-canon flagged "AI approx") and off (all plain) — native never flagged.
+
+**Anatomy result [D][R] — the Tabs case repeats: API survives, skin diverges structurally.** The
+single canonical API absorbs both the 2020s react-bootstrap single-open accordion and the legacy
+independent collapsibles, but the **pure token-swap does NOT** hold — legacy is an underline-header
+accordion and 2020s/lowfi/acuity-canon are card accordions, structurally different and rendered
+per-system (`app.css`), exactly like Tabs (underline vs box). The divergence is **inventory on both
+poles** (axis b — neither DS owns an Accordion component; the 2020s borrows react-bootstrap, legacy
+authored its own CSS pattern), plus the structural skin split. Rule honoured: each system's real
+mechanism is reproduced accurately, neither flattened to force a tidier token-swap story nor
+fabricated where the DS package ships nothing.
+
 ## 5. Convergence read [I]
 
 The divergence between the two systems is **largely token/brand at the API level** —

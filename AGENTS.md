@@ -79,7 +79,7 @@ The pieces, by slice:
 - **Actions & containers** — Button, Card, IconButton
 - **Inputs & controls** — TextField, Textarea, Select, Checkbox, Radio, Toggle, SearchField
 - **Navigation** — Tabs, Link, Breadcrumb
-- **Data display** — Table, Avatar, List
+- **Data display** — Table, Avatar, List, Accordion
 - **Feedback & status** — Badge, Alert, Modal
 - **Media** — Image, Icon
 
@@ -134,6 +134,17 @@ paints black, so list text is body, not brand) and `legacy` renders the real `.l
 ships no List either, so `acuity-canon` resolves it through the bridge to a flagged interim — the
 mirror of `Table`. One canonical API + a **pure token swap**. Build list items from the `items`
 prop, never raw `<ul>`/`<li>` markup. See `shared/one45-design-systems/01`/`02` L "Data display" / §4l.
+
+**Accordion** is the data-display group's fifth piece — collapsible sections (`items`: `{header,
+body, defaultOpen?}[]`; `single?` — single-open by default, `single={false}` for independent
+panels). It is present in all three One45 systems and **never** bridges there: **neither DS ships an
+Accordion component**, so `one45-2020s` renders the app's real react-bootstrap `<Accordion>`-over-`<Card>`
+reality (the Table native-via-vendor precedent) and `legacy` renders the real `.subheader-sticky.collapsible`
+underline-header pattern (`collapsibleHeaders.css`); `lowfi` is the sketch. Like **Tabs**, the API
+survives but the **skin is per-system** (2020s card vs legacy underline). The **Acuity Design System
+package** ships no Accordion either, so `acuity-canon` resolves it through the bridge to a flagged
+interim — the mirror of `Table`/`List`. Put `<Canonical>` pieces inside the `body`, never raw markup.
+See `shared/one45-design-systems/01`/`02` L "Data display" / §4m.
 
 The Feedback & status pieces:
 

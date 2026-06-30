@@ -201,6 +201,26 @@
   --ds-list-indent: 1.25rem; /* left padding for the marker hang */
   --ds-list-font-size: 1rem;
 
+  /* ---- data display (the Data display slice — Accordion) ----
+   * Generic fallbacks (the card-accordion model); each system overrides below from its real,
+   * sourced values. Accordion is collapsible sections. one45-2020s + acuity-canon render the
+   * card model (react-bootstrap Accordion-over-Card); one45-legacy overrides to its underline
+   * header model (.subheader-sticky.collapsible, the Tabs structural precedent). See 01/02 L
+   * "Data display", 03 §4m. */
+  --ds-accordion-header-fg: var(--ds-fg); /* header label ink */
+  --ds-accordion-header-fg-hover: var(--ds-fg); /* header label on hover */
+  --ds-accordion-header-bg: #f7f7f7; /* header row fill (card model) */
+  --ds-accordion-surface: var(--ds-surface); /* open panel fill */
+  --ds-accordion-border: var(--ds-border); /* section border / divider */
+  --ds-accordion-border-width: 1px; /* section border thickness */
+  --ds-accordion-radius: var(--ds-radius); /* card corner radius */
+  --ds-accordion-chevron: var(--ds-fg-muted); /* chevron ink */
+  --ds-accordion-header-pad: 0.75rem 1rem; /* header row padding */
+  --ds-accordion-panel-pad: 0.75rem 1rem 1rem; /* open panel padding */
+  --ds-accordion-section-gap: 0.5rem; /* gap between sections (card model) */
+  --ds-accordion-header-font-size: 1rem; /* header label size */
+  --ds-accordion-header-weight: 600; /* header label weight */
+
   /* ---- data display (the Data display slice — Avatar) ----
    * Generic fallbacks; legacy overrides below from its real sourced values (it owns the
    * only real avatars), one45-2020s sets bridge-interim values (the DS ships no avatar), lowfi
@@ -401,6 +421,23 @@
   --ds-list-gap: 12px; /* ds-gap-3 [D] main.jsx:318 */
   --ds-list-indent: 16px; /* ds-ml-4 / ds-pl-4 [D] privacyPolicyEn.jsx:79 */
   --ds-list-font-size: 16px; /* ds-text-base [D] */
+
+  /* Accordion — the Acuity DS ships no Accordion component; the real 2020s app renders
+   * react-bootstrap <Accordion> over <Card> (syncJob.jsx:2-71 — Accordion.Toggle as Card.Header
+   * + Accordion.Collapse) [D]. The card structure is react-bootstrap's; the colours are pinned
+   * to the real DS Card surface (§4j [R]): neutrals-light #B8B8B8 border, ds-rounded-lg 8px
+   * radius, neutrals-darker #333 header label (12.63 AAA), acuity-blue #364699 chevron. The
+   * exact rendered card-header tint was not separately [R]-captured (recorded gap, the §4j Card
+   * precedent) — the bootstrap rgba(0,0,0,.03) flattened to #f7f7f7. */
+  --ds-accordion-header-fg: #333333; /* neutrals-darker label [D §4j] */
+  --ds-accordion-header-fg-hover: #333333;
+  --ds-accordion-header-bg: #f7f7f7; /* bootstrap card-header rgba(0,0,0,.03) flattened [D] (gap: not [R]) */
+  --ds-accordion-border: #b8b8b8; /* neutrals-light, the DS Card border [§4j R] */
+  --ds-accordion-border-width: 1px;
+  --ds-accordion-radius: 8px; /* ds-rounded-lg, the DS Card radius [§4j R] */
+  --ds-accordion-chevron: #364699; /* acuity-blue [D] */
+  --ds-accordion-header-pad: 0.75rem 1.25rem; /* bootstrap card-header .75rem 1.25rem [D] */
+  --ds-accordion-panel-pad: 1rem 1.25rem; /* bootstrap card-body 1.25rem [D] */
 
   /* Avatar — the Acuity DS ships NO avatar/profile-photo component ([D] the DS demo page
    * enumerates every component — designSystemTest/main.jsx:3-23 — and has none; zero island
@@ -618,6 +655,28 @@
   --ds-list-indent: 25px; /* $inline_list_spacing_unit [D] _constants.scss:15 */
   --ds-list-font-size: 1rem;
 
+  /* Accordion — [D] the real .subheader-sticky.collapsible pattern (webeval
+   * collapsibleHeaders.css + .js; example curricGroups.php): a sticky <h2> header with a 2px
+   * #27304B underline (border-bottom, NOT a card border), navy #27304B bold label (13.04 AAA on
+   * white), white bg, a right-floated chevron that rotates 90° open; hover swaps to #787C88
+   * (4.17 on white — fails AA as normal text, but the header is 1.2rem BOLD = large text, judged
+   * on 3:1, which it passes; computed contrast.mjs). The body (.section-content) is .closed-hidden;
+   * sections sit 15px apart (.closed margin-bottom). This is the structural divergence (the Tabs
+   * precedent): legacy is an UNDERLINE-header accordion, not a card — app.css overrides the box
+   * model; the radius/border-width/header-bg tokens here drive that override. */
+  --ds-accordion-header-fg: #27304b; /* $one45_black [D] 13.04 AAA */
+  --ds-accordion-header-fg-hover: #787c88; /* hover grey [D] 4.30 AA */
+  --ds-accordion-header-bg: #ffffff; /* white header [D] */
+  --ds-accordion-border: #27304b; /* the 2px underline rule [D] */
+  --ds-accordion-border-width: 2px; /* [D] */
+  --ds-accordion-radius: 0; /* underline model, no card radius [D] */
+  --ds-accordion-chevron: #27304b; /* matches the navy label [D] */
+  --ds-accordion-header-pad: 16px 0 5px; /* padding-top 16px / -bottom 5px [D] */
+  --ds-accordion-panel-pad: 0.75rem 0 1rem; /* content sits under the header rule */
+  --ds-accordion-section-gap: 15px; /* .closed margin-bottom [D] */
+  --ds-accordion-header-font-size: 1.2rem; /* [D] */
+  --ds-accordion-header-weight: 700; /* bold [D] */
+
   /* Avatar — [D] the real legacy person-photo widgets (legacy owns the only real avatars).
    * Circle = the inline people-picker .profile-img: 25×25 (sm) / 60×60 (lg), border 2px,
    * border-radius circular ([D] WidgetBundle _list_picker.scss:26-31,41-54). The .profile-img
@@ -797,6 +856,18 @@
   --ds-list-indent: 1.25rem;
   --ds-list-font-size: 0.95rem;
 
+  /* Accordion — greyscale sketch (no brand). A pencil-grey card: dashed-ink header label,
+   * #6a6a6a borders, ink chevron. Reads by ink, not hue — the lowfi convention. */
+  --ds-accordion-header-fg: #3a3a3a;
+  --ds-accordion-header-fg-hover: #3a3a3a;
+  --ds-accordion-header-bg: #f4f4f4;
+  --ds-accordion-border: #6a6a6a;
+  --ds-accordion-border-width: 1px;
+  --ds-accordion-radius: 3px;
+  --ds-accordion-chevron: #6a6a6a;
+  --ds-accordion-header-pad: 0.6rem 0.85rem;
+  --ds-accordion-panel-pad: 0.7rem 0.85rem 0.9rem;
+
   /* Avatar — deliberate greyscale sketch. lowfi is not a status-quo system, so these are
    * hand-authored sketch values; LowfiAvatar draws a dashed circle / sketch image box (the
    * sk-img--lowfi idiom, app.css per-system rule) instead of loading a placeholder photo. */
@@ -921,6 +992,19 @@
   --ds-list-gap: 12px;
   --ds-list-indent: 16px;
   --ds-list-font-size: 16px;
+
+  /* Accordion — bridge interim (the ADS package exports no Accordion). The card model in the
+   * ADS Card surface family (§4j): neutrals-light #B8B8B8 border, 8px ds-rounded-lg radius,
+   * neutrals-darker #333 label, acuity-blue #364699 chevron. The resolver flags it "AI approx". */
+  --ds-accordion-header-fg: #333333; /* neutrals.darker */
+  --ds-accordion-header-fg-hover: #333333;
+  --ds-accordion-header-bg: #f7f7f7;
+  --ds-accordion-border: #b8b8b8; /* neutrals.light */
+  --ds-accordion-border-width: 1px;
+  --ds-accordion-radius: 8px; /* ds-rounded-lg */
+  --ds-accordion-chevron: #364699; /* acuity-blue.DEFAULT */
+  --ds-accordion-header-pad: 0.75rem 1.25rem;
+  --ds-accordion-panel-pad: 1rem 1.25rem;
 
   /* Avatar — bridge interim (ADS ships no avatar). Same neutrals as one45-2020s. */
   --ds-avatar-ring: #b8b8b8; /* neutrals.light */
