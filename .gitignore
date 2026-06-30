@@ -36,6 +36,9 @@
 !/src/**
 !/tsconfig.json
 !/vite.config.ts
+!/figma.config.json
+!/code-connect/
+!/code-connect/**
 /node_modules/
 /dist/
 

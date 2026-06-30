@@ -1,0 +1,7 @@
+{
+  "codeConnect": {
+    "parser": "react",
+    "include": ["code-connect/**/*.figma.tsx"],
+    "exclude": ["node_modules/**", "src/**", "dist/**"]
+  }
+}
