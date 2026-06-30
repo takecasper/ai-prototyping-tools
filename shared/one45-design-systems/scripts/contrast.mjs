@@ -329,6 +329,23 @@ section("acuity-canon Tree [bridge interim] — flagged build node + chevron on 
 row("node label neutrals.darker / white", "#333333", WHITE);
 row("chevron acuity-blue / white", "#364699", WHITE, "(chevron glyph, 3:1 UI)");
 
+// ── Data display slice — Timeline. one45-2020s-only (the EPA status-history, _history.scss); legacy
+// + acuity-canon bridge a flagged interim. Date + title TEXT judged on 4.5; the marker dot is a
+// non-text UI element judged on 3:1 (1.4.11).
+section("one45 (2020s) Timeline [D] — entry date + title + marker on white");
+row("entry date muted-fg / white", "#5F5F5F", WHITE, "(.history #5F5F5F header [D])");
+row("entry title neutrals-darker / white", "#333333", WHITE);
+row("marker acuity-blue / white", "#364699", WHITE, "(rail dot, 3:1 UI)");
+section("one45 legacy Timeline [bridge interim] — flagged build title + marker on white (legacy ships no history)");
+row("entry title $one45_black / white", "#27304B", WHITE);
+row("marker $primary_purple / white", "#42507D", WHITE, "(rail dot, 3:1 UI)");
+section("lowfi Timeline [sketch] — greyscale title + marker on white");
+row("entry title #3a3a3a / white", "#3A3A3A", WHITE);
+row("marker #3a3a3a / white", "#3A3A3A", WHITE, "(rail dot, 3:1 UI)");
+section("acuity-canon Timeline [bridge interim] — flagged build title + marker on white (package ships no timeline)");
+row("entry title neutrals.darker / white", "#333333", WHITE);
+row("marker acuity-blue / white", "#364699", WHITE, "(rail dot, 3:1 UI)");
+
 // ── Acuity Design System (acuity-canon) — brand + semantic families on white, and white
 // on brand (button case). Values sourced from dist/assets/index.css (compiled Tailwind).
 // Light tints (lightest) are backgrounds, not foregrounds — excluded from this set

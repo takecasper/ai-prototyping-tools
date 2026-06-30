@@ -213,6 +213,16 @@ export const SPECIMENS: Partial<Record<CanonicalName, Specimen>> = {
       ]}
     />
   ),
+  // Timeline is one45-2020s-only: native in one45-2020s + lowfi (sketch), a flagged bridge interim
+  // in one45-legacy + acuity-canon (neither ships a history/timeline). Dated entries down a marker
+  // rail — the modern app's EPA status-history surface.
+  Timeline: {
+    entries: [
+      { date: "12 Mar", title: "Assessment submitted", description: "Mini-CEX submitted for review.", status: "Complete" },
+      { date: "14 Mar", title: "Feedback returned", description: "Preceptor returned feedback and a rating.", status: "Reviewed" },
+      { date: "20 Mar", title: "Sign-off pending", description: "Awaiting final supervisor sign-off.", status: "In progress" },
+    ],
+  },
   Image: { w: 240, h: 120, label: "Image" },
   // Real DS icon-name vocabulary at both sizes, plus two semantic tones. The glyph is a
   // token-sized stand-in (the DS icon fonts are not vendored — see systems.tsx / README).

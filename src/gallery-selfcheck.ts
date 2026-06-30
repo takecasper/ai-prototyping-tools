@@ -34,7 +34,10 @@ let ran = false;
 //   Tree    no DS-component piece (the ADS package exports none) → native legacy (jQuery dynatree),
 //           native one45-2020s (the indented tree-table mappingTable) + lowfi, acuity-canon bridge
 //           (INTERIM_BUILDS) — the Table/List/Accordion mirror.
-const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar" | "Breadcrumb" | "List" | "Accordion" | "Tree"; system: (typeof SYSTEM_IDS)[number]; expect: PieceStatus }> = [
+//   Timeline one45-2020s-only (the modern app's EPA status-history; legacy/webeval ships none) →
+//           native one45-2020s + lowfi, INTERIM_BUILDS bridge for one45-legacy + acuity-canon — the
+//           inverse of legacy-only Avatar.
+const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar" | "Breadcrumb" | "List" | "Accordion" | "Tree" | "Timeline"; system: (typeof SYSTEM_IDS)[number]; expect: PieceStatus }> = [
   { name: "Alert", system: "one45-2020s", expect: "native" },
   { name: "Alert", system: "one45-legacy", expect: "native" },
   { name: "Alert", system: "lowfi", expect: "interim" },
@@ -60,6 +63,10 @@ const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar" | "Breadcrumb" | "Lis
   { name: "Tree", system: "one45-legacy", expect: "native" },
   { name: "Tree", system: "lowfi", expect: "native" },
   { name: "Tree", system: "acuity-canon", expect: "interim" },
+  { name: "Timeline", system: "one45-2020s", expect: "native" },
+  { name: "Timeline", system: "lowfi", expect: "native" },
+  { name: "Timeline", system: "one45-legacy", expect: "interim" },
+  { name: "Timeline", system: "acuity-canon", expect: "interim" },
 ];
 
 export function runGallerySelfCheck(): void {

@@ -506,6 +506,82 @@ body {
   color: var(--ds-tree-row-fg);
 }
 
+/* ---- Data display: Timeline (token-driven; one45-2020s-only chronological history) ----
+ * One canonical API (entries {date, title, description?, status?}) re-skinned by --ds-timeline-*.
+ * Sourced from the real EPA status-history (.history-row dated rows, _history.scss); generalised to
+ * a marker-rail timeline (the rail + dot is a light affordance over the dated rows). one45-2020s-only
+ * — native here + lowfi (sketch), a flagged bridge interim for one45-legacy + acuity-canon. See 01 L
+ * "Data display", 03 §4o. */
+.sk-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sk-timeline__item {
+  position: relative;
+  display: flex;
+  gap: 0.75rem;
+  padding-left: 1.1rem;
+  padding-top: var(--ds-timeline-row-pad);
+  padding-bottom: var(--ds-timeline-row-pad);
+  border-bottom: 1px solid var(--ds-timeline-divider);
+}
+.sk-timeline__item:last-child {
+  border-bottom: 0;
+}
+.sk-timeline__item::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--ds-timeline-marker-size) / 2);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ds-timeline-rail);
+}
+.sk-timeline__item:first-child::before {
+  top: var(--ds-timeline-row-pad);
+}
+.sk-timeline__item:last-child::before {
+  bottom: auto;
+  height: calc(var(--ds-timeline-row-pad) + 0.5rem);
+}
+.sk-timeline__marker {
+  position: absolute;
+  left: 0;
+  top: calc(var(--ds-timeline-row-pad) + 0.35rem);
+  width: var(--ds-timeline-marker-size);
+  height: var(--ds-timeline-marker-size);
+  border-radius: 50%;
+  background: var(--ds-timeline-marker);
+}
+.sk-timeline__body {
+  flex: 1;
+}
+.sk-timeline__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.sk-timeline__date {
+  font-weight: 700;
+  color: var(--ds-timeline-date-fg);
+  font-size: 0.85rem;
+}
+.sk-timeline__status {
+  color: var(--ds-timeline-status-fg);
+  font-size: 0.85rem;
+}
+.sk-timeline__title {
+  color: var(--ds-timeline-title-fg);
+  font-weight: 600;
+  margin-top: 0.1rem;
+}
+.sk-timeline__desc {
+  margin: 0.25rem 0 0;
+  color: var(--ds-fg);
+}
+
 /* ---- Data display: Avatar (legacy-only → one45-2020s bridges; both shape variants) ----
  * Two real legacy person-photo shapes enshrined as one canonical Avatar with a `shape`
  * variant (Spencer's call): the inline CIRCLE (.profile-img — 25/60px, 2px ring,

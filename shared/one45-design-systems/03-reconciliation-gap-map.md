@@ -546,6 +546,39 @@ DS owns a Tree component) plus the per-mechanism skin; the tool reproduces the s
 indented-rows-with-chevron surface honestly and records the dynatree sprite/connector chrome as a
 simplification rather than fabricating it.
 
+## 4o. Data display slice — Timeline enshrined 2026-06-30 [D]
+
+Seventh data-display piece, and the first **one45-2020s-only** piece — the inverse of legacy-only
+Avatar (axis b, present-vs-absent, pointing the other way):
+
+- **one45-2020s — native.** A real status-history: the EPA requirements history
+  (`StagesTrainingBundle/_history.scss` — a `.history-row` flex layout of **date | description |
+  status** columns, `#5F5F5F` bold headers, **1px `#f2f2f2`** row dividers, 10px row padding). A
+  chronological dated event/status list, rendered server-side (Twig) in the modern app.
+- **one45-legacy — absent → bridge.** The legacy/webeval era ships **no** history or timeline
+  component at all (zero matches across `webeval` CSS/Twig/PHP). So Timeline resolves through the
+  bridge to a flagged interim (`INTERIM_BUILDS`), re-skinned on-brand legacy ($primary_purple
+  `#42507D` marker, `$one45_black` `#27304B` title) — the **mirror of one45-2020s lacking Avatar**.
+- **lowfi** — native sketch. **acuity-canon** — the **package** ships no Timeline, so it too bridges
+  a flagged interim.
+
+One canonical API (`entries` — `{date, title, description?, status?}`, newest-first). The real
+`.history-row` is a dated table-row layout; the tool generalises it to a **marker-rail timeline** (a
+vertical rail + per-entry dot is a light affordance over the dated rows, recorded as such — not a
+fabricated mechanism). **Computed contrast** (`contrast.mjs`): 2020s date `#5f5f5f`/white **6.39**
+(AA) + title `#333` **12.63** (AAA) + marker `#364699` **8.42** (AAA); legacy interim title
+`#27304B` **13.04** + marker `#42507D` **7.85**; lowfi title `#3a3a3a` **11.37**. No new contrast
+failures. Tokens `--ds-timeline-*`; pattern prototype `src/prototypes/assessment-history/` (an EPA's
+dated status history → its outstanding steps), browser-verified across all four systems with the
+annotations toggle on (one45-legacy + acuity-canon flagged "AI approx") and off (all plain) — the
+two native systems never flagged.
+
+**Anatomy result [D] — a clean present-vs-absent (axis b) case, the Avatar mirror.** A real piece in
+one one45 pole (the modern app's status-history) with no counterpart in the other (the legacy app
+has none), so the owning pole + lowfi render it natively and the bridge fills the rest with a flagged
+build. No API break; the only generalisation is the marker-rail presentation of the real dated rows,
+recorded honestly rather than claimed as the app's exact chrome.
+
 ## 5. Convergence read [I]
 
 The divergence between the two systems is **largely token/brand at the API level** —

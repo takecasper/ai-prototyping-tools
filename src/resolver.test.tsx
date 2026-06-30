@@ -34,6 +34,10 @@ describe("pieceStatus — the pure classifier", () => {
     expect(pieceStatus("one45-legacy", "Tree", NO_MAPS).status).toBe("native");
     expect(pieceStatus("one45-2020s", "Tree", NO_MAPS).status).toBe("native");
     expect(pieceStatus("lowfi", "Tree", NO_MAPS).status).toBe("native");
+    // Timeline is one45-2020s-only (the modern app's EPA status-history; legacy/webeval has
+    // none) → native in one45-2020s + lowfi (sketch), the inverse of legacy-only Avatar.
+    expect(pieceStatus("one45-2020s", "Timeline", NO_MAPS).status).toBe("native");
+    expect(pieceStatus("lowfi", "Timeline", NO_MAPS).status).toBe("native");
   });
 
   it("interim: missing piece with an INTERIM_BUILDS entry", () => {
@@ -45,6 +49,9 @@ describe("pieceStatus — the pure classifier", () => {
     expect(pieceStatus("acuity-canon", "Accordion", NO_MAPS).status).toBe("interim");
     // acuity-canon ships no Tree (the ADS package exports none) → bridge interim.
     expect(pieceStatus("acuity-canon", "Tree", NO_MAPS).status).toBe("interim");
+    // Timeline is one45-2020s-only → legacy (no timeline) + acuity-canon (package ships none) bridge.
+    expect(pieceStatus("one45-legacy", "Timeline", NO_MAPS).status).toBe("interim");
+    expect(pieceStatus("acuity-canon", "Timeline", NO_MAPS).status).toBe("interim");
   });
 
   it("substitute: missing piece with NO INTERIM_BUILDS entry → first-native fallback", () => {
@@ -83,13 +90,13 @@ describe("nativeCount — coverage derived from pieceStatus over CANONICAL", () 
   it("counts only pieces a system ships natively (empty maps, no bridge interims)", () => {
     // Derived from the catalogue, never hand-maintained. The canonical Acuity
     // Design System ships no Toggle / SearchField / Breadcrumb / Table / Avatar /
-    // Image / List / Accordion / Tree (9 pieces) → those bridge to flagged interims, not native.
+    // Image / List / Accordion / Tree / Timeline (10 pieces) → those bridge, not native.
     expect(nativeCount("acuity-canon")).toBe(14);
-    // one45 legacy is the most complete — it lacks only Badge.
+    // one45 legacy lacks Badge + Timeline (the 2020s-only status-history).
     expect(nativeCount("one45-legacy")).toBe(22);
     // lowfi lacks Badge + Alert; one45-2020s lacks Breadcrumb + Avatar.
-    expect(nativeCount("lowfi")).toBe(21);
-    expect(nativeCount("one45-2020s")).toBe(21);
+    expect(nativeCount("lowfi")).toBe(22);
+    expect(nativeCount("one45-2020s")).toBe(22);
   });
 
   it("never exceeds the catalogue size and agrees with pieceStatus", () => {

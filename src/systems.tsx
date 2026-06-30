@@ -101,7 +101,14 @@ export type CanonicalName =
   // (mappingTable.jsx — indented rows + fa-angle expand chevrons, the Table native-via-vendor
   // precedent), lowfi the sketch. The Acuity DS package exports no Tree, so acuity-canon bridges
   // it (INTERIM_BUILDS, flagged) — the Table/List/Accordion mirror.
-  | "Tree";
+  | "Tree"
+  // Timeline is the data-display chronological-history piece (dated entries down a marker rail).
+  // It is one45-2020s-ONLY — the modern app's EPA status-history (.history-row, StagesTrainingBundle
+  // _history.scss: date | description | status rows, #5F5F5F bold headers, 1px #f2f2f2 dividers);
+  // one45-legacy/webeval ships no history/timeline at all. So it is native in one45-2020s + lowfi
+  // (sketch) and BRIDGES (INTERIM_BUILDS, flagged) for one45-legacy + acuity-canon — the inverse of
+  // legacy-only Avatar (the present-vs-absent axis pointing the other way).
+  | "Timeline";
 export type SystemId = "lowfi" | "one45-2020s" | "one45-legacy" | "acuity-canon";
 
 // The documentation slices the gallery groups by. New canonical pieces slot into
@@ -161,6 +168,7 @@ export const CANONICAL: CanonicalDef[] = [
   { name: "List", label: "List", category: "Data display", description: "Vertical item list — bulleted, numbered, or plain (items as text or links)", props: "items, variant?", notes: "items: string[] or {label, href?}[]; variant: bulleted (default, disc) / numbered (ordered, decimal) / plain (no marker). Native-minimal in one45-2020s (the Acuity DS ships no List component — real app uses ad-hoc <ul>/<ol>), native in one45-legacy (the real .list-widget — list-style none, 25px indent, link items) + lowfi; acuity-canon bridges a flagged interim (the package ships no List). One canonical API, pure token swap" },
   { name: "Accordion", label: "Accordion", category: "Data display", description: "Collapsible sections — single-open by default, or independent panels", props: "items, single?", notes: "items: {header, body, defaultOpen?}[]; single (default true) opens one panel at a time (the 2020s react-bootstrap defaultActiveKey model), single={false} lets every section toggle independently (the legacy collapsibleHeaders model). Native in all three non-canon systems — legacy the real .subheader-sticky.collapsible underline-header + rotating chevron (collapsibleHeaders.css), one45-2020s the app's react-bootstrap Accordion-over-Card (the Table native-via-vendor precedent), lowfi the sketch; acuity-canon bridges a flagged interim (the ADS package exports no Accordion). One canonical API; legacy keeps its structural underline-header skin (the Tabs precedent)" },
   { name: "Tree", label: "Tree", category: "Data display", description: "Hierarchy of expandable parent/child nodes (indented, with a disclosure chevron)", props: "nodes", notes: "nodes: {id?, label, children?, defaultExpanded?}[] (recursive). A parent node shows a disclosure chevron that rotates 90° open; leaves indent under their parent. Native in all three non-canon systems — legacy the jQuery dynatree widget (authored _dynatree.scss — acuity-blue #364699 selected), one45-2020s the curriculum tree-table (mappingTable.jsx — paddingLeft indentation + fa-angle expand chevrons, the Table native-via-vendor precedent), lowfi the sketch; acuity-canon bridges a flagged interim (the ADS package exports no Tree). One canonical API; the indentation reads the --ds-tree-indent token" },
+  { name: "Timeline", label: "Timeline", category: "Data display", description: "Chronological history — dated entries down a marker rail (date, title, status)", props: "entries", notes: "entries: {date, title, description?, status?}[], newest-first by convention. Each entry shows a marker dot on a vertical rail, the date, a title, and optional description + status. one45-2020s-ONLY: native in one45-2020s (the modern app's EPA status-history — .history-row, StagesTrainingBundle _history.scss: date | description | status rows, #5F5F5F bold headers, 1px #f2f2f2 dividers) + lowfi (sketch); one45-legacy ships no history/timeline so it bridges a flagged interim, as does acuity-canon (the ADS package ships none). The inverse of legacy-only Avatar" },
   { name: "Image", label: "Image", category: "Media", description: "Placeholder image (placehold.co)", props: "w, h, label?", notes: "never commit binary image files" },
   { name: "Icon", label: "Icon", category: "Media", description: "Named icon (real DS name/size vocabulary)", props: "iconName, size?, altText?, tone?", notes: "size: small / medium; iconName is the real DS vocabulary (add, edit, delete, checkCircle, warning…); tone: success / warning / error / info; renders a token-sized stand-in glyph — real glyph artwork is a recorded asset gap (no DS icon font is vendored)" },
 ];
@@ -846,6 +854,35 @@ const Tree: Skin = ({ nodes }) => {
   );
 };
 
+// ---- Data display: Timeline (one45-2020s-only chronological history) ----
+// Sourced [D]: one45-2020s renders a real status-history — the EPA requirements history
+// (StagesTrainingBundle _history.scss: a .history-row flex layout of date | description | status
+// columns, #5F5F5F bold headers, 1px #f2f2f2 row dividers, 10px row padding). one45-legacy/webeval
+// ships no history or timeline component at all (zero matches), so Timeline is one45-2020s-ONLY —
+// native here + lowfi (sketch), a flagged bridge interim for one45-legacy + acuity-canon. The
+// inverse of legacy-only Avatar. The dated rows are generalised to a marker-rail timeline (the rail
+// + dot is a light affordance over the real dated history rows). See 01 L "Data display", 03 §4o.
+const Timeline: Skin = ({ entries }) => {
+  const list = Array.isArray(entries) ? entries : [];
+  return (
+    <ol className="sk-timeline">
+      {list.map((e: any, i: number) => (
+        <li className="sk-timeline__item" key={String(e?.date ?? "") + i}>
+          <span className="sk-timeline__marker" aria-hidden="true" />
+          <div className="sk-timeline__body">
+            <div className="sk-timeline__head">
+              {e?.date ? <span className="sk-timeline__date">{String(e.date)}</span> : null}
+              {e?.status ? <span className="sk-timeline__status">{String(e.status)}</span> : null}
+            </div>
+            {e?.title ? <div className="sk-timeline__title">{String(e.title)}</div> : null}
+            {e?.description ? <p className="sk-timeline__desc">{String(e.description)}</p> : null}
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
+};
+
 // ---- Data display: Avatar (legacy-only → one45-2020s bridges; both shape variants) ----
 // Sourced [D] from the legacy code: TWO real person-photo shapes, kept as ONE canonical
 // Avatar with a `shape` variant (Spencer's call — "Both as variants"):
@@ -1282,7 +1319,7 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // that bridges Alert now — both brand systems ship a real one. Breadcrumb IS present —
     // it is legacy-era and renders fine in the sketch skin. Avatar IS present (the sketch
     // LowfiAvatar) — like Breadcrumb, the legacy-only piece still draws in the wireframe.
-    skins: { Button, Card, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Breadcrumb, Avatar: LowfiAvatar, Image: LowfiImage, Icon: LowfiIcon, IconButton: LowfiIconButton },
+    skins: { Button, Card, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Breadcrumb, Avatar: LowfiAvatar, Timeline, Image: LowfiImage, Icon: LowfiIcon, IconButton: LowfiIconButton },
   },
   "one45-2020s": {
     id: "one45-2020s",
@@ -1293,7 +1330,7 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
     // bridge to a flagged AI build — the mirror of legacy lacking Alert. Avatar is ALSO
     // absent for the same reason (the DS ships no avatar/profile-photo component), so it
     // too resolves to a flagged bridge build — the second one45-2020s bridge demo.
-    skins: { Button, Card, Badge, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Image: BrandImage, Icon: BrandIcon, IconButton: BrandIconButton },
+    skins: { Button, Card, Badge, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, ...DATA_DISPLAY, ...FEEDBACK_CONTROLS, Timeline, Image: BrandImage, Icon: BrandIcon, IconButton: BrandIconButton },
   },
   "one45-legacy": {
     id: "one45-legacy",
@@ -1355,6 +1392,8 @@ export const SYSTEM_IDS = Object.keys(SYSTEMS) as SystemId[];
 //               mirror — the ADS package exports no Accordion; native in the other three).
 //   Tree        no DS-component piece      → built (flagged) for acuity-canon (the Table/List
 //               mirror — the ADS package exports no Tree; native in the other three).
+//   Timeline    one45-2020s-only piece    → built (flagged) for one45-legacy + acuity-canon (the
+//               inverse of legacy-only Avatar — legacy/webeval ships no history/timeline).
 // A piece NOT listed here (e.g. Badge in legacy + lowfi) still falls back to the cruder
 // first-native substitution below, so both bridge behaviours stay observable.
 export const INTERIM_BUILDS: Partial<Record<CanonicalName, Skin>> = {
@@ -1367,6 +1406,7 @@ export const INTERIM_BUILDS: Partial<Record<CanonicalName, Skin>> = {
   List,
   Accordion,
   Tree,
+  Timeline,
   Image: BrandImage,
 };
 

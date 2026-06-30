@@ -547,6 +547,19 @@ one45-2020s tree-table reality and reconciliation map §4n.)
 
 ---
 
+## Data display — Timeline (absent → bridge) [D]
+
+Seventh data-display piece (2026-06-30). **Legacy/webeval ships no history or timeline component** —
+zero matches across the webeval CSS / Twig / PHP for a status-history, activity-feed, or timeline. So
+Timeline is **one45-2020s-only** (the modern app's EPA status-history, `_history.scss`); in legacy it
+resolves through the bridge to a flagged interim (`INTERIM_BUILDS`), re-skinned on-brand legacy
+(`$primary_purple` `#42507D` marker, `$one45_black` `#27304B` title). This is the **inverse of Avatar**
+(legacy-native, one45-2020s-bridged). **Computed contrast** (`contrast.mjs`, "one45 legacy Timeline"):
+interim title `#27304B`/white **13.04** (AAA); marker `#42507D`/white **7.85** (AAA). (See `01` for the
+real one45-2020s status-history and reconciliation map §4o.)
+
+---
+
 ## Carry-forward verdict
 
 The legacy brand is a **migration source, not a target** — it is being replaced by

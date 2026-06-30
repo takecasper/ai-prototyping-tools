@@ -234,6 +234,19 @@
   --ds-tree-font-size: 1rem; /* node label size */
   --ds-tree-row-hover-bg: transparent; /* row hover fill */
 
+  /* ---- data display (the Data display slice — Timeline) ----
+   * Generic fallbacks; one45-2020s (the only native owner) + the bridge builds override below.
+   * Timeline is a chronological history — dated entries down a marker rail. one45-2020s-only (the
+   * EPA status-history); one45-legacy + acuity-canon bridge a flagged interim. See 03 §4o. */
+  --ds-timeline-rail: var(--ds-border); /* the vertical rail behind the markers */
+  --ds-timeline-marker: var(--ds-link-fg); /* entry dot */
+  --ds-timeline-marker-size: 0.6rem; /* dot diameter */
+  --ds-timeline-date-fg: var(--ds-fg-muted); /* entry date */
+  --ds-timeline-title-fg: var(--ds-fg); /* entry title */
+  --ds-timeline-status-fg: var(--ds-fg-muted); /* entry status label */
+  --ds-timeline-divider: var(--ds-border); /* row divider */
+  --ds-timeline-row-pad: 0.625rem; /* per-entry vertical padding (10px) */
+
   /* ---- data display (the Data display slice — Avatar) ----
    * Generic fallbacks; legacy overrides below from its real sourced values (it owns the
    * only real avatars), one45-2020s sets bridge-interim values (the DS ships no avatar), lowfi
@@ -464,6 +477,20 @@
   --ds-tree-row-pad-y: 0.25rem;
   --ds-tree-font-size: 16px; /* ds-text-base */
   --ds-tree-row-hover-bg: #f5f5f5; /* neutrals-lighter row hover */
+
+  /* Timeline — [D] the real EPA status-history (StagesTrainingBundle _history.scss): a .history-row
+   * flex layout of date | description | status, header colour #5F5F5F bold, 1px #f2f2f2 row
+   * dividers, 10px row padding. Generalised to a marker-rail timeline (the rail + dot is a light
+   * affordance over the dated history rows). Date #5F5F5F (6.39 AA); title neutrals-darker #333;
+   * marker/rail acuity-blue #364699 + neutrals-light #B8B8B8. */
+  --ds-timeline-rail: #b8b8b8; /* neutrals-light rail */
+  --ds-timeline-marker: #364699; /* acuity-blue dot */
+  --ds-timeline-marker-size: 0.6rem;
+  --ds-timeline-date-fg: #5f5f5f; /* the .history header colour [D _history.scss] */
+  --ds-timeline-title-fg: #333333; /* neutrals-darker */
+  --ds-timeline-status-fg: #5f5f5f;
+  --ds-timeline-divider: #f2f2f2; /* the .history row border [D _history.scss] */
+  --ds-timeline-row-pad: 10px; /* history-row-format padding [D] */
 
   /* Avatar — the Acuity DS ships NO avatar/profile-photo component ([D] the DS demo page
    * enumerates every component — designSystemTest/main.jsx:3-23 — and has none; zero island
@@ -718,6 +745,18 @@
   --ds-tree-font-size: 1rem;
   --ds-tree-row-hover-bg: #f2f3f8; /* faint acuity-blue-lightest row hover */
 
+  /* Timeline — bridge interim (one45-legacy ships no history/timeline). The token-driven build
+   * re-skins on-brand legacy: $primary_purple #42507D marker, $one45_black #27304B title, grey
+   * rail/divider. The resolver flags it "AI approx". */
+  --ds-timeline-rail: #d1d1d9; /* legacy $grey */
+  --ds-timeline-marker: #42507d; /* legacy $primary_purple */
+  --ds-timeline-marker-size: 0.6rem;
+  --ds-timeline-date-fg: #5f5f5f;
+  --ds-timeline-title-fg: #27304b; /* $one45_black */
+  --ds-timeline-status-fg: #5f5f5f;
+  --ds-timeline-divider: #e5e5e5;
+  --ds-timeline-row-pad: 0.5rem;
+
   /* Avatar — [D] the real legacy person-photo widgets (legacy owns the only real avatars).
    * Circle = the inline people-picker .profile-img: 25×25 (sm) / 60×60 (lg), border 2px,
    * border-radius circular ([D] WidgetBundle _list_picker.scss:26-31,41-54). The .profile-img
@@ -918,6 +957,16 @@
   --ds-tree-font-size: 0.95rem;
   --ds-tree-row-hover-bg: #f0f0f0;
 
+  /* Timeline — greyscale sketch. Pencil-grey rail + dot, ink title. */
+  --ds-timeline-rail: #b8b8b8;
+  --ds-timeline-marker: #3a3a3a;
+  --ds-timeline-marker-size: 0.6rem;
+  --ds-timeline-date-fg: #6a6a6a;
+  --ds-timeline-title-fg: #3a3a3a;
+  --ds-timeline-status-fg: #6a6a6a;
+  --ds-timeline-divider: #d8d8d8;
+  --ds-timeline-row-pad: 0.5rem;
+
   /* Avatar — deliberate greyscale sketch. lowfi is not a status-quo system, so these are
    * hand-authored sketch values; LowfiAvatar draws a dashed circle / sketch image box (the
    * sk-img--lowfi idiom, app.css per-system rule) instead of loading a placeholder photo. */
@@ -1065,6 +1114,17 @@
   --ds-tree-row-pad-y: 0.25rem;
   --ds-tree-font-size: 16px;
   --ds-tree-row-hover-bg: #f5f5f5;
+
+  /* Timeline — bridge interim (the ADS package ships no Timeline). The ADS neutral family + the
+   * 2020s history colours: #5f5f5f date, neutrals-darker #333 title, acuity-blue #364699 marker. */
+  --ds-timeline-rail: #b8b8b8; /* neutrals.light */
+  --ds-timeline-marker: #364699; /* acuity-blue.DEFAULT */
+  --ds-timeline-marker-size: 0.6rem;
+  --ds-timeline-date-fg: #5f5f5f;
+  --ds-timeline-title-fg: #333333; /* neutrals.darker */
+  --ds-timeline-status-fg: #5f5f5f;
+  --ds-timeline-divider: #ececec;
+  --ds-timeline-row-pad: 0.625rem;
 
   /* Avatar — bridge interim (ADS ships no avatar). Same neutrals as one45-2020s. */
   --ds-avatar-ring: #b8b8b8; /* neutrals.light */

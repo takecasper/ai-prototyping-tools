@@ -79,7 +79,7 @@ The pieces, by slice:
 - **Actions & containers** — Button, Card, IconButton
 - **Inputs & controls** — TextField, Textarea, Select, Checkbox, Radio, Toggle, SearchField
 - **Navigation** — Tabs, Link, Breadcrumb
-- **Data display** — Table, Avatar, List, Accordion, Tree
+- **Data display** — Table, Avatar, List, Accordion, Tree, Timeline
 - **Feedback & status** — Badge, Alert, Modal
 - **Media** — Image, Icon
 
@@ -157,6 +157,14 @@ the API survives but the **skin is per-system**. The **Acuity Design System pack
 either, so `acuity-canon` resolves it through the bridge to a flagged interim — the mirror of
 `Table`/`List`/`Accordion`. Build nodes from the `nodes` prop, never raw markup. See
 `shared/one45-design-systems/01`/`02` L "Data display" / §4n.
+
+**Timeline** is the data-display group's seventh piece — a chronological history of dated entries
+down a marker rail (`entries`: `{date, title, description?, status?}[]`, newest-first). It is the
+first **one45-2020s-only** piece: `one45-2020s` owns a real status-history (the EPA requirements
+history, `_history.scss`), and `one45-legacy`/webeval ships **none**. So it is native in `one45-2020s`
++ `lowfi` (sketch), and **both** `one45-legacy` and `acuity-canon` resolve it through the bridge to a
+flagged interim — the **inverse of legacy-only Avatar**. Build entries from the `entries` prop, never
+raw markup. See `shared/one45-design-systems/01`/`02` L "Data display" / §4o.
 
 The Feedback & status pieces:
 
