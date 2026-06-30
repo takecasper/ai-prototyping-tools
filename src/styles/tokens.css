@@ -1136,3 +1136,182 @@
   --ds-icon-size-md: 24px;
   --ds-iconbtn-size: 38px;
 }
+
+/* One45 (Fahad's temp 2.0) — Fahad's modernization design system (ds.acuityinsights.io,
+ * repo takecasper/one45-modern-design-system, MUI 7 + Tailwind, Inter + Source Serif 4).
+ * A COMPARISON input (DE-444), reverse-engineered as a token skin from the authed Storybook
+ * — [R] values are read from the Storybook Foundations (palette / typography / surfaces);
+ * the component source + npm package are private/inaccessible, so per-piece chrome is an
+ * approximation, not a vendored render. Palette ramps (50–900): acuityBlue (primary, 600
+ * #364699), teal (accent, 600 #00A59B), slate (neutrals), pink/jade/amber/rose/sky
+ * (secondary + status). Radii 8 card / 6 chip / 4 input; cards flat (elevation 0 + 1px
+ * divider). Dark mode + the bespoke MUI/med-ed components (Stat card, PersonRow, …) are
+ * out of scope for the canonical token skin (recorded in 04-one45-fahad.md). NOT canonical —
+ * acuity-canon stays the target. */
+:root[data-ds="one45-fahad"],
+[data-ds="one45-fahad"] {
+  --ds-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; /* Inter UI face [R typography] */
+  --ds-bg: #ffffff;
+  --ds-fg: #0f172a; /* slate-900 — primary text [R palette] */
+  --ds-surface: #f8fafc; /* slate-50 [R] */
+  --ds-border-color: #cbd5e1; /* slate-300 — general border [R] */
+  --ds-border-width: 1px;
+  --ds-border-style: solid;
+  --ds-radius: 8px; /* card radius [R surfaces] */
+  --ds-accent: #364699; /* acuityBlue-600 primary [R] (8.42 on white) */
+  --ds-accent-fg: #ffffff;
+  --ds-badge-bg: #edeef6; /* acuityBlue-50 [R] */
+  --ds-badge-fg: #2e3363; /* acuityBlue-800 [R] */
+  --ds-shadow: 0 1px 2px rgba(15, 23, 42, 0.08); /* slate-tinted; cards are flat, this is the resting step [I: exact 6-step scale not captured] */
+  --ds-card-rotate: 0deg;
+  --ds-letter-spacing: normal;
+
+  /* Foundation scales — radii from the Surfaces doc (8 card / 6 chip / 4 input [R]); the
+   * 6-step slate-tinted shadow scale exists in shadows.ts but exact values were not captured
+   * from the gated repo, so the elevation steps are slate-tinted approximations [I]. motion /
+   * z-index / opacity fall through to the :root structural scale (not separately sourced). */
+  --ds-radius-sm: 6px; /* chip radius [R surfaces] */
+  --ds-radius-lg: 12px; /* raised surfaces (dialog/menu) [I] */
+  --ds-shadow-lg: 0 6px 16px rgba(15, 23, 42, 0.14); /* slate-tinted raised [I] */
+  --ds-fg-muted: #64748b; /* slate-500 — muted text [R] (4.76 on white, AA) */
+
+  /* Card — flat: elevation 0 with a 1px slate divider border, 8px radius, headerless
+   * (the Surfaces doc: "Card elevation flattened … floating cards reserved for menus and
+   * dialogs"). Like one45-2020s, no header band — a pure token swap, no app.css override. */
+  --ds-card-bg: #ffffff;
+  --ds-card-border: #e2e8f0; /* slate-200 — the flat-card 1px divider [R surfaces] */
+  --ds-card-radius: 8px; /* [R surfaces] */
+  --ds-card-shadow: none; /* elevation 0 [R surfaces] */
+  --ds-card-pad: 20px; /* 4px base ×5 [I, 4px grid] */
+  --ds-card-gap: 16px;
+  --ds-card-title-color: #0f172a; /* slate-900 */
+  --ds-card-title-size: 18px;
+  --ds-card-title-weight: 600;
+  --ds-card-header-bg: transparent; /* headerless */
+  --ds-card-header-border: transparent;
+
+  /* Form controls — slate neutrals, 4px input radius [R surfaces], acuityBlue focus ring;
+   * error rose-600 / rose-800, success jade-600 (the status ramps). */
+  --ds-input-bg: #ffffff;
+  --ds-input-fg: #0f172a; /* slate-900 */
+  --ds-input-border: #64748b; /* slate-500 — the interactive control boundary, 4.76 on white (passes 3:1 UI; slate-400 #94A3B8 fails at 2.56) */
+  --ds-input-radius: 4px; /* [R surfaces] */
+  --ds-input-pad-y: 0.5rem;
+  --ds-input-pad-x: 0.625rem; /* 10px — 4px grid */
+  --ds-input-font-size: 1rem;
+  --ds-focus-ring: #364699; /* acuityBlue-600 */
+  --ds-state-error: #dc2626; /* rose-600 [R] */
+  --ds-state-error-fg: #991b1b; /* rose-800 [R] */
+  --ds-state-success: #059669; /* jade-600 [R] */
+  --ds-label-fg: #0f172a; /* slate-900 */
+  --ds-label-weight: 600;
+  --ds-control-size: 1.1rem;
+
+  /* Navigation — underline tabs (the MUI 7 model, like one45-2020s), teal accent indicator;
+   * acuityBlue links. */
+  --ds-tab-fg: #64748b; /* slate-500 inactive */
+  --ds-tab-active-fg: #0f172a; /* slate-900 active */
+  --ds-tab-active-indicator: #00a59b; /* teal-600 product accent [R] */
+  --ds-tab-strip-border: #e2e8f0; /* slate-200 */
+  --ds-link-fg: #364699; /* acuityBlue-600 */
+  --ds-link-hover: #2e3363; /* acuityBlue-800 */
+  --ds-crumb-fg: #364699; /* acuityBlue-600 */
+  --ds-crumb-current: #0f172a; /* slate-900 */
+  --ds-crumb-sep: #94a3b8; /* slate-400 */
+
+  /* Feedback & status — Modal: white floating panel, 12px radius, slate-tinted scrim,
+   * headerless. */
+  --ds-modal-bg: #ffffff;
+  --ds-modal-radius: 12px; /* floating dialog [I] */
+  --ds-modal-shadow: 0 6px 16px rgba(15, 23, 42, 0.14); /* slate-tinted raised [I] */
+  --ds-modal-scrim: rgba(15, 23, 42, 0.5); /* slate-tinted scrim */
+  --ds-modal-title-color: #0f172a; /* slate-900 */
+  --ds-modal-title-size: 1.25rem;
+  --ds-modal-header-bg: transparent;
+  --ds-modal-header-border: transparent;
+
+  /* Alert — clinical semantic tones (Surfaces doc): info=sky, success=jade, warning=amber,
+   * error=rose. bg = ramp-50, fg = ramp-800, accent = ramp-600 [R palette]. */
+  --ds-alert-info-bg: #f4faff; /* sky-50 */
+  --ds-alert-info-fg: #1f3f5c; /* sky-800 */
+  --ds-alert-info-accent: #2c76bc; /* sky-600 */
+  --ds-alert-success-bg: #ecfdf5; /* jade-50 */
+  --ds-alert-success-fg: #065f46; /* jade-800 */
+  --ds-alert-success-accent: #059669; /* jade-600 */
+  --ds-alert-warning-bg: #fffbeb; /* amber-50 */
+  --ds-alert-warning-fg: #92400e; /* amber-800 */
+  --ds-alert-warning-accent: #d97706; /* amber-600 */
+  --ds-alert-error-bg: #fef2f2; /* rose-50 */
+  --ds-alert-error-fg: #991b1b; /* rose-800 */
+  --ds-alert-error-accent: #dc2626; /* rose-600 */
+
+  /* Data display — Table: slate neutrals, acuityBlue selection + caret, 8px outer radius
+   * (tables sit in flat cards). */
+  --ds-table-font-size: 0.875rem;
+  --ds-table-text: #0f172a; /* slate-900 */
+  --ds-table-header-fg: #0f172a; /* slate-900 */
+  --ds-table-header-bg: transparent;
+  --ds-table-header-weight: 600;
+  --ds-table-header-border: #cbd5e1; /* slate-300 */
+  --ds-table-row-border: #e2e8f0; /* slate-200 */
+  --ds-table-hover-bg: #f8fafc; /* slate-50 */
+  --ds-table-selected-bg: #edeef6; /* acuityBlue-50 */
+  --ds-table-caret: #364699; /* acuityBlue-600 */
+  --ds-table-cell-pad-y: 0.5rem;
+  --ds-table-cell-pad-x: 0.625rem;
+  --ds-table-radius: 8px;
+
+  /* List — slate ink, acuityBlue links. */
+  --ds-list-item-fg: #0f172a; /* slate-900 */
+  --ds-list-marker: #64748b; /* slate-500 */
+  --ds-list-link-fg: #364699; /* acuityBlue-600 */
+  --ds-list-gap: 0.5rem; /* 8px */
+  --ds-list-indent: 1.25rem;
+  --ds-list-font-size: 1rem;
+
+  /* Accordion — card model (MUI default), slate-50 header, 8px radius. */
+  --ds-accordion-header-fg: #0f172a; /* slate-900 */
+  --ds-accordion-header-fg-hover: #0f172a;
+  --ds-accordion-header-bg: #f8fafc; /* slate-50 */
+  --ds-accordion-surface: #ffffff;
+  --ds-accordion-border: #e2e8f0; /* slate-200 */
+  --ds-accordion-border-width: 1px;
+  --ds-accordion-radius: 8px;
+  --ds-accordion-chevron: #64748b; /* slate-500 */
+  --ds-accordion-header-pad: 0.75rem 1rem;
+  --ds-accordion-panel-pad: 0.75rem 1rem 1rem;
+  --ds-accordion-section-gap: 0.5rem;
+  --ds-accordion-header-font-size: 1rem;
+  --ds-accordion-header-weight: 600;
+
+  /* Tree — slate ink, acuityBlue active node. */
+  --ds-tree-row-fg: #0f172a; /* slate-900 */
+  --ds-tree-chevron: #64748b; /* slate-500 */
+  --ds-tree-accent: #364699; /* acuityBlue-600 */
+  --ds-tree-indent: 1.25rem;
+  --ds-tree-row-pad-y: 0.25rem;
+  --ds-tree-font-size: 1rem;
+  --ds-tree-row-hover-bg: #f8fafc; /* slate-50 */
+
+  /* Timeline — slate rail/divider, acuityBlue marker, slate-500 date. */
+  --ds-timeline-rail: #e2e8f0; /* slate-200 */
+  --ds-timeline-marker: #364699; /* acuityBlue-600 */
+  --ds-timeline-marker-size: 0.6rem;
+  --ds-timeline-date-fg: #64748b; /* slate-500 */
+  --ds-timeline-title-fg: #0f172a; /* slate-900 */
+  --ds-timeline-status-fg: #64748b; /* slate-500 */
+  --ds-timeline-divider: #f1f5f9; /* slate-100 */
+  --ds-timeline-row-pad: 0.625rem;
+
+  /* Avatar — slate ring/border (MUI 7 ships a real Avatar; the canonical circle skin
+   * reproduces a generic person circle in slate). */
+  --ds-avatar-ring: #cbd5e1; /* slate-300 */
+  --ds-avatar-card-border: #cbd5e1; /* slate-300 */
+  --ds-avatar-name-color: #64748b; /* slate-500 */
+
+  /* Iconography — MUI 7 icon sizes (small 20 / medium 24) + a 40px IconButton box [I: MUI
+   * defaults; glyph artwork is the same recorded asset gap as the other systems]. */
+  --ds-icon-size-sm: 20px;
+  --ds-icon-size-md: 24px;
+  --ds-iconbtn-size: 40px;
+}

@@ -38,6 +38,14 @@ describe("pieceStatus — the pure classifier", () => {
     // none) → native in one45-2020s + lowfi (sketch), the inverse of legacy-only Avatar.
     expect(pieceStatus("one45-2020s", "Timeline", NO_MAPS).status).toBe("native");
     expect(pieceStatus("lowfi", "Timeline", NO_MAPS).status).toBe("native");
+    // one45-fahad (Fahad's "One45 2.0", a MUI 7 token-skin comparison system) reproduces
+    // the full canonical surface natively — even the pieces that bridge in other systems
+    // (Badge, Breadcrumb, Avatar, Timeline), since MUI 7 provides every primitive.
+    expect(pieceStatus("one45-fahad", "Badge", NO_MAPS).status).toBe("native");
+    expect(pieceStatus("one45-fahad", "Alert", NO_MAPS).status).toBe("native");
+    expect(pieceStatus("one45-fahad", "Breadcrumb", NO_MAPS).status).toBe("native");
+    expect(pieceStatus("one45-fahad", "Avatar", NO_MAPS).status).toBe("native");
+    expect(pieceStatus("one45-fahad", "Timeline", NO_MAPS).status).toBe("native");
   });
 
   it("interim: missing piece with an INTERIM_BUILDS entry", () => {
@@ -97,6 +105,9 @@ describe("nativeCount — coverage derived from pieceStatus over CANONICAL", () 
     // lowfi lacks Badge + Alert; one45-2020s lacks Breadcrumb + Avatar.
     expect(nativeCount("lowfi")).toBe(22);
     expect(nativeCount("one45-2020s")).toBe(22);
+    // one45-fahad reproduces the full canonical surface as a token skin (MUI 7 provides
+    // every primitive) → all 24 native, nothing bridged.
+    expect(nativeCount("one45-fahad")).toBe(24);
   });
 
   it("never exceeds the catalogue size and agrees with pieceStatus", () => {

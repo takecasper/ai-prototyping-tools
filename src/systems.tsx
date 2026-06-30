@@ -109,7 +109,12 @@ export type CanonicalName =
   // (sketch) and BRIDGES (INTERIM_BUILDS, flagged) for one45-legacy + acuity-canon — the inverse of
   // legacy-only Avatar (the present-vs-absent axis pointing the other way).
   | "Timeline";
-export type SystemId = "lowfi" | "one45-2020s" | "one45-legacy" | "acuity-canon";
+export type SystemId = "lowfi" | "one45-2020s" | "one45-legacy" | "acuity-canon" | "one45-fahad";
+// one45-fahad is Fahad's modernization design system (label: One45 / Fahad's temp 2.0) —
+// reverse-engineered as a token skin from its authed Storybook (ds.acuityinsights.io, repo
+// takecasper/one45-modern-design-system, MUI 7 + Tailwind). A COMPARISON input, not a
+// promotion target (acuity-canon stays canonical; DE-444/DE-452). See
+// shared/one45-design-systems/04-one45-fahad.md + design-system-sources.md.
 
 // The documentation slices the gallery groups by. New canonical pieces slot into
 // their slice automatically — adding a piece is just giving it a `category`.
@@ -1368,6 +1373,20 @@ export const SYSTEMS: Record<SystemId, DesignSystem> = {
       Link: AcuityCanonLink,
       Modal: AcuityCanonModal,
     },
+  },
+  "one45-fahad": {
+    id: "one45-fahad",
+    label: "One45 (Fahad's temp 2.0)",
+    blurb: "Fahad's modernization DS — MUI 7, reverse-engineered as a token skin",
+    // Comparison input (DE-444), reverse-engineered from the authed Storybook
+    // (ds.acuityinsights.io). Fahad's DS is built on MUI 7, which provides every
+    // canonical primitive, so this token skin reproduces the FULL canonical surface
+    // natively (acuityBlue/teal + slate neutrals, Inter, flat cards, underline tabs) —
+    // it bridges nothing. The skins are the shared token-driven set; per-piece visual
+    // fidelity is approximate (sourced from the Storybook palette/type/surfaces, not the
+    // inaccessible component source). NOT canonical — acuity-canon stays the target. See
+    // shared/one45-design-systems/04-one45-fahad.md.
+    skins: { Button, Card, Badge, Alert, ...FORM_CONTROLS, ...NAV_CONTROLS, Breadcrumb, ...DATA_DISPLAY, Avatar, Timeline, ...FEEDBACK_CONTROLS, Image: BrandImage, Icon: BrandIcon, IconButton: BrandIconButton },
   },
 };
 

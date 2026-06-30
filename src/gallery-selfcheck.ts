@@ -67,6 +67,17 @@ const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar" | "Breadcrumb" | "Lis
   { name: "Timeline", system: "lowfi", expect: "native" },
   { name: "Timeline", system: "one45-legacy", expect: "interim" },
   { name: "Timeline", system: "acuity-canon", expect: "interim" },
+  // one45-fahad (Fahad's "One45 2.0" token skin) reproduces the full canonical surface
+  // natively (MUI 7 provides every primitive) → it bridges nothing; even the pieces that
+  // bridge elsewhere (Alert/Badge/Avatar/Breadcrumb/Timeline) render native + unflagged here.
+  { name: "Alert", system: "one45-fahad", expect: "native" },
+  { name: "Badge", system: "one45-fahad", expect: "native" },
+  { name: "Avatar", system: "one45-fahad", expect: "native" },
+  { name: "Breadcrumb", system: "one45-fahad", expect: "native" },
+  { name: "List", system: "one45-fahad", expect: "native" },
+  { name: "Accordion", system: "one45-fahad", expect: "native" },
+  { name: "Tree", system: "one45-fahad", expect: "native" },
+  { name: "Timeline", system: "one45-fahad", expect: "native" },
 ];
 
 export function runGallerySelfCheck(): void {

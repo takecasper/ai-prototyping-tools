@@ -64,8 +64,15 @@ export function FirstScreen() {
 Prototypes are authored against **`acuity-canon`** — the real Acuity Design System
 (`@takecasper/acuity-design-system`) — by default. It is the tool's active system
 on boot and the reference all canonical coverage is measured against. Other systems
-(Low-fi, one45 (2020s), one45 legacy) re-skin the same prototype; they do not change
-what you author against.
+(Low-fi, one45 (2020s), one45 legacy, and One45 (Fahad's temp 2.0)) re-skin the same
+prototype; they do not change what you author against.
+
+**One45 (Fahad's temp 2.0)** (`one45-fahad`) is Fahad's modernization design system,
+reverse-engineered as a token skin from its authed Storybook (MUI 7 + Tailwind; see
+`shared/one45-design-systems/04-one45-fahad.md`). It is a **comparison input only** — not
+a promotion target — and reproduces the full canonical surface natively (it bridges
+nothing). Its per-piece chrome is an approximation sourced from the Storybook
+palette/type/surfaces, since the component source is private (DE-444).
 
 The catalogue is the `CANONICAL` array in `src/systems.tsx` — the single source of
 truth for the canonical name, its props, and its notes. Do not maintain a second

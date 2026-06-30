@@ -357,3 +357,23 @@ for (const [name, hex] of Object.entries(ACUITY_CANON)) {
   row(`${name} / white`, hex, WHITE);
 }
 row("white / acuity-blue (primary button)", WHITE, ACUITY_CANON["acuity-blue"]);
+
+// ── One45 (Fahad's temp 2.0) — the one45-fahad token skin (DE-444), reverse-engineered
+// from the authed Storybook (ds.acuityinsights.io). Palette ramps [R]: acuityBlue 600
+// #364699 (primary), teal 600 #00A59B (accent), slate (neutrals), sky/jade/amber/rose
+// (status). Text judged on 4.5; the teal tab indicator + input border are UI elements (3:1).
+// Alert tones use ramp-800 text on ramp-50 tints.
+section("One45 (Fahad's temp 2.0) [R] — text, accent + UI on white");
+row("fg slate-900 / white", "#0F172A", WHITE);
+row("muted slate-500 / white", "#64748B", WHITE);
+row("primary acuityBlue-600 / white", "#364699", WHITE);
+row("white / acuityBlue-600 (button)", WHITE, "#364699");
+row("link acuityBlue-600 / white", "#364699", WHITE);
+row("teal-600 accent / white", "#00A59B", WHITE, "(tab indicator, 3:1 UI)");
+row("input border slate-500 / white", "#64748B", WHITE, "(input border, 3:1 UI; slate-400 fails at 2.56)");
+row("badge acuityBlue-800 / acuityBlue-50", "#2E3363", "#EDEEF6");
+section("One45 (Fahad's temp 2.0) [R] — alert tones (ramp-800 text on ramp-50 tint)");
+row("info sky-800 / sky-50", "#1F3F5C", "#F4FAFF");
+row("success jade-800 / jade-50", "#065F46", "#ECFDF5");
+row("warning amber-800 / amber-50", "#92400E", "#FFFBEB");
+row("error rose-800 / rose-50", "#991B1B", "#FEF2F2");
