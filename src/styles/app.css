@@ -1743,3 +1743,56 @@ kbd {
     padding: 1.25rem;
   }
 }
+
+/* ---- divergence report: promotion candidates (system-info panel) ----
+ * Always-shown documentation chrome. Reuses the coverage-matrix colour vocabulary
+ * (native green #059669, AI pink #db2777) so the status reading stays consistent
+ * across the matrix and this decision list. */
+.dvg {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.dvg__item {
+  border: 1px solid #f1f2f4;
+  border-radius: 7px;
+  padding: 0.5rem 0.6rem;
+}
+.dvg__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.dvg__name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #111827;
+}
+.dvg__canon {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.dvg__canon.is-ai {
+  color: #db2777;
+}
+.dvg__native {
+  margin-top: 0.25rem;
+  font-size: 0.72rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+.dvg__sys.is-native {
+  color: #059669;
+  font-weight: 600;
+}
+.dvg__empty {
+  margin-top: 0.5rem;
+  font-size: 0.72rem;
+  color: #059669;
+}

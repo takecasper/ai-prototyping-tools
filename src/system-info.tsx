@@ -7,6 +7,7 @@
 import { useEffect, useRef } from "react";
 import { CANONICAL, SYSTEMS, SYSTEM_IDS, type SystemId } from "./systems";
 import { pieceStatus, type PieceStatus } from "./resolver";
+import { divergenceReport, CANON_SYSTEM_ID } from "./divergence";
 import { useStore } from "./store";
 import { useView } from "./view";
 
@@ -40,6 +41,11 @@ export function SystemInfo({ onClose }: { onClose: () => void }) {
   if (!viewedSystemId) return null;
   const system = SYSTEMS[viewedSystemId];
   const nativeCount = CANONICAL.filter((c) => system.skins[c.name]).length;
+
+  // Promotion candidates: pieces native in another system but still an unresolved
+  // bridge build in the canonical system. Derived from the same resolver the matrix
+  // and the canvas read, so it cannot drift from what renders.
+  const { promotionCandidates } = divergenceReport(maps);
 
   return (
     <div className="ov" role="region" aria-label="System controls" tabIndex={-1} ref={panelRef}>
@@ -132,6 +138,43 @@ export function SystemInfo({ onClose }: { onClose: () => void }) {
           Native pieces render plainly; every bridged piece is flagged on the canvas while
           annotations are on.
         </p>
+      </section>
+
+      <section className="ov__sec">
+        <h3 className="ov__h">Promotion candidates</h3>
+        <p className="ov__foot">
+          Pieces native in another system but still a flagged bridge build in{" "}
+          {SYSTEMS[CANON_SYSTEM_ID].label} — the canonical system should adopt a real
+          component for each.
+        </p>
+        {promotionCandidates.length === 0 ? (
+          <p className="dvg__empty">
+            No candidates: every divergent piece is already native or mapped in{" "}
+            {SYSTEMS[CANON_SYSTEM_ID].label}.
+          </p>
+        ) : (
+          <ul className="dvg">
+            {promotionCandidates.map((c) => (
+              <li className="dvg__item" key={c.name}>
+                <div className="dvg__row">
+                  <span className="dvg__name">{c.name}</span>
+                  <span className="dvg__canon is-ai" title={`Status in ${SYSTEMS[CANON_SYSTEM_ID].label}`}>
+                    {c.canonStatus}
+                  </span>
+                </div>
+                <div className="dvg__native">
+                  native in{" "}
+                  {c.nativeIn.map((id, i) => (
+                    <span className="dvg__sys is-native" key={id}>
+                      {SYSTEMS[id].label}
+                      {i < c.nativeIn.length - 1 ? ", " : ""}
+                    </span>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </div>
   );
