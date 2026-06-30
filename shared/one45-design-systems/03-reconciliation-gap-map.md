@@ -579,6 +579,42 @@ has none), so the owning pole + lowfi render it natively and the bridge fills th
 build. No API break; the only generalisation is the marker-rail presentation of the real dated rows,
 recorded honestly rather than claimed as the app's exact chrome.
 
+## 4p. Data display slice — closed 2026-06-30; remaining candidates are both-systems gaps [D]
+
+The data-display group's real, sourceable pieces are all enshrined: **Table (§4i), Card (§4j),
+Avatar (§4k), List (§4l), Accordion (§4m), Tree (§4n), Timeline (§4o)**. The three candidates the
+earlier handoff pencilled in as a follow-up — **stat/metric, code-block, key-value** — were sourced
+against all three systems and each is a gap in BOTH one45 systems and the ADS package. Per the
+**Pagination rule** (gaps in BOTH systems are recorded, not fabricated — §4c line 166 for
+Pagination, §4d line 206 for toast/tag-chip/empty-state) they are **recorded as both-systems gaps,
+not fabricated as canonical pieces**. The slice is closed.
+
+- **Stat / metric — gap in all three.**
+  - **one45-2020s:** no stat/metric component in real use. Semantic UI ships a `.ui.statistic`
+    (`symfony/web/vendor/semantic/dist/components/statistic.css`) and it is in the build manifest
+    (`vendor/semantic/tasks/config/defaults.js:84`), but it is **never instantiated** in app code
+    (zero `statistic` class usages across the React islands / Twig / HTML) — vendored-but-unused, not
+    native-via-vendor. No score/metric React island exists either.
+  - **one45-legacy:** the stat-ish surfaces are all **report-table aggregates**, not a reusable tile —
+    `.lg_total` (`webeval/admin/pages/css/forms.css:28`), `table.likert_group tr.score_label`
+    (`forms.css:301`), `.question-stat-text-*` (`forms.css:549-572`), `.big_summary`
+    (`webeval/ss/competencyGridStart.css:51`). All bound to report/grid output.
+  - **acuity-canon:** the ADS package exports **no** Stat/Metric/Statistic
+    (`@takecasper/acuity-design-system` `dist/index.d.ts` — Alert, Badge, Button, Card … ProgressBar,
+    Tabs, TextInput; none is a stat).
+- **Code-block — gap in both.** Neither system ships a code/`<pre>` presentation component. The only
+  `highlight` classes are search/result-row highlighting (`.highlight` / `.ex_highlight` in both;
+  `.highlight_g`, `.temp_highlight` legacy), not a code block. Expected: a med-ed assessment app has
+  no developer-facing code surface.
+- **Key-value / description-list — gap in both.** No DS component. Modern usage is incidental `<dl>`
+  in two utility pages (`symfony/src/One45/CoreBundle/Resources/views/Errors/show.html.twig`,
+  `PeopleBundle/Resources/views/Importer/resolve.html.twig`) plus a single `.condition-field-value`;
+  legacy has none. Not a reusable pair/descriptor component.
+
+**Result [D].** Six real data-display pieces enshrined + Timeline; the rest are honest gaps under the
+Pagination rule. A prototype needing a metric tile, code block, or key-value pair uses the existing
+canonical surface (Card + List, or a Table) rather than a fabricated stat component no system owns.
+
 ## 5. Convergence read [I]
 
 The divergence between the two systems is **largely token/brand at the API level** —
