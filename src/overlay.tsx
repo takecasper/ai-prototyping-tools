@@ -7,8 +7,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import { CANONICAL, SYSTEMS, SYSTEM_IDS, INTERIM_BUILDS, interimTarget, type CanonicalName, type SystemId } from "./systems";
+import { nativeCount } from "./resolver";
 import { useStore } from "./store";
 import { DesignNotes } from "./notes";
+
+// "Acuity Design System — 14 of 21 native". The count is derived from the
+// resolver's pieceStatus over the CANONICAL catalogue (nativeCount), so it tracks
+// the catalogue automatically — the remainder bridges to flagged interims.
+function coverageLabel(id: SystemId): string {
+  return `${SYSTEMS[id].label} — ${nativeCount(id)} of ${CANONICAL.length} native`;
+}
 
 // InfoTip — a small "i" affordance that reveals a hint on hover AND keyboard
 // focus (WAI-ARIA tooltip pattern: focusable trigger, Escape dismisses, the hint
@@ -86,10 +94,13 @@ export function ControlOverlay({ onClose }: { onClose: () => void }) {
         >
           {SYSTEM_IDS.map((id) => (
             <option key={id} value={id}>
-              {SYSTEMS[id].label}
+              {coverageLabel(id)}
             </option>
           ))}
         </select>
+        <p className="ov__hint" role="status">
+          {coverageLabel(systemId)}. The rest bridge to flagged interims.
+        </p>
       </section>
 
       <section className="ov__sec">

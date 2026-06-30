@@ -11,8 +11,8 @@
 
 import { describe, it, expect } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
-import { pieceStatus, renderPiece } from "./resolver";
-import { SYSTEM_IDS, interimTarget } from "./systems";
+import { pieceStatus, renderPiece, nativeCount } from "./resolver";
+import { CANONICAL, SYSTEM_IDS, interimTarget } from "./systems";
 import type { MapRegistry } from "./store";
 
 const NO_MAPS: MapRegistry = {};
@@ -61,6 +61,31 @@ describe("pieceStatus — the pure classifier", () => {
     // cannot happen for any shipped system, so 'none' stays a true dead-end, not a silent gap.
     for (const id of SYSTEM_IDS) {
       expect(interimTarget(id)).toBeTruthy();
+    }
+  });
+});
+
+describe("nativeCount — coverage derived from pieceStatus over CANONICAL", () => {
+  it("counts only pieces a system ships natively (empty maps, no bridge interims)", () => {
+    // Derived from the catalogue, never hand-maintained. The canonical Acuity
+    // Design System ships no Toggle / SearchField / Breadcrumb / Table / Avatar /
+    // Image / List (7 pieces) → those bridge to flagged interims, not native.
+    expect(nativeCount("acuity-canon")).toBe(14);
+    // one45 legacy is the most complete — it lacks only Badge.
+    expect(nativeCount("one45-legacy")).toBe(20);
+    // lowfi lacks Badge + Alert; one45-2020s lacks Breadcrumb + Avatar.
+    expect(nativeCount("lowfi")).toBe(19);
+    expect(nativeCount("one45-2020s")).toBe(19);
+  });
+
+  it("never exceeds the catalogue size and agrees with pieceStatus", () => {
+    for (const id of SYSTEM_IDS) {
+      const n = nativeCount(id);
+      expect(n).toBeLessThanOrEqual(CANONICAL.length);
+      const byHand = CANONICAL.filter(
+        (c) => pieceStatus(id, c.name, {}).status === "native",
+      ).length;
+      expect(n).toBe(byHand);
     }
   });
 });

@@ -1544,6 +1544,15 @@ body {
   background: #fff;
   cursor: pointer;
 }
+/* Coverage caption under the system picker: how many canonical pieces the
+ * chosen system ships natively (the rest bridge to flagged interims). Muted
+ * like .ov__foot so it reads as supporting detail, not a control. */
+.ov__hint {
+  font-size: 0.72rem;
+  color: #6b7280;
+  line-height: 1.4;
+  margin: 0.45rem 0 0;
+}
 .ov__label {
   font-size: 0.78rem;
   font-weight: 600;

@@ -1,8 +1,10 @@
 # Acuity Insights Prototyper
 
-A shared tool for building clickable prototypes out of Acuity's real design
-systems and components, so ideas can be validated quickly and every prototype
-comes out structurally "Acuity" no matter who built it.
+A shared tool for building clickable prototypes against Acuity's real design
+system APIs and tokens, so ideas can be validated quickly and every prototype
+comes out structurally "Acuity" no matter who built it. Where a system genuinely
+lacks a component, the tool fills it with a clearly flagged interim rather than
+pretending the gap isn't there.
 
 It works two ways:
 
@@ -64,9 +66,15 @@ Open the running app for the second half:
   dependency-backed Acuity Design System (the default the tool boots into),
   Low-fi wireframe, one45 (2020s), and one45 legacy. The screen re-skins;
   the prototype itself doesn't change.
+- **Coverage is on the label.** The system picker shows how many canonical
+  components each system ships natively (for example, the Acuity Design System
+  is 14 of 21). The remainder bridge to flagged interims — so you can see, before
+  you start, where a system will fall back to a stand-in.
 - **Gaps are shown, not hidden.** When a system is missing a component, the tool
   fills it with a clearly flagged stand-in, so you can see exactly where systems
-  diverge.
+  diverge. The Acuity Design System package, for instance, ships no Table, Image,
+  or List component (nor Toggle, search field, breadcrumb, or avatar), so those
+  render as flagged interims rather than as the system's real components.
 - **Systems, side by side.** A Systems view documents every component in a chosen
   system, with a coverage matrix that compares all systems at a glance.
 
