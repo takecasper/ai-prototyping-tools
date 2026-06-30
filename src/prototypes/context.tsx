@@ -87,18 +87,20 @@ export function PrototypesProvider({
 
   // When the active prototype changes, reset the store's tracked `used` set so the
   // Controls "Components missing here" list reflects only the now-active prototype,
-  // not a session-wide union of every prototype visited (DE-473). Skip the initial
-  // mount: there is nothing to clear yet, and clearing here would race the active
-  // screen's own usage registration on first render. The gallery's exclusion of
-  // `used` (resolver only tracks when no explicit `system` is passed) is untouched.
+  // not a session-wide union of every prototype visited (DE-473). Reset only on an
+  // actual id CHANGE — tracked via a ref seeded with the initial id — never on mount.
+  // A plain "skip first mount" flag is defeated by React StrictMode's double-invoked
+  // mount (the second pass would fire a reset and wipe the first prototype's own usage
+  // before its missing-list ever shows); comparing the id survives that because the id
+  // does not change across the remount. The gallery's exclusion of `used` (resolver
+  // only tracks when no explicit `system` is passed) is untouched.
   const { resetUsed } = useStore();
-  const mounted = useRef(false);
+  const prevActiveId = useRef(activeId);
   useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true;
-      return;
+    if (prevActiveId.current !== activeId) {
+      prevActiveId.current = activeId;
+      resetUsed();
     }
-    resetUsed();
   }, [activeId, resetUsed]);
 
   const current = history[history.length - 1];
