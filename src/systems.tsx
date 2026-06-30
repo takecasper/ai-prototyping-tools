@@ -94,7 +94,14 @@ export type CanonicalName =
   // app's react-bootstrap <Accordion> over <Card> (syncJob.jsx — the Table native-via-vendor
   // precedent), lowfi the sketch. The Acuity DS package exports no Accordion, so acuity-canon
   // bridges it (INTERIM_BUILDS, flagged) — the Table/List mirror.
-  | "Accordion";
+  | "Accordion"
+  // Tree is the data-display hierarchy piece (expandable parent/child nodes). Native in all
+  // three non-canon systems, each a genuine status quo: one45-legacy the jQuery dynatree widget
+  // (authored _dynatree.scss skin — acuity-blue selected), one45-2020s the curriculum tree-table
+  // (mappingTable.jsx — indented rows + fa-angle expand chevrons, the Table native-via-vendor
+  // precedent), lowfi the sketch. The Acuity DS package exports no Tree, so acuity-canon bridges
+  // it (INTERIM_BUILDS, flagged) — the Table/List/Accordion mirror.
+  | "Tree";
 export type SystemId = "lowfi" | "one45-2020s" | "one45-legacy" | "acuity-canon";
 
 // The documentation slices the gallery groups by. New canonical pieces slot into
@@ -153,6 +160,7 @@ export const CANONICAL: CanonicalDef[] = [
   { name: "Avatar", label: "Avatar", category: "Data display", description: "Person photo — inline circle or yearbook card; legacy-only (bridge fills one45-2020s)", props: "personName, src?, shape?, size?", notes: "personName (NOT name — name selects the canonical piece, like Icon's iconName); src? falls back to a placeholder image; shape: circle (default) / card; size: sm (default) / lg — circle only (the card is a fixed thumbnail). Legacy-only: the real circle is .profile-img (25/60px, 2px ring), the card is the webeval .photo yearbook tile (75×98 img, #bbb border, name caption). The Acuity DS ships NO avatar → one45-2020s resolves a flagged bridge build (the Breadcrumb mirror). No initials fallback — a missing photo shows a placeholder IMAGE (the real blank.gif / person_outline.gif reality), never a monogram" },
   { name: "List", label: "List", category: "Data display", description: "Vertical item list — bulleted, numbered, or plain (items as text or links)", props: "items, variant?", notes: "items: string[] or {label, href?}[]; variant: bulleted (default, disc) / numbered (ordered, decimal) / plain (no marker). Native-minimal in one45-2020s (the Acuity DS ships no List component — real app uses ad-hoc <ul>/<ol>), native in one45-legacy (the real .list-widget — list-style none, 25px indent, link items) + lowfi; acuity-canon bridges a flagged interim (the package ships no List). One canonical API, pure token swap" },
   { name: "Accordion", label: "Accordion", category: "Data display", description: "Collapsible sections — single-open by default, or independent panels", props: "items, single?", notes: "items: {header, body, defaultOpen?}[]; single (default true) opens one panel at a time (the 2020s react-bootstrap defaultActiveKey model), single={false} lets every section toggle independently (the legacy collapsibleHeaders model). Native in all three non-canon systems — legacy the real .subheader-sticky.collapsible underline-header + rotating chevron (collapsibleHeaders.css), one45-2020s the app's react-bootstrap Accordion-over-Card (the Table native-via-vendor precedent), lowfi the sketch; acuity-canon bridges a flagged interim (the ADS package exports no Accordion). One canonical API; legacy keeps its structural underline-header skin (the Tabs precedent)" },
+  { name: "Tree", label: "Tree", category: "Data display", description: "Hierarchy of expandable parent/child nodes (indented, with a disclosure chevron)", props: "nodes", notes: "nodes: {id?, label, children?, defaultExpanded?}[] (recursive). A parent node shows a disclosure chevron that rotates 90° open; leaves indent under their parent. Native in all three non-canon systems — legacy the jQuery dynatree widget (authored _dynatree.scss — acuity-blue #364699 selected), one45-2020s the curriculum tree-table (mappingTable.jsx — paddingLeft indentation + fa-angle expand chevrons, the Table native-via-vendor precedent), lowfi the sketch; acuity-canon bridges a flagged interim (the ADS package exports no Tree). One canonical API; the indentation reads the --ds-tree-indent token" },
   { name: "Image", label: "Image", category: "Media", description: "Placeholder image (placehold.co)", props: "w, h, label?", notes: "never commit binary image files" },
   { name: "Icon", label: "Icon", category: "Media", description: "Named icon (real DS name/size vocabulary)", props: "iconName, size?, altText?, tone?", notes: "size: small / medium; iconName is the real DS vocabulary (add, edit, delete, checkCircle, warning…); tone: success / warning / error / info; renders a token-sized stand-in glyph — real glyph artwork is a recorded asset gap (no DS icon font is vendored)" },
 ];
@@ -780,6 +788,64 @@ const Accordion: Skin = ({ items, single }) => {
   );
 };
 
+// ---- Data display: Tree (hierarchy of expandable nodes) ----
+// Sourced [D]: one45-legacy renders the jQuery dynatree widget skinned by the authored
+// _dynatree.scss (WidgetBundle — .dynatree-container border/margin reset, .dynatree-selected a
+// acuity-blue #364699) over the vendored vista skin (expand triangle + folder/doc node rows);
+// one45-2020s renders the curriculum tree as an indented tree-TABLE (canvas_sync mappingTable.jsx
+// — recursive getOne45Events with a paddingLeft:rem indentation per level and an fa-angle-right
+// /down expand chevron + collapse state), the Table native-via-vendor precedent. The Acuity DS
+// package exports no Tree (index.d.ts), so acuity-canon bridges a flagged interim (INTERIM_BUILDS)
+// — the Table/List/Accordion mirror. One canonical API (nodes, recursive). The look — indented
+// rows with a rotating disclosure chevron — is the common denominator of both real trees; the
+// dynatree connector lines + folder/doc sprite are a recorded simplification (the icon asset gap).
+// See shared/one45-design-systems/01/02 L "Data display", 03 §4n.
+function TreeNode({ node, level }: { node: any; level: number }) {
+  const children = Array.isArray(node?.children) ? node.children : [];
+  const hasChildren = children.length > 0;
+  const [open, setOpen] = useState<boolean>(Boolean(node?.defaultExpanded));
+  return (
+    <li className="sk-tree__item" role="treeitem" aria-expanded={hasChildren ? open : undefined}>
+      <div className="sk-tree__row" style={{ paddingLeft: `calc(${level} * var(--ds-tree-indent))` }}>
+        {hasChildren ? (
+          <button
+            type="button"
+            className="sk-tree__toggle"
+            aria-label={open ? "Collapse" : "Expand"}
+            aria-expanded={open}
+            onClick={() => setOpen((o) => !o)}
+          >
+            <span className={open ? "sk-tree__chevron is-open" : "sk-tree__chevron"} aria-hidden="true">
+              ›
+            </span>
+          </button>
+        ) : (
+          <span className="sk-tree__leaf" aria-hidden="true" />
+        )}
+        <span className="sk-tree__label">{String(node?.label ?? "")}</span>
+      </div>
+      {hasChildren && open ? (
+        <ul className="sk-tree__group" role="group">
+          {children.map((c: any, i: number) => (
+            <TreeNode key={String(c?.id ?? i)} node={c} level={level + 1} />
+          ))}
+        </ul>
+      ) : null}
+    </li>
+  );
+}
+
+const Tree: Skin = ({ nodes }) => {
+  const list = Array.isArray(nodes) ? nodes : [];
+  return (
+    <ul className="sk-tree" role="tree">
+      {list.map((n: any, i: number) => (
+        <TreeNode key={String(n?.id ?? i)} node={n} level={0} />
+      ))}
+    </ul>
+  );
+};
+
 // ---- Data display: Avatar (legacy-only → one45-2020s bridges; both shape variants) ----
 // Sourced [D] from the legacy code: TWO real person-photo shapes, kept as ONE canonical
 // Avatar with a `shape` variant (Spencer's call — "Both as variants"):
@@ -1203,7 +1269,7 @@ const FEEDBACK_CONTROLS = { Modal };
 // (the real .list-widget) + lowfi, a flagged bridge interim in acuity-canon (the Table mirror —
 // the package ships no List). One canonical API (items + variant), pure token swap. The rest of
 // the data-display group (accordion, tree, timeline, stat, code block, key-value) is a follow-up.
-const DATA_DISPLAY = { Table, List, Accordion };
+const DATA_DISPLAY = { Table, List, Accordion, Tree };
 
 export const SYSTEMS: Record<SystemId, DesignSystem> = {
   lowfi: {
@@ -1287,6 +1353,8 @@ export const SYSTEM_IDS = Object.keys(SYSTEMS) as SystemId[];
 //               mirror — the Acuity DS package ships no List; native in the other three).
 //   Accordion   no DS-component piece      → built (flagged) for acuity-canon (the Table/List
 //               mirror — the ADS package exports no Accordion; native in the other three).
+//   Tree        no DS-component piece      → built (flagged) for acuity-canon (the Table/List
+//               mirror — the ADS package exports no Tree; native in the other three).
 // A piece NOT listed here (e.g. Badge in legacy + lowfi) still falls back to the cruder
 // first-native substitution below, so both bridge behaviours stay observable.
 export const INTERIM_BUILDS: Partial<Record<CanonicalName, Skin>> = {
@@ -1298,6 +1366,7 @@ export const INTERIM_BUILDS: Partial<Record<CanonicalName, Skin>> = {
   Table,
   List,
   Accordion,
+  Tree,
   Image: BrandImage,
 };
 

@@ -310,6 +310,25 @@ section("acuity-canon Accordion [bridge interim] — flagged build header + chev
 row("header label neutrals.darker / white", "#333333", WHITE);
 row("chevron acuity-blue / white", "#364699", WHITE, "(chevron glyph, 3:1 UI)");
 
+// ── Data display slice — Tree. The ADS package exports no Tree, so one45-2020s renders the
+// curriculum tree-table (mappingTable.jsx — indented rows + fa-angle chevrons) and legacy the
+// jQuery dynatree widget (authored _dynatree.scss — acuity-blue #364699 selected); acuity-canon
+// bridges a flagged interim. Node label TEXT judged on 4.5; the disclosure chevron + the active-
+// node accent are non-text UI, judged on the 3:1 threshold (1.4.11).
+section("one45 (2020s) Tree [D] — node label + chevron + active accent on white");
+row("node label neutrals-darker / white", "#333333", WHITE);
+row("chevron muted-fg / white", "#5F5F5F", WHITE, "(chevron glyph, 3:1 UI)");
+row("active node acuity-blue / white", "#364699", WHITE, "(active/mapped node, 3:1 UI)");
+section("one45 legacy Tree [D] — dynatree node label + acuity-blue selected on white");
+row("node label $one45_black / white", "#27304B", WHITE);
+row("selected node acuity-blue / white", "#364699", WHITE, "(.dynatree-selected a, 3:1 UI)");
+section("lowfi Tree [sketch] — greyscale node label + chevron on white");
+row("node label #3a3a3a / white", "#3A3A3A", WHITE);
+row("chevron #6a6a6a / white", "#6A6A6A", WHITE, "(chevron glyph, 3:1 UI)");
+section("acuity-canon Tree [bridge interim] — flagged build node + chevron on white (package ships no tree)");
+row("node label neutrals.darker / white", "#333333", WHITE);
+row("chevron acuity-blue / white", "#364699", WHITE, "(chevron glyph, 3:1 UI)");
+
 // ── Acuity Design System (acuity-canon) — brand + semantic families on white, and white
 // on brand (button case). Values sourced from dist/assets/index.css (compiled Tailwind).
 // Light tints (lightest) are backgrounds, not foregrounds — excluded from this set

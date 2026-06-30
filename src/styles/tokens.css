@@ -221,6 +221,19 @@
   --ds-accordion-header-font-size: 1rem; /* header label size */
   --ds-accordion-header-weight: 600; /* header label weight */
 
+  /* ---- data display (the Data display slice — Tree) ----
+   * Generic fallbacks; each system overrides below. Tree is a hierarchy of expandable nodes
+   * (indented rows + a rotating disclosure chevron). Neither DS ships a Tree component, so
+   * one45-legacy renders the dynatree widget, one45-2020s the indented tree-table, and
+   * acuity-canon bridges a flagged interim. See 03 §4n. */
+  --ds-tree-row-fg: var(--ds-fg); /* node label ink */
+  --ds-tree-chevron: var(--ds-fg-muted); /* disclosure chevron ink */
+  --ds-tree-accent: var(--ds-link-fg); /* selected/active node accent (legacy dynatree uses acuity-blue) */
+  --ds-tree-indent: 1.25rem; /* left indent added per hierarchy level */
+  --ds-tree-row-pad-y: 0.25rem; /* vertical padding per node row */
+  --ds-tree-font-size: 1rem; /* node label size */
+  --ds-tree-row-hover-bg: transparent; /* row hover fill */
+
   /* ---- data display (the Data display slice — Avatar) ----
    * Generic fallbacks; legacy overrides below from its real sourced values (it owns the
    * only real avatars), one45-2020s sets bridge-interim values (the DS ships no avatar), lowfi
@@ -438,6 +451,19 @@
   --ds-accordion-chevron: #364699; /* acuity-blue [D] */
   --ds-accordion-header-pad: 0.75rem 1.25rem; /* bootstrap card-header .75rem 1.25rem [D] */
   --ds-accordion-panel-pad: 1rem 1.25rem; /* bootstrap card-body 1.25rem [D] */
+
+  /* Tree — the Acuity DS ships no Tree component; the real 2020s app renders the curriculum
+   * tree as an indented tree-TABLE (canvas_sync mappingTable.jsx — recursive getOne45Events with
+   * paddingLeft:rem per level + fa-angle-right/down expand chevrons + collapse state) [D]. Node
+   * label = neutrals-darker #333 (12.63 AAA); chevron the muted fg #5f5f5f; the accent (a mapped/
+   * active row) acuity-blue #364699. Indentation is rem-based per level. */
+  --ds-tree-row-fg: #333333; /* neutrals-darker node label [D] */
+  --ds-tree-chevron: #5f5f5f; /* muted fg expand chevron */
+  --ds-tree-accent: #364699; /* acuity-blue active/mapped node [D] */
+  --ds-tree-indent: 1.25rem; /* rem-based per-level indent [D mappingTable] */
+  --ds-tree-row-pad-y: 0.25rem;
+  --ds-tree-font-size: 16px; /* ds-text-base */
+  --ds-tree-row-hover-bg: #f5f5f5; /* neutrals-lighter row hover */
 
   /* Avatar — the Acuity DS ships NO avatar/profile-photo component ([D] the DS demo page
    * enumerates every component — designSystemTest/main.jsx:3-23 — and has none; zero island
@@ -677,6 +703,21 @@
   --ds-accordion-header-font-size: 1.2rem; /* [D] */
   --ds-accordion-header-weight: 700; /* bold [D] */
 
+  /* Tree — [D] the real jQuery dynatree widget, skinned by the authored _dynatree.scss
+   * (WidgetBundle: .dynatree-container border:none + margin-left:0; .dynatree-selected a colour
+   * acuity-blue #364699, font-style normal) over the vendored vista skin (16px node rows, expand
+   * triangle, folder/doc sprite). Node label is $one45_black #27304B (13.04 AAA); the selected/
+   * active node is acuity-blue #364699 (the one authored colour). The connector lines + folder
+   * sprite are the dynatree vendor skin — a recorded simplification (the tool renders indented
+   * rows + a chevron, the icon asset gap). 16px per-level indent (dynatree node indent). */
+  --ds-tree-row-fg: #27304b; /* $one45_black node label [D] */
+  --ds-tree-chevron: #27304b; /* matches the node label ink */
+  --ds-tree-accent: #364699; /* .dynatree-selected a acuity-blue [D _dynatree.scss] */
+  --ds-tree-indent: 16px; /* dynatree per-level node indent [D] */
+  --ds-tree-row-pad-y: 0.15rem; /* tight dynatree rows */
+  --ds-tree-font-size: 1rem;
+  --ds-tree-row-hover-bg: #f2f3f8; /* faint acuity-blue-lightest row hover */
+
   /* Avatar — [D] the real legacy person-photo widgets (legacy owns the only real avatars).
    * Circle = the inline people-picker .profile-img: 25×25 (sm) / 60×60 (lg), border 2px,
    * border-radius circular ([D] WidgetBundle _list_picker.scss:26-31,41-54). The .profile-img
@@ -868,6 +909,15 @@
   --ds-accordion-header-pad: 0.6rem 0.85rem;
   --ds-accordion-panel-pad: 0.7rem 0.85rem 0.9rem;
 
+  /* Tree — greyscale sketch (no brand). Pencil-grey node labels, ink chevron, neutral hover. */
+  --ds-tree-row-fg: #3a3a3a;
+  --ds-tree-chevron: #6a6a6a;
+  --ds-tree-accent: #3a3a3a;
+  --ds-tree-indent: 1.1rem;
+  --ds-tree-row-pad-y: 0.25rem;
+  --ds-tree-font-size: 0.95rem;
+  --ds-tree-row-hover-bg: #f0f0f0;
+
   /* Avatar — deliberate greyscale sketch. lowfi is not a status-quo system, so these are
    * hand-authored sketch values; LowfiAvatar draws a dashed circle / sketch image box (the
    * sk-img--lowfi idiom, app.css per-system rule) instead of loading a placeholder photo. */
@@ -1005,6 +1055,16 @@
   --ds-accordion-chevron: #364699; /* acuity-blue.DEFAULT */
   --ds-accordion-header-pad: 0.75rem 1.25rem;
   --ds-accordion-panel-pad: 1rem 1.25rem;
+
+  /* Tree — bridge interim (the ADS package exports no Tree). The ADS neutral family: neutrals-
+   * darker #333 label, acuity-blue #364699 accent/chevron. The resolver flags it "AI approx". */
+  --ds-tree-row-fg: #333333; /* neutrals.darker */
+  --ds-tree-chevron: #364699; /* acuity-blue.DEFAULT */
+  --ds-tree-accent: #364699; /* acuity-blue.DEFAULT */
+  --ds-tree-indent: 1.25rem;
+  --ds-tree-row-pad-y: 0.25rem;
+  --ds-tree-font-size: 16px;
+  --ds-tree-row-hover-bg: #f5f5f5;
 
   /* Avatar — bridge interim (ADS ships no avatar). Same neutrals as one45-2020s. */
   --ds-avatar-ring: #b8b8b8; /* neutrals.light */

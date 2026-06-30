@@ -525,6 +525,28 @@ card — the Tabs case), and the divergence is **inventory on both poles** (neit
 
 ---
 
+## Data display — enshrined slice (Tree) [D]
+
+Sixth data-display piece (2026-06-30), the third structural-divergence case after Tabs and Accordion.
+**Legacy owns a real tree — the jQuery `dynatree` widget**, skinned by the authored `_dynatree.scss`
+(`WidgetBundle`): `.dynatree-container` resets `border` and `margin-left`, and `.dynatree-selected a`
+paints **acuity-blue `#364699`** (`font-style: normal`), over the vendored vista skin (16px node rows,
+an expand triangle, a folder/doc sprite). Node label is `$one45_black` `#27304B`. So Tree is **native**
+here — a classic file-tree widget with expandable nodes.
+
+**Tokens enshrined** (`--ds-tree-*`): node label `$one45_black` **#27304B**, selected node acuity-blue
+**#364699** (the one authored colour), 16px per-level indent. **Computed contrast** (`contrast.mjs`,
+"one45 legacy Tree"): node label `#27304B`/white **13.04** (AAA); selected `#364699`/white **8.42**
+(AAA). **Intent-vs-reality [R]:** not separately re-captured (the tree renders in curriculum admin
+chrome); values are `[D]`-sourced from `_dynatree.scss`. One canonical API (recursive `nodes`) holds
+across both poles, but the **skin diverges structurally** (the legacy dynatree widget vs the 2020s
+indented tree-table — the Tabs/Accordion case); the divergence is **inventory on both poles** (neither
+DS ships a Tree *component*). The dynatree connector lines + folder/doc sprite are a recorded
+simplification (the icon asset gap — the tool renders indented rows + a chevron). (See `01` for the
+one45-2020s tree-table reality and reconciliation map §4n.)
+
+---
+
 ## Carry-forward verdict
 
 The legacy brand is a **migration source, not a target** — it is being replaced by

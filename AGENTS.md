@@ -79,7 +79,7 @@ The pieces, by slice:
 - **Actions & containers** — Button, Card, IconButton
 - **Inputs & controls** — TextField, Textarea, Select, Checkbox, Radio, Toggle, SearchField
 - **Navigation** — Tabs, Link, Breadcrumb
-- **Data display** — Table, Avatar, List, Accordion
+- **Data display** — Table, Avatar, List, Accordion, Tree
 - **Feedback & status** — Badge, Alert, Modal
 - **Media** — Image, Icon
 
@@ -145,6 +145,18 @@ survives but the **skin is per-system** (2020s card vs legacy underline). The **
 package** ships no Accordion either, so `acuity-canon` resolves it through the bridge to a flagged
 interim — the mirror of `Table`/`List`. Put `<Canonical>` pieces inside the `body`, never raw markup.
 See `shared/one45-design-systems/01`/`02` L "Data display" / §4m.
+
+**Tree** is the data-display group's sixth piece — a hierarchy of expandable nodes (`nodes`:
+recursive `{id?, label, children?, defaultExpanded?}[]`). A parent node shows a disclosure chevron
+that rotates open; children indent under their parent (the indent reads `--ds-tree-indent`). It is
+present in all three One45 systems and **never** bridges there: **neither DS ships a Tree
+component**, so `one45-2020s` renders the app's real indented tree-table reality (`mappingTable.jsx`
+— the Table native-via-vendor precedent) and `legacy` renders the real jQuery dynatree widget
+(`_dynatree.scss` — acuity-blue selected node); `lowfi` is the sketch. Like **Tabs**/**Accordion**,
+the API survives but the **skin is per-system**. The **Acuity Design System package** ships no Tree
+either, so `acuity-canon` resolves it through the bridge to a flagged interim — the mirror of
+`Table`/`List`/`Accordion`. Build nodes from the `nodes` prop, never raw markup. See
+`shared/one45-design-systems/01`/`02` L "Data display" / §4n.
 
 The Feedback & status pieces:
 

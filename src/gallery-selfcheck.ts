@@ -31,7 +31,10 @@ let ran = false;
 //   Accordion no DS-component piece (the ADS package exports none) → native legacy
 //           (.subheader-sticky.collapsible), native-via-vendor one45-2020s (react-bootstrap
 //           Accordion-over-Card) + lowfi, acuity-canon bridge (INTERIM_BUILDS) — the Table/List mirror.
-const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar" | "Breadcrumb" | "List" | "Accordion"; system: (typeof SYSTEM_IDS)[number]; expect: PieceStatus }> = [
+//   Tree    no DS-component piece (the ADS package exports none) → native legacy (jQuery dynatree),
+//           native one45-2020s (the indented tree-table mappingTable) + lowfi, acuity-canon bridge
+//           (INTERIM_BUILDS) — the Table/List/Accordion mirror.
+const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar" | "Breadcrumb" | "List" | "Accordion" | "Tree"; system: (typeof SYSTEM_IDS)[number]; expect: PieceStatus }> = [
   { name: "Alert", system: "one45-2020s", expect: "native" },
   { name: "Alert", system: "one45-legacy", expect: "native" },
   { name: "Alert", system: "lowfi", expect: "interim" },
@@ -53,6 +56,10 @@ const TOPOLOGY: Array<{ name: "Alert" | "Badge" | "Avatar" | "Breadcrumb" | "Lis
   { name: "Accordion", system: "one45-legacy", expect: "native" },
   { name: "Accordion", system: "lowfi", expect: "native" },
   { name: "Accordion", system: "acuity-canon", expect: "interim" },
+  { name: "Tree", system: "one45-2020s", expect: "native" },
+  { name: "Tree", system: "one45-legacy", expect: "native" },
+  { name: "Tree", system: "lowfi", expect: "native" },
+  { name: "Tree", system: "acuity-canon", expect: "interim" },
 ];
 
 export function runGallerySelfCheck(): void {

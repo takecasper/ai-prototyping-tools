@@ -182,6 +182,37 @@ export const SPECIMENS: Partial<Record<CanonicalName, Specimen>> = {
       ]}
     />
   ),
+  // Tree is native in lowfi / one45-2020s / one45-legacy and a flagged bridge interim in
+  // acuity-canon (the ADS package ships no Tree). Parent nodes show a disclosure chevron that
+  // rotates open; children indent under their parent. The root starts expanded.
+  Tree: (system) => (
+    <Canonical
+      name="Tree"
+      system={system}
+      nodes={[
+        {
+          id: "pediatrics",
+          label: "Pediatrics",
+          defaultExpanded: true,
+          children: [
+            {
+              id: "foundations",
+              label: "Foundations of care",
+              children: [
+                { id: "history", label: "History taking" },
+                { id: "exam", label: "Physical examination" },
+              ],
+            },
+            {
+              id: "acute",
+              label: "Acute presentations",
+              children: [{ id: "resus", label: "Resuscitation" }],
+            },
+          ],
+        },
+      ]}
+    />
+  ),
   Image: { w: 240, h: 120, label: "Image" },
   // Real DS icon-name vocabulary at both sizes, plus two semantic tones. The glyph is a
   // token-sized stand-in (the DS icon fonts are not vendored — see systems.tsx / README).

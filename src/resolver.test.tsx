@@ -29,6 +29,11 @@ describe("pieceStatus — the pure classifier", () => {
     expect(pieceStatus("one45-legacy", "Accordion", NO_MAPS).status).toBe("native");
     expect(pieceStatus("one45-2020s", "Accordion", NO_MAPS).status).toBe("native");
     expect(pieceStatus("lowfi", "Accordion", NO_MAPS).status).toBe("native");
+    // Tree is native in all three non-canon systems (legacy dynatree, 2020s indented
+    // tree-table, lowfi sketch); only the ADS package ships none.
+    expect(pieceStatus("one45-legacy", "Tree", NO_MAPS).status).toBe("native");
+    expect(pieceStatus("one45-2020s", "Tree", NO_MAPS).status).toBe("native");
+    expect(pieceStatus("lowfi", "Tree", NO_MAPS).status).toBe("native");
   });
 
   it("interim: missing piece with an INTERIM_BUILDS entry", () => {
@@ -38,6 +43,8 @@ describe("pieceStatus — the pure classifier", () => {
     expect(pieceStatus("acuity-canon", "Table", NO_MAPS).status).toBe("interim");
     // acuity-canon ships no Accordion (the ADS package exports none) → bridge interim.
     expect(pieceStatus("acuity-canon", "Accordion", NO_MAPS).status).toBe("interim");
+    // acuity-canon ships no Tree (the ADS package exports none) → bridge interim.
+    expect(pieceStatus("acuity-canon", "Tree", NO_MAPS).status).toBe("interim");
   });
 
   it("substitute: missing piece with NO INTERIM_BUILDS entry → first-native fallback", () => {
@@ -76,13 +83,13 @@ describe("nativeCount — coverage derived from pieceStatus over CANONICAL", () 
   it("counts only pieces a system ships natively (empty maps, no bridge interims)", () => {
     // Derived from the catalogue, never hand-maintained. The canonical Acuity
     // Design System ships no Toggle / SearchField / Breadcrumb / Table / Avatar /
-    // Image / List / Accordion (8 pieces) → those bridge to flagged interims, not native.
+    // Image / List / Accordion / Tree (9 pieces) → those bridge to flagged interims, not native.
     expect(nativeCount("acuity-canon")).toBe(14);
     // one45 legacy is the most complete — it lacks only Badge.
-    expect(nativeCount("one45-legacy")).toBe(21);
+    expect(nativeCount("one45-legacy")).toBe(22);
     // lowfi lacks Badge + Alert; one45-2020s lacks Breadcrumb + Avatar.
-    expect(nativeCount("lowfi")).toBe(20);
-    expect(nativeCount("one45-2020s")).toBe(20);
+    expect(nativeCount("lowfi")).toBe(21);
+    expect(nativeCount("one45-2020s")).toBe(21);
   });
 
   it("never exceeds the catalogue size and agrees with pieceStatus", () => {

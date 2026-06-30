@@ -450,6 +450,62 @@ body {
   border-top: 0;
 }
 
+/* ---- Data display: Tree (token-driven; hierarchy of expandable nodes) ----
+ * One canonical API (recursive `nodes`) re-skinned by --ds-tree-*. The look — indented rows with a
+ * rotating disclosure chevron — is the common denominator of the two real trees: the legacy jQuery
+ * dynatree node rows (authored _dynatree.scss) and the one45-2020s indented tree-table (the
+ * curriculum mappingTable). The dynatree connector lines + folder/doc sprite are a recorded
+ * simplification (the icon asset gap, like Icon). Indentation per level is applied inline as
+ * calc(level * --ds-tree-indent). See 01/02 L "Data display", 03 §4n. */
+.sk-tree,
+.sk-tree__group {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--ds-tree-font-size);
+}
+.sk-tree__row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding-top: var(--ds-tree-row-pad-y);
+  padding-bottom: var(--ds-tree-row-pad-y);
+  color: var(--ds-tree-row-fg);
+  border-radius: 3px;
+}
+.sk-tree__row:hover {
+  background: var(--ds-tree-row-hover-bg);
+}
+.sk-tree__toggle {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ds-tree-chevron);
+  cursor: pointer;
+}
+.sk-tree__chevron {
+  display: inline-block;
+  transform: rotate(0deg);
+  transition: transform var(--ds-motion-fast) var(--ds-motion-ease);
+}
+.sk-tree__chevron.is-open {
+  transform: rotate(90deg);
+}
+.sk-tree__leaf {
+  flex: none;
+  display: inline-block;
+  width: 1.1rem;
+}
+.sk-tree__label {
+  color: var(--ds-tree-row-fg);
+}
+
 /* ---- Data display: Avatar (legacy-only → one45-2020s bridges; both shape variants) ----
  * Two real legacy person-photo shapes enshrined as one canonical Avatar with a `shape`
  * variant (Spencer's call): the inline CIRCLE (.profile-img — 25/60px, 2px ring,

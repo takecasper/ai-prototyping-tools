@@ -507,6 +507,45 @@ authored its own CSS pattern), plus the structural skin split. Rule honoured: ea
 mechanism is reproduced accurately, neither flattened to force a tidier token-swap story nor
 fabricated where the DS package ships nothing.
 
+## 4n. Data display slice — Tree enshrined 2026-06-30 [D]
+
+Sixth data-display piece, the third structural-divergence case (after Tabs and Accordion).
+**Neither system ships a dedicated Tree component** — the fourth inventory-gap-on-both-poles
+piece after Table, List, and Accordion — but each renders a real curriculum hierarchy, by
+different mechanisms:
+
+- **one45-legacy — native.** The jQuery **dynatree** widget, skinned by the authored
+  `_dynatree.scss` (`WidgetBundle`: `.dynatree-container` `border:none` + `margin-left:0`;
+  `.dynatree-selected a` colour **acuity-blue `#364699`**, `font-style:normal`) over the vendored
+  vista skin (16px node rows, expand triangle, folder/doc sprite). Node label is `$one45_black`
+  `#27304B`; the one authored colour is the acuity-blue selected node.
+- **one45-2020s — native.** The curriculum tree renders as an indented **tree-TABLE**
+  (`canvas_sync mappingTable.jsx` — a recursive `getOne45Events(currics, indentation)` emitting
+  `<td style={{paddingLeft: Nrem}}>` rows, an `fa-angle-right`/`fa-angle-down` expand chevron, and
+  `collapseEventIds` toggle state). So Tree is **native-via-vendor / app-level** here, the **Table
+  precedent** — a real status quo, not a DS component (the ADS package exports none, `index.d.ts`).
+- **lowfi** — greyscale sketch. **acuity-canon** — the **package** ships no Tree, so it resolves
+  through the bridge to a flagged interim (`INTERIM_BUILDS`) — the **Table/List/Accordion mirror**.
+
+One canonical API (`nodes` — recursive `{id?, label, children?, defaultExpanded?}`). The skin —
+indented rows with a rotating disclosure chevron — is the **common denominator** of the two real
+trees; the dynatree connector lines + folder/doc sprite are a recorded simplification (the same
+icon asset gap as Icon). Indentation per level reads `--ds-tree-indent`. **Computed contrast**
+(`contrast.mjs`): 2020s label `#333`/white **12.63** (AAA) + chevron `#5f5f5f` **6.39** (AA) +
+accent `#364699` **8.42** (AAA); legacy label `#27304B` **13.04** (AAA) + selected `#364699`
+**8.42**; lowfi label `#3a3a3a` **11.37**. No new contrast failures. Pattern prototype
+`src/prototypes/program-structure/` (a curriculum tree → a flat List outline), browser-verified
+across all four systems with the annotations toggle on (acuity-canon flagged "AI approx") and off
+(all plain) — native never flagged.
+
+**Anatomy result [D] — a "different mechanism, same surface" + structural divergence.** Like
+Accordion and Tabs, the single canonical API survives (recursive nodes absorb both the dynatree
+widget and the indented tree-table), while the underlying mechanisms differ entirely (a jQuery tree
+widget vs an indented HTML table). The divergence is **inventory on both poles** (axis b — neither
+DS owns a Tree component) plus the per-mechanism skin; the tool reproduces the shared
+indented-rows-with-chevron surface honestly and records the dynatree sprite/connector chrome as a
+simplification rather than fabricating it.
+
 ## 5. Convergence read [I]
 
 The divergence between the two systems is **largely token/brand at the API level** —
